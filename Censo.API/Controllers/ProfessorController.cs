@@ -17,7 +17,6 @@ namespace Censo.API.Controllers
         public ProfessorController(ProfessorContext _context)
         {
             this.Context = _context;
-            
         }
         
         //Get api/Professores
