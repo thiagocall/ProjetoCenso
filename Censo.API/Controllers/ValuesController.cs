@@ -27,10 +27,10 @@ namespace Censo.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-
+//Where(x => x.CpfProfessor == 3566706)
              try
             {
-                var results = await Context.Professores.Where(x => x.CpfProfessor == 3566706).ToListAsync();
+                var results = await Context.Professores.ToListAsync();
             
                 return Ok(results);
                 
