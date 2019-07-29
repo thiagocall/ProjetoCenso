@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Censo.API.Professor;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Censo.API.Controllers
 {
@@ -10,18 +13,53 @@ namespace Censo.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+
+        public ProfessorContext Context { get; }
+
+
+        public ValuesController(ProfessorContext context)
         {
-            return new string[] { "value1", "value2", "value3"};
+            this.Context = context;
+        }
+        
+        // GET api/values
+        
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+
+             try
+            {
+                var results = await Context.Professores.Where(x => x.CpfProfessor == 3566706).ToListAsync();
+            
+                return Ok(results);
+                
+            }
+            catch (System.Exception)
+            {
+                
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados");
+            }
+            
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public async Task<IActionResult> Get(decimal id)
         {
-            return "value";
+            try
+            {
+                var results = await Context.Professores.Where(x => x.CpfProfessor == id).ToListAsync();
+            
+                return Ok(results);
+                
+            }
+            catch (System.Exception)
+            {
+                
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados");
+            }
+        
         }
 
         // POST api/values
