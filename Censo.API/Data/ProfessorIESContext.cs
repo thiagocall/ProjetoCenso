@@ -21,8 +21,8 @@ namespace Censo.API.Data
 
             modelBuilder.Entity<ProfessorIes>(entity =>
             {
-                entity.HasKey(e => new { e.NumMatricula, e.CodInstituicao })
-                    .HasName("PK__Rel_Prof__161071DEF6796A1F");
+                entity.HasKey(e => new {e.CpfProfessor, e.NumMatricula, e.CodInstituicao })
+                    .HasName("PK__Rel_Prof__233408DE191E2C2C");
 
                 entity.ToTable("Rel_Professor_IES");
 
