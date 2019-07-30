@@ -45,6 +45,14 @@ namespace Censo.API.Data
                 entity.Property(e => e.NomRegiao)
                     .HasColumnName("NOM_REGIAO")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.NomProfessor)
+                    .HasColumnName("NOM_PROFESSOR")
+                    .HasMaxLength(255);
+
+                 entity.Property(e => e.ativo)
+                    .HasColumnName("ATIVO")
+                    .HasMaxLength(255);
             });
         }
     }

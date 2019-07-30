@@ -11,5 +11,7 @@ namespace Censo.API.Model
         public string NomRegiao { get; set; }
         public long CodInstituicao { get; set; }
         public string NomInstituicao { get; set; }
+        public string NomProfessor {get;set;}
+        public string ativo { get; set; }
     }
 }
