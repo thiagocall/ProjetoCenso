@@ -1,14 +1,12 @@
 ﻿using System;
+using Censo.API.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Censo.API.Professor
+namespace Censo.API.Data
 {
     public partial class ProfessorContext : DbContext
     {
-        public ProfessorContext()
-        {
-        }
 
         public ProfessorContext(DbContextOptions<ProfessorContext> options)
             : base(options)
@@ -17,14 +15,6 @@ namespace Censo.API.Professor
 
         public virtual DbSet<Professor> Professores { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Data Source=db-alteryx.database.windows.net;Database=db-alteryx;User Id=db-admin;Password=8v&Kmu8b;");
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

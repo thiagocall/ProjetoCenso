@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Censo.API.Professor
+namespace Censo.API.Model
 {
     public partial class Professor
     {
