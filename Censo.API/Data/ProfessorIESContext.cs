@@ -13,6 +13,7 @@ namespace Censo.API.Data
         {
         }
 
+
         public virtual DbSet<ProfessorIes> ProfessorIES { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

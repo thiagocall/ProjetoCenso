@@ -5,6 +5,8 @@ namespace Censo.API.Model
 {
     public partial class Professor
     {
+
+       
         public decimal CpfProfessor { get; set; }
         public string NomProfessor { get; set; }
         public DateTime? DtNascimentoProfessor { get; set; }
