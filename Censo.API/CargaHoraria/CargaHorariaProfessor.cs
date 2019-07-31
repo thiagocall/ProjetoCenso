@@ -9,11 +9,10 @@ namespace Censo.API.CargaHoraria
 {
     public static class CargaProfessor
     {
-        public static Dictionary<string, double> dicCargaDs; 
-        public static Dictionary<string, double> dicCargaFs;
+        public static Dictionary<string, double?> dicCargaDs; 
+        public static Dictionary<string, double?> dicCargaFs;
 
-
-        public static Dictionary<string, double> getCargaDS()
+        public static Dictionary<string, double?> getCargaDS()
         {
             if (dicCargaDs != null)
             {
@@ -26,27 +25,31 @@ namespace Censo.API.CargaHoraria
 
             using (SqlConnection conn = new SqlConnection(strConn))
             {
+                
+                conn.Open();
 
                 SqlCommand cmd = new SqlCommand("select * from Rel_MATRICULA_CARGA_DS",conn);
                 cmd.CommandType = CommandType.Text;
 
-                conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                dicCargaDs = new Dictionary<string, double?>();
 
                 while (reader.Read())
                 {
                     dicCargaDs.Add(reader["NUM_MATRICULA"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
                 }
 
+                conn.Close();
+
                 return dicCargaDs;
 
             }
 
-
         }
 
 
-         public static Dictionary<string, double> getCargaFS()
+         public static Dictionary<string, double?> getCargaFS()
         {
             if (dicCargaFs != null)
             {
@@ -58,16 +61,22 @@ namespace Censo.API.CargaHoraria
             using (SqlConnection conn = new SqlConnection(strConn))
             {
 
+
+                conn.Open();
+
                 SqlCommand cmd = new SqlCommand("select * from Rel_MATRICULA_CARGA_EX_DS",conn);
                 cmd.CommandType = CommandType.Text;
 
-                conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                dicCargaFs = new Dictionary<string, double?>();
 
                 while (reader.Read())
                 {
                     dicCargaFs.Add(reader["NUM_MATRICULA"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
                 }
+
+                conn.Close();
 
                 return dicCargaFs;
 

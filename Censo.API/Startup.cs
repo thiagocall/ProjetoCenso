@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Censo.API.Data;
+using Censo.API.Model;
 //using Censo.API.ModelTeste;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ namespace Censo.API
         {
             services.AddDbContext<ProfessorContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorIESContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<RegimeContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
