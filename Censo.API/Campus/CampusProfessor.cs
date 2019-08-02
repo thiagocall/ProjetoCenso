@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using Censo.API.ADODB;
 
 namespace Censo.API.Campus
@@ -10,14 +11,12 @@ namespace Censo.API.Campus
     {
         public static Dictionary<string, List<string>> dicCampusProfessor;
 
-
         public static Dictionary<string, List<string>> getCampusProfessor()
         {
             if (dicCampusProfessor != null)
             {
                 return dicCampusProfessor;
             }
-
 
                 var conn = Connection.Get();
 
@@ -32,10 +31,19 @@ namespace Censo.API.Campus
                 {
                         if(dicCampusProfessor.ContainsKey(reader["CPF_PROFESSOR"].ToString()))
                         {
-                            
+                            dicCampusProfessor[reader["CPF_PROFESSOR"].ToString()].Add(reader["COD_CAMPUS"].ToString());
+
                         }
 
-                    dicCampusProfessor.Add(reader["CPF_PROFESSOR"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
+                        else
+                        {
+                            var list = new List<string>();
+                            list.Add(reader["COD_CAMPUS"].ToString());
+                            dicCampusProfessor.Add(reader["CPF_PROFESSOR"].ToString(), list);
+
+                        }
+
+                    
                 }
 
                 Connection.Close();
