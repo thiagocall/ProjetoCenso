@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Censo.API.Resultados;
+using Censo.API.Model;
 
 namespace Censo.API.Controllers
 {
@@ -14,11 +15,14 @@ namespace Censo.API.Controllers
     public class ProfessorController: ControllerBase
     {
 
-         public ProfessorContext context;
+        public ProfessorContext context;
+        public RegimeContext regContext;
 
-        public ProfessorController(ProfessorContext Context)
+        public ProfessorController(ProfessorContext Context,RegimeContext RegContext)
         {
             this.context = Context;
+            this.regContext = RegContext;
+
         }
         
         //Get api/Professores
@@ -28,7 +32,28 @@ namespace Censo.API.Controllers
             
                 try
                 {
-                    var results =  await Professores.getProfessores(context).ToArrayAsync();
+                    var results =  await Professores.getProfessores(context).ToListAsync();
+
+                     var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+
+                await Task.Run (
+                    () => 
+                    {
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+
+                            else
+                            {
+                                item.regime = "CHZ/AFASTADO";
+                            }
+                        }
+
+                    });
+                    
 
                     return Ok(results);
                     
@@ -46,7 +71,29 @@ namespace Censo.API.Controllers
             
              try
                 {
-                    var results =  await Professores.getProfessores(context).Where(x => x.CpfProfessor == id).ToArrayAsync();
+                    var results =  await Professores.getProfessores(context).Where(x => x.CpfProfessor == id).ToListAsync();
+                     var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+
+                await Task.Run (
+                    () => 
+                    {
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+
+                              else
+                            {
+                                item.regime = "CHZ/AFASTADO";
+                            }
+                        }
+                        
+
+                    });
+                    
+
 
                     return Ok(results);
                     

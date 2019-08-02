@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Censo.API.CargaHoraria;
 
 namespace Censo.API.Model
 {
@@ -26,5 +29,22 @@ namespace Censo.API.Model
         public string DocenteSubstituto { get; set; }
         public string Ativo { get; set; }
         public string Pesquisa { get; set; }
+
+        [NotMapped]
+        public double? cargaDS{get;set;}
+        [NotMapped]
+        public double? cargaFS{ get; set; }
+
+        [NotMapped]
+        public string regime { get; set; }
+
+        double? _getCargaFs()
+        {
+            return CargaProfessor.getCargaFS().Where(c => c.Key == this.CpfProfessor.ToString()).Sum(x => x.Value);
+        }  
+        double? _getCargaDs()
+        {
+            return CargaProfessor.getCargaDS().Where(c => c.Key == this.CpfProfessor.ToString()).Sum(x => x.Value);
+        } 
     }
 }

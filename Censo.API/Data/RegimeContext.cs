@@ -20,13 +20,13 @@ namespace Censo.API.Model
 
             modelBuilder.Entity<ProfessorRegime>(entity =>
             {
-                entity.HasKey(e => e.NumMatricula)
-                    .HasName("PK__Rel_Prof__CEE438E75E33E45A");
+                entity.HasKey(e => e.CpfProfessor)
+                    .HasName("PK__Rel_Prof__D2550FC3BE2FA207");
 
                 entity.ToTable("Rel_Professor_Regime");
 
-                entity.Property(e => e.NumMatricula)
-                    .HasColumnName("NUM_MATRICULA")
+                entity.Property(e => e.CpfProfessor)
+                    .HasColumnName("CPF_PROFESSOR")
                     .HasMaxLength(255)
                     .ValueGeneratedNever();
 

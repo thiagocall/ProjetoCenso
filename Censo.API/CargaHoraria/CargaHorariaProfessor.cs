@@ -37,7 +37,7 @@ namespace Censo.API.CargaHoraria
 
                 while (reader.Read())
                 {
-                    dicCargaDs.Add(reader["NUM_MATRICULA"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
+                    dicCargaDs.Add(reader["CPF_PROFESSOR"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
                 }
 
                 conn.Close();
@@ -73,7 +73,7 @@ namespace Censo.API.CargaHoraria
 
                 while (reader.Read())
                 {
-                    dicCargaFs.Add(reader["NUM_MATRICULA"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
+                    dicCargaFs.Add(reader["CPF_PROFESSOR"].ToString(), Convert.ToDouble(reader["Qtd_Horas"]));
                 }
 
                 conn.Close();

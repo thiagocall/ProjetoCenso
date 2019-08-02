@@ -9,9 +9,10 @@ namespace Censo.API.Model
     public partial class ProfessorIes
     {
 
-        public ProfessorIes(string numMatricula)
+        public ProfessorIes(long? cpfProfessor)
         {
-            this.NumMatricula = numMatricula;
+            //this.NumMatricula = numMatricula;
+            this.CpfProfessor = cpfProfessor;
             cargaDS = this._getCargaDs();
             cargaFS = this._getCargaFs();
 
@@ -34,11 +35,11 @@ namespace Censo.API.Model
 
         double? _getCargaFs()
         {
-            return CargaProfessor.getCargaFS().Where(c => c.Key == this.NumMatricula).Sum(x => x.Value);
+            return CargaProfessor.getCargaFS().Where(c => c.Key == this.CpfProfessor.ToString()).Sum(x => x.Value);
         }  
         double? _getCargaDs()
         {
-            return CargaProfessor.getCargaDS().Where(c => c.Key == this.NumMatricula).Sum(x => x.Value);
+            return CargaProfessor.getCargaDS().Where(c => c.Key == this.CpfProfessor.ToString()).Sum(x => x.Value);
         } 
     }
 }

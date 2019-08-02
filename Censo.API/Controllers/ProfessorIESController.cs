@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Censo.API.Data;
 using Censo.API.Model;
+using System.Net.Http;
 using Censo.API.Resultados;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,6 @@ namespace Censo.API.Controllers
 
         public ProfessorIESContext context;
         public RegimeContext regContext;
-
         public ProfessorIESController(ProfessorIESContext Context, RegimeContext RegContext)
         {
             this.context = Context;
@@ -28,17 +28,31 @@ namespace Censo.API.Controllers
         public async Task<IActionResult> Get()
         {
             
+            // HttpClient http = new HttpClient();
+            // var results = await http.GetStreamAsync("https://viacep.com.br/ws/22740260/xml/");
+
+            // return Ok(results);
+
             try
             {
                 var results = await Professores.getProfessoresIES(context).ToListAsync();
-                await Task.Run ( ()=> {
-                    Parallel.ForEach(results, (item)=>{
-                        item.regime = regContext.ProfessorRegime.FirstOrDefault(x => x.NumMatricula == item.NumMatricula).Regime;
-                    });
-                    });
+                var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
+                await Task.Run (
+                    () => 
+                    {
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+                        }
+
+                    });
+                    
                 
-                return Ok(regContext.ProfessorRegime.Count());
+                return Ok(results);
                 
             }
             catch (System.Exception)
@@ -56,16 +70,15 @@ namespace Censo.API.Controllers
             
             //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
 
-                var dic = regContext.ProfessorRegime.ToDictionary(x => x.NumMatricula);
+                var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
                  foreach (var item in results)
                 {
-                    if (dic.ContainsKey(item.NumMatricula))
-                    {
-                        item.regime = dic[item.NumMatricula].Regime;
-                    }
+                    if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
                 }
-                
         
                 return Ok(results);
                 

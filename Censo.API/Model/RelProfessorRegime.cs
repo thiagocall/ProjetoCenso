@@ -5,7 +5,7 @@ namespace Censo.API.Model
 {
     public partial class ProfessorRegime
     {
-        public string NumMatricula { get; set; }
+        public string CpfProfessor { get; set; }
         public double? QtdHorasDs { get; set; }
         public double? QtdHorasFs { get; set; }
         public double? CargaTotal { get; set; }
