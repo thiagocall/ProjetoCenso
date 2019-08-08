@@ -25,6 +25,7 @@ namespace Censo.API.Model
         public string NomInstituicao { get; set; }
         public string NomProfessor {get;set;}
         public string ativo { get; set; }
+        public string titulacao { get; set; }
         [NotMapped]
         public double? cargaDS{get;set;}
         [NotMapped]

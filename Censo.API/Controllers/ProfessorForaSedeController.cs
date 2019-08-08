@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Censo.API.Data;
 using Censo.API.Campus;
 using Censo.API.Model;
+using Censo.API.ForaDeSede;
 using System.Net.Http;
 using Censo.API.Resultados;
 using Microsoft.AspNetCore.Http;
@@ -21,6 +22,8 @@ namespace Censo.API.Controllers
 
         ProfessorContext ProfessorContext;
         public Dictionary<string, List<string>> dicProfessorCampus;
+
+
         public ProfessorForaSedeController(ProfessorContext _professorContext, CampusContext _campusContext)
         {
             if (dicProfessorCampus == null)
@@ -29,6 +32,8 @@ namespace Censo.API.Controllers
             }
 
             this.CampusContext = _campusContext;
+
+            this.ProfessorContext = _professorContext;
         }
 
         [HttpGet]
@@ -60,12 +65,14 @@ namespace Censo.API.Controllers
             };
 
 
-            var campProfessor = CampusProfessor.getCampusProfessor();
+            //var campProfessor = CampusProfessor.getCampusProfessor();
+
+            var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorContext.Professores, dicProfessorCampus).First();
 
             //campProfessor.Where(x => listaForaSede.Contains(x.Value));
             
             //var results = dicProfessorCampus.Where(x => x.Key == "3566706").Select(x => x.Key).ToArray();
-            var results = CampusContext.TbSiaCampus.Where(x => x.CodCampus == 327);
+            //var results = CampusContext.TbSiaCampus.Where(x => x.CodCampus == 327);
 
             return Ok(results);
 

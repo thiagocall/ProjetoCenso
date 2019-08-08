@@ -13,7 +13,6 @@ namespace Censo.API.Data
         {
         }
 
-
         public virtual DbSet<ProfessorIes> ProfessorIES { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,6 +48,10 @@ namespace Censo.API.Data
 
                 entity.Property(e => e.NomProfessor)
                     .HasColumnName("NOM_PROFESSOR")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.titulacao)
+                    .HasColumnName("TITULACAO")
                     .HasMaxLength(255);
 
                  entity.Property(e => e.ativo)
