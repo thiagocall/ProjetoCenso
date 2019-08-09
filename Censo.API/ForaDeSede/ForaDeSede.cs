@@ -39,7 +39,7 @@ namespace Censo.API.ForaDeSede
 
            // Gera professores elegíveis ao FS
 
-           var professores = _campusProfessor.Where(p => p.Value.Any(x => listaForaSede.Any(y => x.Contains(y)))).Select(x => x).ToList();
+          var professores = _campusProfessor.Where(p => p.Value.Any(x => listaForaSede.Any(y => x.Contains(y)))).Select(x => x).ToList();
 
            var professor_ies = _professor.Where(p => professores.Any( x => x.Value.Contains(p.CpfProfessor.ToString()))).ToList();
 

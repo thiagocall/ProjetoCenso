@@ -67,13 +67,14 @@ namespace Censo.API.Controllers
 
             //var campProfessor = CampusProfessor.getCampusProfessor();
 
-            var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorContext.Professores, dicProfessorCampus).First();
-
+            //var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorContext.Professores, dicProfessorCampus).FirstOrDefault(c => c.CpfProfessor.ToString() == "457721774" );
+            var results =  dicProfessorCampus["545258707"];
             //campProfessor.Where(x => listaForaSede.Contains(x.Value));
             
             //var results = dicProfessorCampus.Where(x => x.Key == "3566706").Select(x => x.Key).ToArray();
             //var results = CampusContext.TbSiaCampus.Where(x => x.CodCampus == 327);
 
+            //return Ok("{'value1', 'value2'}");
             return Ok(results);
 
         }
