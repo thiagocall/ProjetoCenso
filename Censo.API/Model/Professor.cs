@@ -9,7 +9,7 @@ namespace Censo.API.Model
     public partial class Professor
     {
 
-        public decimal CpfProfessor { get; set; }
+        public string CpfProfessor { get; set; }
         public string NomProfessor { get; set; }
         public DateTime? DtNascimentoProfessor { get; set; }
         public string CodSexo { get; set; }
@@ -46,5 +46,6 @@ namespace Censo.API.Model
         {
             return CargaProfessor.getCargaDS().Where(c => c.Key == this.CpfProfessor.ToString()).Sum(x => x.Value);
         } 
+
     }
 }

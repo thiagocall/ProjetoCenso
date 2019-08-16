@@ -34,9 +34,10 @@ namespace Censo.API.Controllers
                 {
                     var results =  await Professores.getProfessores(context).ToListAsync();
 
+
                      var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
-                await Task.Run (
+                 await Task.Run (
                     () => 
                     {
                         foreach (var item in results)
@@ -53,9 +54,8 @@ namespace Censo.API.Controllers
                         }
 
                     });
-                    
 
-                    return Ok(results);
+                  return Ok(results);
                     
                 }
                 catch (System.Exception)
@@ -63,10 +63,14 @@ namespace Censo.API.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
                 }
 
+                    
+
+                    
+
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(decimal id)
+        public async Task<IActionResult> Get(string id)
         {
             
              try

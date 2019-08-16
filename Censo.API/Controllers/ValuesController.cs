@@ -45,7 +45,7 @@ namespace Censo.API.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(decimal id)
+        public async Task<IActionResult> Get(string id)
         {
             try
             {

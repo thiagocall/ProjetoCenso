@@ -29,7 +29,7 @@ namespace Censo.API.Data
 
                 entity.Property(e => e.CpfProfessor)
                     .HasColumnName("CPF_PROFESSOR")
-                    .HasColumnType("numeric(18, 0)");
+                    .HasMaxLength(11);
 
                 entity.Property(e => e.Ativo)
                     .HasColumnName("ATIVO_31_12")

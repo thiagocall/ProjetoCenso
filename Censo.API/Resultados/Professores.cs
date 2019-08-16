@@ -20,11 +20,11 @@ namespace Censo.API.Resultados
             return results;
         }
 
-           public static DbSet<ProfessorIes> getProfessoresIES(ProfessorIESContext _context){
+        public static DbSet<ProfessorIes> getProfessoresIES(ProfessorIESContext _context){
 
-                var results = _context.ProfessorIES;
-                return results;
-        }
+            var results = _context.ProfessorIES;
+            return results;
+    }
 
       
         
