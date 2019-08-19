@@ -46,7 +46,6 @@ namespace Censo.API.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            // ########### Método para criação dos professores fora de SEDE
 
             var dicRegime = RegimeContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
@@ -86,7 +85,7 @@ namespace Censo.API.Controllers
                                                titulacao = p.titulacao
                                             
                                             }
-                                        );
+                                        ).ToList();
 
             return Ok(results);
 

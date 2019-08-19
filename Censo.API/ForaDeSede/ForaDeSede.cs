@@ -12,6 +12,8 @@ namespace Censo.API.ForaDeSede
 
         public static List<ProfessorIes> OtimizaProfessorForaDeSede(DbSet<ProfessorIes> _professor, Dictionary<string, List<string>> _campusProfessor)
         {
+            // ########### Método para criação dos professores fora de sede ############## //
+
             //GenericUriParser lista Fora de Sede
             List<string> listaForaSede = new List<string>(){
                     "4"
@@ -44,6 +46,9 @@ namespace Censo.API.ForaDeSede
             var professores = _campusProfessor.Where(p => p.Value.Any( c => listaForaSede.Contains(c))).ToDictionary(x => x.Key, x => x.Value);
             var professor_ies = _professor.Where(p => professores.ContainsKey(p.CpfProfessor.ToString())).ToList();
 
+            //Verifica professor ofensor na sede
+
+            //var query = professor_ies.Where(x => x.regime != "HORISTA" & x.titulacao != "ESPECIALISTA").ToList();
 
             return professor_ies;
 
