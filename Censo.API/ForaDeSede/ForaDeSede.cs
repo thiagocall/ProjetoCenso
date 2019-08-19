@@ -10,7 +10,7 @@ namespace Censo.API.ForaDeSede
     public static class ForaDeSedePr
     {
 
-        public static List<Professor> OtimizaProfessorForaDeSede(DbSet<Professor> _professor, Dictionary<string, List<string>> _campusProfessor)
+        public static List<ProfessorIes> OtimizaProfessorForaDeSede(DbSet<ProfessorIes> _professor, Dictionary<string, List<string>> _campusProfessor)
         {
             //GenericUriParser lista Fora de Sede
             List<string> listaForaSede = new List<string>(){
@@ -37,17 +37,23 @@ namespace Censo.API.ForaDeSede
 
             // Inicia ajuste nos professores fora de Sede
 
-           // Gera professores elegíveis ao FS
+            // Gera professores elegíveis ao FS
 
-          var professores = _campusProfessor.Where(p => p.Value.Any(x => listaForaSede.Any(y => x.Contains(y)))).Select(x => x).ToList();
-
-           var professor_ies = _professor.Where(p => professores.Any( x => x.Value.Contains(p.CpfProfessor.ToString()))).ToList();
+            //var professores = _campusProfessor.Where(p => p.Value.Any(x => listaForaSede.Any(y => x.Contains(y)))).Select(x => x).ToList();
+            
+            var professores = _campusProfessor.Where(p => p.Value.Any( c => listaForaSede.Contains(c))).ToDictionary(x => x.Key, x => x.Value);
+            var professor_ies = _professor.Where(p => professores.ContainsKey(p.CpfProfessor.ToString())).ToList();
 
 
             return professor_ies;
 
             
         }
+
+
+
+
+
         
     }
 }

@@ -19,12 +19,15 @@ namespace Censo.API.Controllers
     {
 
         CampusContext CampusContext;
+        //ProfessorContext ProfessorContext;
 
-        ProfessorContext ProfessorContext;
+        RegimeContext RegimeContext;
+
+        ProfessorIESContext ProfessorIESContext;
         public Dictionary<string, List<string>> dicProfessorCampus;
 
 
-        public ProfessorForaSedeController(ProfessorContext _professorContext, CampusContext _campusContext)
+        public ProfessorForaSedeController(ProfessorIESContext _professorContext, CampusContext _campusContext, RegimeContext _regimeContext)
         {
             if (dicProfessorCampus == null)
             {
@@ -33,13 +36,19 @@ namespace Censo.API.Controllers
 
             this.CampusContext = _campusContext;
 
-            this.ProfessorContext = _professorContext;
+            this.ProfessorIESContext = _professorContext;
+
+            this.RegimeContext = _regimeContext;
+
+
         }
 
         [HttpGet]
         public ActionResult Get()
         {
             // ########### Método para criação dos professores fora de SEDE
+
+            var dicRegime = RegimeContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
             List<string> listaForaSede =new List<string>(){
                     "4"
@@ -64,17 +73,21 @@ namespace Censo.API.Controllers
 
             };
 
+            var campProfessor = CampusProfessor.getCampusProfessor();
 
-            //var campProfessor = CampusProfessor.getCampusProfessor();
+            var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorIESContext.ProfessorIES, dicProfessorCampus)
+                                .Select(p => new ProfessorIes(p.CpfProfessor)
+                                           {
+                                               CpfProfessor = p.CpfProfessor,
+                                               NomProfessor = p.NomProfessor,
+                                               ativo = p.ativo,
+                                               
+                                               regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
+                                               titulacao = p.titulacao
+                                            
+                                            }
+                                        );
 
-            //var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorContext.Professores, dicProfessorCampus).FirstOrDefault(c => c.CpfProfessor.ToString() == "457721774" );
-            var results =  dicProfessorCampus["545258707"];
-            //campProfessor.Where(x => listaForaSede.Contains(x.Value));
-            
-            //var results = dicProfessorCampus.Where(x => x.Key == "3566706").Select(x => x.Key).ToArray();
-            //var results = CampusContext.TbSiaCampus.Where(x => x.CodCampus == 327);
-
-            //return Ok("{'value1', 'value2'}");
             return Ok(results);
 
         }
