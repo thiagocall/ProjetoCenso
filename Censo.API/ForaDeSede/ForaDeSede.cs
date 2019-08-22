@@ -44,7 +44,7 @@ namespace Censo.API.ForaDeSede
             //var professores = _campusProfessor.Where(p => p.Value.Any(x => listaForaSede.Any(y => x.Contains(y)))).Select(x => x).ToList();
             
             var professores = _campusProfessor.Where(p => p.Value.Any( c => listaForaSede.Contains(c))).ToDictionary(x => x.Key, x => x.Value);
-            var professor_ies = _professor.Where(p => professores.ContainsKey(p.CpfProfessor.ToString())).ToList();
+            var professor_ies = _professor.Where(p => professores.ContainsKey(p.CpfProfessor.ToString()) & (p.titulacao != "GRADUADO" & p.titulacao != "NÃO IDENTIFICADA")).ToList();
 
             //Verifica professor ofensor na sede
 

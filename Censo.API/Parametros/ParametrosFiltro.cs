@@ -9,7 +9,10 @@ namespace Censo.API.Parametros
 
         public static void setListaProfessor(List<string> _listaProfessores){
 
-            ListaProfessores = _listaProfessores;
+            if (ListaProfessores == null){
+
+                ListaProfessores = _listaProfessores;
+            }
 
         }
 

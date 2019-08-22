@@ -11,25 +11,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
+using Censo.API.Parametros;
 
 //using Newtonsoft.Json.
 namespace Censo.API.Controllers
 {
-
-    public class ProfessorTeste {
-
-        public string Professor;
-        public List<int> Habilitacao;
-
-    }
     public class ParametroController: ControllerBase
     {
         [Route("api/Params")]
 
             [HttpPost]
-            public object Post([FromBody] List<ProfessorTeste> prof)
+            public object Post([FromBody] List<string> prof)
             {
-                return prof.Select(x => x.Professor).ToList();
+                
+                ParametrosFiltro.setListaProfessor(prof.ToList());
+                return ParametrosFiltro.ListaProfessores.Count();
+
             }
 
     }
