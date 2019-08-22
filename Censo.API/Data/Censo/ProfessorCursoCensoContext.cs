@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Censo.API.Model.Censo
 {
-    public partial class CursoCensoContext : DbContext
+    public partial class ProfessorCursoCensoContext : DbContext
     {
-        public CursoCensoContext()
+        public ProfessorCursoCensoContext()
         {
         }
 
-        public CursoCensoContext(DbContextOptions<CursoCensoContext> options)
+        public ProfessorCursoCensoContext(DbContextOptions<ProfessorCursoCensoContext> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<CursoCenso> CursoCenso { get; set; }
+        public virtual DbSet<ProfessorCursoCenso> ProfessorCursoCenso { get; set; }
 
 //         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //         {
@@ -30,28 +30,22 @@ namespace Censo.API.Model.Censo
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
-            modelBuilder.Entity<CursoCenso>(entity =>
+            modelBuilder.Entity<ProfessorCursoCenso>(entity =>
             {
-                entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao })
-                    .HasName("PK__Tb_Base___6CB5882B07EB82DD");
+                entity.HasKey(e => new { e.CpfProfessor, e.CodCampus, e.CodCurso, e.NumHabilitacao })
+                    .HasName("PK__Rel_Prof__749E57416DB04B60");
 
-                entity.ToTable("Tb_Base_Curso_Censo");
+                entity.ToTable("Rel_Professor_Curso_Censo");
+
+                entity.Property(e => e.CpfProfessor).HasColumnName("CPF_PROFESSOR");
 
                 entity.Property(e => e.CodCampus).HasColumnName("COD_CAMPUS");
 
                 entity.Property(e => e.CodCurso).HasColumnName("COD_CURSO");
 
-                entity.Property(e => e.NumHabilitacao)
-                    .HasColumnName("NUM_HABILITACAO")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.CodEmec).HasColumnName("COD_EMEC");
+                entity.Property(e => e.NumHabilitacao).HasColumnName("NUM_HABILITACAO");
 
                 entity.Property(e => e.CodIes).HasColumnName("COD_IES");
-
-                entity.Property(e => e.NomCursoCenso)
-                    .HasColumnName("NOM_CURSO_CENSO")
-                    .HasMaxLength(255);
             });
         }
     }

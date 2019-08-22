@@ -16,10 +16,12 @@ namespace Censo.API.Controllers.Censo
     {
 
         public CursoCensoContext Context { get; }
+        public ProfessorCursoCensoContext ProfCurCensoctx { get; }
 
-        public CursoCensoController(CursoCensoContext context)
+        public CursoCensoController(CursoCensoContext context, ProfessorCursoCensoContext profCurCensoctx)
         {
             this.Context = context;
+            this.ProfCurCensoctx = profCurCensoctx;
         }
         
         // GET api/values
@@ -27,7 +29,7 @@ namespace Censo.API.Controllers.Censo
         [HttpGet]
         public  ActionResult Get()
         {
-            var results = new string[] {"value1", "value2"};
+            var results = ProfCurCensoctx.ProfessorCursoCenso.Count();
 
             return Ok(results);
             
