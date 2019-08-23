@@ -35,7 +35,7 @@ namespace Censo.API.Controllers
 
             try
             {
-                var results = await Professores.getProfessoresIES(context).Where(p => p.titulacao != "NÃO IDENTIFICADA" & p.titulacao != "GRADUADO").ToListAsync();
+                var results = await Professores.getProfessoresIES(context).ToListAsync(); //Where(p => p.titulacao != "NÃO IDENTIFICADA" & p.titulacao != "GRADUADO")
                 var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
                 await Task.Run (

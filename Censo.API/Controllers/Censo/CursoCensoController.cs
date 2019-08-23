@@ -27,9 +27,17 @@ namespace Censo.API.Controllers.Censo
         // GET api/values
         
         [HttpGet]
-        public  ActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var results = ProfCurCensoctx.ProfessorCursoCenso.Count();
+            var query = await ProfCurCensoctx.ProfessorCursoCenso.ToListAsync();
+
+                var results = query.Select(x => new 
+                                    {   CpfProfessor = x.CpfProfessor, 
+                                        CodIes = x.CodIes,
+                                        CodCampus = x.CodCampus,
+                                        CodCurso = x.CodCurso,
+                                        NumHabilitacao = x.NumHabilitacao
+                                        }).ToList();
 
             return Ok(results);
             
@@ -39,18 +47,17 @@ namespace Censo.API.Controllers.Censo
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
-            try
-            {
-                var results = await Context.CursoCenso.Where(x => x.CodCampus == id).ToListAsync();
-            
-                return Ok(results);
-                
-            }
-            catch (System.Exception)
-            {
-                
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados");
-            }
+            var query = await ProfCurCensoctx.ProfessorCursoCenso.ToListAsync();
+
+                var results = query.Select(x => new
+                                    {   CpfProfessor = x.CpfProfessor, 
+                                        CodIes = x.CodIes,
+                                        CodCampus = x.CodCampus,
+                                        CodCurso = x.CodCurso,
+                                        NumHabilitacao = x.NumHabilitacao
+                                        }).Where(c => c.CodCampus == id).ToList();
+
+            return Ok(results);
         
         }
 

@@ -75,17 +75,17 @@ namespace Censo.API.Controllers
             var campProfessor = CampusProfessor.getCampusProfessor();
 
             var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorIESContext.ProfessorIES, dicProfessorCampus)
-                                .Select(p => new ProfessorIes(p.CpfProfessor)
+             .Select(p => new
                                            {
                                                CpfProfessor = p.CpfProfessor,
                                                NomProfessor = p.NomProfessor,
                                                ativo = p.ativo,
-                                               
                                                regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
-                                               titulacao = p.titulacao
-                                            
+                                               titulacao = p.titulacao,
+                                               campi = campProfessor.Where( x => x.Key == p.CpfProfessor.ToString()).Select(s => s.Value.ToList())
                                             }
-                                        ).ToList();
+                                        )
+                               .ToList();
 
             return Ok(results);
 
