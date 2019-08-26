@@ -38,6 +38,7 @@ namespace Censo.API
             services.AddDbContext<CursoCensoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorCursoCensoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorContratoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ProfessorCursoEmecContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

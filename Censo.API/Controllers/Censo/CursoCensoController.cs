@@ -16,20 +16,20 @@ namespace Censo.API.Controllers.Censo
     {
 
         public CursoCensoContext Context { get; }
-        public ProfessorCursoCensoContext ProfCurCensoctx { get; }
+        public ProfessorCursoCensoContext ProfCurCensoCtx { get; }
 
-        public CursoCensoController(CursoCensoContext context, ProfessorCursoCensoContext profCurCensoctx)
+        public CursoCensoController(CursoCensoContext context, ProfessorCursoCensoContext _profCurCensoCtx)
         {
             this.Context = context;
-            this.ProfCurCensoctx = profCurCensoctx;
+            this.ProfCurCensoCtx = _profCurCensoCtx;
         }
         
-        // GET api/values
+       
         
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var query = await ProfCurCensoctx.ProfessorCursoCenso.ToListAsync();
+            var query = await ProfCurCensoCtx.ProfessorCursoCenso.ToListAsync();
 
                 var results = query.Select(x => new 
                                     {   CpfProfessor = x.CpfProfessor, 
@@ -43,23 +43,48 @@ namespace Censo.API.Controllers.Censo
             
         }
 
-        // GET api/Censo/5
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
-            var query = await ProfCurCensoctx.ProfessorCursoCenso.ToListAsync();
+            var query = await ProfCurCensoCtx.ProfessorCursoCenso.ToListAsync();
 
                 var results = query.Select(x => new
                                     {   CpfProfessor = x.CpfProfessor, 
                                         CodIes = x.CodIes,
                                         CodCampus = x.CodCampus,
                                         CodCurso = x.CodCurso,
-                                        NumHabilitacao = x.NumHabilitacao
+                                        NumHabilitacao = x.NumHabilitacao,
+                                        
+                                        
                                         }).Where(c => c.CodCampus == id).ToList();
 
             return Ok(results);
         
         }
+
+
+        //Curso Professor Emec
+
+         [HttpGet("Emec")]
+        public ActionResult Get(string emec = "sim")
+        {
+            var query = ProfCurCensoCtx.ProfessorCursoCenso.ToList();
+
+                var results = query.Select(x => new 
+                                    {   CpfProfessor = x.CpfProfessor, 
+                                        CodIes = x.CodIes,
+                                        CodCampus = x.CodCampus,
+                                        CodCurso = x.CodCurso,
+                                        NumHabilitacao = x.NumHabilitacao
+                                        }).ToList();
+
+            return Ok("ok");
+            
+        }
+
+
+
 
         // POST api/values
         [HttpPost]
