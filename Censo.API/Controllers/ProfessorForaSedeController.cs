@@ -82,7 +82,7 @@ namespace Censo.API.Controllers
                                                ativo = p.ativo,
                                                regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
                                                titulacao = p.titulacao,
-                                               campi = campProfessor.Where( x => x.Key == p.CpfProfessor.ToString()).Select(s => s.Value.ToList())
+                                               campi = campProfessor.FirstOrDefault(c => c.Key == p.CpfProfessor.ToString()).Value.ToList()
                                             }
                                         )
                                .ToList();
