@@ -25,7 +25,6 @@ namespace Censo.API.Controllers.Censo
         }
         
        
-        
         [HttpGet]
         public async Task<IActionResult> Get()
         {

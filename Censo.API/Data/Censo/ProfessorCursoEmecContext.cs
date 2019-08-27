@@ -52,6 +52,20 @@ namespace Censo.API.Model.Censo
                 entity.Property(e => e.NomCursoCenso)
                     .HasColumnName("NOM_CURSO_CENSO")
                     .HasMaxLength(255);
+                
+                entity.Property(e => e.IndAtivo)
+                    .HasColumnName("IND_ATIVO")
+                    .HasMaxLength(255);
+                
+                entity.Property(e => e.Titulacao)
+                    .HasColumnName("TITULACAO")
+                    .HasMaxLength(255);
+
+                 entity.Property(e => e.Regime)
+                    .HasColumnName("REGIME")
+                    .HasMaxLength(255);
+                
+
             });
         }
     }

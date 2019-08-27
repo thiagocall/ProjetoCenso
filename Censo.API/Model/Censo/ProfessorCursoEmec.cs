@@ -13,5 +13,9 @@ namespace Censo.API.Model.Censo
         public string NomCursoCenso { get; set; }
         public long CpfProfessor { get; set; }
         public long? QtdAlunos { get; set; }
+        public string Titulacao { get; set; }
+        public string IndAtivo { get; set; }
+        public string Regime { get; set; }
+
     }
 }

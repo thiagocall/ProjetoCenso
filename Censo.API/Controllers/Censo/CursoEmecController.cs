@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Censo.API.Data;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
+using Censo.API.Parametros;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,61 +18,35 @@ namespace Censo.API.Controllers.Censo
     {
 
         public ProfessorCursoEmecContext Context { get; }
+        public ProfessorIESContext ProfContext { get; }
 
-        public CursoEmecController(ProfessorCursoEmecContext context)
+        public CursoEmecController(ProfessorCursoEmecContext _context, ProfessorIESContext _profcontext)
         {
-            this.Context = context;
+            this.Context = _context;
+            this.ProfContext = _profcontext;
         }
         
 
-         [HttpGet]
-        public ActionResult Get()
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
-            var results = Context.ProfessorCursoEmec.ToList();
-            
-            return Ok(results);
-            
-        }
+            var query = await Context.ProfessorCursoEmec.ToListAsync();
 
-        [HttpGet("EmecProf")]
-        public ActionResult Get(string str = "s")
-        {
-            var query = Context.ProfessorCursoEmec.ToList();
-
-            Dictionary<long, CursoProfessor> cursoProfessor = new Dictionary<long, CursoProfessor>();
-
-            foreach (var res in query)
-            {
-                if(cursoProfessor.ContainsKey(res.CodEmec)){
-                    CursoProfessor prof = cursoProfessor[res.CodEmec];
-
-                    if (!prof.Professores.Contains(res.CpfProfessor))
-                    {
-                         prof.Professores.Add(res.CpfProfessor);
-                    }
-
-                }
-                else
-                {
-                    CursoProfessor prof = new CursoProfessor();
-                    prof.CodEmec = res.CodEmec;
-                    prof.Professores  = new List<long>();
-                    prof.Professores.Add(res.CpfProfessor);
-                    cursoProfessor.Add(prof.CodEmec, prof);
-
-                }
-            }
+            List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
+        
+            // ########## Monta a lista de cursos por professores ##########
+            cursoProfessor = MontaCursoProfessor(query);
 
 
-            var resu = cursoProfessor.Select(x => new {codEmec =  x.Key, Professores = x.Value});
-            var results = resu.ToList();
+            var results = cursoProfessor.ToList();
+
 
             return Ok(results);
-            
-            
+
         }
 
 
+         #region httpVerbs
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
@@ -89,5 +64,106 @@ namespace Censo.API.Controllers.Censo
         public void Delete(int id)
         {
         }
+
+        #endregion
+
+
+
+
+        private List<CursoProfessor> MontaCursoProfessor(List<ProfessorCursoEmec> query)
+        {
+
+            List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
+
+            foreach (var res in query)
+            {
+                // Filtra parâmtetro indGraduacao
+                if (res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
+                {
+                    
+                    if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
+                    {
+                        CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
+
+                        if (!prof.Professores.ContainsKey(res.CpfProfessor))
+                        {
+                            ProfessorEmec pr = new ProfessorEmec{
+                                cpfProfessor = res.CpfProfessor,
+                                Ativo = res.IndAtivo,
+                                Regime = res.Regime,
+                                Titulacao = res.Titulacao
+                            };
+                            //prof.Professores = new Dictionary<long, ProfessorEmec>();
+                            prof.Professores.Add(pr.cpfProfessor, pr);
+                        }
+
+                    }
+                    else
+                    {
+                        CursoProfessor prof = new CursoProfessor();
+                        prof.CodEmec = res.CodEmec;
+                        prof.Professores = new  Dictionary<long, ProfessorEmec>();
+                        ProfessorEmec pr = new ProfessorEmec{
+                                cpfProfessor = res.CpfProfessor,
+                                Ativo = res.IndAtivo,
+                                Regime = res.Regime,
+                                Titulacao = res.Titulacao
+                            };
+                        prof.Professores.Add(pr.cpfProfessor, pr);
+                        cursoProfessor.Add(prof);
+
+                    }
+                }
+            }
+
+            return cursoProfessor;
+
+        }
+
+
     }
+
+
+    public class ProfessorComparer : IEqualityComparer<ProfessorCursoEmec>
+        {
+            public bool Equals(ProfessorCursoEmec x, ProfessorCursoEmec y)
+            {
+                if (x.CpfProfessor == y.CpfProfessor)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public int GetHashCode(ProfessorCursoEmec obj)
+            {
+                return obj.CpfProfessor.GetHashCode();
+            }
+        }
+
+    
+     public class ProfessorCursoComparer : IEqualityComparer<CursoProfessor>
+        {
+            public bool Equals(CursoProfessor x, CursoProfessor y)
+            {
+                if (x.CodEmec == y.CodEmec)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            public int GetHashCode(CursoProfessor obj)
+            {
+                return obj.CodEmec.GetHashCode();
+            }
+        }
+
+
 }
