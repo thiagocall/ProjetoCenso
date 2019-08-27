@@ -121,6 +121,50 @@ namespace Censo.API.Controllers.Censo
         }
 
 
+
+
+        private double MontaPrevisao(int alvo, List<double> x, List<double> y){
+
+            // calcula previsão simples para o ano atual
+            //a = avg(y) - (b * avg(x))
+            //b = sum((x - avg(x))* (y - avg(y))) / sum((x - avg(y)^2))
+            //alvo = a + b * x
+            double? a;
+            double? b;
+            double? x_avg = x.Average();
+            double? y_avg = y.Average();
+            double?[] x_dev = new double?[x.Count - 1];
+            double?[] y_dev = new double?[y.Count - 1];
+            double? b1 = 0;
+            double? b2 = 0;
+            double res;
+            
+            foreach (var item in x)
+            {
+                x_dev.Append(item - x_avg);
+
+            }
+              foreach (var item in y)
+            {
+                y_dev.Append(item - y_avg);
+            }
+
+            for (int i = 0; i < x.Count(); i++)
+            {   
+                b1 += x_dev[i] * y_dev[i];
+                b2 += Math.Pow((double)x_dev[i],2);
+            }
+
+            b = b1 / b2;
+            a = y_avg - (b * x_avg );
+
+            res = (double)(a + b * alvo);
+
+            return res;
+
+        }
+
+
     }
 
 
@@ -163,7 +207,17 @@ namespace Censo.API.Controllers.Censo
             {
                 return obj.CodEmec.GetHashCode();
             }
+
+
+
         }
+
+
+
+
+
+
+    }
 
 
 }
