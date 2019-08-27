@@ -63,7 +63,7 @@ namespace Censo.API.Model.Censo
             return listaPrevisao;
 
         }
-
+    }
     public class CursoPrevisao
     {
         public long? CodArea { get; set; }
@@ -85,10 +85,6 @@ namespace Censo.API.Model.Censo
         //public double? CE_FG_w { get; set; }
 
     }
-
-
-
-
 
 
 
