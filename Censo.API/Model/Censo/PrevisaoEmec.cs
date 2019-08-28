@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -34,25 +35,26 @@ namespace Censo.API.Model.Censo
                 cp = new CursoPrevisao();
                 cp.Ano = (long?)reader["ANO_ENADE"];
                 cp.NomArea = reader["NOM_AREA"].ToString();
-                cp.CodArea = (long?)reader["COD_AREA"];
+                cp.CodArea = Convert.IsDBNull(reader["COD_AREA"]) ? null : (long?)reader["COD_AREA"];
                 cp.Min_Mestre = (double?)reader["MIN_PERC_MESTRE"];
                 cp.Max_Mestre = (double?)reader["MAX_PERC_MESTRE"];
 
-                cp.Min_Doutor = (double?)reader["MIN_PERC_DOUTOR"];
-                cp.Max_Doutor = (double?)reader["MAX_PERC_DOUTOR"];
+                cp.Min_Doutor = Convert.IsDBNull(reader["MIN_PERC_DOUTOR"]) ? null : (double?)reader["MIN_PERC_DOUTOR"];
+                cp.Max_Doutor = Convert.IsDBNull(reader["MAX_PERC_DOUTOR"]) ? null : (double?)reader["MAX_PERC_DOUTOR"];
 
-                cp.Min_Regime = (double?)reader["MIN_PERC_REGIME"];
-                cp.Max_Regime = (double?)reader["MAX_PERC_REGIME"];
+                cp.Min_Regime = Convert.IsDBNull(reader["MIN_PERC_REGIME"]) ? null : (double?)reader["MIN_PERC_REGIME"];
+                cp.Max_Regime = Convert.IsDBNull(reader["MAX_PERC_REGIME"]) ? null : (double?)reader["MAX_PERC_REGIME"];
 
-                cp.Avg_Infra = (double?)reader["AVG_INFRA"];
-                cp.Avg_OP = (double?)reader["AVG_NOTA_OP"];
-                cp.Avg_AF = (double?)reader["AVG_NOTA_AF"];
+                cp.Avg_Infra = Convert.IsDBNull(reader["AVG_INFRA"]) ? null : (double?)reader["AVG_INFRA"];
+                cp.Avg_OP =  Convert.IsDBNull(reader["AVG_NOTA_OP"]) ? null : (double?)reader["AVG_NOTA_OP"];
+                cp.Avg_CE =  Convert.IsDBNull(reader["AVG_CE"]) ? null : (double?)reader["AVG_CE"];
+                cp.Avg_AF = Convert.IsDBNull(reader["AVG_NOTA_AF"]) ? null : (double?)reader["AVG_NOTA_AF"];
 
-                cp.Min_CE = (double?)reader["MIN_NOTA_CE"];
-                cp.Max_CE = (double?)reader["MAX_NOTA_CE"];
+                cp.Min_CE = Convert.IsDBNull(reader["MIN_NOTA_CE"]) ? null : (double?)reader["MIN_NOTA_CE"];
+                cp.Max_CE = Convert.IsDBNull(reader["MAX_NOTA_CE"]) ? null : (double?)reader["MAX_NOTA_CE"];
 
-                cp.Min_FG = (double?)reader["MIN_NOTA_FG"];
-                cp.Max_FG = (double?)reader["MAX_NOTA_FG"];   
+                cp.Min_FG = Convert.IsDBNull(reader["MIN_NOTA_FG"]) ? null : (double?)reader["MIN_NOTA_FG"];
+                cp.Max_FG = Convert.IsDBNull(reader["MAX_NOTA_FG"]) ? null : (double?)reader["MAX_NOTA_FG"];   
 
                 listaPrevisao.Add(cp);
 
@@ -76,6 +78,7 @@ namespace Censo.API.Model.Censo
         public double? Min_Regime { get; set; }
         public double? Max_Regime { get; set; }
         public double? Avg_Infra { get; set; }
+        public double? Avg_CE { get; set; }
         public double? Avg_OP { get; set; }
         public double? Avg_AF { get; set; }
         public double? Min_CE { get; set; }

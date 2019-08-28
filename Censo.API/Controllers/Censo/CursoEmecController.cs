@@ -37,13 +37,85 @@ namespace Censo.API.Controllers.Censo
             // ########## Monta a lista de cursos por professores ##########
             cursoProfessor = MontaCursoProfessor(query);
 
-
             var results = cursoProfessor.ToList();
-
 
             return Ok(results);
 
         }
+
+
+        [HttpGet("GeraNota/{id}")]
+        public ActionResult GeraNota(long? id)
+        {
+
+            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
+
+            var query = listaPrev.Where(x => x.CodArea == id).ToList();
+
+            return Ok(query);
+
+
+        }
+
+        [HttpGet("GeraNota/{id}/{tipo}")]
+        public ActionResult getPrevisao(long? id, string tipo)
+        {
+            double?[] prev = new double?[2];
+
+            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
+
+            var query = listaPrev.Where(x => x.CodArea == id).OrderBy(x => x.Ano).ToList();
+
+            switch (tipo.ToUpper())
+            {
+                case "M":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Min_Mestre).ToList());
+                prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
+                break;
+
+                 case "D":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Min_Doutor).ToList());
+                prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Doutor).ToList());
+                break;
+
+                case "R":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Min_Regime).ToList());
+                prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "I":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_Infra).ToList());
+                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "O":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_OP).ToList());
+                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "C":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_CE).ToList());
+                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "A":
+                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_AF).ToList());
+                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
+                break;
+                default:
+                break;
+            }
+
+            //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
+
+
+            return Ok(prev);
+
+
+        }
+
+
+
 
 
          #region httpVerbs
@@ -120,47 +192,48 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        private double? MontaPrevisao(int alvo, List<double?> x, List<double?> y){
 
+                // calcula a regressão linear pelo ano atual
+                //a = avg(y) - (b * avg(x))
+                //b = sum((x - avg(x))* (y - avg(y))) / sum((x - avg(y)^2))
+                //alvo = a + b * x
+                double? a = 0;
+                double? b = 0;
+                double? x_avg = x.Average();
+                double? y_avg = y.Average();
+                List<double?> x_dev = new List<double?>();
+                List<double?> y_dev = new List<double?>();
+                double? b1 = 0;
+                double? b2 = 0;
+                double? res = 0;
+                
+                foreach (var item in x)
+                {
+                    x_dev.Add((item - x_avg));
 
+                }
+                foreach (var item in y)
+                {
+                    y_dev.Add(item - y_avg);
+                }
 
-        private double MontaPrevisao(int alvo, List<double> x, List<double> y){
+                 for (int i = 0; i < x.Count(); i++)
+                 {   
+                     b1 += x_dev[i] * y_dev[i];
+                     b2 += Math.Pow((double)x_dev[i],2);
+                 }
 
-            // calcula previsão simples para o ano atual
-            //a = avg(y) - (b * avg(x))
-            //b = sum((x - avg(x))* (y - avg(y))) / sum((x - avg(y)^2))
-            //alvo = a + b * x
-            double? a;
-            double? b;
-            double? x_avg = x.Average();
-            double? y_avg = y.Average();
-            double?[] x_dev = new double?[x.Count - 1];
-            double?[] y_dev = new double?[y.Count - 1];
-            double? b1 = 0;
-            double? b2 = 0;
-            double res;
-            
-            foreach (var item in x)
-            {
-                x_dev.Append(item - x_avg);
+                 b = b1 / b2;
+                 a = y_avg - (b * x_avg );
 
-            }
-              foreach (var item in y)
-            {
-                y_dev.Append(item - y_avg);
-            }
+                res = (a + b * alvo);
 
-            for (int i = 0; i < x.Count(); i++)
-            {   
-                b1 += x_dev[i] * y_dev[i];
-                b2 += Math.Pow((double)x_dev[i],2);
-            }
+                //res = (res > 1) ? 1 : res;
+                //res = (res < 0) ? 0 : res;
+                
 
-            b = b1 / b2;
-            a = y_avg - (b * x_avg );
-
-            res = (double)(a + b * alvo);
-
-            return res;
+                return res;
 
         }
 
