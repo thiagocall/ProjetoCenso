@@ -16,10 +16,10 @@ namespace Censo.API.Model.Censo
         {
             CursoPrevisao cp;
 
-            if (listaPrevisao != null)
-            {
-                return listaPrevisao;
-            }
+            // if (listaPrevisao != null)
+            // {
+            //     return listaPrevisao;
+            // }
 
             var conn = Connection.Get();
 
@@ -34,7 +34,6 @@ namespace Censo.API.Model.Censo
             {
                 cp = new CursoPrevisao();
                 cp.Ano = (long?)reader["ANO_ENADE"];
-                cp.NomArea = reader["NOM_AREA"].ToString();
                 cp.CodArea = Convert.IsDBNull(reader["COD_AREA"]) ? null : (long?)reader["COD_AREA"];
                 cp.Min_Mestre = (double?)reader["MIN_PERC_MESTRE"];
                 cp.Max_Mestre = (double?)reader["MAX_PERC_MESTRE"];
@@ -69,7 +68,6 @@ namespace Censo.API.Model.Censo
     public class CursoPrevisao
     {
         public long? CodArea { get; set; }
-        public string NomArea { get; set; }
         public long? Ano { get; set; }
         public double? Min_Mestre { get; set; }
         public double? Max_Mestre { get; set; }

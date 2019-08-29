@@ -33,7 +33,7 @@ namespace Censo.API.Model.Censo
             modelBuilder.Entity<CursoCenso>(entity =>
             {
                 entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao })
-                    .HasName("PK__Tb_Base___6CB5882B07EB82DD");
+                    .HasName("PK__Tb_Base___6CB5882B8B1659D7");
 
                 entity.ToTable("Tb_Base_Curso_Censo");
 
@@ -48,6 +48,8 @@ namespace Censo.API.Model.Censo
                 entity.Property(e => e.CodEmec).HasColumnName("COD_EMEC");
 
                 entity.Property(e => e.CodIes).HasColumnName("COD_IES");
+
+                entity.Property(e => e.CodArea).HasColumnName("COD_AREA");
 
                 entity.Property(e => e.NomCursoCenso)
                     .HasColumnName("NOM_CURSO_CENSO")

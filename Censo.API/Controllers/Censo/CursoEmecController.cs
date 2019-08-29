@@ -192,7 +192,8 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-        private double? MontaPrevisao(int alvo, List<double?> x, List<double?> y){
+        private double? MontaPrevisao(int alvo, List<double?> x, List<double?> y)
+        {
 
                 // calcula a regressão linear pelo ano atual
                 //a = avg(y) - (b * avg(x))
@@ -232,13 +233,81 @@ namespace Censo.API.Controllers.Censo
                 //res = (res > 1) ? 1 : res;
                 //res = (res < 0) ? 0 : res;
                 
-
                 return res;
 
         }
 
 
+
+        private List<CursoProfessor> getNotaCursos() 
+        {
+
+             var query = Context.ProfessorCursoEmec.ToList();
+
+            List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
+        
+            // ########## Monta a lista de cursos por professores ##########
+            cursoProfessor = MontaCursoProfessor(query);
+
+            // ######## Calcula Nota Prévia dos Cursos ###########
+
+            foreach (var item in cursoProfessor)
+            {   
+                var qtdProf = item.Professores.Count();
+                var qtdD = item.Professores.Where(x => x.Value.Titulacao == "DOUTOR").Count();
+                var qtdM = item.Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR").Count();
+                var qtdR = item.Professores.Where(x => x.Value.Regime == "Especialista").Count();
+
+                
+                
+
+            }
+
+            return null;
+
+        }
+
+
+
+        private double N_Escala(double lim_min, double lim_max, double percent){
+
+            double n;
+
+            try
+            {
+
+                n = (percent - lim_min) /  (lim_max - lim_min)   * 5;
+                if (n < 0)
+                {
+                    return 0;
+                }
+                else if(n > 5)
+                {
+                    return 5;
+
+                }
+
+                else
+                {
+                    return n;
+
+                }
+            }
+            catch (System.Exception)
+            {
+                
+                return 0;
+            }
+
+
+        }
+
     }
+
+
+
+
+
 
 
     public class ProfessorComparer : IEqualityComparer<ProfessorCursoEmec>

@@ -42,6 +42,16 @@ namespace Censo.API.Controllers.Censo
             
         }
 
+
+         [HttpGet("Cursos")]
+        public async Task<IActionResult> GetCursos()
+        {
+            var results = await Context.CursoCenso.ToListAsync();
+
+            return Ok(results);
+            
+        }
+
         
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
