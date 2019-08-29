@@ -16,10 +16,10 @@ namespace Censo.API.Model.Censo
         {
             CursoPrevisao cp;
 
-            // if (listaPrevisao != null)
-            // {
-            //     return listaPrevisao;
-            // }
+            if (listaPrevisao != null)
+            {
+                return listaPrevisao;
+            }
 
             var conn = Connection.Get();
 

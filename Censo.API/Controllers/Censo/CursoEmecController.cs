@@ -20,10 +20,13 @@ namespace Censo.API.Controllers.Censo
         public ProfessorCursoEmecContext Context { get; }
         public ProfessorIESContext ProfContext { get; }
 
-        public CursoEmecController(ProfessorCursoEmecContext _context, ProfessorIESContext _profcontext)
+        public CursoCensoContext CursoCensoContext { get; set; }
+
+        public CursoEmecController(ProfessorCursoEmecContext _context, ProfessorIESContext _profcontext, CursoCensoContext _cursoCensoContext)
         {
             this.Context = _context;
             this.ProfContext = _profcontext;
+            this.CursoCensoContext = _cursoCensoContext;
         }
         
 
@@ -111,37 +114,10 @@ namespace Censo.API.Controllers.Censo
 
             return Ok(prev);
 
-
         }
 
 
-
-
-
-         #region httpVerbs
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
-        #endregion
-
-
-
-
+        // ################# Monta Cursos dos Professores ######################
         private List<CursoProfessor> MontaCursoProfessor(List<ProfessorCursoEmec> query)
         {
 
@@ -192,6 +168,7 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        //################## Previsão ################################
         private double? MontaPrevisao(int alvo, List<double?> x, List<double?> y)
         {
 
@@ -237,17 +214,20 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-
+        //################## Gera notas para cursos ###################
 
         private List<CursoProfessor> getNotaCursos() 
         {
 
-             var query = Context.ProfessorCursoEmec.ToList();
+
+            var query = Context.ProfessorCursoEmec.ToList();
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
         
             // ########## Monta a lista de cursos por professores ##########
             cursoProfessor = MontaCursoProfessor(query);
+
+            //conte
 
             // ######## Calcula Nota Prévia dos Cursos ###########
 
@@ -258,8 +238,6 @@ namespace Censo.API.Controllers.Censo
                 var qtdM = item.Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR").Count();
                 var qtdR = item.Professores.Where(x => x.Value.Regime == "Especialista").Count();
 
-                
-                
 
             }
 
@@ -301,6 +279,28 @@ namespace Censo.API.Controllers.Censo
 
 
         }
+
+
+         #region httpVerbs
+        // POST api/values
+        [HttpPost]
+        public void Post([FromBody] string value)
+        {
+        }
+
+        // PUT api/values/5
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
+        {
+        }
+
+        // DELETE api/values/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
+        {
+        }
+
+        #endregion
 
     }
 

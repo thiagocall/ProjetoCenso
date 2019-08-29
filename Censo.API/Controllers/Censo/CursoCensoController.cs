@@ -76,7 +76,7 @@ namespace Censo.API.Controllers.Censo
         //Curso Professor Emec
 
          [HttpGet("Emec")]
-        public ActionResult Get(string emec = "sim")
+        public ActionResult GetEmec()
         {
             var query = ProfCurCensoCtx.ProfessorCursoCenso.ToList();
 
