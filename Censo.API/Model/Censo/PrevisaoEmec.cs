@@ -32,6 +32,7 @@ namespace Censo.API.Model.Censo
 
             while (reader.Read())
             {
+                
                 cp = new CursoPrevisao();
                 cp.Ano = (long?)reader["ANO_ENADE"];
                 cp.CodArea = Convert.IsDBNull(reader["COD_AREA"]) ? null : (long?)reader["COD_AREA"];

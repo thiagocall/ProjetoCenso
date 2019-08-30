@@ -60,62 +60,30 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-        [HttpGet("GeraNota/{id}/{tipo}")]
-        public ActionResult getPrevisao(long? id, string tipo)
+        [HttpGet("GeraNota/{_id}/{_tipo}")]
+        public ActionResult Previsao(long? _id, string _tipo)
         {
             double?[] prev = new double?[2];
 
             List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
 
-            var query = listaPrev.Where(x => x.CodArea == id).OrderBy(x => x.Ano).ToList();
+            var query = listaPrev.Where(x => x.CodArea == _id).OrderBy(x => x.Ano).ToList();
 
-            switch (tipo.ToUpper())
-            {
-                case "M":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Min_Mestre).ToList());
-                prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
-                break;
-
-                 case "D":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Min_Doutor).ToList());
-                prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Doutor).ToList());
-                break;
-
-                case "R":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Min_Regime).ToList());
-                prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
-                break;
-
-                case "I":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_Infra).ToList());
-                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
-                break;
-
-                case "O":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_OP).ToList());
-                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
-                break;
-
-                case "C":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_CE).ToList());
-                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
-                break;
-
-                case "A":
-                prev[0] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Avg_AF).ToList());
-                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
-                break;
-                default:
-                break;
-            }
+            prev = GeraPrevisao(_id, _tipo, query);
 
             //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
-
 
             return Ok(prev);
 
         }
 
+
+        [HttpGet("Notas")]
+        public ActionResult Notas(){
+
+            return Ok(getNotaCursos());
+
+        }
 
         // ################# Monta Cursos dos Professores ######################
         private List<CursoProfessor> MontaCursoProfessor(List<ProfessorCursoEmec> query)
@@ -214,18 +182,73 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-        //################## Gera notas para cursos ###################
+        private double?[] GeraPrevisao(long? _id, string _tipo, List<CursoPrevisao> _query){
 
-        private List<CursoProfessor> getNotaCursos() 
+
+            double?[] prev = new double?[2];
+
+
+            switch (_tipo.ToUpper())
+            {
+                case "M":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Mestre).ToList());
+                prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Mestre).ToList());
+                break;
+
+                 case "D":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Doutor).ToList());
+                prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Doutor).ToList());
+                break;
+
+                case "R":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Regime).ToList());
+                prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "I":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_Infra).ToList());
+                //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "O":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_OP).ToList());
+                //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "C":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_CE).ToList());
+                //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
+                break;
+
+                case "A":
+                prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_AF).ToList());
+                //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
+                break;
+                default:
+                break;
+            }
+
+            //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
+            return prev;
+
+        }
+        
+        
+        
+        //#################### Gera notas para cursos #####################
+        private List<double> getNotaCursos() 
         {
 
 
             var query = Context.ProfessorCursoEmec.ToList();
+            
+            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
 
-            List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
+            List<CursoProfessor> cursoProfessor;
         
             // ########## Monta a lista de cursos por professores ##########
             cursoProfessor = MontaCursoProfessor(query);
+            var cctx = CursoCensoContext.CursoCenso.ToList();
 
             //conte
 
@@ -236,20 +259,45 @@ namespace Censo.API.Controllers.Censo
                 var qtdProf = item.Professores.Count();
                 var qtdD = item.Professores.Where(x => x.Value.Titulacao == "DOUTOR").Count();
                 var qtdM = item.Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR").Count();
-                var qtdR = item.Professores.Where(x => x.Value.Regime == "Especialista").Count();
+                var qtdR = item.Professores.Where(x => x.Value.Regime == "TEMPO INTEGRAL" | x.Value.Regime == "TEMPO PARCIAL").Count();
 
+                double perc_D = qtdD / qtdProf;
+                double perc_M = qtdM / qtdProf;
+                double perc_R = qtdR / qtdProf;
+                //e.CodCampus, e.CodCurso, e.NumHabilitacao
+                var ii = cctx.FirstOrDefault(x => x.CodEmec == item.CodEmec);
 
+                if(ii != null)
+                {
+                     var area = ii.CodArea;
+                     //##### Previsão Doutor
+
+                     double?[] prev = new double?[2];
+
+                     var query2 = listaPrev.Where(x => x.CodArea == area).OrderBy(x => x.Ano).ToList();
+
+                     prev = GeraPrevisao(area, "M" , query2);
+                     var prev_min = prev[0];
+                     var prev_max = prev[1];
+                     double nota =  (N_Escala(prev_min, prev_max, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_min, prev_max, perc_M));
+                     item.Nota_Mestre = nota;
+
+                }
+
+               
             }
 
-            return null;
+                var result = cursoProfessor.Where(p => p.Nota_Mestre <= 4 & p.Nota_Mestre >= 2).Select(x => x.Nota_Mestre).ToList();
+
+            return result;
 
         }
 
 
 
-        private double N_Escala(double lim_min, double lim_max, double percent){
+        private double? N_Escala(double? lim_min, double? lim_max, double? percent){
 
-            double n;
+            double? n;
 
             try
             {
@@ -270,6 +318,8 @@ namespace Censo.API.Controllers.Censo
                     return n;
 
                 }
+
+                 
             }
             catch (System.Exception)
             {
