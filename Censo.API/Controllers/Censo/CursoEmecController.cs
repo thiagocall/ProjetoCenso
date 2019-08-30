@@ -280,7 +280,7 @@ namespace Censo.API.Controllers.Censo
                 double perc_D = qtdD / qtdProf;
                 double perc_M = qtdM / qtdProf;
                 double perc_R = qtdR / qtdProf;
-                //e.CodCampus, e.CodCurso, e.NumHabilitacao
+                ////e.CodCampus, e.CodCurso, e.NumHabilitacao
                 var ii = cctx.FirstOrDefault(x => x.CodEmec == item.CodEmec);
 
                 if(ii != null)
