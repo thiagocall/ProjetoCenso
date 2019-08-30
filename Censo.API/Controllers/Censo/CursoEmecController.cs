@@ -27,10 +27,9 @@ namespace Censo.API.Controllers.Censo
             this.Context = _context;
             this.ProfContext = _profcontext;
             this.CursoCensoContext = _cursoCensoContext;
-        }
-        
+        }    
 
-        [HttpGet("geraPrevisao{id, tipo}")]
+        [HttpGet("geraPrevisao/{id}/{tipo}")]
         public async Task<IActionResult> Get(long id, string tipo)
         {
             var query = await Context.ProfessorCursoEmec.ToListAsync();
@@ -43,7 +42,6 @@ namespace Censo.API.Controllers.Censo
             var results = cursoProfessor.ToList();
 
             return Ok(results);
-
 
            //var results = GeraPrevisao(id);
 
@@ -250,7 +248,6 @@ namespace Censo.API.Controllers.Censo
         }
         
         
-        
         //#################### Gera notas para cursos #####################
         private object getNotaCursos() 
         {
@@ -370,8 +367,6 @@ namespace Censo.API.Controllers.Censo
         #endregion
 
     }
-
-
 
 
 
