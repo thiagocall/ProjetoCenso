@@ -30,8 +30,8 @@ namespace Censo.API.Controllers.Censo
         }
         
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("geraPrevisao{id, tipo}")]
+        public async Task<IActionResult> Get(long id, string tipo)
         {
             var query = await Context.ProfessorCursoEmec.ToListAsync();
 
@@ -43,6 +43,9 @@ namespace Censo.API.Controllers.Censo
             var results = cursoProfessor.ToList();
 
             return Ok(results);
+
+
+           //var results = GeraPrevisao(id);
 
         }
 
@@ -70,6 +73,19 @@ namespace Censo.API.Controllers.Censo
             var query = listaPrev.Where(x => x.CodArea == _id).OrderBy(x => x.Ano).ToList();
 
             prev = GeraPrevisao(_id, _tipo, query);
+
+            List<string> tipos = new List<string>(){"D","R","M"};
+
+            if(tipos.Contains(_tipo)){
+
+                    prev[0] = (prev[0] < 0) ? 0 : prev[0];
+                    prev[0] = (prev[0] > 5) ? 5 : prev[0];
+
+                    prev[1] = (prev[1] < 0) ? 0 : prev[1];
+                    prev[1] = (prev[1] > 5) ? 5 : prev[1];
+
+            }
+
 
             //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
 
@@ -236,7 +252,7 @@ namespace Censo.API.Controllers.Censo
         
         
         //#################### Gera notas para cursos #####################
-        private List<double> getNotaCursos() 
+        private object getNotaCursos() 
         {
 
 
@@ -249,17 +265,17 @@ namespace Censo.API.Controllers.Censo
             // ########## Monta a lista de cursos por professores ##########
             cursoProfessor = MontaCursoProfessor(query);
             var cctx = CursoCensoContext.CursoCenso.ToList();
-
+            List<double> percent = new List<double>();
             //conte
 
             // ######## Calcula Nota Prévia dos Cursos ###########
 
             foreach (var item in cursoProfessor)
             {   
-                var qtdProf = item.Professores.Count();
-                var qtdD = item.Professores.Where(x => x.Value.Titulacao == "DOUTOR").Count();
-                var qtdM = item.Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR").Count();
-                var qtdR = item.Professores.Where(x => x.Value.Regime == "TEMPO INTEGRAL" | x.Value.Regime == "TEMPO PARCIAL").Count();
+                double qtdProf = item.Professores.Count();
+                double qtdD = item.Professores.Where(x => x.Value.Titulacao == "DOUTOR").Count();
+                double qtdM = item.Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR").Count();
+                double qtdR = item.Professores.Where(x => x.Value.Regime == "TEMPO INTEGRAL" | x.Value.Regime == "TEMPO PARCIAL").Count();
 
                 double perc_D = qtdD / qtdProf;
                 double perc_M = qtdM / qtdProf;
@@ -269,6 +285,7 @@ namespace Censo.API.Controllers.Censo
 
                 if(ii != null)
                 {
+                    percent.Add(perc_D);
                      var area = ii.CodArea;
                      //##### Previsão Doutor
 
@@ -283,11 +300,11 @@ namespace Censo.API.Controllers.Censo
                      item.Nota_Mestre = nota;
 
                 }
-
                
             }
 
-                var result = cursoProfessor.Where(p => p.Nota_Mestre <= 4 & p.Nota_Mestre >= 2).Select(x => x.Nota_Mestre).ToList();
+                //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
+                var result = cursoProfessor.Select( x => new{ x.CodEmec, x.Nota_Mestre, x.Nota_Doutor }).ToList();
 
             return result;
 
