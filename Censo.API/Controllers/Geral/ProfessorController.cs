@@ -25,21 +25,26 @@ namespace Censo.API.Controllers
 
         }
         
-        //Get api/Professores
+        //Get api/Professor
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+                
+                Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             
                 try
                 {
-                    var results =  await Professores.getProfessores(context).ToListAsync();
 
-
-                     var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-
-                 await Task.Run (
+                 Task task1 = Task.Factory.StartNew (
                     () => 
                     {
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+                
+                    Task.WaitAll(task1);
+                    var results =  await Professores.getProfessores(context).ToListAsync();
+
                         foreach (var item in results)
                         {
                             if (dic.ContainsKey(item.CpfProfessor.ToString()))
@@ -52,8 +57,69 @@ namespace Censo.API.Controllers
                                 item.regime = "CHZ/AFASTADO";
                             }
                         }
+                     
+                    var qtdProfessores = results.Count();
+                    var qtdDoutor = results.Where(x => x.Titulacao == "DOUTOR").Count();
+                    var qtdMestre = results.Where(x => x.Titulacao == "DOUTOR" | x.Titulacao == "MESTRE").Count();
+                    var qtdEspecialista = results.Where(x => x.Titulacao == "ESPECIALISTA").Count();
+                    var qtdNTitulado = results.Where(x => x.Titulacao == "NÃO IDENTIFICADA").Count();
+                    var qtdRegime = results.Where(x => x.regime == "TEMPO INTEGRAL" | x.regime == "TEMPO PARCIAL" ).Count();
+                    var qtdTempoIntegral = results.Where(x => x.regime == "TEMPO INTEGRAL").Count();
+                    var qtdTempoParcial = results.Where(x => x.regime == "TEMPO PARCIAL" ).Count();
+                    var qtdHorista = results.Where(x => x.regime == "HORISTA" ).Count();
 
-                    });
+                    var res = new { qtdDoutor, 
+                                    qtdMestre,
+                                    qtdRegime,
+                                    qtdTempoIntegral,
+                                    qtdTempoParcial,
+                                    qtdHorista,
+                                    qtdProfessores,
+                                    qtdNTitulado,
+                                    qtdEspecialista};
+
+                  return Ok(res);
+                    
+                }
+                catch (System.Exception)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+
+
+        }
+
+        [HttpGet("Lista")]
+        public async Task<IActionResult> ListaProfessores()
+        {
+                
+                Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            
+                try
+                {
+
+                 Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+                
+                    Task.WaitAll(task1);
+                    var results =  await Professores.getProfessores(context).ToListAsync();
+
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+
+                            else
+                            {
+                                item.regime = "CHZ/AFASTADO";
+                            }
+                        }
 
                   return Ok(results);
                     
