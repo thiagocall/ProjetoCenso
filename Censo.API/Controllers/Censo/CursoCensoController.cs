@@ -88,7 +88,7 @@ namespace Censo.API.Controllers.Censo
                                         NumHabilitacao = x.NumHabilitacao
                                         }).ToList();
 
-            return Ok("ok");
+            return Ok(results);
             
         }
 

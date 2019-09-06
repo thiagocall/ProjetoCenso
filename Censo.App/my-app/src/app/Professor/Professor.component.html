@@ -66,7 +66,7 @@
   <div class="row mt-5">
     <div class="col md-6">
       
-      <div class="container pt-5"*ngIf="professores">
+      <div class="container pt-5" *ngIf="professores">
         <div style="display: block; width: 80%">
             
             <canvas baseChart
@@ -90,13 +90,15 @@
           <h4>Informações Importantes</h4>
           <hr>
           <div>
-              <div>
+              <div *ngIf="professores">
                 <div style="display: block">
                   <canvas baseChart
                     [datasets]=radarChartData
                     [options]=radarChartOptions
                     [labels]=radarChartLabels
-                    [chartType]=radarChartType>
+                    [chartType]=radarChartType
+                    [legend]=radarChartLegend>
+                    
                   </canvas>
                 </div>
               </div>

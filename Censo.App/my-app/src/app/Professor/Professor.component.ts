@@ -40,6 +40,10 @@ export class ProfessorComponent implements OnInit {
 
   public radarChartOptions: RadialChartOptions = {
     responsive: true,
+    title: {
+      display: true,
+      text: 'Distribuição de Professores'
+    }
   };
   public radarChartLabels: Label[] = ['Doutores',
                                       'Mestres + Doutores',
@@ -48,9 +52,10 @@ export class ProfessorComponent implements OnInit {
                                       'CHZ/Afastado'];
 
   public radarChartData: ChartDataSets[] = [
-    { data: [65, 59, 70, 81, 20], label: 'Unesa' }
+    { data: [65, 59, 70, 81, 20] }
   ];
   public radarChartType: ChartType = 'radar';
+  public radarChartLegend = false;
 
   ngOnInit() {
 
