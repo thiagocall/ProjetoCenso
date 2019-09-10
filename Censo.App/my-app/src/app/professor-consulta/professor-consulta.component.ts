@@ -19,7 +19,7 @@ export class ProfessorConsultaComponent implements OnInit {
 
   buscarProfessores() {
 
-    this.http.get('http://localhost:5000/api/Professor/Busca/' + this.campo).subscribe(
+    this.http.get('http://10.200.0.9/api/Professor/Busca/' + this.campo).subscribe(
 
     response => {
       this.professores = response;

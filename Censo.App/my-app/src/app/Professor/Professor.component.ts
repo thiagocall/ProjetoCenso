@@ -63,7 +63,7 @@ export class ProfessorComponent implements OnInit {
   }
 
   getProfessores() {
-      this.http.get('http://localhost:5000/api/Professor')
+      this.http.get('http://10.200.0.9/api/Professor')
       .subscribe(
         response => {
           this.professores = response;
