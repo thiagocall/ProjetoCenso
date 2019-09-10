@@ -9,6 +9,17 @@
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/Professor']" routerLinkActive="router-link-active" >Professores <span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Consultas
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['/ProfessorConsulta']" routerLinkActive="router-link-active" >Professores</a>
+          <a class="dropdown-item" href="#">Professores IES</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Outros</a>
+        </div>
+      </li>
       <li class="nav-item">
         <a class="nav-link" [routerLink]="['/ProfessorIES']" routerLinkActive="router-link-active" >Professor por IES <span class="sr-only">(current)</span></a>
       </li>

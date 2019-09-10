@@ -133,6 +133,53 @@ namespace Censo.API.Controllers
 
         }
 
+        [HttpGet("Busca/{campo}")]
+        public async Task<IActionResult> BuscaProfessores(string campo)
+        {
+                
+                Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            
+                try
+                {
+
+                 Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+                
+                    Task.WaitAll(task1);
+                    var results =  await Professores.getProfessores(context).ToListAsync();
+
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+
+                            else
+                            {
+                                item.regime = "CHZ/AFASTADO";
+                            }
+                        }
+
+                    var results2 = results.Where(x => x.NomProfessor.ToUpper().Contains(campo.ToUpper()) || x.CpfProfessor.ToString().Contains(campo)).ToList();
+
+                  return Ok(results2);
+                    
+                }
+                catch (System.Exception)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+
+                      
+
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
