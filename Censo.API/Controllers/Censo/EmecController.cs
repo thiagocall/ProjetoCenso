@@ -26,10 +26,8 @@ namespace Censo.API.Controllers.Censo
         [HttpGet("{id}")]
         public ActionResult Get(long? id){
 
-            
             return null;
             
-
         }
 
 

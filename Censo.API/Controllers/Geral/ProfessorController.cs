@@ -60,7 +60,7 @@ namespace Censo.API.Controllers
                      
                     var qtdProfessores = results.Count();
                     var qtdDoutor = results.Where(x => x.Titulacao == "DOUTOR").Count();
-                    var qtdMestre = results.Where(x => x.Titulacao == "DOUTOR" | x.Titulacao == "MESTRE").Count();
+                    var qtdMestre = results.Where(x => x.Titulacao == "MESTRE").Count();
                     var qtdEspecialista = results.Where(x => x.Titulacao == "ESPECIALISTA").Count();
                     var qtdNTitulado = results.Where(x => x.Titulacao == "NÃO IDENTIFICADA").Count();
                     var qtdRegime = results.Where(x => x.regime == "TEMPO INTEGRAL" | x.regime == "TEMPO PARCIAL" ).Count();
@@ -128,8 +128,7 @@ namespace Censo.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
                 }
-
-                      
+    
 
         }
 
@@ -165,7 +164,8 @@ namespace Censo.API.Controllers
                             }
                         }
 
-                    var results2 = results.Where(x => x.NomProfessor.ToUpper().Contains(campo.ToUpper()) || x.CpfProfessor.ToString().Contains(campo)).ToList();
+                    var results2 = results.Where(x => x.NomProfessor.ToUpper().Contains(campo.ToUpper()) || x.CpfProfessor.ToString().Contains(campo))
+                                                .OrderBy(x => x.NomProfessor).ToList();
 
                   return Ok(results2);
                     
@@ -176,7 +176,6 @@ namespace Censo.API.Controllers
                 }
 
                       
-
         }
 
 
@@ -208,7 +207,6 @@ namespace Censo.API.Controllers
 
                     });
                     
-
 
                     return Ok(results);
                     

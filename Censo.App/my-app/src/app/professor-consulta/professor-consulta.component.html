@@ -12,6 +12,7 @@
             <h3>
                 Professores
             </h3>
+            <jw-pagination [items]="professores" (changePage)="onChangePage($event)"></jw-pagination>
             <table class="table">
                 <thead>
                     <tr>
@@ -26,7 +27,7 @@
                     <div *ngIf='!professores && professores.length' class="alert alert-primary mt-4" role="alert">
                         Não há professores nessa busca!
                     </div>
-                    <tr *ngFor="let item of professores">
+                    <tr *ngFor="let item of pageOfItems">
                         <td>{{item.nomProfessor}}</td>
                         <td>{{item.cpfProfessor}}</td>
                         <td>{{item.regime}}</td>

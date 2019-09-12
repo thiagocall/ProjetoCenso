@@ -7,13 +7,12 @@ namespace Censo.API.ADODB
     public static class Connection
     {
 
-        public static IConfiguration Configuration { get; }
-
+        
         private static SqlConnection conn;
 
-        public static SqlConnection Get()
+        public static SqlConnection Get(IConfiguration _configuration)
         {
-            string config = Configuration.GetConnectionString("DefaultConnection");
+            string config = _configuration.GetConnectionString("DefaultConnection");
             string strConn = config;
             conn = new SqlConnection(strConn);
             conn.Open();

@@ -10,7 +10,7 @@ using Censo.API.Resultados;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.Extensions.Configuration;
 
 namespace Censo.API.Controllers
 {
@@ -20,6 +20,7 @@ namespace Censo.API.Controllers
 
         CampusContext CampusContext;
         //ProfessorContext ProfessorContext;
+        IConfiguration Configuration;
 
         RegimeContext RegimeContext;
 
@@ -27,13 +28,14 @@ namespace Censo.API.Controllers
         public Dictionary<string, List<string>> dicProfessorCampus;
 
 
-        public ProfessorForaSedeController(ProfessorIESContext _professorContext, CampusContext _campusContext, RegimeContext _regimeContext)
+        public ProfessorForaSedeController(ProfessorIESContext _professorContext, CampusContext _campusContext, RegimeContext _regimeContext, IConfiguration _configuration)
         {
             if (dicProfessorCampus == null)
             {
-                  dicProfessorCampus = CampusProfessor.getCampusProfessor();
+                  dicProfessorCampus = CampusProfessor.getCampusProfessor(_configuration);
             }
-
+            
+            this.Configuration = _configuration;
             this.CampusContext = _campusContext;
 
             this.ProfessorIESContext = _professorContext;
@@ -72,7 +74,7 @@ namespace Censo.API.Controllers
 
             };
 
-            var campProfessor = CampusProfessor.getCampusProfessor();
+            var campProfessor = CampusProfessor.getCampusProfessor(this.Configuration);
 
             var results = ForaDeSedePr.OtimizaProfessorForaDeSede(ProfessorIESContext.ProfessorIES, dicProfessorCampus)
              .Select(p => new

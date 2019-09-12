@@ -9,6 +9,7 @@ using Censo.API.Parametros;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -16,17 +17,17 @@ namespace Censo.API.Controllers.Censo
     [ApiController]
     public class CursoEmecController : ControllerBase
     {
-
+        public IConfiguration Configuration { get; }
         public ProfessorCursoEmecContext Context { get; }
         public ProfessorIESContext ProfContext { get; }
-
         public CursoCensoContext CursoCensoContext { get; set; }
-
-        public CursoEmecController(ProfessorCursoEmecContext _context, ProfessorIESContext _profcontext, CursoCensoContext _cursoCensoContext)
+        
+        public CursoEmecController(ProfessorCursoEmecContext _context, ProfessorIESContext _profcontext, CursoCensoContext _cursoCensoContext, IConfiguration _configuration)
         {
             this.Context = _context;
             this.ProfContext = _profcontext;
             this.CursoCensoContext = _cursoCensoContext;
+            this.Configuration = _configuration;
         }    
 
         [HttpGet("geraPrevisao/{id}/{tipo}")]
@@ -52,12 +53,11 @@ namespace Censo.API.Controllers.Censo
         public ActionResult GeraNota(long? id)
         {
 
-            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
+            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
             var query = listaPrev.Where(x => x.CodArea == id).ToList();
 
             return Ok(query);
-
 
         }
 
@@ -66,7 +66,7 @@ namespace Censo.API.Controllers.Censo
         {
             double?[] prev = new double?[2];
 
-            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
+            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
             var query = listaPrev.Where(x => x.CodArea == _id).OrderBy(x => x.Ano).ToList();
 
@@ -74,7 +74,7 @@ namespace Censo.API.Controllers.Censo
 
             List<string> tipos = new List<string>(){"D","R","M"};
 
-            if(tipos.Contains(_tipo)){
+            if(tipos.Contains(_tipo.ToUpper())){
 
                     prev[0] = (prev[0] < 0) ? 0 : prev[0];
                     prev[0] = (prev[0] > 5) ? 5 : prev[0];
@@ -83,7 +83,6 @@ namespace Censo.API.Controllers.Censo
                     prev[1] = (prev[1] > 5) ? 5 : prev[1];
 
             }
-
 
             //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
 
@@ -255,7 +254,7 @@ namespace Censo.API.Controllers.Censo
 
             var query = Context.ProfessorCursoEmec.ToList();
             
-            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao();
+            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
             List<CursoProfessor> cursoProfessor;
         

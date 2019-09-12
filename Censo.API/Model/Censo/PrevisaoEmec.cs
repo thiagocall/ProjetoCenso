@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Censo.API.ADODB;
+using Microsoft.Extensions.Configuration;
 
 namespace Censo.API.Model.Censo
 {
@@ -12,7 +13,7 @@ namespace Censo.API.Model.Censo
 
         private static List<CursoPrevisao> listaPrevisao;
 
-        public static List<CursoPrevisao> getPrevisao()
+        public static List<CursoPrevisao> getPrevisao(IConfiguration _configuration)
         {
             CursoPrevisao cp;
 
@@ -21,7 +22,7 @@ namespace Censo.API.Model.Censo
                 return listaPrevisao;
             }
 
-            var conn = Connection.Get();
+            var conn = Connection.Get(_configuration);
 
             SqlCommand cmd = new SqlCommand("select * from Rel_Evolucao_CPC",conn);
             cmd.CommandType = CommandType.Text;

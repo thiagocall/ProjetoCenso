@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using Censo.API.ADODB;
+using Microsoft.Extensions.Configuration;
 
 namespace Censo.API.Campus
 {
@@ -11,14 +12,14 @@ namespace Censo.API.Campus
     {
         public static Dictionary<string, List<string>> dicCampusProfessor;
 
-        public static Dictionary<string, List<string>> getCampusProfessor()
+        public static Dictionary<string, List<string>> getCampusProfessor(IConfiguration _configuration)
         {
             if (dicCampusProfessor != null)
             {
                 return dicCampusProfessor;
             }
 
-                var conn = Connection.Get();
+                var conn = Connection.Get(_configuration);
 
                 SqlCommand cmd = new SqlCommand("select DISTINCT CPF_PROFESSOR, COD_CAMPUS from Rel_Professor_Curso_Censo",conn);
                 cmd.CommandType = CommandType.Text;

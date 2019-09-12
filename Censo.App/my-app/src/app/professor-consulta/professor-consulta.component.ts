@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
-import { Color, BaseChartDirective, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-professor-consulta',
@@ -9,8 +8,9 @@ import { Color, BaseChartDirective, Label } from 'ng2-charts';
 })
 export class ProfessorConsultaComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {   }
 
+  pageOfItems: Array<any>;
   professores;
   public campo;
 
@@ -19,7 +19,7 @@ export class ProfessorConsultaComponent implements OnInit {
 
   buscarProfessores() {
 
-    this.http.get('http://10.200.0.9/api/Professor/Busca/' + this.campo).subscribe(
+    this.http.get('http://localhost:5000/api/Professor/Busca/' + this.campo).subscribe(
 
     response => {
       this.professores = response;
@@ -29,6 +29,10 @@ export class ProfessorConsultaComponent implements OnInit {
       console.log(error);
     });
 
+  }
+
+  onChangePage(pageOfItems: Array<any>) {
+    this.pageOfItems = pageOfItems;
   }
 
 }
