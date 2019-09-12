@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Censo.API.Data;
+using Censo.API.Data.Censo;
 using Censo.API.Model.Censo;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,25 +11,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Censo.API.Controllers.Censo
 {
-    [Route("api/Censo/[controller]")]
+    [Route("api/v1/Censo/[controller]")]
     [ApiController]
     public class CursoCensoController : ControllerBase
     {
 
-        public CursoCensoContext Context { get; }
-        public ProfessorCursoCensoContext ProfCurCensoCtx { get; }
+        public CensoContext Context { get; }
 
-        public CursoCensoController(CursoCensoContext context, ProfessorCursoCensoContext _profCurCensoCtx)
+        public CursoCensoController(CensoContext context)
         {
             this.Context = context;
-            this.ProfCurCensoCtx = _profCurCensoCtx;
         }
-        
        
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var query = await ProfCurCensoCtx.ProfessorCursoCenso.ToListAsync();
+            var query = await this.Context.ProfessorCursoCenso.ToListAsync();
 
                 var results = query.Select(x => new 
                                     {   CpfProfessor = x.CpfProfessor, 
@@ -51,21 +49,18 @@ namespace Censo.API.Controllers.Censo
             return Ok(results);
             
         }
-
         
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {
-            var query = await ProfCurCensoCtx.ProfessorCursoCenso.ToListAsync();
+            var query = await this.Context.ProfessorCursoCenso.ToListAsync();
 
                 var results = query.Select(x => new
                                     {   CpfProfessor = x.CpfProfessor, 
                                         CodIes = x.CodIes,
                                         CodCampus = x.CodCampus,
                                         CodCurso = x.CodCurso,
-                                        NumHabilitacao = x.NumHabilitacao,
-                                        
-                                        
+                                        NumHabilitacao = x.NumHabilitacao
                                         }).Where(c => c.CodCampus == id).ToList();
 
             return Ok(results);
@@ -78,7 +73,7 @@ namespace Censo.API.Controllers.Censo
          [HttpGet("Emec")]
         public ActionResult GetEmec()
         {
-            var query = ProfCurCensoCtx.ProfessorCursoCenso.ToList();
+            var query = this.Context.ProfessorCursoCenso.ToList();
 
                 var results = query.Select(x => new 
                                     {   CpfProfessor = x.CpfProfessor, 

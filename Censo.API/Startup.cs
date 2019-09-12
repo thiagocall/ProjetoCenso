@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Censo.API.Data;
+using Censo.API.Data.Censo;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
 //using Censo.API.ModelTeste;
@@ -35,10 +36,9 @@ namespace Censo.API
             services.AddDbContext<ProfessorIESContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<RegimeContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<CampusContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<CursoCensoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<ProfessorCursoCensoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Adiciona contexto do Censo para Controller
+            services.AddDbContext<CensoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorContratoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<ProfessorCursoEmecContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCors();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
