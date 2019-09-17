@@ -16,9 +16,12 @@ using Censo.API.Parametros;
 //using Newtonsoft.Json.
 namespace Censo.API.Controllers
 {
+ [ApiController]
+   
     public class ParametroController: ControllerBase
     {
         [Route("api/Params")]
+        
 
             [HttpPost]
             public object Post([FromBody] List<string> prof)

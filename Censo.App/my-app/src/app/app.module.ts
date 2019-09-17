@@ -11,6 +11,8 @@ import { InicioComponent } from './nav/nav.component';
 import { ProfessorComponent } from './Professor/Professor.component';
 import { ProfessorIESComponent } from './ProfessorIES/ProfessorIES.component';
 import { ProfessorConsultaComponent } from './professor-consulta/professor-consulta.component';
+import { AppCensoComponent } from './app-censo/app-censo.component';
+import { AppCorpoDocenteComponent } from './app-corpo-docente/app-corpo-docente.component';
 
 @NgModule({
    declarations: [
@@ -19,7 +21,9 @@ import { ProfessorConsultaComponent } from './professor-consulta/professor-consu
       ProfessorComponent,
       ProfessorIESComponent,
       ProfessorConsultaComponent,
-      JwPaginationComponent
+      JwPaginationComponent,
+      AppCensoComponent,
+      AppCorpoDocenteComponent
    ],
    imports: [
       BrowserModule,

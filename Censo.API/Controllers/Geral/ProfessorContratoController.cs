@@ -8,6 +8,7 @@ namespace Censo.API.Controllers
 
 {
     [Route("api/ProfessorContrato")]
+    [ApiController]
     public class ProfessorContratoController: ControllerBase
     {   
 

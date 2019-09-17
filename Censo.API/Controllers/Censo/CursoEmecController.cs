@@ -268,10 +268,10 @@ namespace Censo.API.Controllers.Censo
         
         private void GeraListaPrevisaoSKU() {
 
-            if (ListaPrevisaoSKU != null)
-            {
-                return;
-            }
+            // if (ListaPrevisaoSKU != null)
+            // {
+            //     return;
+            // }
 
             List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 

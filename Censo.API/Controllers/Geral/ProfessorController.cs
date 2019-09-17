@@ -12,6 +12,7 @@ using Censo.API.Model;
 namespace Censo.API.Controllers
 {
     [Route ("api/[controller]")]
+    [ApiController]
     public class ProfessorController: ControllerBase
     {
 

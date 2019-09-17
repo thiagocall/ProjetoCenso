@@ -6,6 +6,7 @@ using Censo.API.Data;
 using Censo.API.Data.Censo;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
+using Censo.API.Model.dados;
 //using Censo.API.ModelTeste;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +40,7 @@ namespace Censo.API
             //Adiciona contexto do Censo para Controller
             services.AddDbContext<CensoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorContratoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<dadosContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCors();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

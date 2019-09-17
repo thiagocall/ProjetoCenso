@@ -1,0 +1,23 @@
+<div class="container m-2">
+    <div class="col-md-4">
+
+        <div class="form">
+            <label for="campus">Campus</label>
+            <select class ="form-control" id="campus" [(ngModel)]="cod" (change)="getCampus(cod)">
+                <option *ngFor="let item of listaCampus" [value]="item.codCampus">{{item.nomCampus + " - " + item.codCampus}}</option>
+            </select>
+        </div>
+        <div class="form" *ngIf="curso">
+                <label for="curso">Curso</label>
+                <select class ="form-control" id="curso" [(ngModel)]="cod_curso">
+                    <option *ngFor="let item of curso" [value]="item.codEmec">{{item.nomCursoCenso}}</option>
+                </select>
+            </div>
+        
+    <div class="container">
+        {{cod_curso}}
+    </div>
+</div>
+    
+
+</div>

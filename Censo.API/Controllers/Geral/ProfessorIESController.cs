@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Censo.API.Controllers
 {
     [Route ("api/[controller]")]
+    [ApiController]
     public class ProfessorIESController: ControllerBase
     {
 

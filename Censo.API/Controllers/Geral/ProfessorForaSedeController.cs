@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 namespace Censo.API.Controllers
 {
     [Route("api/ForaDeSede")]
+    [ApiController]
     public class ProfessorForaSedeController: ControllerBase
     {
 

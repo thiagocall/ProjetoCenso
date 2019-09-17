@@ -4,6 +4,8 @@ import { AppComponent } from './app.component';
 import {ProfessorComponent} from './Professor/Professor.component';
 import {ProfessorIESComponent} from './ProfessorIES/ProfessorIES.component';
 import {ProfessorConsultaComponent} from './professor-consulta/professor-consulta.component';
+import {AppCensoComponent } from './app-censo/app-censo.component';
+import {AppCorpoDocenteComponent  } from './app-corpo-docente/app-corpo-docente.component';
 
 
 const routes: Routes = [
@@ -12,6 +14,9 @@ const routes: Routes = [
   {path: 'Professor', component: ProfessorComponent },
   {path: 'ProfessorIES', component: ProfessorIESComponent },
   {path: 'ProfessorConsulta', component: ProfessorConsultaComponent },
+  {path: 'Censo', component: AppCensoComponent },
+  {path: 'CorpoDocente', component: AppCorpoDocenteComponent },
+
   // {path: '**', component: PageNotFoundComponent}
 ];
 
