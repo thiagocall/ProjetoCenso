@@ -320,10 +320,7 @@ namespace Censo.API.Controllers.Censo
                 
             };
 
-
         }
-
-
 
         //#################### Gera notas para cursos #####################
         private object getNotaCursos() 
@@ -391,13 +388,21 @@ namespace Censo.API.Controllers.Censo
             }
 
                 //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
-                var result = cursoProfessor.Select( x => new{ x.CodEmec, x.Nota_Mestre, x.Nota_Doutor, x.Nota_Regime, Mestres = x.Professores.Where(p => p.Value.Titulacao == "MESTRE" || p.Value.Titulacao == "DOUTOR" ).Count(), Professores = x.Professores.Count(), doutores = x.Professores.Where(p => p.Value.Titulacao == "DOUTOR").Count()}).ToList();
+                var result = cursoProfessor.Select( x => new{ x.CodEmec, 
+                                                              x.Nota_Mestre,
+                                                              x.Nota_Doutor,
+                                                              x.Nota_Regime,
+                                                              Mestres = x.Professores
+                                                                        .Where(p => p.Value.Titulacao == "MESTRE" || p.Value.Titulacao == "DOUTOR" )
+                                                                        .Count(),
+                                                              Professores = x.Professores.Count(),
+                                                              doutores = x.Professores
+                                                                        .Where(p => p.Value.Titulacao == "DOUTOR").Count()})
+                                                            .ToList();
 
             return result;
 
         }
-
-
 
         private double? N_Escala(double? lim_min, double? lim_max, double? percent){
 
@@ -429,7 +434,6 @@ namespace Censo.API.Controllers.Censo
                 
                 return 0;
             }
-
 
         }
 
