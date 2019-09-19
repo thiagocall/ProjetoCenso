@@ -63,36 +63,40 @@
     </div>
   </div>
   
-  <div class="row mt-5">
-    <div class="col md-6">
+  <div class="container mt-5">
+      <h4>Informações Importantes</h4>
+      <hr>
+  </div>
+
+  <div id ="graficos" class="container">
+
+    
+    <div class="row mt-5 pb-4 pt-2">
       
-      <div class="container pt-5" *ngIf="professores">
-        <div style="display: block; width: 80%">
-            
-            <canvas baseChart
-            [datasets]=barChartData
-            [labels]=barChartLabels
-            [options]=barChartOptions
-            [legend]=barChartLegend
-            [chartType]=barChartType
-            [colors]=barChartColors>
-          </canvas>
-        </div>
+      <div class="col md-6">
         
+        <div class="container pt-5" *ngIf="professores">
+          <div style="display: block; width: 80%">
+              
+              <canvas baseChart
+              [datasets]=barChartData
+              [labels]=barChartLabels
+              [options]=barChartOptions
+              [legend]=barChartLegend
+              [chartType]=barChartType
+              [colors]=barChartColors>
+            </canvas>
+          </div>
+          
+        </div>
       </div>
       
-      
-    </div>
-    
-    <div class="col md-6">
-      <div class="row">
-        <div class="container">
-          <h4>Informações Importantes</h4>
-          <hr>
-          <div>
+      <div class="col md-6">
+          <div class="container">
+            <div>
               <div *ngIf="professores">
                 <div style="display: block">
-                  <canvas baseChart
+                    <canvas baseChart
                     [datasets]=radarChartData
                     [options]=radarChartOptions
                     [labels]=radarChartLabels
@@ -103,10 +107,11 @@
                 </div>
               </div>
             </div>
-        </div>
+          </div>
+       
+        
       </div>
-      
     </div>
+    
   </div>
-  
-</div>
+  </div>

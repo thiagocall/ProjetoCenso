@@ -2,10 +2,21 @@
 color:#B8B8B8;
 }
 #cardhead{
-background-color: #37a7ae;
+background-color: #1EB8DE;
 color: whitesmoke;
 }
 
 #ctest{
 color: whitesmoke;
+}
+
+.card {
+box-shadow: 5px 5px 5px 2px #E5E6E7;
+
+}
+
+#graficos {
+    box-shadow: 5px 5px 5px 2px #E5E6E7;
+    background-color: white;
+
 }

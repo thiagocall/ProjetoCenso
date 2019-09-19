@@ -7,6 +7,7 @@ using Censo.API.Model.Censo;
 using Censo.API.Model.dados;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Censo.API.Controllers.Censo;
 
 namespace Censo.API.Controllers.Geral
 {
@@ -45,13 +46,11 @@ namespace Censo.API.Controllers.Geral
                     }
             );
 
-
             tasks[0] = task1;
             tasks[1] = task2;
 
             await task1;
             await task2;
-
 
             var curso1 = task1.Result.Select(x => x.CodCampus).Distinct().ToList();
 
@@ -61,17 +60,12 @@ namespace Censo.API.Controllers.Geral
             
             var cursos = task1.Result.Where(x => x.CodIes != null).ToList();
 
-            //var cursos = task1.Result;
-            //var campus = task2.Result.OrderBy(x => x.NomCampus);
-
-            // List<object> resultados = new List<object>();
-            // resultados.Add(cursos);
-            // resultados.Add(campus);
-
             return Ok(new {campus, cursos});
 
 
         }
+
+        
 
 
 

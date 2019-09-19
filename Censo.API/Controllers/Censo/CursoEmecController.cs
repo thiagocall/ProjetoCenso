@@ -74,6 +74,7 @@ namespace Censo.API.Controllers.Censo
 
             var query = listaPrev.Where(x => x.CodArea == _id).OrderBy(x => x.Ano).ToList();
 
+
             prev = GeraPrevisao(_id, _tipo, query);
 
             List<string> tipos = new List<string>(){"D","R","M"};
@@ -114,8 +115,81 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        [HttpGet("obterInfoCurso/{codCurso}")]
+         public async Task<IActionResult> getDadosCursoEmec(long codCurso) {
+
+             double notaM = 0;
+             double notaD = 0;
+             double notaR = 0;
+
+            var query = await this.Context.ProfessorCursoEmec
+                                .Where(x => x.CodEmec == codCurso ).ToListAsync();
+
+            
+            //var area = emec.FirstOrDefault(x => x.CodEmec == codCurso);
+
+            Task task1 = Task.Run(
+                () => {
+
+                  GeraListaPrevisaoSKU();
+                }
+
+            );
+
+            await task1;
+            var emec = this.Context.CursoCenso.Where(c => c.CodEmec == codCurso).First();
+            var previsao = ListaPrevisaoSKU[emec.CodArea];
+
+            List<CursoProfessor> cursoProfessor;
+
+            cursoProfessor = MontaCursoProfessor(query);
+
+                var cursoEmec = cursoProfessor.First();
+                var Professores = cursoEmec.Professores;
+
+                 double qtdProf = Professores.Keys.Count();
+                double qtdD = Professores.Where(x => x.Value.Titulacao == "DOUTOR")
+                        .Count();
+                double qtdM = Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR")
+                        .Count();
+                double qtdR = Professores.Where(x => x.Value.Regime == "TEMPO INTEGRAL" | x.Value.Regime == "TEMPO PARCIAL")
+                        .Count();
+
+                double perc_D = qtdD / qtdProf;
+                double perc_M = qtdM / qtdProf;
+                double perc_R = qtdR / qtdProf;
+                ////e.CodCampus, e.CodCurso, e.NumHabilitacao
+
+                if(emec != null)
+                {
+                    // percent.Add(perc_D);
+                    var area1 = emec.CodArea;
+                     //##### Previsão Doutor
+                    
+                     var prev_minM = previsao.P_Min_Mestre;
+                     var prev_maxM= previsao.P_Max_Mestre;
+
+                     var prev_minD = previsao.P_Min_Doutor;
+                     var prev_maxD= previsao.P_Max_Doutor;
+
+                     var prev_minR = previsao.P_Min_Regime;
+                     var prev_maxR= previsao.P_Max_Regime;
+
+                      notaM = (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
+                      notaD = (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
+                      notaR = (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));  
+                    
+                }
+        
+             return Ok(new {previsao, cursoProfessor = cursoEmec.Professores.Values.ToList(), perc_M, perc_D, perc_R, notaM, notaD, notaR});
+         }
+
+        // ########## Monta a lista de cursos por professores ##########
+
         // ################# Monta Cursos dos Professores ######################
-        private List<CursoProfessor> MontaCursoProfessor(List<ProfessorCursoEmec> query)
+
+
+        public List<CursoProfessor> MontaCursoProfessor(List<ProfessorCursoEmec> query)
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
