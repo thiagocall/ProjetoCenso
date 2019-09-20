@@ -27,7 +27,7 @@ export class AppCorpoDocenteComponent implements OnInit {
   
   
   ngOnInit() {
-    this.http.get('http://http://10.200.0.9/api/v1/dados').subscribe(
+    this.http.get('http://10.200.0.9/api/v1/dados').subscribe(
     response => {
       this.resultado = response;
       this.listaCampus = this.resultado.campus;
