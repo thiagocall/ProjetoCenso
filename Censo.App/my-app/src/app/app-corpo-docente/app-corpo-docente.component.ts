@@ -24,7 +24,7 @@ export class AppCorpoDocenteComponent implements OnInit {
   professores: any;
   notaFaixa;
   pageOfItems: Array<any>;
-
+  
   
   ngOnInit() {
     this.http.get('http://localhost:5000/api/v1/dados').subscribe(
@@ -46,25 +46,25 @@ export class AppCorpoDocenteComponent implements OnInit {
   }
   
   getInfoCurso(codigo: any) {
-      this.professores = null;
-      this.notaM = null;
-      this.notaD = null;
-      this.notaR = null;
-      this.notaFaixa = null;
-      this.infoCurso = null;
-
-      this.http.get('http://localhost:5000/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
-      response => {
+    this.professores = null;
+    this.notaM = null;
+    this.notaD = null;
+    this.notaR = null;
+    this.notaFaixa = null;
+    this.infoCurso = null;
+    
+    this.http.get('http://localhost:5000/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
+    response => {
       this.errodados = false;
       this.infoCurso = null;
       this.infoCurso = response;
-
+      
       this.professores = this.infoCurso.cursoProfessor;
       this.notaM = this.infoCurso.notaM;
       this.notaD = this.infoCurso.notaD;
       this.notaR = this.infoCurso.notaR;
       this.notaFaixa = this.faixa();
-
+      
       // console.log(response);
     },
     error => {
@@ -73,9 +73,9 @@ export class AppCorpoDocenteComponent implements OnInit {
       console.log(error);
     }
     );
-
+    
   }
-
+  
   faixa(): number {
     const nota = (this.notaD * 2 + this.notaM + this.notaR) / 4;
     switch (true) {
@@ -92,9 +92,8 @@ export class AppCorpoDocenteComponent implements OnInit {
       break;
     }
   }
-
+  
   onChangePage(pageOfItems: Array<any>) {
     this.pageOfItems = pageOfItems;
   }
-
-  }
+}

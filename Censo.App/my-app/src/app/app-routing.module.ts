@@ -6,6 +6,7 @@ import {ProfessorIESComponent} from './ProfessorIES/ProfessorIES.component';
 import {ProfessorConsultaComponent} from './professor-consulta/professor-consulta.component';
 import {AppCensoComponent } from './app-censo/app-censo.component';
 import {AppCorpoDocenteComponent  } from './app-corpo-docente/app-corpo-docente.component';
+import {AppDadosCensoComponent  } from './app-dados-censo/app-dados-censo.component';
 
 
 const routes: Routes = [
@@ -16,8 +17,10 @@ const routes: Routes = [
   {path: 'ProfessorConsulta', component: ProfessorConsultaComponent },
   {path: 'Censo', component: AppCensoComponent },
   {path: 'CorpoDocente', component: AppCorpoDocenteComponent },
+  {path: 'DadosCenso', component: AppDadosCensoComponent },
 
   // {path: '**', component: PageNotFoundComponent}
+
 ];
 
 @NgModule({

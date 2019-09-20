@@ -10,39 +10,39 @@
             <div class="container">
                 
                 <div class="card" style="width: 18rem">
-                        <div class="card-header"><h5 class="card-title">Corpo Docente</h5></div>
-                        <div class="card-body">
-                            
-                            <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                            <a [routerLink]="['/CorpoDocente']" class="btn btn-primary btn-lg">Ver</a>
-                        </div>
-                    </div>
-                </div>   
-            </div>
-            <div class="col-md-4"> 
-                <div class="container">
-                    <div class="card" style="width: 18rem">
-                            <div class="card-header"><h5 class="card-title">Composição CPC</h5></div>
-                            <div class="card-body">
-                                <p class="card-text">Ver a Previsão da Nota do CPC por Curso</p>
-                                <a href="#" class="btn btn-primary btn-lg">Ver</a>
-                            </div>
-                        </div>
+                    <div class="card-header"><h5 class="card-title">Corpo Docente</h5></div>
+                    <div class="card-body">
+                        
+                        <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                        <a [routerLink]="['/CorpoDocente']" class="btn btn-primary">Ver</a>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="container">
-                        <div class="card" style="width: 18rem">
-                                <div class="card-header"><h5 class="card-title">Dados Censo</h5></div>
-                                <div class="card-body">
-                                    <p class="card-text">Configure e Crie Cenários para o Censo Docente</p>
-                                    <a  href="#" class="btn btn-primary btn-lg">Ver</a>
-                                </div>
-                            </div>
-                            
-                        </div>
+            </div>   
+        </div>
+        <div class="col-md-4"> 
+            <div class="container">
+                <div class="card" style="width: 18rem">
+                    <div class="card-header"><h5 class="card-title">Composição CPC</h5></div>
+                    <div class="card-body">
+                        <p class="card-text">Ver a Previsão da Nota do CPC por Curso</p>
+                        <a href="#" class="btn btn-primary">Ver</a>
                     </div>
-                    
-                    
                 </div>
             </div>
+        </div>
+        <div class="col-md-4">
+            <div class="container">
+                <div class="card" style="width: 18rem">
+                    <div class="card-header"><h5 class="card-title">Dados Censo</h5></div>
+                    <div class="card-body">
+                        <p class="card-text">Configure e Crie Cenários para o Censo Docente</p>
+                        <a  [routerLink]="['/DadosCenso']" routerLinkActive="router-link-active"  class="btn btn-primary">Ver</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+</div>

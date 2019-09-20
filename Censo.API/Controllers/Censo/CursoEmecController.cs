@@ -23,7 +23,7 @@ namespace Censo.API.Controllers.Censo
         public ProfessorIESContext ProfContext { get; }
         public CensoContext Context { get; }
 
-        public static Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
+        public Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
 
         // public CursoCensoContext CursoCensoContext { get; set; }
         
@@ -100,6 +100,7 @@ namespace Censo.API.Controllers.Censo
         public ActionResult Notas(){
 
             return Ok(getNotaCursos());
+
             //GeraListaPrevisaoSKU();
             //var results =  this.ListaPrevisaoSKU.Select(a => new {
             //         a.Value.CodArea,
@@ -121,6 +122,7 @@ namespace Censo.API.Controllers.Censo
              double notaM = 0;
              double notaD = 0;
              double notaR = 0;
+             Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
 
             var query = await this.Context.ProfessorCursoEmec
                                 .Where(x => x.CodEmec == codCurso ).ToListAsync();
@@ -128,15 +130,12 @@ namespace Censo.API.Controllers.Censo
             
             //var area = emec.FirstOrDefault(x => x.CodEmec == codCurso);
 
-            Task task1 = Task.Run(
+            Task<Dictionary<long?, PrevisaoSKU>> task1 = Task.Factory.StartNew(
                 () => {
-
-                  GeraListaPrevisaoSKU();
+                        return GeraListaPrevisaoSKU();
                 }
-
             );
-
-            await task1;
+            ListaPrevisaoSKU = await task1;
             var emec = this.Context.CursoCenso.Where(c => c.CodEmec == codCurso).First();
             var previsao = ListaPrevisaoSKU[emec.CodArea];
 
@@ -241,7 +240,6 @@ namespace Censo.API.Controllers.Censo
 
         //################## Previsão ################################
 
-
         private double?[] GeraPrevisao(long? _id, string _tipo, List<CursoPrevisao> _query){
 
 
@@ -340,7 +338,7 @@ namespace Censo.API.Controllers.Censo
 
         }
         
-        private void GeraListaPrevisaoSKU() {
+        private Dictionary<long?, PrevisaoSKU> GeraListaPrevisaoSKU() {
 
             // if (ListaPrevisaoSKU != null)
             // {
@@ -349,7 +347,7 @@ namespace Censo.API.Controllers.Censo
 
             List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
-            ListaPrevisaoSKU = new Dictionary<long?, PrevisaoSKU>();
+            Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU = new Dictionary<long?, PrevisaoSKU>();
 
             PrevisaoSKU prev;
 
@@ -394,6 +392,8 @@ namespace Censo.API.Controllers.Censo
                 
             };
 
+            return ListaPrevisaoSKU;
+
         }
 
         //#################### Gera notas para cursos #####################
@@ -402,7 +402,7 @@ namespace Censo.API.Controllers.Censo
 
             var query = this.Context.ProfessorCursoEmec.ToList();
 
-            GeraListaPrevisaoSKU();
+            var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
             
             //List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
@@ -446,11 +446,20 @@ namespace Censo.API.Controllers.Censo
                     if (ListaPrevisaoSKU.ContainsKey(area))
                     {
                      var prev = ListaPrevisaoSKU[area];
-                     var prev_min = prev.P_Min_Mestre;
-                     var prev_max = prev.P_Max_Mestre;
-                     double notaM =  (N_Escala(prev_min, prev_max, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_min, prev_max, perc_M));
-                     double notaD =  (N_Escala(prev_min, prev_max, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_min, prev_max, perc_D));
-                     double notaR =  (N_Escala(prev_min, prev_max, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_min, prev_max, perc_R));
+
+                     var prev_minM = prev.P_Min_Mestre;
+                     var prev_maxM= prev.P_Max_Mestre;
+
+                     var prev_minD = prev.P_Min_Doutor;
+                     var prev_maxD= prev.P_Max_Doutor;
+
+                     var prev_minR = prev.P_Min_Regime;
+                     var prev_maxR= prev.P_Max_Regime;
+
+                     double notaM =  (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
+                     double notaD =  (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
+                     double notaR =  (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));
+                     
                      item.Nota_Mestre = notaM;
                      item.Nota_Doutor = notaD;
                      item.Nota_Regime = notaR;
@@ -469,14 +478,19 @@ namespace Censo.API.Controllers.Censo
                                                               Mestres = x.Professores
                                                                         .Where(p => p.Value.Titulacao == "MESTRE" || p.Value.Titulacao == "DOUTOR" )
                                                                         .Count(),
-                                                              Professores = x.Professores.Count(),
+                                                              QtdProfessores = x.Professores.Count(),
                                                               doutores = x.Professores
-                                                                        .Where(p => p.Value.Titulacao == "DOUTOR").Count()})
+                                                                        .Where(p => p.Value.Titulacao == "DOUTOR").Count(),
+                                                              cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).CodArea,
+                                                              cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).NomCursoCenso,
+                                                              Professores = x.Professores,
+                                                              })
                                                             .ToList();
 
             return result;
 
         }
+
 
         private double? N_Escala(double? lim_min, double? lim_max, double? percent){
 
@@ -512,11 +526,18 @@ namespace Censo.API.Controllers.Censo
         }
 
 
+
+
+
+
          #region httpVerbs
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("Otimizar")]
+        public ActionResult Post([FromBody] dynamic _formulario)
         {
+            return Ok(_formulario);
+
+            
         }
 
         // PUT api/values/5

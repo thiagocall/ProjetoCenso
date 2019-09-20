@@ -1,0 +1,145 @@
+<div class="container mt-5 ml-1">
+    <h4>Dados Censo - Otimização</h4>
+</div>
+
+<div class="container mt-5">
+    
+    <div class="card" style="width: 18rem">
+        <div class="card-header"><h5 class="card-title">Parâmetros de Otimização</h5></div>
+        <div class="card-body">
+            <p class="card-text">Configure os parâmetros para inicar a otimização</p>
+            <div class="row">
+                <button class="btn btn-primary m-2" data-toggle="modal" data-target=".bd-example-modal-lg">
+                    Parâmetros <i class="fas fa-sliders-h"></i>
+                </button>
+                <button class="btn btn-success m-2  " (click)="Otimizar()">
+                    Otimizar <i class="fas fa-rocket"> </i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>   
+
+<div class="modal fade bd-example-modal-lg mt-5" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Parâmetros <i class="fas fa-sliders-h"></i> </h4> 
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    
+                    <div class="col-md-7">
+                          
+                        <table class="table-borderless">
+                            <thead>
+                                <div class="row">
+                                    <div class="col-md-2 offset-4">
+                                        <th></th>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <th>D</th>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <th>M</th>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <th>E</th>
+                                    </div>
+                                </div>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <div class="row">
+                                        <div class="col-md-6 p-3">
+                                            <td scope="row">Tempo Integral</td>
+                                        </div>
+                                        <div class="col-md-2 p-3 mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.DTI" (select)="parametro.DTI"></td>
+                                        </div>
+                                        <div class="col-md-2 p-3  mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.MTI" (select)="parametro.MTI"></td>
+                                        </div>
+                                        <div class="col-md-2 p-3 mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.ETI" (select)="parametro.ETI"></td>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <div class="row">
+                                        <div class="col-md-6 p-3">
+                                            <td>Tempo Parcial</td>
+                                        </div>
+                                        <div class="col-md-2 p-3 mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.DTP" (select)="parametro.DTP"></td>
+                                        </div>
+                                        <div class="col-md-2 p-3  mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.MTP" (select)="parametro.MTP"></td>
+                                        </div>
+                                        <div class="col-md-2 p-3 mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.ETP" (select)="parametro.ETP"></td>
+                                        </div>
+                                    </div>
+                                </tr>
+                                <tr>
+                                    <div class="row">
+                                        <div class="col-md-6 p-3">
+                                            <td>Horista</td>
+                                        </div>
+                                        <div class="col-md-2 p-3 mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.DH" (select)="parametro.DH"></td>
+                                        </div>
+                                        <div class="col-md-2 p-3  mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name" [(ngModel)]="parametro.MH" (select)="parametro.MH"></td>
+                                        </div>
+                                        <div class="col-md-2 p-3 mt-2">
+                                            <td> <input type="checkbox" class="form-check" id="recipient-name"[(ngModel)]="parametro.EH" (select)="parametro.EH"></td>
+                                        </div>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-3 offset-1 pl-2">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1" [(ngModel)]="parametro.otimiza20p">
+                            <label class="custom-control-label" for="customSwitch1">Otimizar Prof 20%</label>
+                        </div>
+                        
+                        <div class="mt-2" *ngIf="parametro.otimiza20p">    
+                            <label for="RngLim20P">% Limite: {{parametro.Perclimite}}</label>
+                            <input type="range" class="custom-range" id="RngLim20P" [(ngModel)]="parametro.Perclimite">
+                        </div>
+                        <hr>
+                        
+                        <div class="mt-4">    
+                            <label for="RngUsoProf">Qtd Uso Prof 20%: {{parametro.usoProfessor}}</label>
+                            <input type="range" class="custom-range" min="0" max="50" id="RngUsoProf" [(ngModel)]="parametro.usoProfessor">
+                        </div>
+                        <div class="mt-2">    
+                            <label for="RngQtdGEral">Qtd Uso Prof Geral: {{parametro.usoProfessorGeral}}</label>
+                            <input type="range" class="custom-range" min="0" max="30" id="RngQtdGEral" [(ngModel)]="parametro.usoProfessorGeral">
+                        </div>
+                        <div class="mt-2">    
+                            <label for="RngReduProf">% Redução Prof: {{parametro.PercReduProf}}</label>
+                            <input type="range" class="custom-range" min="0" max="30" id="RngReduProf" [(ngModel)]="parametro.PercReduProf">
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="container">
+                        <h6>D = Doutor  |  M = Mestre  |  E = Especialista</h6>
+                    </div>
+                    <button class="btn btn-primary" data-dismiss="modal" (click)="SalvaParametro()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

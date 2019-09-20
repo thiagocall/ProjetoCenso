@@ -8,7 +8,6 @@ namespace Censo.API.Data.Censo
 
         public CensoContext(DbContextOptions<CensoContext> options) : base(options) {}
 
-
         public virtual DbSet<CursoCenso> CursoCenso { get; set; }
         public virtual DbSet<ProfessorCursoCenso> ProfessorCursoCenso { get; set; }
         public virtual DbSet<ProfessorCursoEmec> ProfessorCursoEmec { get; set; }
@@ -63,7 +62,7 @@ namespace Censo.API.Data.Censo
                 entity.Property(e => e.CodIes).HasColumnName("COD_IES");
             });
             
-
+            
              modelBuilder.Entity<ProfessorCursoEmec>(entity =>
             {
                 entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao, e.CodEmec, e.CpfProfessor })

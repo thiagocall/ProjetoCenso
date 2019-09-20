@@ -4,6 +4,8 @@ using Censo.API.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Censo.API.Data.Censo;
+using Censo.API.Model.Censo;
 
 namespace Censo.API.Resultados
 {
@@ -12,8 +14,6 @@ namespace Censo.API.Resultados
 
        
         public static List<Professor> ListaProfessorIES;
-
-
         public static DbSet<Professor> getProfessores( ProfessorContext _context){
 
             var results = _context.Professores;
@@ -25,7 +25,6 @@ namespace Censo.API.Resultados
             var results = _context.ProfessorIES;
             return results;
     }
-
       
         
         
