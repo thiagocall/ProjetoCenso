@@ -1,0 +1,14 @@
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\bin\release\netcoreapp2.2\Censo.API.deps.json
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\bin\release\netcoreapp2.2\Censo.API.runtimeconfig.json
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\bin\release\netcoreapp2.2\Censo.API.runtimeconfig.dev.json
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\bin\release\netcoreapp2.2\Censo.API.dll
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\bin\release\netcoreapp2.2\Censo.API.pdb
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.csprojAssemblyReference.cache
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.csproj.CoreCompileInputs.cache
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.RazorAssemblyInfo.cache
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.RazorAssemblyInfo.cs
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.AssemblyInfoInputs.cache
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.AssemblyInfo.cs
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.RazorTargetAssemblyInfo.cache
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.dll
+C:\Users\thiago.caldas\Desktop\ProjetoCenso\Censo.API\obj\release\netcoreapp2.2\Censo.API.pdb
