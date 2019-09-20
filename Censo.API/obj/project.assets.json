@@ -12081,11 +12081,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\thiago.caldas\\Desktop\\ProjetoCenso\\Censo.API\\Censo.API.csproj",
+      "projectUniqueName": "c:\\Users\\thiago.caldas\\Desktop\\ProjetoCenso\\Censo.API\\Censo.API.csproj",
       "projectName": "Censo.API",
-      "projectPath": "C:\\Users\\thiago.caldas\\Desktop\\ProjetoCenso\\Censo.API\\Censo.API.csproj",
+      "projectPath": "c:\\Users\\thiago.caldas\\Desktop\\ProjetoCenso\\Censo.API\\Censo.API.csproj",
       "packagesPath": "C:\\Users\\thiago.caldas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\thiago.caldas\\Desktop\\ProjetoCenso\\Censo.API\\obj\\",
+      "outputPath": "c:\\Users\\thiago.caldas\\Desktop\\ProjetoCenso\\Censo.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
