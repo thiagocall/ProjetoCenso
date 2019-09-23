@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Location} from '@angular/common/';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
 // import { timingSafeEqual } from 'crypto';
 
@@ -8,8 +9,8 @@ import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http
   styleUrls: ['./app-corpo-docente.component.css']
 })
 export class AppCorpoDocenteComponent implements OnInit {
-  
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private Loc: Location) { }
   resultado: any;
   listaCampus: any;
   listaCursos: any;
@@ -24,27 +25,29 @@ export class AppCorpoDocenteComponent implements OnInit {
   professores: any;
   notaFaixa;
   pageOfItems: Array<any>;
-  
-  
+
+
   ngOnInit() {
+    const local = this.Loc.getState();
+    console.log(local);
     this.http.get('http://10.200.0.9/api/v1/dados').subscribe(
     response => {
       this.resultado = response;
       this.listaCampus = this.resultado.campus;
       this.listaCursos = this.resultado.cursos;
-      console.log(response);
+
     },
     error => {
       console.log(error);
     }
     );
   }
-  
+
   getCampus(codigo: string) {
     this.curso = this.listaCursos.filter(x => x.codCampus.toString() === codigo.toString());
     // this.curso = this.listaCursos;
   }
-  
+
   getInfoCurso(codigo: any) {
     this.professores = null;
     this.notaM = null;
@@ -52,19 +55,19 @@ export class AppCorpoDocenteComponent implements OnInit {
     this.notaR = null;
     this.notaFaixa = null;
     this.infoCurso = null;
-    
+
     this.http.get('http://10.200.0.9/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
     response => {
       this.errodados = false;
       this.infoCurso = null;
       this.infoCurso = response;
-      
+
       this.professores = this.infoCurso.cursoProfessor;
       this.notaM = this.infoCurso.notaM;
       this.notaD = this.infoCurso.notaD;
       this.notaR = this.infoCurso.notaR;
       this.notaFaixa = this.faixa();
-      
+
       // console.log(response);
     },
     error => {
@@ -73,9 +76,9 @@ export class AppCorpoDocenteComponent implements OnInit {
       console.log(error);
     }
     );
-    
+
   }
-  
+
   faixa(): number {
     const nota = (this.notaD * 2 + this.notaM + this.notaR) / 4;
     switch (true) {
@@ -92,7 +95,7 @@ export class AppCorpoDocenteComponent implements OnInit {
       break;
     }
   }
-  
+
   onChangePage(pageOfItems: Array<any>) {
     this.pageOfItems = pageOfItems;
   }
