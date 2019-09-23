@@ -28,9 +28,10 @@ export class AppCorpoDocenteComponent implements OnInit {
 
 
   ngOnInit() {
-    const local = this.Loc.getState();
-    console.log(local);
-    this.http.get('http://10.200.0.9/api/v1/dados').subscribe(
+    // const local = this.Loc.getState();
+    // console.log(local);
+    const local = 'http://10.200.0.9/api/v1/dados';
+    this.http.get(local).subscribe(
     response => {
       this.resultado = response;
       this.listaCampus = this.resultado.campus;
