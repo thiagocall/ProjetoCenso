@@ -3,7 +3,7 @@ import { NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
-import {JwPaginationComponent} from 'jw-angular-pagination';
+// import {JwPaginationComponent} from 'jw-angular-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
