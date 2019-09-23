@@ -1,0 +1,117 @@
+<div class="container">
+  <div class="row mt-5">
+    <div class="col-md-3">
+      <div class="card mb-2">
+        <div id ="cardhead"  class="card-header"><h5>Professores</h5></div>
+        <div class="card-body text-center" style="background-color:white;">
+          <h4 class="card-text" style="color: #040972">
+            <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
+            {{professores.qtdProfessores}}
+          </h4>
+          <small id="cardtail">Quantidade professores ativos</small>            
+        </div>
+        <!-- <div class="card-footer" *ngIf="professores">
+          <p>É o total de professores considerados </p> 
+        </div> -->
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card mb-2">
+        <div id ="cardhead" class="card-header"><h5>Doutores</h5></div>
+        <div class="card-body text-center" style="background-color:white">
+          <h4 id="ctest" class="card-text" style="color: #040972">
+            <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
+            {{professores.qtdDoutor}}
+          </h4>
+          <small id="cardtail">Professores titulados doutores </small>            
+        </div>
+        <!-- <div class="card-footer" *ngIf="professores">
+          <p>Professores titulados Doutores</p> 
+        </div> -->
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card mb-2">
+        <div id ="cardhead" class="card-header"><h5>Mestres</h5></div>
+        <div class="card-body text-center" style="background-color:white">
+          <h4 id="ctest" class="card-text" style="color: #040972">
+            <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
+            {{professores.qtdMestre}}
+          </h4>
+          <small id="cardtail">Professores titulados mestres</small>            
+        </div>
+        <!-- <div class="card-footer" *ngIf="professores">
+          <p>Professores titulados Mestres</p> 
+        </div> -->
+      </div>
+      
+    </div>
+    <div class="col-md-3">
+      <div class="card mb-2">
+        <div id ="cardhead" class="card-header"><h5>Especialistas</h5></div>
+        <div class="card-body text-center" style="background-color:white">
+          <h4  class="card-text" style="color: #040972">
+            <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
+            {{professores.qtdEspecialista}}
+          </h4>
+          <small id="cardtail">Professores com especialização</small>            
+        </div>
+        <!-- <div class="card-footer" *ngIf="professores">
+          <p>É o total de professores Especialistas(<i>lato senso</i>)</p>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  
+  <div class="container mt-5">
+      <h4>Informações Importantes</h4>
+      <hr>
+  </div>
+
+  <div id ="graficos" class="container">
+
+    
+    <div class="row mt-5 pb-4 pt-2">
+      
+      <div class="col md-6">
+        
+        <div class="container pt-5" *ngIf="professores">
+          <div style="display: block; width: 80%">
+              
+              <canvas baseChart
+              [datasets]=barChartData
+              [labels]=barChartLabels
+              [options]=barChartOptions
+              [legend]=barChartLegend
+              [chartType]=barChartType
+              [colors]=barChartColors>
+            </canvas>
+          </div>
+          
+        </div>
+      </div>
+      
+      <div class="col md-6">
+          <div class="container">
+            <div>
+              <div *ngIf="professores">
+                <div style="display: block">
+                    <canvas baseChart
+                    [datasets]=radarChartData
+                    [options]=radarChartOptions
+                    [labels]=radarChartLabels
+                    [chartType]=radarChartType
+                    [legend]=radarChartLegend>
+                    
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+       
+        
+      </div>
+    </div>
+    
+  </div>
+  </div>

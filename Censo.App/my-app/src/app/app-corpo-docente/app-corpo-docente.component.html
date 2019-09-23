@@ -1,0 +1,112 @@
+<div class="container mt-2 ml-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form">
+                <label for="campus">Campus</label>
+                <select class ="form-control ml-2" id="campus" [(ngModel)]="cod" (change)="getCampus(cod)">
+                    <option *ngFor="let item of listaCampus" [value]="item.codCampus">{{item.nomCampus + " - " + item.codCampus}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            
+            <div class="form" *ngIf="curso">
+                <label for="curso">Curso</label>
+                <select class ="form-control ml-2" id="curso" [(ngModel)]="codcurso" (change)="getInfoCurso(codcurso)">
+                    <option *ngFor="let item of curso" [value]="item.codEmec">{{item.nomCursoCenso  + " - " + item.codEmec}}</option>
+                </select>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container m-1">
+        <h4 class="mt-5">Score de Titulação e Regime Docente</h4>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="alert alert-warning mt-5" *ngIf="errodados">Ops! Não localizamos esses dados.</div>
+                <div class="container mt-3" *ngIf="infoCurso">
+                    <table class="table">
+                        <thead>
+                            <th>Titulacao/Regime</th>
+                            <th>Mínimo(0)</th>
+                            <th>Máximo(5)</th>
+                            <th>% Atual</th>
+                            <th>Nota Obtida</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Doutores</th>
+                                <td>{{(infoCurso.previsao.p_Min_Doutor * 100).toFixed(1) + '%'}}</td>
+                                <td>{{(infoCurso.previsao.p_Max_Doutor * 100).toFixed(1) + '%'}}</td>
+                                <td>{{(infoCurso.perc_D * 100).toFixed(1)  + '%'}}</td>
+                                <td>{{notaD.toFixed(2)}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Titulados</th>
+                                <td>{{(infoCurso.previsao.p_Min_Mestre * 100).toFixed(1) + '%'}}</td>
+                                <td>{{(infoCurso.previsao.p_Max_Mestre * 100).toFixed(1)  + '%'}}</td>
+                                <td>{{(infoCurso.perc_M * 100).toFixed(1)  + '%'}}</td>
+                                <td>{{notaM.toFixed(2)}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Regime TI + TP</th>
+                                <td>{{(infoCurso.previsao.p_Min_Regime * 100).toFixed(1) + '%'}}</td>
+                                <td>{{(infoCurso.previsao.p_Max_Regime * 100).toFixed(1) + '%'}}</td>
+                                <td>{{(infoCurso.perc_R * 100).toFixed(1)  + '%'}}</td>
+                                <td>{{notaR.toFixed(2)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="container">
+                        <hr>
+                        <h4>Nota Corpo Docente: {{notaFaixa}}</h4>
+                        <br/>
+                        <h4>Total de Professores: {{professores.length}}</h4>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </div>
+        
+        <!-- Large modal -->
+        <div class="container m-3" *ngIf="professores">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Ver professores</button>
+        </div>
+        
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Cabeçalho Modal</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container" *ngIf="professores">
+                            
+                            <table class="table">
+                                <thead>                      
+                                    
+                                    <th>Cpf</th>
+                                    <th>Titulacao</th>
+                                    <th>Regime</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of professores">
+                                        <td>{{item.cpfProfessor}}</td>
+                                        <td>{{item.titulacao}}</td>
+                                        <td>{{item.regime}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
