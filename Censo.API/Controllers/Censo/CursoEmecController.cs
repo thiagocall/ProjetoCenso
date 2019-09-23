@@ -95,7 +95,6 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-
         [HttpGet("Notas")]
         public ActionResult Notas(){
 

@@ -68,7 +68,6 @@
                 
             </div>
             
-            
         </div>
         
         <!-- Large modal -->
@@ -77,7 +76,7 @@
         </div>
         
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4>Cabeçalho Modal</h4>
@@ -96,7 +95,7 @@
                                     <th>Regime</th>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of pageOfItems">
+                                    <tr *ngFor="let item of professores">
                                         <td>{{item.cpfProfessor}}</td>
                                         <td>{{item.titulacao}}</td>
                                         <td>{{item.regime}}</td>

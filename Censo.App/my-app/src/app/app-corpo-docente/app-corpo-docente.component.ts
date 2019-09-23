@@ -17,7 +17,6 @@ export class AppCorpoDocenteComponent implements OnInit {
   curso: any;
   cod: any;
   codcurso: any;
-  infoCurso: any;
   errodados = false;
   notaM;
   notaD;
@@ -25,12 +24,13 @@ export class AppCorpoDocenteComponent implements OnInit {
   professores: any;
   notaFaixa;
   pageOfItems: Array<any>;
+  infoCurso: any;
 
 
   ngOnInit() {
     // const local = this.Loc.getState();
     // console.log(local);
-    const local = '10.200.0.9/api/v1/dados/';
+    const local = 'http://10.200.0.9/api/v1/dados/';
     this.http.get(local).subscribe(
     response => {
       this.resultado = response;
@@ -55,21 +55,18 @@ export class AppCorpoDocenteComponent implements OnInit {
     this.notaD = null;
     this.notaR = null;
     this.notaFaixa = null;
-    this.infoCurso = null;
 
-    this.http.get('http://10.200.0.9/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
+    this.http.get('http://localhost:5000/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
     response => {
       this.errodados = false;
-      this.infoCurso = null;
       this.infoCurso = response;
-
       this.professores = this.infoCurso.cursoProfessor;
       this.notaM = this.infoCurso.notaM;
       this.notaD = this.infoCurso.notaD;
       this.notaR = this.infoCurso.notaR;
       this.notaFaixa = this.faixa();
 
-      // console.log(response);
+      console.log(this.professores.length);
     },
     error => {
       this.errodados = true;

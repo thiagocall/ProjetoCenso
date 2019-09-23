@@ -22,7 +22,6 @@ import { AppDadosCensoComponent } from './app-dados-censo/app-dados-censo.compon
       ProfessorComponent,
       ProfessorIESComponent,
       ProfessorConsultaComponent,
-      JwPaginationComponent,
       AppCensoComponent,
       AppCorpoDocenteComponent,
       AppDadosCensoComponent
