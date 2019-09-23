@@ -145,7 +145,7 @@ namespace Censo.API.Controllers.Censo
                 var cursoEmec = cursoProfessor.First();
                 var Professores = cursoEmec.Professores;
 
-                 double qtdProf = Professores.Keys.Count();
+                double qtdProf = Professores.Keys.Count();
                 double qtdD = Professores.Where(x => x.Value.Titulacao == "DOUTOR")
                         .Count();
                 double qtdM = Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR")
@@ -164,22 +164,22 @@ namespace Censo.API.Controllers.Censo
                     var area1 = emec.CodArea;
                      //##### Previsão Doutor
                     
-                     var prev_minM = previsao.P_Min_Mestre;
-                     var prev_maxM= previsao.P_Max_Mestre;
+                    var prev_minM = previsao.P_Min_Mestre;
+                    var prev_maxM= previsao.P_Max_Mestre;
 
-                     var prev_minD = previsao.P_Min_Doutor;
-                     var prev_maxD= previsao.P_Max_Doutor;
+                    var prev_minD = previsao.P_Min_Doutor;
+                    var prev_maxD= previsao.P_Max_Doutor;
 
-                     var prev_minR = previsao.P_Min_Regime;
-                     var prev_maxR= previsao.P_Max_Regime;
+                    var prev_minR = previsao.P_Min_Regime;
+                    var prev_maxR= previsao.P_Max_Regime;
 
-                      notaM = (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
-                      notaD = (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
-                      notaR = (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));  
+                    notaM = (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
+                    notaD = (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
+                    notaR = (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));  
                     
                 }
         
-             return Ok(new {previsao, cursoProfessor = cursoEmec.Professores.Values.ToList(), perc_M, perc_D, perc_R, notaM, notaD, notaR});
+             return Ok(new {previsao, cursoProfessor = cursoEmec.Professores.Values.ToList(), perc_M, perc_D, perc_R, notaM, notaD, notaR, qtdD, qtdM, qtdR});
          }
 
         // ########## Monta a lista de cursos por professores ##########

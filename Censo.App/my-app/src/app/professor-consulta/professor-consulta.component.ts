@@ -10,7 +10,6 @@ export class ProfessorConsultaComponent implements OnInit {
 
   constructor(private http: HttpClient) {   }
 
-  pageOfItems: Array<any>;
   professores;
   public campo;
 
@@ -23,16 +22,11 @@ export class ProfessorConsultaComponent implements OnInit {
 
     response => {
       this.professores = response;
-      console.log(response);
     },
     error => {
       console.log(error);
     });
 
-  }
-
-  onChangePage(pageOfItems: Array<any>) {
-    this.pageOfItems = pageOfItems;
   }
 
 }

@@ -27,7 +27,7 @@
                     <div *ngIf='!professores.length' class="alert alert-danger mt-4" role="alert">
                         Não há professores nessa busca!
                     </div>
-                    <tr *ngFor="let item of pageOfItems">
+                    <tr *ngFor="let item of professores">
                         <td>{{item.nomProfessor}}</td>
                         <td>{{item.cpfProfessor}}</td>
                         <td>{{item.regime}}</td>

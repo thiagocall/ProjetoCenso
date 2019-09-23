@@ -66,7 +66,7 @@ namespace Censo.API.Controllers.Censo
             return Ok(results);
         
         }
-
+        
 
         //Curso Professor Emec
 

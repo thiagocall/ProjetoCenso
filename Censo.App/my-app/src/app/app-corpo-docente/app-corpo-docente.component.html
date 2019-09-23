@@ -32,6 +32,8 @@
                             <th>Máximo(5)</th>
                             <th>% Atual</th>
                             <th>Nota Obtida</th>
+                            
+
                         </thead>
                         <tbody>
                             <tr>
@@ -40,6 +42,7 @@
                                 <td>{{(infoCurso.previsao.p_Max_Doutor * 100).toFixed(1) + '%'}}</td>
                                 <td>{{(infoCurso.perc_D * 100).toFixed(1)  + '%'}}</td>
                                 <td>{{notaD.toFixed(2)}}</td>
+                                <td>{{infoCurso.qtdD}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Titulados</th>
@@ -47,6 +50,7 @@
                                 <td>{{(infoCurso.previsao.p_Max_Mestre * 100).toFixed(1)  + '%'}}</td>
                                 <td>{{(infoCurso.perc_M * 100).toFixed(1)  + '%'}}</td>
                                 <td>{{notaM.toFixed(2)}}</td>
+                                <td>{{infoCurso.qtdM}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Regime TI + TP</th>
@@ -54,14 +58,13 @@
                                 <td>{{(infoCurso.previsao.p_Max_Regime * 100).toFixed(1) + '%'}}</td>
                                 <td>{{(infoCurso.perc_R * 100).toFixed(1)  + '%'}}</td>
                                 <td>{{notaR.toFixed(2)}}</td>
+                                <td>{{infoCurso.qtdR}}</td>
                             </tr>
                         </tbody>
                     </table>
                     <div class="container">
                         <hr>
                         <h4>Nota Corpo Docente: {{notaFaixa}}</h4>
-                        <br/>
-                        <h4>Total de Professores: {{professores.length}}</h4>
                     </div>
                     
                 </div>

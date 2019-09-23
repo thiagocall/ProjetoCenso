@@ -3,6 +3,7 @@ import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import { Dados } from 'src/app/dados';
 import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
+import { R3TargetBinder } from '@angular/compiler';
 
 
 @Component({
@@ -38,24 +39,37 @@ export class ProfessorComponent implements OnInit {
   public barChartLegend = false;
   public barChartData: any[];
 
-  public radarChartOptions: RadialChartOptions = {
+  public radarChartOptions = {
     responsive: true,
     title: {
       display: true,
-      text: 'Distribuição de Professores'
-    }
+      text: 'Distribuição de Professores (%)'
+    },
+    elements  : {
+      line: {
+        tension: 0,
+        borderWidth: 2
+      }
+    },
+    tooltips: {
+      enabled: true,
+      callbacks: {
+          label: function( tooltipItem, data) {
+            return data.datasets[tooltipItem.datasetIndex].label + ' : ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          }
+      }
+  }
   };
-  public radarChartLabels: Label[] = ['Doutores',
-                                      'Mestres + Doutores',
-                                      'Regime Tempo Integral',
-                                      'Regime Tempo Integral + Parcial',
-                                      'CHZ/Afastado'];
+  public radarChartLabels = ['Doutores',
+                              'Titulados',
+                              'Regime Tempo Integral',
+                              'Regime Tempo Integral + Parcial',
+                              'Especialista'];
 
-  public radarChartData: ChartDataSets[] = [
-    { data: [65, 59, 70, 81, 20] }
-  ];
-  public radarChartType: ChartType = 'radar';
+  public radarChartData: any[];
+  public radarChartType = 'radar';
   public radarChartLegend = false;
+  public radarChartColor = [{backgroundColor: 'rgba(30,184,222,0.4)', borderColor: 'rgba(30,184,222,0.9)'}];
 
   ngOnInit() {
 
@@ -74,7 +88,28 @@ export class ProfessorComponent implements OnInit {
           this.barChartData =  [{data: [ this.professores.qtdTempoIntegral,
                                           this.professores.qtdTempoParcial,
                                           this.professores.qtdHorista], label: 'Qtd Professores'}];
-      });
+          // this.professores.qtdDoutor / this.professores.qtdProfessores * 100
+          this.radarChartData = [{
+            label: '% Professores',
+            color: 'rgb(255, 255, 0)',
+            data: [ (this.professores.qtdDoutor / this.professores.qtdProfessores * 100).toFixed(2),
+                                         ((this.professores.qtdMestre + this.professores.qtdDoutor) /
+                                         this.professores.qtdProfessores * 100).toFixed(2),
+                                         (this.professores.qtdTempoIntegral /
+                                         this.professores.qtdProfessores * 100).toFixed(2),
+                                         (this.professores.qtdRegime /
+                                         this.professores.qtdProfessores * 100).toFixed(2),
+                                         (this.professores.qtdEspecialista /
+                                          this.professores.qtdProfessores * 100).toFixed(2) ],
+                                         fill: true,
+                                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                         borderColor: 'rgb(54, 162, 235)',
+                                         pointBackgroundColor: 'rgb(54, 162, 235)',
+                                          }
+                                          ];
+
+
+                                });
 
       }
 

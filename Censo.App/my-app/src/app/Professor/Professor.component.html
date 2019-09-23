@@ -69,6 +69,9 @@
   </div>
 
   <div id ="graficos" class="container">
+    <div *ngIf="!professores" class="container text-center mt-5">
+      <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
+    </div>
 
     
     <div class="row mt-5 pb-4 pt-2">
@@ -97,11 +100,12 @@
               <div *ngIf="professores">
                 <div style="display: block">
                     <canvas baseChart
-                    [datasets]=radarChartData
-                    [options]=radarChartOptions
                     [labels]=radarChartLabels
+                    [datasets]=radarChartData
+                    [legend]=radarChartLegend
                     [chartType]=radarChartType
-                    [legend]=radarChartLegend>
+                    [options]=radarChartOptions
+                    [colors]=radarChartColor>
                     
                   </canvas>
                 </div>

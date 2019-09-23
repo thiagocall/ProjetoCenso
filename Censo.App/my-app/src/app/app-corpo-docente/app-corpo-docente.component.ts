@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common/';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
+import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 // import { timingSafeEqual } from 'crypto';
 
 @Component({
@@ -21,6 +22,9 @@ export class AppCorpoDocenteComponent implements OnInit {
   notaM;
   notaD;
   notaR;
+  qtdM;
+  qtdD;
+  qtdR;
   professores: any;
   notaFaixa;
   pageOfItems: Array<any>;
@@ -28,11 +32,10 @@ export class AppCorpoDocenteComponent implements OnInit {
 
 
   ngOnInit() {
-    // const local = this.Loc.getState();
-    // console.log(local);
-    const local = 'http://10.200.0.9/api/v1/dados/';
-    this.http.get(local).subscribe(
-    response => {
+
+
+    this.http.get('http://10.200.0.9/api/v1/dados/').subscribe(
+      response => {
       this.resultado = response;
       this.listaCampus = this.resultado.campus;
       this.listaCursos = this.resultado.cursos;
@@ -56,7 +59,7 @@ export class AppCorpoDocenteComponent implements OnInit {
     this.notaR = null;
     this.notaFaixa = null;
 
-    this.http.get('http://localhost:5000/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
+    this.http.get('http://10.200.0.9/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
     response => {
       this.errodados = false;
       this.infoCurso = response;
@@ -64,9 +67,13 @@ export class AppCorpoDocenteComponent implements OnInit {
       this.notaM = this.infoCurso.notaM;
       this.notaD = this.infoCurso.notaD;
       this.notaR = this.infoCurso.notaR;
-      this.notaFaixa = this.faixa();
+      this.qtdM = this.infoCurso.qtdM;
+      this.qtdD = this.infoCurso.qtdD;
+      this.qtdR = this.infoCurso.qtdR;
 
-      console.log(this.professores.length);
+      this.notaFaixa = this.faixa();
+      console.log(response);
+
     },
     error => {
       this.errodados = true;
