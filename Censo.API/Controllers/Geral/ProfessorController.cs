@@ -19,10 +19,13 @@ namespace Censo.API.Controllers
         public ProfessorContext context;
         public RegimeContext regContext;
 
-        public ProfessorController(ProfessorContext Context,RegimeContext RegContext)
+        public ProfessorMatriculaContext MatriculaContext;
+
+        public ProfessorController(ProfessorContext Context,RegimeContext RegContext, ProfessorMatriculaContext _matContext)
         {
             this.context = Context;
             this.regContext = RegContext;
+            this.MatriculaContext = _matContext;
 
         }
         
@@ -42,8 +45,12 @@ namespace Censo.API.Controllers
                       dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
                     }
                     );
-                
+
                     Task.WaitAll(task1);
+                    
+                    
+                
+
                     var results =  await Professores.getProfessores(context).ToListAsync();
 
                         foreach (var item in results)
@@ -58,6 +65,7 @@ namespace Censo.API.Controllers
                                 item.regime = "CHZ/AFASTADO";
                             }
                         }
+
                      
                     var qtdProfessores = results.Count();
                     var qtdDoutor = results.Where(x => x.Titulacao == "DOUTOR").Count();
@@ -93,6 +101,12 @@ namespace Censo.API.Controllers
         [HttpGet("Lista")]
         public async Task<IActionResult> ListaProfessores()
         {
+
+                List<ProfessorMatricula> matricula;
+                Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+
+                var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+
                 
                 Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             
@@ -105,8 +119,11 @@ namespace Censo.API.Controllers
                       dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
                     }
                     );
-                
+
                     Task.WaitAll(task1);
+
+                    matricula = await mat;
+
                     var results =  await Professores.getProfessores(context).ToListAsync();
 
                         foreach (var item in results)
@@ -120,14 +137,23 @@ namespace Censo.API.Controllers
                             {
                                 item.regime = "CHZ/AFASTADO";
                             }
+
+                            if (matricula.Where(x => x.cpfProfessor.ToString() == item.CpfProfessor).Count() > 0)
+                            {
+                                
+                                DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == item.CpfProfessor).Min(d => d.dtAdmissao);
+
+                                item.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
+
+                            }
                         }
 
                   return Ok(results);
                     
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta."  + e.Message);
                 }
     
 
