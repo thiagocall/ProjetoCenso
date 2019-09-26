@@ -21,13 +21,21 @@ export class AppDadosCensoComponent implements OnInit {
 
   }
 
+  Restaurar() {
+
+    this.parametro = new Parametro();
+
+  }
+
+
 
   Otimizar() {
 
-    this.http.post('http://10.200.0.9/api/v1/censo/CursoEmec/Otimizar', this.parametro).subscribe(
-      response => { console.log(response);
+    this.http.post('http://localhost:5000/api/v1/censo/CursoEmec/Otimizar', this.parametro).subscribe(
+      response => { console.log(this.parametro);
+
       },
-      error => { console.log(error);
+      error => {console.log(error);
       }
     );
   }
@@ -38,20 +46,20 @@ export class AppDadosCensoComponent implements OnInit {
 class Parametro {
   constructor() {
 
-  this.DTI = true;
-  this.DTP = true;
-  this.DH = true;
-  this.MTI = true;
-  this.MTP = true;
-  this.MH = true;
-  this.ETI = true;
-  this.ETP = true;
-  this.EH = false;
-  this.Perclimite = 15;
-  this.otimiza20p = true;
-  this.usoProfessor = 10;
-  this.usoProfessorGeral = 15;
-  this.PercReduProf = 20;
+      this.DTI = true;
+      this.DTP = true;
+      this.DH = true;
+      this.MTI = true;
+      this.MTP = true;
+      this.MH = true;
+      this.ETI = true;
+      this.ETP = true;
+      this.EH = false;
+      this.Perclimite = 15;
+      this.otimiza20p = true;
+      this.usoProfessor = 10;
+      this.usoProfessorGeral = 15;
+      this.PercReduProf = 20;
 
   }
 

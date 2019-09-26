@@ -7,6 +7,7 @@ using Censo.API.Data.Censo;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Parametros;
+using Censo.API.Resultados;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,15 +24,21 @@ namespace Censo.API.Controllers.Censo
         public ProfessorIESContext ProfContext { get; }
         public CensoContext Context { get; }
 
+        public CursoEnquadramentoContext CursoEnquadramentoContext;
+
+        public IOtimizacao Otm {get;}
+
         public Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
 
         // public CursoCensoContext CursoCensoContext { get; set; }
         
-        public CursoEmecController(CensoContext _context, ProfessorIESContext _profcontext, IConfiguration _configuration)
+        public CursoEmecController(CensoContext _context, ProfessorIESContext _profcontext, IConfiguration _configuration, IOtimizacao _otm, CursoEnquadramentoContext _cursoEnquadContext)
         {
             this.Context = _context;
             this.ProfContext = _profcontext;
             this.Configuration = _configuration;
+            this.CursoEnquadramentoContext = _cursoEnquadContext;
+            this.Otm = _otm;
         }    
 
         [HttpGet("geraPrevisao/{id}/{tipo}")]
@@ -126,7 +133,6 @@ namespace Censo.API.Controllers.Censo
             var query = await this.Context.ProfessorCursoEmec
                                 .Where(x => x.CodEmec == codCurso ).ToListAsync();
 
-            
             //var area = emec.FirstOrDefault(x => x.CodEmec == codCurso);
 
             Task<Dictionary<long?, PrevisaoSKU>> task1 = Task.Factory.StartNew(
@@ -134,6 +140,7 @@ namespace Censo.API.Controllers.Censo
                         return GeraListaPrevisaoSKU();
                 }
             );
+
             ListaPrevisaoSKU = await task1;
             var emec = this.Context.CursoCenso.Where(c => c.CodEmec == codCurso).First();
             var previsao = ListaPrevisaoSKU[emec.CodArea];
@@ -145,12 +152,12 @@ namespace Censo.API.Controllers.Censo
                 var cursoEmec = cursoProfessor.First();
                 var Professores = cursoEmec.Professores;
 
-                double qtdProf = Professores.Keys.Count();
-                double qtdD = Professores.Where(x => x.Value.Titulacao == "DOUTOR")
+                double qtdProf = Professores.Count();
+                double qtdD = Professores.Where(x => x.Titulacao == "DOUTOR")
                         .Count();
-                double qtdM = Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR")
+                double qtdM = Professores.Where(x => x.Titulacao == "MESTRE" | x.Titulacao == "DOUTOR")
                         .Count();
-                double qtdR = Professores.Where(x => x.Value.Regime == "TEMPO INTEGRAL" | x.Value.Regime == "TEMPO PARCIAL")
+                double qtdR = Professores.Where(x => x.Regime == "TEMPO INTEGRAL" | x.Regime == "TEMPO PARCIAL")
                         .Count();
 
                 double perc_D = qtdD / qtdProf;
@@ -179,7 +186,7 @@ namespace Censo.API.Controllers.Censo
                     
                 }
         
-             return Ok(new {previsao, cursoProfessor = cursoEmec.Professores.Values.ToList(), perc_M, perc_D, perc_R, notaM, notaD, notaR, qtdD, qtdM, qtdR});
+             return Ok(new {previsao, cursoProfessor = cursoEmec.Professores.ToList(), perc_M, perc_D, perc_R, notaM, notaD, notaR, qtdD, qtdM, qtdR});
          }
 
         // ########## Monta a lista de cursos por professores ##########
@@ -192,26 +199,31 @@ namespace Censo.API.Controllers.Censo
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
 
+            var CursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToDictionary(x=> x.codEmec);
+
+
             foreach (var res in query)
             {
                 // Filtra parâmtetro indGraduacao
-                if ((res.Titulacao != "GRADUADO" | ParametrosFiltro.indGraduado) & res.Titulacao != null ) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
+                if (res.Titulacao != null ) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
                 {
                     
                     if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
                     {
                         CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
+                        prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].codArea : 9999;
 
-                        if (!prof.Professores.ContainsKey(res.CpfProfessor))
+                        if (prof.Professores.Where(x => x.cpfProfessor == res.CpfProfessor).Count() == 0)
                         {
-                            ProfessorEmec pr = new ProfessorEmec{
+                                ProfessorEmec pr = new ProfessorEmec{
                                 cpfProfessor = res.CpfProfessor,
                                 Ativo = res.IndAtivo,
                                 Regime = res.Regime,
                                 Titulacao = res.Titulacao
+                                
                             };
                             //prof.Professores = new Dictionary<long, ProfessorEmec>();
-                            prof.Professores.Add(pr.cpfProfessor, pr);
+                            prof.Professores.Add(pr);
                         }
 
                     }
@@ -219,14 +231,14 @@ namespace Censo.API.Controllers.Censo
                     {
                         CursoProfessor prof = new CursoProfessor();
                         prof.CodEmec = res.CodEmec;
-                        prof.Professores = new  Dictionary<long, ProfessorEmec>();
+                        prof.Professores = new  List<ProfessorEmec>();
                         ProfessorEmec pr = new ProfessorEmec{
                                 cpfProfessor = res.CpfProfessor,
                                 Ativo = res.IndAtivo,
                                 Regime = res.Regime,
                                 Titulacao = res.Titulacao
                             };
-                        prof.Professores.Add(pr.cpfProfessor, pr);
+                        prof.Professores.Add(pr);
                         cursoProfessor.Add(prof);
 
                     }
@@ -396,7 +408,7 @@ namespace Censo.API.Controllers.Censo
         }
 
         //#################### Gera notas para cursos #####################
-        private object getNotaCursos() 
+        private dynamic getNotaCursos() 
         {
 
             var query = this.Context.ProfessorCursoEmec.ToList();
@@ -419,11 +431,11 @@ namespace Censo.API.Controllers.Censo
             {   
                 double qtdProf = item.Professores
                         .Count();
-                double qtdD = item.Professores.Where(x => x.Value.Titulacao == "DOUTOR")
+                double qtdD = item.Professores.Where(x => x.Titulacao == "DOUTOR")
                         .Count();
-                double qtdM = item.Professores.Where(x => x.Value.Titulacao == "MESTRE" | x.Value.Titulacao == "DOUTOR")
+                double qtdM = item.Professores.Where(x => x.Titulacao == "MESTRE" | x.Titulacao == "DOUTOR")
                         .Count();
-                double qtdR = item.Professores.Where(x => x.Value.Regime == "TEMPO INTEGRAL" | x.Value.Regime == "TEMPO PARCIAL")
+                double qtdR = item.Professores.Where(x => x.Regime == "TEMPO INTEGRAL" | x.Regime == "TEMPO PARCIAL")
                         .Count();
 
                 double perc_D = qtdD / qtdProf;
@@ -470,28 +482,29 @@ namespace Censo.API.Controllers.Censo
             }
 
                 //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
-                var result = cursoProfessor.Select( x => new{ x.CodEmec, 
-                                                              x.Nota_Mestre,
-                                                              x.Nota_Doutor,
-                                                              x.Nota_Regime,
-                                                              Mestres = x.Professores
-                                                                        .Where(p => p.Value.Titulacao == "MESTRE" || p.Value.Titulacao == "DOUTOR" )
-                                                                        .Count(),
-                                                              QtdProfessores = x.Professores.Count(),
-                                                              doutores = x.Professores
-                                                                        .Where(p => p.Value.Titulacao == "DOUTOR").Count(),
-                                                              cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).CodArea,
-                                                              cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).NomCursoCenso,
-                                                              Professores = x.Professores,
-                                                              })
-                                                            .ToList();
+                var result = cursoProfessor
+                                .Select( x => new{ x.CodEmec, 
+                                            x.Nota_Mestre,
+                                            x.Nota_Doutor,
+                                            x.Nota_Regime,
+                                            Mestres = x.Professores
+                                                    .Where(p => p.Titulacao == "MESTRE" || p.Titulacao == "DOUTOR" )
+                                                    .Count(),
+                                            QtdProfessores = x.Professores.Count(),
+                                            doutores = x.Professores
+                                                    .Where(p => p.Titulacao == "DOUTOR").Count(),
+                                            cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).CodArea,
+                                            cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).NomCursoCenso,
+                                            // Professores = x.Professores,
+                                            })
+                                        .ToList();
 
             return result;
 
         }
 
-
-        private double? N_Escala(double? lim_min, double? lim_max, double? percent){
+        private double? N_Escala(double? lim_min, double? lim_max, double? percent)
+        {
 
             double? n;
 
@@ -524,20 +537,41 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-
-
-
-
-
          #region httpVerbs
         // POST api/values
         [HttpPost("Otimizar")]
-        public ActionResult Post([FromBody] dynamic _formulario)
+        public async Task<IActionResult> Otimizar([FromBody] ParametrosCenso _formulario)
         {
-            return Ok(_formulario);
+            try
+            {       
 
-            
+                var query = this.Context.ProfessorCursoEmec.ToListAsync();
+
+                var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
+
+                var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
+
+                var CursoProfessor = MontaCursoProfessor(await query);
+
+                // // Obtem lista dos professores escolhidos no filtro
+                var lista = _formulario.MontaLista();
+
+                var CursoNota = getNotaCursos();
+
+                var a = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, CursoProfessor, await ListaCursoArea);
+
+                return Ok(a);
+
+
+            }
+            catch (System.Exception e)
+            {
+                
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+
         }
+
 
         // PUT api/values/5
         [HttpPut("{id}")]

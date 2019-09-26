@@ -7,6 +7,7 @@ using Censo.API.Data.Censo;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Model.dados;
+using Censo.API.Resultados;
 //using Censo.API.ModelTeste;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,8 @@ namespace Censo.API
             services.AddDbContext<ProfessorContratoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<dadosContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorMatriculaContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<CursoEnquadramentoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IOtimizacao, Otimizacao>();
             services.AddCors();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
