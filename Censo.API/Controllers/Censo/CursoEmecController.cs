@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -56,7 +57,6 @@ namespace Censo.API.Controllers.Censo
             return Ok(results);
 
            //var results = GeraPrevisao(id);
-
         }
 
 
@@ -558,7 +558,7 @@ namespace Censo.API.Controllers.Censo
 
                 var CursoNota = getNotaCursos();
 
-                var a = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, CursoProfessor, await ListaCursoArea);
+                var a = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, CursoProfessor, await ListaCursoArea, _formulario);
 
                 return Ok(a);
 

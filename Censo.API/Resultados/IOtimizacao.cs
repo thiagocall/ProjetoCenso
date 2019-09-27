@@ -11,16 +11,21 @@ namespace Censo.API.Resultados
          dynamic OtimizaCurso(Dictionary<long?, PrevisaoSKU> _dicPrevisao,
                               List<ProfessorCursoEmec> _professorEmec,
                               List<CursoProfessor> _listaProfessor,
-                              List<CursoEnquadramento> _listaCursoEnquadramento);
-        dynamic CalculaNotaCursos(List<ProfessorCursoEmec> _listaProfessorEmec,
-                                         Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU,
-                                         List<CursoProfessor> _listaCursoProfessor
-                                            );
+                              List<CursoEnquadramento> _listaCursoEnquadramento,
+                              ParametrosCenso _parametros);
+        dynamic CalculaNotaCursos(Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor);
+
         double? N_Escala(double? lim_min, double? lim_max, double? percent);
 
+
+        double? CalculaNota(CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, string _regime, string _titulacao, int _indMovimento);
+
+        bool RemoveProfessor(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof );
+
+        void AddProfessor(CursoProfessor _cursoProfessor);
+
+
     }
-
-
 
 
 }

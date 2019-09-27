@@ -32,7 +32,7 @@ export class AppDadosCensoComponent implements OnInit {
   Otimizar() {
 
     this.http.post('http://localhost:5000/api/v1/censo/CursoEmec/Otimizar', this.parametro).subscribe(
-      response => { console.log(this.parametro);
+      response => { console.log(response);
 
       },
       error => {console.log(error);
