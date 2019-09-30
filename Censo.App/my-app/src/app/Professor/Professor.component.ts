@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
 import { Color, BaseChartDirective, Label } from 'ng2-charts';
 import { Dados } from 'src/app/dados';
 import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
 import { R3TargetBinder } from '@angular/compiler';
+import { ProfessorService } from '../_services/professor.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class ProfessorComponent implements OnInit {
 
   dados: Dados;
 
-  constructor(private http: HttpClient) {}
+  constructor(private professorService: ProfessorService) {}
 
   public barChartOptions = {
     scaleShowVerticalLines: false,
@@ -77,7 +77,7 @@ export class ProfessorComponent implements OnInit {
   }
 
   getProfessores() {
-      this.http.get('http://10.200.0.9/api/Professor')
+      this.professorService.getProfessores()
       .subscribe(
         response => {
           this.professores = response;

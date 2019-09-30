@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
+import { ProfessorService } from '../_services/professor.service';
 
 @Component({
   selector: 'app-professor-consulta',
@@ -8,7 +9,7 @@ import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http
 })
 export class ProfessorConsultaComponent implements OnInit {
 
-  constructor(private http: HttpClient) {   }
+  constructor(private professorService: ProfessorService) {   }
 
   professores;
   public campo;
@@ -18,7 +19,7 @@ export class ProfessorConsultaComponent implements OnInit {
 
   buscarProfessores() {
 
-    this.http.get('http://10.200.0.9/api/Professor/Busca/' + this.campo).subscribe(
+    this.professorService.buscarProfessores(this.campo).subscribe(
 
     response => {
       this.professores = response;

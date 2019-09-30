@@ -263,9 +263,7 @@ namespace Censo.API.Resultados
 
             var notaNova = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao, -1);
 
-
             var qtdProf =  _cursoProfessor.Professores.Count();
-
 
             if (notaNova >= notaAnt & qtdCursos > 2 & qtdProf > 2)
             {

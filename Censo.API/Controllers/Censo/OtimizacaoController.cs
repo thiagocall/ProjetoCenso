@@ -16,6 +16,7 @@ namespace Censo.API.Controllers.Censo
         public OtimizacaoController(CensoContext _context)
         {
             this.Context = _context;
+            this.Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         // public async List<string> getProfessorCurso() {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common/';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
 import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
+import { ProfessorService } from '../_services/professor.service';
 // import { timingSafeEqual } from 'crypto';
 
 @Component({
@@ -11,7 +12,7 @@ import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/templa
 })
 export class AppCorpoDocenteComponent implements OnInit {
 
-  constructor(private http: HttpClient, private Loc: Location) { }
+  constructor(private professorService: ProfessorService, private Loc: Location) { }
   resultado: any;
   listaCampus: any;
   listaCursos: any;
@@ -34,7 +35,7 @@ export class AppCorpoDocenteComponent implements OnInit {
   ngOnInit() {
 
 
-    this.http.get('http://10.200.0.9/api/v1/dados/').subscribe(
+    this.professorService.getDados().subscribe(
       response => {
       this.resultado = response;
       this.listaCampus = this.resultado.campus;
@@ -59,7 +60,7 @@ export class AppCorpoDocenteComponent implements OnInit {
     this.notaR = null;
     this.notaFaixa = null;
 
-    this.http.get('http://10.200.0.9/api/v1/censo/cursoEmec/obterInfoCurso/' + codigo).subscribe(
+    this.professorService.getInfoCurso(codigo).subscribe(
     response => {
       this.errodados = false;
       this.infoCurso = response;

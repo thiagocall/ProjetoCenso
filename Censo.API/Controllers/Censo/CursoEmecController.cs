@@ -40,6 +40,9 @@ namespace Censo.API.Controllers.Censo
             this.Configuration = _configuration;
             this.CursoEnquadramentoContext = _cursoEnquadContext;
             this.Otm = _otm;
+            this.Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.ProfContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.CursoEnquadramentoContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }    
 
         [HttpGet("geraPrevisao/{id}/{tipo}")]

@@ -21,6 +21,7 @@ namespace Censo.API.Controllers.Censo
         public CursoCensoController(CensoContext context)
         {
             this.Context = context;
+            this.Context.ChangeTracker.QueryTrackingBehavior= QueryTrackingBehavior.NoTracking;
         }
        
         [HttpGet]
@@ -28,7 +29,8 @@ namespace Censo.API.Controllers.Censo
         {
             var query = await this.Context.ProfessorCursoCenso.ToListAsync();
 
-                var results = query.Select(x => new 
+                var results = query
+                    .Select(x => new 
                                     {   CpfProfessor = x.CpfProfessor, 
                                         CodIes = x.CodIes,
                                         CodCampus = x.CodCampus,
@@ -63,6 +65,7 @@ namespace Censo.API.Controllers.Censo
                                         NumHabilitacao = x.NumHabilitacao
                                         }).Where(c => c.CodCampus == id).ToList();
 
+
             return Ok(results);
         
         }
@@ -76,7 +79,8 @@ namespace Censo.API.Controllers.Censo
             var query = this.Context.ProfessorCursoCenso.ToList();
 
                 var results = query.Select(x => new 
-                                    {   CpfProfessor = x.CpfProfessor, 
+                                    {   
+                                        CpfProfessor = x.CpfProfessor, 
                                         CodIes = x.CodIes,
                                         CodCampus = x.CodCampus,
                                         CodCurso = x.CodCurso,
@@ -86,9 +90,6 @@ namespace Censo.API.Controllers.Censo
             return Ok(results);
             
         }
-
-
-
 
         // POST api/values
         [HttpPost]

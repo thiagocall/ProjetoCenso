@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpBackend } from '@angular/common/http';
-import {HttpClient} from '@angular/common/http';
+import { OtimizacaoService } from '../_services/otimizacao.service';
 
 @Component({
   selector: 'app-app-dados-censo',
@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppDadosCensoComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private otmService: OtimizacaoService) { }
 
   public parametro: Parametro;
 
@@ -28,10 +28,9 @@ export class AppDadosCensoComponent implements OnInit {
   }
 
 
-
   Otimizar() {
 
-    this.http.post('http://localhost:5000/api/v1/censo/CursoEmec/Otimizar', this.parametro).subscribe(
+    this.otmService.Otimizar(this.parametro).subscribe(
       response => { console.log(response);
 
       },
