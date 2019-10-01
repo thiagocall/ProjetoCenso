@@ -14,6 +14,8 @@ export class AppDadosCensoComponent implements OnInit {
 
   public parametro: Parametro;
 
+  statusPop: boolean;
+
   ngOnInit() {
     this.parametro = new Parametro();
   }
@@ -33,13 +35,15 @@ export class AppDadosCensoComponent implements OnInit {
 
     this.otmService.Otimizar(this.parametro).subscribe(
       response => { console.log(response);
+      alert('Otimização concluída!');
+      this.statusPop = true;
 
       },
       error => {console.log(error);
       }
     );
   }
-  
+
 
 }
 

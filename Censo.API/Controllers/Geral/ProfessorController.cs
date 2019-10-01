@@ -26,6 +26,10 @@ namespace Censo.API.Controllers
             this.context = Context;
             this.regContext = RegContext;
             this.MatriculaContext = _matContext;
+            this.context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.regContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.MatriculaContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            
 
         }
         
