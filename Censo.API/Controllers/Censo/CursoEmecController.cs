@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -634,12 +633,6 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-
-
-
-
-
-   
 
 
 }

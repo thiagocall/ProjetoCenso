@@ -14,6 +14,10 @@ import { ProfessorConsultaComponent } from './professor-consulta/professor-consu
 import { AppCensoComponent } from './app-censo/app-censo.component';
 import { AppCorpoDocenteComponent } from './app-corpo-docente/app-corpo-docente.component';
 import { AppDadosCensoComponent } from './app-dados-censo/app-dados-censo.component';
+import { PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEncontrada.component';
+import { AppHomeComponent } from './app-home/app-home.component';
+import { AppFooterComponent } from './app-footer/app-footer.component';
+import { AppComposicaoComponent } from './app-composicao/app-composicao.component';
 
 @NgModule({
    declarations: [
@@ -24,7 +28,11 @@ import { AppDadosCensoComponent } from './app-dados-censo/app-dados-censo.compon
       ProfessorConsultaComponent,
       AppCensoComponent,
       AppCorpoDocenteComponent,
-      AppDadosCensoComponent
+      AppDadosCensoComponent,
+      PaginaNaoEncontradaComponent,
+      AppHomeComponent,
+      AppFooterComponent,
+      AppComposicaoComponent
    ],
    imports: [
       BrowserModule,

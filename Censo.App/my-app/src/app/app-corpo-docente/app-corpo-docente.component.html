@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form">
-                <label for="campus">Campus</label>
+                <label for="campus"><b>Campus</b></label>
                 <select class ="form-control ml-2" id="campus" [(ngModel)]="cod" (change)="getCampus(cod)">
                     <option *ngFor="let item of listaCampus" [value]="item.codCampus">{{item.nomCampus + " - " + item.codCampus}}</option>
                 </select>
@@ -11,7 +11,7 @@
         <div class="col-md-6">
             
             <div class="form" *ngIf="curso">
-                <label for="curso">Curso</label>
+                <label for="curso"><b>Curso</b></label>
                 <select class ="form-control ml-2" id="curso" [(ngModel)]="codcurso" (change)="getInfoCurso(codcurso)">
                     <option *ngFor="let item of curso" [value]="item.codEmec">{{item.nomCursoCenso  + " - " + item.codEmec}}</option>
                 </select>
@@ -23,7 +23,7 @@
         <h4 class="mt-5">Score de Titulação e Regime Docente</h4>
         <div class="row">
             <div class="col-md-7">
-                <div class="alert alert-warning mt-5" *ngIf="errodados">Ops! Não localizamos esses dados.</div>
+                <div class="alert alert-warning mt-5 card1" *ngIf="errodados">Ops! Não localizamos esses dados.</div>
                 <div class="container mt-3" *ngIf="infoCurso">
                     <table class="table">
                         <thead>

@@ -7,19 +7,22 @@ import {ProfessorConsultaComponent} from './professor-consulta/professor-consult
 import {AppCensoComponent } from './app-censo/app-censo.component';
 import {AppCorpoDocenteComponent  } from './app-corpo-docente/app-corpo-docente.component';
 import {AppDadosCensoComponent  } from './app-dados-censo/app-dados-censo.component';
+import { PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEncontrada.component';
+import {AppHomeComponent  } from './app-home/app-home.component';
+import {AppComposicaoComponent} from './app-composicao/app-composicao.component';
 
 
 const routes: Routes = [
 
-  // {path: '', redirectTo: 'localhost:4200'},
   {path: 'Professor', component: ProfessorComponent },
   {path: 'ProfessorIES', component: ProfessorIESComponent },
   {path: 'ProfessorConsulta', component: ProfessorConsultaComponent },
   {path: 'Censo', component: AppCensoComponent },
   {path: 'CorpoDocente', component: AppCorpoDocenteComponent },
   {path: 'DadosCenso', component: AppDadosCensoComponent },
-
-  // {path: '**', component: PageNotFoundComponent}
+  {path: 'ComposicaoProfessor', component: AppComposicaoComponent },
+  {path: '',   component: AppHomeComponent},
+  {path: '**', component: PaginaNaoEncontradaComponent},
 
 ];
 

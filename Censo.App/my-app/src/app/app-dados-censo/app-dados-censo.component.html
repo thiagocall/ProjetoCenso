@@ -112,7 +112,7 @@
                                     <label class="custom-control-label" for="customSwitch1">Otimizar Prof 20%</label>
                                 </div>
                                 
-                                <div class="mt-2" *ngIf="parametro.otimiza20p">    
+                                <div id ="limite" class="mt-2" *ngIf="parametro.otimiza20p">    
                                     <label for="RngLim20P">% Limite: {{parametro.Perclimite}}</label>
                                     <input type="range" class="custom-range" id="RngLim20P" [(ngModel)]="parametro.Perclimite">
                                 </div>

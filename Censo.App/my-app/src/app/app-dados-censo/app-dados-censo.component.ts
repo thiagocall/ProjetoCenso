@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpBackend } from '@angular/common/http';
 import { OtimizacaoService } from '../_services/otimizacao.service';
+import { ProfessorService } from '../_services/professor.service';
 
 @Component({
   selector: 'app-app-dados-censo',
@@ -38,7 +39,7 @@ export class AppDadosCensoComponent implements OnInit {
       }
     );
   }
-
+  
 
 }
 

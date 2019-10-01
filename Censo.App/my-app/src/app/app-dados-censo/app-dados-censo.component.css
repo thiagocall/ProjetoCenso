@@ -11,3 +11,9 @@
     box-shadow: 5px 5px 5px 2px #F0F0F0;
 }
 
+#limite {
+
+    animation: slide 1s forwards;
+    animation-delay: 2s;
+}
+
