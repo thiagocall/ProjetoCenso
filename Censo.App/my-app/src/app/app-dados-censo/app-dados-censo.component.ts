@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpBackend } from '@angular/common/http';
+import { Component, OnInit, Input} from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
-import { ProfessorService } from '../_services/professor.service';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-app-dados-censo',
   templateUrl: './app-dados-censo.component.html',
-  styleUrls: ['./app-dados-censo.component.css']
+  styleUrls: ['./app-dados-censo.component.css'],
 })
 export class AppDadosCensoComponent implements OnInit {
 
@@ -14,7 +13,8 @@ export class AppDadosCensoComponent implements OnInit {
 
   public parametro: Parametro;
 
-  statusPop: boolean;
+  app = new AppComponent();
+
 
   ngOnInit() {
     this.parametro = new Parametro();
@@ -31,18 +31,19 @@ export class AppDadosCensoComponent implements OnInit {
   }
 
 
+
   Otimizar() {
 
     this.otmService.Otimizar(this.parametro).subscribe(
       response => { console.log(response);
-      alert('Otimização concluída!');
-      this.statusPop = true;
-
+        // alert("Ok");
+          this.app.ShowToast();
       },
       error => {console.log(error);
       }
     );
   }
+
 
 
 }
