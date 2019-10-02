@@ -8,7 +8,7 @@ export class OtimizacaoService {
 
 constructor(private http: HttpClient) { }
 
-private baseURL = 'http://localhost:5000/api/v1/censo/CursoEmec/Otimizar';
+private baseURL = 'http://10.200.0.9/api/v1/censo/CursoEmec/Otimizar';
 
 Otimizar(obj: any) {
 
