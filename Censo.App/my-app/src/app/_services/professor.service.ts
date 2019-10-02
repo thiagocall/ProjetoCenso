@@ -8,7 +8,7 @@ export class ProfessorService {
 
 constructor(private http: HttpClient) { }
 
-baseUrl = 'http://10.200.0.9/api/';
+baseUrl = 'http://localhost:5000/api/';
 
 getProfessores() {
 

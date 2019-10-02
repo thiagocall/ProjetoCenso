@@ -31,8 +31,8 @@ export class AppDadosCensoComponent implements OnInit {
   }
 
 
-
   Otimizar() {
+
 
     this.otmService.Otimizar(this.parametro).subscribe(
       response => { console.log(response);
@@ -49,22 +49,23 @@ export class AppDadosCensoComponent implements OnInit {
 }
 
 class Parametro {
+
   constructor() {
 
-      this.DTI = true;
-      this.DTP = true;
-      this.DH = true;
-      this.MTI = true;
-      this.MTP = true;
-      this.MH = true;
-      this.ETI = true;
-      this.ETP = true;
-      this.EH = false;
-      this.Perclimite = 15;
-      this.otimiza20p = true;
-      this.usoProfessor = 10;
-      this.usoProfessorGeral = 15;
-      this.PercReduProf = 20;
+        this.DTI = true;
+        this.DTP = true;
+        this.DH = true;
+        this.MTI = true;
+        this.MTP = true;
+        this.MH = true;
+        this.ETI = true;
+        this.ETP = true;
+        this.EH = false;
+        this.Perclimite = 15;
+        this.otimiza20p = true;
+        this.usoProfessor = 10;
+        this.usoProfessorGeral = 15;
+        this.PercReduProf = 20;
 
   }
 
