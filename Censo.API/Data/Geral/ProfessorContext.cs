@@ -15,15 +15,14 @@ namespace Censo.API.Data
 
         public virtual DbSet<Professor> Professores { get; set; }
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
             modelBuilder.Entity<Professor>(entity =>
             {
-                entity.HasKey(e => e.CpfProfessor)
-                    .HasName("PK__Rel_Base__D2550FC3C26C187F");
+                entity.HasKey(e => e.CpfProfessor);
+                    // .HasName("PK__Rel_Base__D2550FC3C26C187F");
 
                 entity.ToTable("Rel_Base_Docente_Censo");
 

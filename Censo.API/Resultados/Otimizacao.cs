@@ -11,12 +11,20 @@ namespace Censo.API.Resultados
     public class Otimizacao: IOtimizacao
     {
 
+        TempProducaoContext ResultContext;
+
+        public Otimizacao (TempProducaoContext _resultContext)
+        {
+            this.ResultContext = _resultContext;
+        }
+
+
         private ProfessorCurso professorCurso;
 
         private CursoCenso curso;
 
         private List<ProfessorCurso> ListaprofessorCurso;
-        public dynamic OtimizaCurso(Dictionary<long?, PrevisaoSKU> _dicPrevisao,
+        public List<Resultado> OtimizaCurso(Dictionary<long?, PrevisaoSKU> _dicPrevisao,
                                         List<ProfessorCursoEmec> _ListaProfessorEmec,
                                         List<CursoProfessor> _listaProfessor,
                                         List<CursoEnquadramento> _listaCursoEnquadramento,
@@ -72,14 +80,14 @@ namespace Censo.API.Resultados
                             }
                     );
 
-                    var segnota = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
+                    var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
 
 
-                    return new {primanota, segnota};
+                    return final;
 
         }
 
-        public dynamic CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor) 
+        public List<Resultado> CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor) 
             {
                 // var query = _listaProfessorEmec;
 
@@ -140,17 +148,17 @@ namespace Censo.API.Resultados
 
                     //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
                     var result = _listaCursoProfessor
-                                    .Select( x => new{ x.CodEmec, 
-                                                x.Nota_Mestre,
-                                                x.Nota_Doutor,
-                                                x.Nota_Regime,
+                                    .Select( x => new Resultado { CodEmec = x.CodEmec, 
+                                                Nota_Mestre =  x.Nota_Mestre,
+                                                Nota_Doutor = x.Nota_Doutor,
+                                                Nota_Regime = x.Nota_Regime,
                                                 Mestres = x.Professores
                                                         .Where(p => p.Titulacao == "MESTRE" || p.Titulacao == "DOUTOR" )
                                                         .Count(),
                                                 QtdProfessores = x.Professores.Count(),
-                                                doutores = x.Professores
+                                                Doutores = x.Professores
                                                         .Where(p => p.Titulacao == "DOUTOR").Count(),
-                                                x.CodArea
+                                                CodArea = x.CodArea
                                                 // Professores = x.Professores,
                                                 })
                                             .ToList();

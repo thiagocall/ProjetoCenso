@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace Censo.API.Model.Censo
+{
+    public partial class TbResultado
+    {
+        public long Id { get; set; }
+        public string Resultado { get; set; }
+    }
+}

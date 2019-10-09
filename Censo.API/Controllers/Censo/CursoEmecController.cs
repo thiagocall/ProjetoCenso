@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -24,21 +25,26 @@ namespace Censo.API.Controllers.Censo
         public ProfessorIESContext ProfContext { get; }
         public CensoContext Context { get; }
 
+        public TempProducaoContext ProducaoContext { get; set; }
+
         public CursoEnquadramentoContext CursoEnquadramentoContext;
 
         public IOtimizacao Otm {get;}
 
         public Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
 
+
+
         // public CursoCensoContext CursoCensoContext { get; set; }
         
-        public CursoEmecController(CensoContext _context, ProfessorIESContext _profcontext, IConfiguration _configuration, IOtimizacao _otm, CursoEnquadramentoContext _cursoEnquadContext)
+        public CursoEmecController(CensoContext _context, ProfessorIESContext _profcontext, IConfiguration _configuration, IOtimizacao _otm, CursoEnquadramentoContext _cursoEnquadContext, TempProducaoContext _producaoContext)
         {
             this.Context = _context;
             this.ProfContext = _profcontext;
             this.Configuration = _configuration;
             this.CursoEnquadramentoContext = _cursoEnquadContext;
             this.Otm = _otm;
+            this.ProducaoContext = _producaoContext;
             this.Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.ProfContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.CursoEnquadramentoContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
@@ -48,6 +54,8 @@ namespace Censo.API.Controllers.Censo
         public async Task<IActionResult> Get(long id, string tipo)
         {
             var query = await Context.ProfessorCursoEmec.ToListAsync();
+
+            // var cod = prof.CodCurso;
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
         
@@ -547,32 +555,54 @@ namespace Censo.API.Controllers.Censo
             try
             {       
 
-                var query = this.Context.ProfessorCursoEmec.ToListAsync();
+                var query = await this.Context.ProfessorCursoEmec.ToListAsync();
 
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
 
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
 
-                var CursoProfessor = MontaCursoProfessor(await query);
+                var CursoProfessor = MontaCursoProfessor(query);
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
 
                 var CursoNota = getNotaCursos();
 
-                var a = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, CursoProfessor, await ListaCursoArea, _formulario);
+                var resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query, CursoProfessor, await ListaCursoArea, _formulario);
 
-                return Ok(a);
+                var objRes = new TbResultado();
+
+                objRes.Id = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddhhmmss"));
+                
+                var json = JsonConvert.SerializeObject(resultado);
+
+                objRes.Resultado = json;
+
+                string va1 = @"\";
+
+                string va2 = "";
+
+                var jsonlimpo = json.Replace(va1 ,va2);
+
+                ProducaoContext.Add(objRes);
+
+                // ProducaoContext.ChangeTracker.AutoDetectChangesEnabled = false;
+
+                ProducaoContext.SaveChanges();
+
+                return Ok(objRes.Resultado);
 
 
             }
             catch (System.Exception e)
             {
                 
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
             }
 
         }
+
+
 
 
         // PUT api/values/5
