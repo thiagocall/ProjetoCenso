@@ -10,6 +10,7 @@ import {AppDadosCensoComponent  } from './app-dados-censo/app-dados-censo.compon
 import { PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEncontrada.component';
 import {AppHomeComponent  } from './app-home/app-home.component';
 import {AppComposicaoComponent} from './app-composicao/app-composicao.component';
+import { AppResultadosComponent } from './app-resultados/app-resultados.component';
 
 
 const routes: Routes = [
@@ -21,8 +22,10 @@ const routes: Routes = [
   {path: 'CorpoDocente', component: AppCorpoDocenteComponent },
   {path: 'DadosCenso', component: AppDadosCensoComponent },
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent },
-  {path: '',   component: AppHomeComponent},
+  {path: 'Resultados',   component: AppResultadosComponent},
+  {path: '', component: AppHomeComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
+
 
 ];
 

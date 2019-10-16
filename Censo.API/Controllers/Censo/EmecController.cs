@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,11 +23,18 @@ namespace Censo.API.Controllers.Censo
         {
             
         }
+        
 
-        [HttpGet("{id}")]
-        public ActionResult Get(long? id){
+        // download pdf from site
+        [HttpGet]
+        public ActionResult Get(){
 
-            return null;
+            FileStream fs = new FileStream(@"C:\Users\thiago.caldas\Desktop\HOSTGATOR BRASIL HOSPEDAGEM DE SITES.pdf", FileMode.Open, FileAccess.Read);
+            
+            
+            
+            FileStreamResult fsr = new FileStreamResult(fs ,"application/pdf");
+            return fsr;
             
         }
 

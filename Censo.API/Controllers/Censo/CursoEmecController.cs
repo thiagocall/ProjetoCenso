@@ -554,7 +554,6 @@ namespace Censo.API.Controllers.Censo
         {
             try
             {       
-
                 var query = await this.Context.ProfessorCursoEmec.ToListAsync();
 
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
@@ -601,6 +600,9 @@ namespace Censo.API.Controllers.Censo
             }
 
         }
+
+
+        
 
 
 

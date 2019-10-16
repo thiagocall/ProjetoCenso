@@ -33,7 +33,6 @@ export class AppDadosCensoComponent implements OnInit {
 
   Otimizar() {
 
-
     this.otmService.Otimizar(this.parametro).subscribe(
       response => { console.log(response);
         // alert("Ok");
@@ -43,7 +42,6 @@ export class AppDadosCensoComponent implements OnInit {
       }
     );
   }
-
 
 
 }

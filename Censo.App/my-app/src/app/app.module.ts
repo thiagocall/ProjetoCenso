@@ -18,6 +18,7 @@ import { PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEnc
 import { AppHomeComponent } from './app-home/app-home.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppComposicaoComponent } from './app-composicao/app-composicao.component';
+import { AppResultadosComponent } from './app-resultados/app-resultados.component';
 
 @NgModule({
    declarations: [
@@ -32,14 +33,15 @@ import { AppComposicaoComponent } from './app-composicao/app-composicao.componen
       PaginaNaoEncontradaComponent,
       AppHomeComponent,
       AppFooterComponent,
-      AppComposicaoComponent
+      AppComposicaoComponent,
+      AppResultadosComponent
    ],
    imports: [
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
       ChartsModule,
-      FormsModule
+      FormsModule,
    ],
    providers: [],
    bootstrap: [
