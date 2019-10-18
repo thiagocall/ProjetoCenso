@@ -1,39 +1,50 @@
 <div class="container">
-<div class=" p-5">
+  <div class=" p-5">
 
-  <h2>Meus Resultados</h2>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Id Resultado</th>
-        <th scope="col">Dados do Resultado</th>
-        <th scope="col">Data Otimização</th>
-        <th scope="col"></th>
-      </tr>
-    </thead >
-    <tbody *ngFor="let item of resultadoOtimizado"> 
-      <tr>
-        <th scope="row">{{item}}</th>
-        <td>Dados do Resultado</td>
-        <td>{{getData(item)}}</td>
-        <td>
-          <!-- Botão Visualizar-->
-          <div class="btn-group">
-            <button [routerLink]="['/Resultados', item]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
-              <i class="fas fa-binoculars 2x"></i>
-            </button>
-            <!--Botão excluir-->
-            <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
-              (click)="excluir(item, template)">
-              <i class="fas fa-trash-alt 2x"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <h2>Meus Resultados</h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Id Resultado</th>
+          <th scope="col">Dados do Resultado</th>
+          <th scope="col">Data Otimização</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let item of resultadoOtimizado">
+        <tr>
+          <th scope="row">{{item.id}}</th>
+          <td>
+            <strong>Cursos:</strong> {{getResumo(item?.resumo)?.QtdCursos}}
+          </td>
+          <td>{{getData(item.id)}}</td>
+          <td>
+            <!-- Botão Visualizar-->
+            <div class="btn-group">
+              <button [routerLink]="['/Resultados', item]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
+                <i class="fas fa-binoculars 2x"></i>
+              </button>
+              <!--Botão + -->
+              <button type="button" class="btn btn-outline-success btn-sm" tooltip="mais"
+                (click)="excluir(item, template)">
+                <i class="fas fa-plus 2x"></i>
+              </button>
+              <!--Botão excluir-->
+              <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
+                (click)="excluir(item, template)">
+                <i class="fas fa-trash-alt 2x"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+
+    
+
+    </table>
 </div>
-</div>
+
 
 <!-- Modal Visualizar-->
 <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
@@ -57,7 +68,7 @@
 <ng-template #template>
   <div class="modal-body text-center">
     <p>Deseja excluir o Resultado?</p>
-    <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()" >Sim</button>
+    <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
     <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
   </div>
 </ng-template>

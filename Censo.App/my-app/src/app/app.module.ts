@@ -4,6 +4,9 @@ import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CollapseModule } from 'ngx-bootstrap';
+
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +49,9 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
       ChartsModule,
       FormsModule,
       ModalModule.forRoot(),
-      TooltipModule.forRoot()
+      TooltipModule.forRoot(),
+      BrowserAnimationsModule,
+      CollapseModule.forRoot(),
    ],
    providers: [],
    bootstrap: [

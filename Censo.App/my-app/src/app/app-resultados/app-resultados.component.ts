@@ -47,6 +47,14 @@ export class AppResultadosComponent implements OnInit {
 
   }
 
+  getResumo(res: any) {
+    const resumo = JSON.parse(res);
+    console.log(resumo);
+    return resumo;
+  
+
+  }
+
   modalExcluir(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
@@ -54,16 +62,16 @@ export class AppResultadosComponent implements OnInit {
   excluir(idResultado: number, template: TemplateRef<any>): void {
 
     //fecha o modal
-     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
-     this.idSelecionado = idResultado;
-     console.log(this.confirma);
-    
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.idSelecionado = idResultado;
+    console.log(this.confirma);
+
 
   }
 
 
   ConfirmaExclusao() {
-    
+
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['/Resultados']);
     // Atualiza a tela da tabela
@@ -76,7 +84,7 @@ export class AppResultadosComponent implements OnInit {
       error => {
         console.log(error);
       });
-      
+
   }
 
   cancelar(): void {
