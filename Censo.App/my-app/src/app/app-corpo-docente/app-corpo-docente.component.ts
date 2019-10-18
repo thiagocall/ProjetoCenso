@@ -33,8 +33,6 @@ export class AppCorpoDocenteComponent implements OnInit {
 
 
   ngOnInit() {
-
-
     this.professorService.getDados().subscribe(
       response => {
       this.resultado = response;

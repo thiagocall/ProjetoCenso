@@ -1,11 +1,14 @@
+<div class="container">
 <div class=" p-5">
+
+  <h2>Meus Resultados</h2>
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Id Resultado</th>
         <th scope="col">Dados do Resultado</th>
         <th scope="col">Data Otimização</th>
-        <th scope="col">#</th>
+        <th scope="col"></th>
       </tr>
     </thead >
     <tbody *ngFor="let item of resultadoOtimizado"> 
@@ -16,7 +19,7 @@
         <td>
           <!-- Botão Visualizar-->
           <div class="btn-group">
-            <button class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
+            <button [routerLink]="['/Resultados', item]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
               <i class="fas fa-binoculars 2x"></i>
             </button>
             <!--Botão excluir-->
@@ -29,6 +32,7 @@
       </tr>
     </tbody>
   </table>
+</div>
 </div>
 
 <!-- Modal Visualizar-->

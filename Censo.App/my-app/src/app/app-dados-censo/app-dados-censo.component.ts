@@ -38,7 +38,7 @@ export class AppDadosCensoComponent implements OnInit {
         // alert("Ok");
           this.app.ShowToast();
       },
-      error => {console.log(error);
+      error => {(error);
       }
     );
   }

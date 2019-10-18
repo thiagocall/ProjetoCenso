@@ -20,6 +20,7 @@ import { AppHomeComponent } from './app-home/app-home.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppComposicaoComponent } from './app-composicao/app-composicao.component';
 import { AppResultadosComponent } from './app-resultados/app-resultados.component';
+import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
 
 @NgModule({
    declarations: [
@@ -35,7 +36,8 @@ import { AppResultadosComponent } from './app-resultados/app-resultados.componen
       AppHomeComponent,
       AppFooterComponent,
       AppComposicaoComponent,
-      AppResultadosComponent
+      AppResultadosComponent,
+      DetalheResultadoComponent
    ],
    imports: [
       BrowserModule,
@@ -44,7 +46,7 @@ import { AppResultadosComponent } from './app-resultados/app-resultados.componen
       ChartsModule,
       FormsModule,
       ModalModule.forRoot(),
-      TooltipModule.forRoot(),
+      TooltipModule.forRoot()
    ],
    providers: [],
    bootstrap: [

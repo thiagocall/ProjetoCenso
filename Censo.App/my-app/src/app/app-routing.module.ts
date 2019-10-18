@@ -11,6 +11,7 @@ import { PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEnc
 import {AppHomeComponent  } from './app-home/app-home.component';
 import {AppComposicaoComponent} from './app-composicao/app-composicao.component';
 import { AppResultadosComponent } from './app-resultados/app-resultados.component';
+import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
 
 
 const routes: Routes = [
@@ -23,9 +24,9 @@ const routes: Routes = [
   {path: 'DadosCenso', component: AppDadosCensoComponent },
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent },
   {path: 'Resultados',   component: AppResultadosComponent},
+  {path: 'Resultados/:id', component: DetalheResultadoComponent},
   {path: '', component: AppHomeComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
-
 
 ];
 
