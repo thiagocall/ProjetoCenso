@@ -145,11 +145,11 @@ namespace Censo.API.Controllers.Censo
 
         [HttpDelete("{id}")]
         // DELETE api/values/5
-        public ActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
             var item = this.ProducaoContext.TbResultado.Find(id); 
             this.ProducaoContext.Remove(item); 
-            this.ProducaoContext.SaveChanges(); //comitar a alteração do dado
+            await this.ProducaoContext.SaveChangesAsync(); //comitar a alteração do dado
             return Ok();
         }
 
@@ -598,20 +598,51 @@ namespace Censo.API.Controllers.Censo
                 var CursoNota = getNotaCursos();
 
                 var resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query, CursoProfessor, await ListaCursoArea, _formulario);
+                
+                int QtdCursos = resultado.Count();
+                // Índices de Nota Geral
+                int Nota1a2 = resultado.Where(x => x.Nota_CorpoDocente <= 2).Count();
+                int Nota3a4 = resultado.Where(x => x.Nota_CorpoDocente >= 3 && x.Nota_CorpoDocente <=4 ).Count();
+                int Nota4a5 = resultado.Where(x => x.Nota_CorpoDocente >=4).Count();
+
+                // Índices de Titulação
+                int qtdD_1a2 = resultado.Where(x => x.Nota_Doutor <= 2).Count();
+                int qtdD_3a5 = resultado.Where(x => x.Nota_Doutor >= 3).Count();
+                int qtdM_1a2 = resultado.Where(x => x.Nota_Mestre <= 2).Count();
+                int qtdM_3a5 = resultado.Where(x => x.Nota_Mestre >= 3).Count();
+                int qtdR_1a2 = resultado.Where(x => x.Nota_Regime <= 2).Count();
+                int qtdR_3a5 = resultado.Where(x => x.Nota_Regime >= 3).Count();
+
+                var Resumoresultado = new {
+                    QtdCursos,
+                    Nota1a2,
+                    Nota3a4,
+                    Nota4a5,
+                    qtdD_1a2,
+                    qtdD_3a5,
+                    qtdM_1a2,
+                    qtdM_3a5,
+                    qtdR_1a2,
+                    qtdR_3a5
+                        };
 
                 var objRes = new TbResultado();
 
-                objRes.Id = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddhhmmss"));
+                objRes.Id = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
 
-                var json = JsonConvert.SerializeObject(resultado);
+                 var json = JsonConvert.SerializeObject(resultado);
+                 var formJson = JsonConvert.SerializeObject(_formulario);
+                 var resumoJson = JsonConvert.SerializeObject(Resumoresultado, Formatting.Indented);
 
-                objRes.Resultado = json;
+                 objRes.Resultado = json;
+                 objRes.Parametro = formJson;
+                 objRes.Resumo = resumoJson;
 
-                string va1 = @"\";
+                // string va1 = @"\";
 
-                string va2 = "";
+                // string va2 = "";
 
-                var jsonlimpo = json.Replace(va1, va2);
+                // var jsonlimpo = json.Replace(va1, va2);
 
                 ProducaoContext.Add(objRes);
 
@@ -619,7 +650,7 @@ namespace Censo.API.Controllers.Censo
 
                 ProducaoContext.SaveChanges();
 
-                return Ok(objRes.Resultado);
+                return Ok(objRes.Id);
 
 
             }

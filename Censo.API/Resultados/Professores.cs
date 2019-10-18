@@ -24,10 +24,8 @@ namespace Censo.API.Resultados
 
             var results = _context.ProfessorIES;
             return results;
+
     }
-      
-        
-        
 
     }
 }
