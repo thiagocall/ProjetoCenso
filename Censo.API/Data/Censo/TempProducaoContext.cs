@@ -38,6 +38,12 @@ namespace Censo.API.Model.Censo
                 entity.Property(e => e.Resultado)
                     .IsRequired()
                     .HasColumnName("resultado");
+
+                entity.Property(e => e.Parametro)
+                    .HasColumnName("parametro");
+
+                entity.Property(e => e.Resumo)
+                    .HasColumnName("resumo");
             });
         }
     }

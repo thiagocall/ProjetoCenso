@@ -18,7 +18,6 @@ namespace Censo.API.Resultados
             this.ResultContext = _resultContext;
         }
 
-
         private ProfessorCurso professorCurso;
 
         private CursoCenso curso;
@@ -67,7 +66,7 @@ namespace Censo.API.Resultados
                     // Reduzir professores com Carga zerada não doutores
 
 
-                    var primanota = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
+                    // var primanota = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
                     
 
                     // Remove Professores com Carga Horária Zerada não Doutores | Alavanca Professor Ofensor
@@ -164,6 +163,7 @@ namespace Censo.API.Resultados
                                             .ToList();
 
                 return result;
+                
 
             }
 
