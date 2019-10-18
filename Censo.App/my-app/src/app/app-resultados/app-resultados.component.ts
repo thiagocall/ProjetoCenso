@@ -14,6 +14,7 @@ export class AppResultadosComponent implements OnInit {
   modalRef: BsModalRef;
   message: string;
   resultadoOtimizado: any; //resultado da tabela TbResultado
+  isCollapsed = true;
 
   constructor(private modalService: BsModalService, private OtimizacaoService: OtimizacaoService, private router: Router) { }
 
@@ -89,5 +90,14 @@ export class AppResultadosComponent implements OnInit {
 
   cancelar(): void {
     this.modalRef.hide(); // fehca o modal
+  }
+
+
+
+
+  toggleCol(id: any) {
+
+      
+
   }
 }

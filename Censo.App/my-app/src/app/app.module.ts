@@ -50,8 +50,8 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
       FormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
-      BrowserAnimationsModule,
-      CollapseModule.forRoot(),
+     // BrowserAnimationsModule,
+      // CollapseModule.forRoot(),
    ],
    providers: [],
    bootstrap: [

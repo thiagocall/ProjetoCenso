@@ -21,16 +21,16 @@
           <td>
             <!-- Botão Visualizar-->
             <div class="btn-group">
-              <button [routerLink]="['/Resultados', item]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
+              <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
                 <i class="fas fa-binoculars 2x"></i>
               </button>
               <!--Botão + -->
-              <button type="button" class="btn btn-outline-success btn-sm" tooltip="mais"
-                (click)="excluir(item, template)">
+              <button class="btn btn-outline-success btn-sm"
+              data-toggle="collapse" data-target = "{{item.id}}" tooltip>
                 <i class="fas fa-plus 2x"></i>
               </button>
               <!--Botão excluir-->
-              <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
+              <button  type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
                 (click)="excluir(item, template)">
                 <i class="fas fa-trash-alt 2x"></i>
               </button>
@@ -38,11 +38,23 @@
           </td>
         </tr>
 
+        <tr>
+          <td colspan="4" class="collapse" id="colaps{{item.id}}" >
+            <div id="col{{item.id}}"  >
+              <div class="well well-lg card card-block card-header">
+                SSHDUHSUIHDSUIHDUISHDUSHDUISHDUISHDUIHSUIDHSIUDHUISAHSUAHSUAHSUHSUHDUISAHDUISAHDUISHDUISAHDUIHuahsuiahuahuhauhduiahdusihduisUIS
+              </div>
+            </div>
+          </td>
+        </tr>
+
       </tbody>
 
-    
+
+
 
     </table>
+  </div>
 </div>
 
 
