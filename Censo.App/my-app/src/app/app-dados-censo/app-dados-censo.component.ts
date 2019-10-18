@@ -21,7 +21,7 @@ export class AppDadosCensoComponent implements OnInit {
   }
 
   SalvaParametro() {
-
+    
   }
 
   Restaurar() {

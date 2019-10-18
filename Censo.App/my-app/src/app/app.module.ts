@@ -3,6 +3,7 @@ import { NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
+import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +43,8 @@ import { AppResultadosComponent } from './app-resultados/app-resultados.componen
       HttpClientModule,
       ChartsModule,
       FormsModule,
+      ModalModule.forRoot(),
+      TooltipModule.forRoot(),
    ],
    providers: [],
    bootstrap: [
