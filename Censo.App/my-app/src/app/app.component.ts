@@ -18,4 +18,8 @@ export class AppComponent {
     // this.myEvent.emit(null);
   }
 
+  fechar(){
+    this.HideToast();
+  }
+
 }

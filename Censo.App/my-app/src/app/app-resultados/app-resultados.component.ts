@@ -89,15 +89,13 @@ export class AppResultadosComponent implements OnInit {
   }
 
   cancelar(): void {
-    this.modalRef.hide(); // fehca o modal
+    this.modalRef.hide(); // fecha o modal
   }
 
 
 
 
   toggleCol(id: any) {
-
-      
 
   }
 }
