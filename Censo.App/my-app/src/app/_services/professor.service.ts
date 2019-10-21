@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ export class ProfessorService {
 
 constructor(private http: HttpClient) { }
 
-baseUrl = 'http://localhost:5000/api/';
+baseUrl = environment.apiUrl;
 
 getProfessores() {
 
