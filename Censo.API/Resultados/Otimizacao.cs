@@ -72,10 +72,10 @@ namespace Censo.API.Resultados
                     // Remove Professores com Carga Horária Zerada não Doutores | Alavanca Professor Ofensor
 
                     _listaProfessor.ForEach(
-                            p => {
+                            CursoProf => {
                                    // p.Professores.RemoveAll(x => x.Titulacao != "DOUTOR" & x.Regime == "CHZ/AFASTADO");
 
-                                   p.Professores.RemoveAll(x => RemoveProfessor(_listaProfessor, p, _dicPrevisao, x));
+                                   CursoProf.Professores.RemoveAll(x => RemoveProfessor(_listaProfessor, CursoProf, _dicPrevisao, x));
                             }
                     );
 
@@ -88,6 +88,7 @@ namespace Censo.API.Resultados
 
         public List<Resultado> CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor) 
             {
+                
                 // var query = _listaProfessorEmec;
 
                 var ListaPrevisaoSKU = _listaPrevisaoSKU;
@@ -147,20 +148,21 @@ namespace Censo.API.Resultados
 
                     //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
                     var result = _listaCursoProfessor
-                                    .Select( x => new Resultado { CodEmec = x.CodEmec, 
-                                                Nota_Mestre =  x.Nota_Mestre,
-                                                Nota_Doutor = x.Nota_Doutor,
-                                                Nota_Regime = x.Nota_Regime,
-                                                Mestres = x.Professores
-                                                        .Where(p => p.Titulacao == "MESTRE" || p.Titulacao == "DOUTOR" )
-                                                        .Count(),
-                                                QtdProfessores = x.Professores.Count(),
-                                                Doutores = x.Professores
-                                                        .Where(p => p.Titulacao == "DOUTOR").Count(),
-                                                CodArea = x.CodArea
-                                                // Professores = x.Professores,
-                                                })
-                                            .ToList();
+                                .Select( x => new Resultado {
+                                            CodEmec = x.CodEmec, 
+                                            Nota_Mestre =  x.Nota_Mestre,
+                                            Nota_Doutor = x.Nota_Doutor,
+                                            Nota_Regime = x.Nota_Regime,
+                                            Mestres = x.Professores
+                                                    .Where(p => p.Titulacao == "MESTRE" || p.Titulacao == "DOUTOR" )
+                                                    .Count(),
+                                            QtdProfessores = x.Professores.Count(),
+                                            Doutores = x.Professores
+                                                    .Where(p => p.Titulacao == "DOUTOR").Count(),
+                                            CodArea = x.CodArea
+                                            // Professores = x.Professores,
+                                            })
+                                        .ToList();
 
                 return result;
                 
@@ -189,7 +191,8 @@ namespace Censo.API.Resultados
 
                 else
                 {
-                    return n;
+                    double? n1 = (n == null) ? (double?)0 : (double?)Math.Round((decimal)n, 4);
+                    return  n1;
 
                 }
 

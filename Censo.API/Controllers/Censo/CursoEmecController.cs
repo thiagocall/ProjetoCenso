@@ -560,13 +560,12 @@ namespace Censo.API.Controllers.Censo
                 else if (n > 5)
                 {
                     return 5;
-
                 }
 
                 else
                 {
-                    return n;
-
+                    double? n1 = (n == null) ? (double?)0 : (double?)Math.Round((decimal)n, 4);
+                    return  n1;
                 }
 
             }
@@ -583,8 +582,22 @@ namespace Censo.API.Controllers.Censo
         [HttpPost("Otimizar")]
         public async Task<IActionResult> Otimizar([FromBody] ParametrosCenso _formulario)
         {
+
+                int QtdCursos = 0;
+                int Nota1a2 = 0;
+                int Nota3 = 0;
+                int Nota4a5 = 0;
+                int qtdD_1a2 = 0;
+                int qtdD_3a5 = 0;
+                int qtdM_1a2 = 0;
+                int qtdM_3a5 = 0;
+                int qtdR_1a2 = 0;
+                int qtdR_3a5 = 0;
+
             try
             {
+
+
                 var query = await this.Context.ProfessorCursoEmec.ToListAsync();
 
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
@@ -600,24 +613,24 @@ namespace Censo.API.Controllers.Censo
 
                 var resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query, CursoProfessor, await ListaCursoArea, _formulario);
                 
-                int QtdCursos = resultado.Count();
+                QtdCursos = resultado.Count();
                 // Índices de Nota Geral
-                int Nota1a2 = resultado.Where(x => x.Nota_CorpoDocente <= 2).Count();
-                int Nota3a4 = resultado.Where(x => x.Nota_CorpoDocente >= 3 && x.Nota_CorpoDocente <=4 ).Count();
-                int Nota4a5 = resultado.Where(x => x.Nota_CorpoDocente >=4).Count();
+                Nota1a2 = resultado.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
+                Nota3 = resultado.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
+                Nota4a5 = resultado.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
 
                 // Índices de Titulação
-                int qtdD_1a2 = resultado.Where(x => x.Nota_Doutor <= 2).Count();
-                int qtdD_3a5 = resultado.Where(x => x.Nota_Doutor >= 3).Count();
-                int qtdM_1a2 = resultado.Where(x => x.Nota_Mestre <= 2).Count();
-                int qtdM_3a5 = resultado.Where(x => x.Nota_Mestre >= 3).Count();
-                int qtdR_1a2 = resultado.Where(x => x.Nota_Regime <= 2).Count();
-                int qtdR_3a5 = resultado.Where(x => x.Nota_Regime >= 3).Count();
+                qtdD_1a2 = resultado.Where(x => x.Nota_Doutor <= 2).Count();
+                qtdD_3a5 = resultado.Where(x => x.Nota_Doutor >= 3).Count();
+                qtdM_1a2 = resultado.Where(x => x.Nota_Mestre <= 2).Count();
+                qtdM_3a5 = resultado.Where(x => x.Nota_Mestre >= 3).Count();
+                qtdR_1a2 = resultado.Where(x => x.Nota_Regime <= 2).Count();
+                qtdR_3a5 = resultado.Where(x => x.Nota_Regime >= 3).Count();
 
                 var Resumoresultado = new {
                     QtdCursos,
                     Nota1a2,
-                    Nota3a4,
+                    Nota3, // alterar para somente nota 3
                     Nota4a5,
                     qtdD_1a2,
                     qtdD_3a5,
@@ -631,28 +644,50 @@ namespace Censo.API.Controllers.Censo
 
                 objRes.Id = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
 
-                 var json = JsonConvert.SerializeObject(resultado);
-                 var formJson = JsonConvert.SerializeObject(_formulario);
-                 var resumoJson = JsonConvert.SerializeObject(Resumoresultado, Formatting.Indented);
+                // string formJson;
+                // string resumoJson;
+                // string professorJson;
 
-                 objRes.Resultado = json;
-                 objRes.Parametro = formJson;
-                 objRes.Resumo = resumoJson;
+                Task<string> json = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(resultado);
+                }
+                );
 
-                // string va1 = @"\";
+                  Task<string> formJson = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(_formulario);
+                }
+                );
 
-                // string va2 = "";
+                   Task<string> resumoJson = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(Resumoresultado);
+                }
+                );
 
-                // var jsonlimpo = json.Replace(va1, va2);
+                   Task<string> professorJson = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(CursoProfessor);
+                }
+                );
+
+                Task.WaitAll(json, formJson,resumoJson,professorJson);
+
+                 objRes.Resultado = json.Result;
+                 objRes.Parametro = formJson.Result;
+                 objRes.Resumo = resumoJson.Result;
+                 objRes.Professores = professorJson.Result;
 
                 ProducaoContext.Add(objRes);
-
-                // ProducaoContext.ChangeTracker.AutoDetectChangesEnabled = false;
 
                 ProducaoContext.SaveChanges();
 
                 return Ok(objRes.Id);
-
 
             }
             catch (System.Exception e)

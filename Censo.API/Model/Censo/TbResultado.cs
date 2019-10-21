@@ -9,5 +9,6 @@ namespace Censo.API.Model.Censo
         public string Resultado { get; set; }
         public string Parametro { get; set; }
         public string Resumo { get; set; }
+        public string Professores { get; set; }
     }
 }
