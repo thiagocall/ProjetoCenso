@@ -2,22 +2,20 @@
   <div class=" p-5">
 
     <h2>Meus Resultados</h2>
-    <table class="table table-hover">
+    <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">Id Resultado</th>
-          <th scope="col">Dados do Resultado</th>
           <th scope="col">Data Otimização</th>
           <th scope="col"></th>
         </tr>
+        <div class="alert alert-warning mt-5 card1" *ngIf="!resultadoOtimizado || resultadoOtimizado.length < 1">Ops! Não há resultados gerados.</div>
       </thead>
       <tbody *ngFor="let item of resultadoOtimizado">
+        
 
         <tr>
           <th scope="row">{{item.id}}</th>
-          <td>
-            <strong>Cursos:</strong> {{getResumo(item?.resumo)?.QtdCursos}}
-          </td>
           <td>{{getData(item.id)}}</td>
           <td>
             <!-- Botão Visualizar-->
@@ -46,7 +44,7 @@
                 <div class="card-body">
 
                   <div class="container p-4">
-                    <!--tabela 2-->
+                    <!--tabela -->
                     <table class="table  table-sm">
                       <thead>
                         <tr>
@@ -63,21 +61,21 @@
                         <tr>
                           <th scope="row">Nota 1 a 2</th>
                           <td>{{getResumo(item?.resumo)?.Nota1a2}}</td>
-                          <td>{{getResumo(item?.resumo)?.Nota1a2 / getResumo(item?.resumo)?.QtdCursos * 100 |number}} %
+                          <td>{{getResumo(item?.resumo)?.Nota1a2 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
                           </td>
 
                         </tr>
                         <tr>
                           <th scope="row">Nota 3</th>
                           <td>{{getResumo(item?.resumo)?.Nota3}}</td>
-                          <td>{{getResumo(item?.resumo)?.Nota3 / getResumo(item?.resumo)?.QtdCursos * 100 |number}} %
+                          <td>{{getResumo(item?.resumo)?.Nota3 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
                           </td>
 
                         </tr>
                         <tr>
                           <th scope="row">Nota 4 a 5</th>
                           <td>{{getResumo(item?.resumo)?.Nota4a5}}</td>
-                          <td>{{getResumo(item?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}} %
+                          <td>{{getResumo(item?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
                           </td>
                         </tr>
 
