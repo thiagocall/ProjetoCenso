@@ -5,7 +5,7 @@ import { ChartsModule } from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CollapseModule } from 'ngx-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap';
 
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
@@ -50,8 +50,8 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
       FormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
-     // BrowserAnimationsModule,
-      // CollapseModule.forRoot(),
+      BrowserAnimationsModule,
+      AccordionModule.forRoot(),
    ],
    providers: [],
    bootstrap: [

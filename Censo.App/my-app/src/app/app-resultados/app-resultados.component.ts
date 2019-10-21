@@ -50,7 +50,7 @@ export class AppResultadosComponent implements OnInit {
 
   getResumo(res: any) {
     const resumo = JSON.parse(res);
-    console.log(resumo);
+    // console.log(resumo);
     return resumo;
   
 

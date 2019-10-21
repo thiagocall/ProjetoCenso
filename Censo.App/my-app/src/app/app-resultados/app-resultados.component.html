@@ -12,6 +12,7 @@
         </tr>
       </thead>
       <tbody *ngFor="let item of resultadoOtimizado">
+   
         <tr>
           <th scope="row">{{item.id}}</th>
           <td>
@@ -25,28 +26,35 @@
                 <i class="fas fa-binoculars 2x"></i>
               </button>
               <!--Botão + -->
-              <button class="btn btn-outline-success btn-sm"
-              data-toggle="collapse" data-target = "{{item.id}}" tooltip>
-                <i class="fas fa-plus 2x"></i>
+              <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm" onclick="ToggleDetalhe(this)" tooltip="Detalhes">
+                <i id="i_{{item.id}}" class="fas fa-plus 2x"></i>
               </button>
               <!--Botão excluir-->
               <button  type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
-                (click)="excluir(item, template)">
+                (click)="excluir(item.id, template)">
                 <i class="fas fa-trash-alt 2x"></i>
               </button>
             </div>
           </td>
         </tr>
-
         <tr>
-          <td colspan="4" class="collapse" id="colaps{{item.id}}" >
-            <div id="col{{item.id}}"  >
-              <div class="well well-lg card card-block card-header">
-                SSHDUHSUIHDSUIHDUISHDUSHDUISHDUISHDUIHSUIDHSIUDHUISAHSUAHSUAHSUHSUHDUISAHDUISAHDUISHDUISAHDUIHuahsuiahuahuhauhduiahdusihduisUIS
-              </div>
-            </div>
-          </td>
+            <td colspan="4" style="border: none;">
+                <div class="container" id="linha_{{item.id}}" style="display: none;">
+                    <div class="card" style="width: 100%;">
+                        <div class="card-body">
+                          <h5 class="card-title">Detalhes</h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      
+                        </div>
+                      </div>
+                  </div>   
+              </td>
         </tr>
+            
+      
+          
+
 
       </tbody>
 
