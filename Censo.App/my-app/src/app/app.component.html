@@ -17,7 +17,7 @@
           </div>
           <div class="toast-body">
             Otimização Concluída
-            <span class="badge badge-primary" type="button" [routerLink]="['/Resultados']">Confira aqui</span>
+            <span class="badge badge-primary" type="button" [routerLink]="['/Resultados']" (click)="fechar($event.element)">Confira aqui</span>
           </div>
         </div>
       </div>

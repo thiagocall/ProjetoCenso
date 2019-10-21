@@ -7,6 +7,7 @@ import { AppComponent } from '../app.component';
   templateUrl: './app-dados-censo.component.html',
   styleUrls: ['./app-dados-censo.component.css'],
 })
+
 export class AppDadosCensoComponent implements OnInit {
 
   constructor(private otmService: OtimizacaoService) { }
@@ -42,6 +43,8 @@ export class AppDadosCensoComponent implements OnInit {
       }
     );
   }
+
+  
 
 
 }

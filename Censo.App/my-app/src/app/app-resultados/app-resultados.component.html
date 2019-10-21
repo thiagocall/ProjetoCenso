@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody *ngFor="let item of resultadoOtimizado">
-   
+
         <tr>
           <th scope="row">{{item.id}}</th>
           <td>
@@ -22,15 +22,17 @@
           <td>
             <!-- Botão Visualizar-->
             <div class="btn-group">
-              <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
+              <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"
+                tooltip="Visualizar">
                 <i class="fas fa-binoculars 2x"></i>
               </button>
               <!--Botão + -->
-              <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm" onclick="ToggleDetalhe(this)" tooltip="Detalhes">
+              <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm"
+                onclick="ToggleDetalhe(this)" tooltip="Detalhes">
                 <i id="i_{{item.id}}" class="fas fa-plus 2x"></i>
               </button>
               <!--Botão excluir-->
-              <button  type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
+              <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
                 (click)="excluir(item.id, template)">
                 <i class="fas fa-trash-alt 2x"></i>
               </button>
@@ -38,58 +40,104 @@
           </td>
         </tr>
         <tr>
-            <td colspan="4" style="border: none;">
-                <div class="container" id="linha_{{item.id}}" style="display: none;">
-                    <div class="card" style="width: 100%;">
-                        <div class="card-body">
-                          <h5 class="card-title">Detalhes</h5>
-                          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-      
-                        </div>
-                      </div>
-                  </div>   
-              </td>
-        </tr>
-            
-      
-          
+          <td colspan="4" style="border: none;">
+            <div class="container" id="linha_{{item.id}}" style="display: none;">
+              <div class="card" style="width: 100%;">
+                <div class="card-body">
+
+                  <div class="container p-4">
+                    <!--tabela 2-->
+                    <table class="table  table-sm">
+                      <thead>
+                        <tr>
+                          <!-- <td class="table-secondary text-center" colspan="2">Detalhes</td> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">Quantidade de Cursos</th>
+                          <th></th>
+                          <td>{{getResumo(item?.resumo)?.QtdCursos}}</td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">Nota 1 a 2</th>
+                          <td>{{getResumo(item?.resumo)?.Nota1a2}}</td>
+                          <td>{{getResumo(item?.resumo)?.Nota1a2 / getResumo(item?.resumo)?.QtdCursos * 100 |number}} %
+                          </td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">Nota 3</th>
+                          <td>{{getResumo(item?.resumo)?.Nota3}}</td>
+                          <td>{{getResumo(item?.resumo)?.Nota3 / getResumo(item?.resumo)?.QtdCursos * 100 |number}} %
+                          </td>
+
+                        </tr>
+                        <tr>
+                          <th scope="row">Nota 4 a 5</th>
+                          <td>{{getResumo(item?.resumo)?.Nota4a5}}</td>
+                          <td>{{getResumo(item?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}} %
+                          </td>
+                        </tr>
+
+                        <!-- <tr>
+                          <th scope="row">Quantidade de Doutor 1 a 2</th>
+                          <td>{{getResumo(item?.resumo)?.qtdD_1a2}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Quantidade de Doutor 3 a 5</th>
+                          <td>{{getResumo(item?.resumo)?.qtdD_3a5}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Quantidade de Mestre 1 a 2</th>
+                          <td>{{getResumo(item?.resumo)?.qtdM_1a2}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Quantidade de Mestre 3 a 5</th>
+                          <td>{{getResumo(item?.resumo)?.qtdM_3a5}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Quantidade de Regime 1 a 2</th>
+                          <td>{{getResumo(item?.resumo)?.qtdR_1a2}}</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Quantidade de Regime 3 a 5</th>
+                          <td>{{getResumo(item?.resumo)?.qtdR_3a5}}</td>
+                        </tr> -->
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
 
 
-      </tbody>
+              <!-- Modal Visualizar-->
+              <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+                aria-labelledby="dialog-sizes-name1">
+                <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
+                      <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal Visualizar-->
 
-
-
-
-    </table>
-  </div>
-</div>
-
-
-<!-- Modal Visualizar-->
-<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
-        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal Visualizar-->
-
-<!-- Modal excluir-->
-<ng-template #template>
-  <div class="modal-body text-center">
-    <p>Deseja excluir o Resultado?</p>
-    <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
-    <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
-  </div>
-</ng-template>
-<!-- Modal excluir-->
+              <!-- Modal excluir-->
+              <ng-template #template>
+                <div class="modal-body text-center">
+                  <p>Deseja excluir o Resultado?</p>
+                  <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
+                  <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
+                </div>
+              </ng-template>
+              <!-- Modal excluir-->
