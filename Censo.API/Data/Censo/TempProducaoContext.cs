@@ -47,6 +47,9 @@ namespace Censo.API.Model.Censo
 
                 entity.Property(e => e.Professores)
                     .HasColumnName("professores");
+
+                entity.Property(e => e.TempoExecucao)
+                    .HasColumnName("tempo_execucao");
             });
         }
     }

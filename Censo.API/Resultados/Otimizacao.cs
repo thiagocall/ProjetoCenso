@@ -20,7 +20,7 @@ namespace Censo.API.Resultados
 
         private ProfessorCurso professorCurso;
 
-        private CursoCenso curso;
+        // private CursoCenso curso;
 
         private List<ProfessorCurso> ListaprofessorCurso;
         public List<Resultado> OtimizaCurso(Dictionary<long?, PrevisaoSKU> _dicPrevisao,
