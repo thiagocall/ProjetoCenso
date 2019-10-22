@@ -137,7 +137,7 @@ namespace Censo.API.Controllers.Censo
         [HttpGet("ObterResultados")]
         public ActionResult obterResultados()
         {
-            var query = this.ProducaoContext.TbResultado.Select(x => new {x.Id, x.Resumo}).ToList();
+            var query = this.ProducaoContext.TbResultado.Select(x => new {x.Id, x.Resumo, x.TempoExecucao}).ToList();
             // var n = query.First().Id;
             var query2 = query.OrderByDescending(x => x.Id).ToArray();
             return Ok(query2);
