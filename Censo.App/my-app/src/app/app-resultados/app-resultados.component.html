@@ -3,10 +3,6 @@
 
     <h2>Meus Resultados</h2>
 
-    <div class="container">
-        <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
-            <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
-        </div>
 
 
     <table class="table table-striped">
@@ -17,10 +13,11 @@
           <th scope="col">Data Otimização</th>
           <th scope="col"></th>
         </tr>
-        <div class="alert alert-warning mt-5 card1" *ngIf="!resultadoOtimizado || resultadoOtimizado.length < 1">Ops! Não há resultados gerados.</div>
+
+
       </thead>
       <tbody *ngFor="let item of resultadoOtimizado">
-        
+
 
         <tr>
           <th scope="row">{{item.id}}</th>
@@ -84,7 +81,8 @@
                         <tr>
                           <th scope="row">Nota 4 a 5</th>
                           <td>{{getResumo(item?.resumo)?.Nota4a5}}</td>
-                          <td>{{getResumo(itemgit ?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
+                          <td>
+                            {{getResumo(itemgit ?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
                           </td>
                         </tr>
 
@@ -115,37 +113,52 @@
                       </tbody>
                     </table>
                   </div>
-                  </div>
-
                 </div>
               </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-warning mt-5 card1" *ngIf="dados < 1">Ops!
+        Não há resultados gerados.</div>
+
+      <div class="d-flex justify-content-center">
+        <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
+          <i class="fas fa-spinner fa-pulse fa-3x mt-5 "></i>
+        </div>
+      </div>
 
 
-              <!-- Modal Visualizar-->
-              <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-                aria-labelledby="dialog-sizes-name1">
-                <div class="modal-dialog modal-lg">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
-                      <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      ...
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Modal Visualizar-->
 
-              <!-- Modal excluir-->
-              <ng-template #template>
-                <div class="modal-body text-center">
-                  <p>Deseja excluir o Resultado?</p>
-                  <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
-                  <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
-                </div>
-              </ng-template>
-              <!-- Modal excluir-->
+
+    <!-- Modal Visualizar-->
+    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+      aria-labelledby="dialog-sizes-name1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal Visualizar-->
+
+    <!-- Modal excluir-->
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Deseja excluir o Resultado?</p>
+        <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
+        <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
+      </div>
+    </ng-template>
+
+    <!-- Modal excluir-->
