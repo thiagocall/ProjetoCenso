@@ -2,10 +2,18 @@
   <div class=" p-5">
 
     <h2>Meus Resultados</h2>
+
+    <div class="container">
+        <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
+            <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
+        </div>
+
+
     <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">Id Resultado</th>
+          <th scope="col">Tempo Execução</th>
           <th scope="col">Data Otimização</th>
           <th scope="col"></th>
         </tr>
@@ -16,6 +24,7 @@
 
         <tr>
           <th scope="row">{{item.id}}</th>
+          <td>{{item.tempoExecucao}}</td>
           <td>{{getData(item.id)}}</td>
           <td>
             <!-- Botão Visualizar-->
@@ -75,7 +84,7 @@
                         <tr>
                           <th scope="row">Nota 4 a 5</th>
                           <td>{{getResumo(item?.resumo)?.Nota4a5}}</td>
-                          <td>{{getResumo(item?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
+                          <td>{{getResumo(itemgit ?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
                           </td>
                         </tr>
 
@@ -105,6 +114,7 @@
                         </tr> -->
                       </tbody>
                     </table>
+                  </div>
                   </div>
 
                 </div>
