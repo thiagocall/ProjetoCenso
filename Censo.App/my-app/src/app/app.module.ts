@@ -24,6 +24,9 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppComposicaoComponent } from './app-composicao/app-composicao.component';
 import { AppResultadosComponent } from './app-resultados/app-resultados.component';
 import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
+import { TesteGraficoComponent } from './teste-grafico/teste-grafico.component';
+import { TelaLoginComponent } from './tela-login/tela-login.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
    declarations: [
@@ -40,7 +43,10 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
       AppFooterComponent,
       AppComposicaoComponent,
       AppResultadosComponent,
-      DetalheResultadoComponent
+      DetalheResultadoComponent,
+      TesteGraficoComponent,
+      TelaLoginComponent,
+      UserComponent
    ],
    imports: [
       BrowserModule,
@@ -51,7 +57,7 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
       BrowserAnimationsModule,
-      AccordionModule.forRoot(),
+      AccordionModule.forRoot()
    ],
    providers: [],
    bootstrap: [
