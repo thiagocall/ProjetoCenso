@@ -327,17 +327,14 @@ namespace Censo.API.Controllers.Censo
                  prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_Infra).ToList());
                  //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
                  break;
-
                  case "O":
                  prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_OP).ToList());
                  //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
                  break;
-
                  case "C":
                  prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_CE).ToList());
                  //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
                  break;
-
                  case "A":
                  prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_AF).ToList());
                  //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
