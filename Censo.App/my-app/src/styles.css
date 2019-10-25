@@ -9,7 +9,6 @@ html {
     
   }
 
-
   .div {
 
     background-color: #F7F7F7;
@@ -20,5 +19,13 @@ html {
         
     background-color: #F7F7F7;
   }
+
+  table {
+    font-size: 13px;
+}
+
+td {
+    padding: 5px;
+}
 
  
