@@ -112,7 +112,6 @@ namespace Censo.API.Controllers.Censo
 
             }
 
-            //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
 
             return Ok(prev);
 
@@ -124,23 +123,26 @@ namespace Censo.API.Controllers.Censo
 
             return Ok("");
 
-            //GeraListaPrevisaoSKU();
-            //var results =  this.ListaPrevisaoSKU.Select(a => new {
-            
-
-            // }).ToList();
-            // var results = this.ListaPrevisaoSKU[5];
-            // return Ok(results);
-
         }
 
         [HttpGet("ObterResultados")]
-        public ActionResult obterResultados()
+        public async Task<IActionResult> obterResultados()
         {
-            var query = this.ProducaoContext.TbResultado.Select(x => new {x.Id, x.Resumo, x.TempoExecucao}).ToList();
-            // var n = query.First().Id;
-            var query2 = query.OrderByDescending(x => x.Id).ToArray();
-            return Ok(query2);
+            var query = await this.ProducaoContext.TbResultado
+                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao})
+                             .OrderByDescending(x => x.Id)
+                            .ToArrayAsync();
+    
+
+            return Ok(query);
+        }
+
+
+        [HttpGet("ObterResultados{id}")]
+        public ActionResult obterResultadosporId(long _id)
+        {
+            var resultado = this.ProducaoContext.TbResultado.FirstOrDefault(x => x.Id == _id);
+            return Ok(resultado);
         }
 
            [HttpGet("ObterResultadosCompleto")]
@@ -612,75 +614,56 @@ namespace Censo.API.Controllers.Censo
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-
-
             var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
 
-                int QtdCursos = 0;
-                int Nota1a2 = 0;
-                int Nota3 = 0;
-                int Nota4a5 = 0;
-                int qtdD_1a2 = 0;
-                int qtdD_3a5 = 0;
-                int qtdM_1a2 = 0;
-                int qtdM_3a5 = 0;
-                int qtdR_1a2 = 0;
-                int qtdR_3a5 = 0;
+                // int QtdCursos = 0;
+                // int Nota1a2 = 0;
+                // int Nota3 = 0;
+                // int Nota4a5 = 0;
+                // int qtdD_1a2 = 0;
+                // int qtdD_3a5 = 0;
+                // int qtdM_1a2 = 0;
+                // int qtdM_3a5 = 0;
+                // int qtdR_1a2 = 0;
+                // int qtdR_3a5 = 0;
 
             try
             {
 
-
-                var query = await this.Context.ProfessorCursoEmec.ToListAsync();
-
-                var ListaCursoArea = await this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
-
+                var query = this.Context.ProfessorCursoEmec.ToListAsync();
+                var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
-
-                var Cursoprofessor = MontaCursoProfessor999(query, ListaCursoArea);
+                var Cursoprofessor = MontaCursoProfessor999(await query, await ListaCursoArea);
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
 
-                var CursoNota = getNotaCursos(query, ListaCursoArea);
+                var CursoNota = getNotaCursos(await query, await ListaCursoArea);
 
-                var resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query, Cursoprofessor, ListaCursoArea, _formulario);
+                List<CursoProfessor> cursoProfessorAtual = new List<CursoProfessor>();
+                Cursoprofessor.ForEach( (item) => {
+                    cursoProfessorAtual.Add(item);
+                }
+                    );
+
+                List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual);
+
+                List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, Cursoprofessor, await ListaCursoArea, _formulario);
                 
-                QtdCursos = resultado.Count();
-                // Índices de Nota Geral
-                Nota1a2 = resultado.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
-                Nota3 = resultado.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
-                Nota4a5 = resultado.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
+                // ############## Monta resultados a partir do cenário otimizado ################# //
+               
+                var Resumoresultado = Otm.MontaResultadoFinal(resultado);
 
-                // Índices de Titulação
-                qtdD_1a2 = resultado.Where(x => x.Nota_Doutor <= 2).Count();
-                qtdD_3a5 = resultado.Where(x => x.Nota_Doutor >= 3).Count();
-                qtdM_1a2 = resultado.Where(x => x.Nota_Mestre <= 2).Count();
-                qtdM_3a5 = resultado.Where(x => x.Nota_Mestre >= 3).Count();
-                qtdR_1a2 = resultado.Where(x => x.Nota_Regime <= 2).Count();
-                qtdR_3a5 = resultado.Where(x => x.Nota_Regime >= 3).Count();
-
-                var Resumoresultado = new {
-                    QtdCursos,
-                    Nota1a2,
-                    Nota3, // alterar para somente nota 3
-                    Nota4a5,
-                    qtdD_1a2,
-                    qtdD_3a5,
-                    qtdM_1a2,
-                    qtdM_3a5,
-                    qtdR_1a2,
-                    qtdR_3a5
-                        };
-
-                var objRes = new TbResultado();
-
-                objRes.Id = ResId;
+                var ResumoresultadoAtual = Otm.MontaResultadoFinal(ResultadoAtual);
 
                 // string formJson;
                 // string resumoJson;
                 // string professorJson;
 
+                 sw.Stop();
+
+
+                // ############ Monta Objeto resultado Otimizado ############## //
                 Task<string> json = Task.Run(
                     ()=> {
                         
@@ -698,7 +681,7 @@ namespace Censo.API.Controllers.Censo
                    Task<string> resumoJson = Task.Run(
                     ()=> {
                         
-                        return JsonConvert.SerializeObject(Resumoresultado);
+                        return (string)JsonConvert.SerializeObject(Resumoresultado);
                 }
                 );
 
@@ -709,9 +692,45 @@ namespace Censo.API.Controllers.Censo
                 }
                 );
 
-                sw.Stop();
 
-                Task.WaitAll(json, formJson,resumoJson,professorJson);
+                // ############ Monta Objeto resultado Atual ############## //
+                Task<string> jsonAt = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(ResultadoAtual);
+                }
+                );
+
+                  Task<string> formJsonAt = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(_formulario);
+                }
+                );
+
+                   Task<string> resumoJsonAt = Task.Run(
+                    ()=> {
+                        
+                        return (string)JsonConvert.SerializeObject(ResumoresultadoAtual);
+                }
+                );
+
+                   Task<string> professorJsonAt = Task.Run(
+                    ()=> {
+                        
+                        return JsonConvert.SerializeObject(cursoProfessorAtual);
+                }
+                );
+
+                var objRes = new TbResultado();
+                objRes.Id = ResId;
+
+                var objResAtual = new TbResultadoAtual();
+                objResAtual.Id = ResId;
+               
+
+                Task.WaitAll(json, formJson, resumoJson, professorJson);
+                Task.WaitAll(jsonAt, formJsonAt, resumoJsonAt, professorJsonAt);
 
                  objRes.Resultado = json.Result;
                  objRes.Parametro = formJson.Result;
@@ -719,7 +738,13 @@ namespace Censo.API.Controllers.Censo
                  objRes.Professores = professorJson.Result;
                  objRes.TempoExecucao = sw.Elapsed.Duration().ToString(); // sw.Elapsed.Hours.ToString() + ":" + Math.Floor(sw.Elapsed.TotalMinutes) .ToString() + ":" + sw.Elapsed.Seconds.ToString();
 
+                 objResAtual.Resultado = jsonAt.Result;
+                 objResAtual.Parametro = formJsonAt.Result;
+                 objResAtual.Resumo = resumoJsonAt.Result;
+                 objResAtual.Professores = professorJsonAt.Result;
+
                 ProducaoContext.Add(objRes);
+                ProducaoContext.Add(objResAtual);
 
                 ProducaoContext.SaveChanges();
 

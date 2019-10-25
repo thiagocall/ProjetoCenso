@@ -66,11 +66,8 @@ namespace Censo.API.Resultados
                     // Reduzir professores com Carga zerada não doutores
 
                     // var primanota = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
-                    
 
                     // Remove Professores com Carga Horária Zerada não Doutores | Alavanca Professor Ofensor
-
-                    // _listaProfessor.Where(x => x.)
 
                     _listaProfessor.ForEach(
                             CursoProf => {
@@ -170,6 +167,48 @@ namespace Censo.API.Resultados
                 return result;
                 
 
+            }
+
+
+            public dynamic MontaResultadoFinal(List<Resultado> _resultado) {
+
+                int QtdCursos = 0;
+                int Nota1a2 = 0;
+                int Nota3 = 0;
+                int Nota4a5 = 0;
+                int qtdD_1a2 = 0;
+                int qtdD_3a5 = 0;
+                int qtdM_1a2 = 0;
+                int qtdM_3a5 = 0;
+                int qtdR_1a2 = 0;
+                int qtdR_3a5 = 0;
+
+                QtdCursos = _resultado.Count();
+                // Índices de Nota Geral
+                Nota1a2 = _resultado.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
+                Nota3 = _resultado.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
+                Nota4a5 = _resultado.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
+
+                // Índices de Titulação
+                qtdD_1a2 = _resultado.Where(x => x.Nota_Doutor <= 2).Count();
+                qtdD_3a5 = _resultado.Where(x => x.Nota_Doutor >= 3).Count();
+                qtdM_1a2 = _resultado.Where(x => x.Nota_Mestre <= 2).Count();
+                qtdM_3a5 = _resultado.Where(x => x.Nota_Mestre >= 3).Count();
+                qtdR_1a2 = _resultado.Where(x => x.Nota_Regime <= 2).Count();
+                qtdR_3a5 = _resultado.Where(x => x.Nota_Regime >= 3).Count();
+
+                return new {
+                    QtdCursos,
+                    Nota1a2,
+                    Nota3, // alterar para somente nota 3
+                    Nota4a5,
+                    qtdD_1a2,
+                    qtdD_3a5,
+                    qtdM_1a2,
+                    qtdM_3a5,
+                    qtdR_1a2,
+                    qtdR_3a5
+                        };
             }
 
 

@@ -17,6 +17,7 @@ namespace Censo.API.Resultados
 
         double? N_Escala(double? lim_min, double? lim_max, double? percent);
 
+        dynamic MontaResultadoFinal(List<Resultado> _resultado);
 
         double? CalculaNota(CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, string _regime, string _titulacao, int _indMovimento);
 
