@@ -584,6 +584,25 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+
+        [HttpGet("getProfessorCurso")]
+        public long getProfessorCurso() {
+
+                 var query = this.Context.ProfessorCursoEmec.ToList();
+
+                var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToList();
+
+                var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
+
+                var Cursoprofessor = MontaCursoProfessor999(query, ListaCursoArea);
+
+                var cursoProfTeste = Cursoprofessor.Where(x => x.Professores.Count() >= 1).ToList();
+
+                return cursoProfTeste.Count();
+        }
+
+
+
         #region httpVerbs
         // POST api/values
         [HttpPost("Otimizar")]
@@ -593,7 +612,9 @@ namespace Censo.API.Controllers.Censo
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            var RedId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
+
+
+            var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
 
                 int QtdCursos = 0;
                 int Nota1a2 = 0;
@@ -654,7 +675,7 @@ namespace Censo.API.Controllers.Censo
 
                 var objRes = new TbResultado();
 
-                objRes.Id = RedId;
+                objRes.Id = ResId;
 
                 // string formJson;
                 // string resumoJson;
