@@ -34,17 +34,17 @@ namespace Censo.API.Resultados
 
                 // Monta Relação Professor Curso ####################
 
-                foreach (var prof in _listaProfessor)
+                foreach (var curso in _listaProfessor)
                 { 
-                    foreach (var item in prof.Professores)
+                    foreach (var prof in curso.Professores)
                     {
                         // Professor novo na lista
-                        if (ListaprofessorCurso.Where(x => x.cpfProfessor == item.cpfProfessor.ToString()).Count() == 0)
+                        if (this.ListaprofessorCurso.Where(x => x.cpfProfessor == prof.cpfProfessor.ToString()).Count() == 0)
                         {
 
                             professorCurso = new ProfessorCurso();
-                            professorCurso.cpfProfessor = item.cpfProfessor.ToString();
-                            professorCurso.strCursos.Add(prof.CodEmec.ToString());
+                            professorCurso.cpfProfessor = prof.cpfProfessor.ToString();
+                            professorCurso.strCursos.Add(curso.CodEmec.ToString());
 
                             ListaprofessorCurso.Add(professorCurso);
                             professorCurso = null;
@@ -54,10 +54,10 @@ namespace Censo.API.Resultados
                         //  Adicionando curso ao professor
                         else {
 
-                            professorCurso = ListaprofessorCurso.FirstOrDefault(x => x.cpfProfessor == item.cpfProfessor.ToString());
-                            if (!professorCurso.strCursos.Contains(prof.CodEmec.ToString()))
+                            professorCurso = ListaprofessorCurso.FirstOrDefault(x => x.cpfProfessor == prof.cpfProfessor.ToString());
+                            if (!professorCurso.strCursos.Contains(curso.CodEmec.ToString()))
                             {
-                                professorCurso.strCursos.Add(prof.CodEmec.ToString());
+                                professorCurso.strCursos.Add(curso.CodEmec.ToString());
                             }       
                         }
                     }
@@ -65,17 +65,20 @@ namespace Censo.API.Resultados
 
                     // Reduzir professores com Carga zerada não doutores
 
-
                     // var primanota = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
                     
 
                     // Remove Professores com Carga Horária Zerada não Doutores | Alavanca Professor Ofensor
 
+                    // _listaProfessor.Where(x => x.)
+
                     _listaProfessor.ForEach(
                             CursoProf => {
                                    // p.Professores.RemoveAll(x => x.Titulacao != "DOUTOR" & x.Regime == "CHZ/AFASTADO");
 
-                                   CursoProf.Professores.RemoveAll(x => RemoveProfessor(_listaProfessor, CursoProf, _dicPrevisao, x));
+                                   CursoProf.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, CursoProf, _dicPrevisao, pe)) |
+                                            (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
+                                            );
                             }
                     );
 
@@ -266,9 +269,9 @@ namespace Censo.API.Resultados
         public bool RemoveProfessor(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof )
         {
 
-
-
-            var qtdCursos = _ListaCursoProfessor.Where(x => x.Professores.Where(c => c.cpfProfessor == _prof.cpfProfessor).Count() > 0).Count();
+            var qtdCursos = _ListaCursoProfessor.Where(
+                                            x => x.Professores.Where(
+                                                        c => c.cpfProfessor == _prof.cpfProfessor).Count() > 0).Count();
 
             var notaAnt = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao);
 
@@ -276,7 +279,7 @@ namespace Censo.API.Resultados
 
             var qtdProf =  _cursoProfessor.Professores.Count();
 
-            if (notaNova >= notaAnt & qtdCursos > 2 & qtdProf > 2)
+            if (notaNova >= notaAnt & qtdCursos > 5 & qtdProf > 5)
             {
                 return true;
             }
@@ -293,7 +296,62 @@ namespace Censo.API.Resultados
         {
             throw new NotImplementedException();
         }
+
+
+
+
+
+
+
+
+        
     }
+
+
+
+    // public class ProfessorComparer : IEqualityComparer<ProfessorCursoEmec>
+    // {
+    //     public bool Equals(ProfessorCursoEmec x, ProfessorCursoEmec y)
+    //     {
+    //         if (x.CpfProfessor == y.CpfProfessor)
+    //         {
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             return false;
+    //         }
+    //     }
+
+    //     public int GetHashCode(ProfessorCursoEmec obj)
+    //     {
+    //         return obj.CpfProfessor.GetHashCode();
+    //     }
+    // }
+
+
+    // public class ProfessorCursoComparer : IEqualityComparer<CursoProfessor>
+    // {
+    //     public bool Equals(CursoProfessor x, CursoProfessor y)
+    //     {
+    //         if (x.CodEmec == y.CodEmec)
+    //         {
+    //             return true;
+    //         }
+    //         else
+    //         {
+    //             return false;
+    //         }
+    //     }
+
+    //     public int GetHashCode(CursoProfessor obj)
+    //     {
+    //         return obj.CodEmec.GetHashCode();
+    //     }
+
+    // }
+
+    
 
 
 }
