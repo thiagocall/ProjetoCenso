@@ -7,11 +7,13 @@ import {ProfessorConsultaComponent} from './professor-consulta/professor-consult
 import {AppCensoComponent } from './app-censo/app-censo.component';
 import {AppCorpoDocenteComponent  } from './app-corpo-docente/app-corpo-docente.component';
 import {AppDadosCensoComponent  } from './app-dados-censo/app-dados-censo.component';
-import { PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEncontrada.component';
+import {PaginaNaoEncontradaComponent } from './PaginaNaoEncontrada/PaginaNaoEncontrada.component';
 import {AppHomeComponent  } from './app-home/app-home.component';
 import {AppComposicaoComponent} from './app-composicao/app-composicao.component';
-import { AppResultadosComponent } from './app-resultados/app-resultados.component';
-import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
+import {AppResultadosComponent } from './app-resultados/app-resultados.component';
+import {DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
+import { TelaLoginComponent } from './tela-login/tela-login.component';
+
 
 
 const routes: Routes = [
@@ -25,6 +27,7 @@ const routes: Routes = [
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent },
   {path: 'Resultados',   component: AppResultadosComponent},
   {path: 'Resultados/:id', component: DetalheResultadoComponent},
+  {path: 'login', component: TelaLoginComponent},
   {path: '', component: AppHomeComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
 
