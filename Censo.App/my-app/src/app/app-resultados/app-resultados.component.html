@@ -1,92 +1,101 @@
 <div class="container">
-  <div class=" p-5">
-
-    <h2>Meus Resultados</h2>
-
-
-
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Id Resultado</th>
-          <th scope="col">Tempo Execução</th>
-          <th scope="col">Data Otimização</th>
-          <th scope="col"></th>
-        </tr>
-
-
-      </thead>
-      <tbody *ngFor="let item of resultadoOtimizado">
+  <div class=" p-4">
+  </div>
+      <div class="row container">
+        <div class="form-group col-md-8">
+          <div class="input-group mb-3">
+            <h2>Meus Resultados</h2>
+  
+          </div>
+        </div>
+  
+        <div class="col-md-1 offset-2">
+          <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary">Incluir Resultado</button>
+        </div>
+      </div>
 
 
-        <tr>
-          <th scope="row">{{item.id}}</th>
-          <td>{{item.tempoExecucao}}</td>
-          <td>{{getData(item.id)}}</td>
-          <td>
-            <!-- Botão Visualizar-->
-            <div class="btn-group">
-              <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"
-                tooltip="Visualizar">
-                <i class="fas fa-binoculars 2x"></i>
-              </button>
-              <!--Botão + -->
-              <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm"
-                onclick="ToggleDetalhe(this)" tooltip="Detalhes">
-                <i id="i_{{item.id}}" class="fas fa-plus 2x"></i>
-              </button>
-              <!--Botão excluir-->
-              <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
-                (click)="excluir(item.id, template)">
-                <i class="fas fa-trash-alt 2x"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="4" style="border: none;">
-            <div class="container" id="linha_{{item.id}}" style="display: none;">
-              <div class="card" style="width: 100%;">
-                <div class="card-body">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Id Resultado</th>
+        <th scope="col">Tempo Execução</th>
+        <th scope="col">Data Otimização</th>
+        <th scope="col"></th>
+      </tr>
 
-                  <div class="container p-4">
-                    <!--tabela -->
-                    <table class="table  table-sm">
-                      <thead>
-                        <tr>
-                          <!-- <td class="table-secondary text-center" colspan="2">Detalhes</td> -->
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">Quantidade de Cursos</th>
-                          <th></th>
-                          <td>{{getResumo(item?.resumo)?.QtdCursos}}</td>
 
-                        </tr>
-                        <tr>
-                          <th scope="row">Nota 1 a 2</th>
-                          <td>{{getResumo(item?.resumo)?.Nota1a2}}</td>
-                          <td>{{getResumo(item?.resumo)?.Nota1a2 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
-                          </td>
+    </thead>
+    <tbody *ngFor="let item of resultadoOtimizado">
 
-                        </tr>
-                        <tr>
-                          <th scope="row">Nota 3</th>
-                          <td>{{getResumo(item?.resumo)?.Nota3}}</td>
-                          <td>{{getResumo(item?.resumo)?.Nota3 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
-                          </td>
 
-                        </tr>
-                        <tr>
-                          <th scope="row">Nota 4 a 5</th>
-                          <td>{{getResumo(item?.resumo)?.Nota4a5}}</td>
-                          <td>
-                            {{getResumo(item?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
-                          </td>
-                        </tr>
+      <tr>
+        <th scope="row">{{item.id}}</th>
+        <td>{{item.tempoExecucao}}</td>
+        <td>{{getData(item.id)}}</td>
+        <td>
+          <!-- Botão Visualizar-->
+          <div class="btn-group">
+            <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm" tooltip="Visualizar">
+              <i class="fas fa-binoculars 2x"></i>
+            </button>
+            <!--Botão + -->
+            <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm" onclick="ToggleDetalhe(this)"
+              tooltip="Detalhes">
+              <i id="i_{{item.id}}" class="fas fa-plus 2x"></i>
+            </button>
+            <!--Botão excluir-->
+            <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
+              (click)="excluir(item.id, template)">
+              <i class="fas fa-trash-alt 2x"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" style="border: none;">
+          <div class="container" id="linha_{{item.id}}" style="display: none;">
+            <div class="card" style="width: 100%;">
+              <div class="card-body">
 
-                        <!-- <tr>
+                <div class="container p-4">
+                  <!--tabela -->
+                  <table class="table  table-sm">
+                    <thead>
+                      <tr>
+                        <!-- <td class="table-secondary text-center" colspan="2">Detalhes</td> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">Quantidade de Cursos</th>
+                        <th></th>
+                        <td>{{getResumo(item?.resumo)?.QtdCursos}}</td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row">Nota 1 a 2</th>
+                        <td>{{getResumo(item?.resumo)?.Nota1a2}}</td>
+                        <td>{{getResumo(item?.resumo)?.Nota1a2 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
+                        </td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row">Nota 3</th>
+                        <td>{{getResumo(item?.resumo)?.Nota3}}</td>
+                        <td>{{getResumo(item?.resumo)?.Nota3 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
+                        </td>
+
+                      </tr>
+                      <tr>
+                        <th scope="row">Nota 4 a 5</th>
+                        <td>{{getResumo(item?.resumo)?.Nota4a5}}</td>
+                        <td>
+                          {{getResumo(item?.resumo)?.Nota4a5 / getResumo(item?.resumo)?.QtdCursos * 100 |number}}%
+                        </td>
+                      </tr>
+
+                      <!-- <tr>
                           <th scope="row">Quantidade de Doutor 1 a 2</th>
                           <td>{{getResumo(item?.resumo)?.qtdD_1a2}}</td>
                         </tr>
@@ -110,53 +119,52 @@
                           <th scope="row">Quantidade de Regime 3 a 5</th>
                           <td>{{getResumo(item?.resumo)?.qtdR_3a5}}</td>
                         </tr> -->
-                      </tbody>
-                    </table>
-                  </div>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <div class="alert alert-warning mt-5 card1" *ngIf="dados < 1">Ops!
-        Não há resultados gerados.</div>
+  <div class="alert alert-warning mt-5 card1" *ngIf="dados < 1">Ops!
+    Não há resultados gerados.</div>
 
-      <div class="d-flex justify-content-center">
-        <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
-          <i class="fas fa-spinner fa-pulse fa-3x mt-5 "></i>
+  <div class="d-flex justify-content-center">
+    <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
+      <i class="fas fa-spinner fa-pulse fa-3x mt-5 "></i>
+    </div>
+  </div>
+
+
+  <!-- Modal Visualizar-->
+  <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
+          <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-      </div>
-
-
-    <!-- Modal Visualizar-->
-    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
-      aria-labelledby="dialog-sizes-name1">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
-            <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
+        <div class="modal-body">
+          ...
         </div>
       </div>
     </div>
-    <!-- Modal Visualizar-->
+  </div>
+  <!-- Modal Visualizar-->
 
-    <!-- Modal excluir-->
-    <ng-template #template>
-      <div class="modal-body text-center">
-        <p>Deseja excluir o Resultado?</p>
-        <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
-        <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
-      </div>
-    </ng-template>
+  <!-- Modal excluir-->
+  <ng-template #template>
+    <div class="modal-body text-center">
+      <p>Deseja excluir o Resultado?</p>
+      <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
+      <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
+    </div>
+  </ng-template>
 
-    <!-- Modal excluir-->
+  <!-- Modal excluir-->
