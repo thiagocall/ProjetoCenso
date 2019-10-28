@@ -69,15 +69,17 @@ namespace Censo.API.Resultados
 
                     // Remove Professores com Carga Horária Zerada não Doutores | Alavanca Professor Ofensor
 
-                    _listaProfessor.ForEach(
-                            CursoProf => {
-                                   // p.Professores.RemoveAll(x => x.Titulacao != "DOUTOR" & x.Regime == "CHZ/AFASTADO");
 
-                                   CursoProf.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, CursoProf, _dicPrevisao, pe)) |
+                      foreach(var item in _listaProfessor) {
+                            
+                    // item.Professores.RemoveAll(pe => pe.Regime == "HORISTA");
+
+                                   item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe)) |
                                             (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
                                             );
-                            }
-                    );
+                            
+                        };
+                          
 
                     var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
 
@@ -302,7 +304,6 @@ namespace Censo.API.Resultados
 
             return (resultado);
 
-
         }
 
         public bool RemoveProfessor(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof )
@@ -318,7 +319,7 @@ namespace Censo.API.Resultados
 
             var qtdProf =  _cursoProfessor.Professores.Count();
 
-            if (notaNova >= notaAnt & qtdCursos > 5 & qtdProf > 5)
+            if (notaNova >= notaAnt & qtdCursos > 2 & qtdProf > 2)
             {
                 return true;
             }

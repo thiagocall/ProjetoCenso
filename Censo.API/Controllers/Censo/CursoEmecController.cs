@@ -65,7 +65,7 @@ namespace Censo.API.Controllers.Censo
 
 
             // ########## Monta a lista de cursos por professores ##########
-            cursoProfessor = MontaCursoProfessor999(query, ListaCursoArea);
+            cursoProfessor = MontaCursoProfessor(query, ListaCursoArea);
 
             var results = cursoProfessor.ToList();
 
@@ -76,10 +76,12 @@ namespace Censo.API.Controllers.Censo
 
 
         [HttpGet("GeraNota/{id}")]
-        public ActionResult GeraNota(long? id)
+        public async Task<IActionResult> GeraNota(long? id)
         {
 
-            List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
+            List<CursoPrevisao> listaPrev = await Task.Run( () => {
+                return PrevisaoEmec.getPrevisao(this.Configuration);
+            });
 
             var query = listaPrev.Where(x => x.CodArea == id).ToList();
 
@@ -117,13 +119,6 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-        [HttpGet("Notas")]
-        public ActionResult Notas()
-        {
-
-            return Ok("");
-
-        }
 
         [HttpGet("ObterResultados")]
         public async Task<IActionResult> obterResultados()
@@ -133,7 +128,6 @@ namespace Censo.API.Controllers.Censo
                              .OrderByDescending(x => x.Id)
                             .ToArrayAsync();
     
-
             return Ok(query);
         }
 
@@ -146,11 +140,11 @@ namespace Censo.API.Controllers.Censo
         }
 
            [HttpGet("ObterResultadosCompleto")]
-        public ActionResult obterResultadosCompleto()
+        public async Task<ActionResult> obterResultadosCompleto()
         {
-            var query = this.ProducaoContext.TbResultado.ToList();
+            var query = this.ProducaoContext.TbResultado.ToListAsync();
 
-            return Ok(query);
+            return Ok(await query);
         }
 
         [HttpDelete("{id}")]
@@ -178,7 +172,6 @@ namespace Censo.API.Controllers.Censo
             var query = await this.Context.ProfessorCursoEmec
                                 .Where(x => x.CodEmec == codCurso).ToListAsync();
 
-            //var area = emec.FirstOrDefault(x => x.CodEmec == codCurso);
 
             Task<Dictionary<long?, PrevisaoSKU>> task1 = Task.Factory.StartNew(
                 () =>
@@ -193,7 +186,7 @@ namespace Censo.API.Controllers.Censo
 
             List<CursoProfessor> cursoProfessor;
 
-            cursoProfessor = MontaCursoProfessor999(query,ListaCursoArea);
+            cursoProfessor = MontaCursoProfessor(query,ListaCursoArea);
 
             var cursoEmec = cursoProfessor.First();
             var Professores = cursoEmec.Professores;
@@ -240,7 +233,7 @@ namespace Censo.API.Controllers.Censo
         // ################# Monta Cursos dos Professores ######################
 
 
-        public List<CursoProfessor> MontaCursoProfessor999([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
+        public List<CursoProfessor> MontaCursoProfessor([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
@@ -252,7 +245,7 @@ namespace Censo.API.Controllers.Censo
             foreach (var res in query)
             {
                 // Filtra parâmtetro indGraduacao
-                if (res.Titulacao != null) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
+                if (!(res.Titulacao == null || res.Titulacao == "GRADUADO")) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
                 {
 
                     if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
@@ -268,12 +261,11 @@ namespace Censo.API.Controllers.Censo
                                 Ativo = res.IndAtivo,
                                 Regime = res.Regime,
                                 Titulacao = res.Titulacao
-
                             };
                             //prof.Professores = new Dictionary<long, ProfessorEmec>();
                             prof.Professores.Add(pr);
                         }
-
+                        
                     }
                     else
                     {
@@ -468,7 +460,7 @@ namespace Censo.API.Controllers.Censo
             List<CursoProfessor> cursoProfessor;
 
             // ########## Monta a lista de cursos por professores ##########
-            cursoProfessor = MontaCursoProfessor999(query, _cursoProfessor);
+            cursoProfessor = MontaCursoProfessor(query, _cursoProfessor);
             var cctx = this.Context.CursoCenso.ToList();
             List<double> percent = new List<double>();
             //conte
@@ -587,21 +579,6 @@ namespace Censo.API.Controllers.Censo
         }
 
 
-        [HttpGet("getProfessorCurso")]
-        public long getProfessorCurso() {
-
-                 var query = this.Context.ProfessorCursoEmec.ToList();
-
-                var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToList();
-
-                var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
-
-                var Cursoprofessor = MontaCursoProfessor999(query, ListaCursoArea);
-
-                var cursoProfTeste = Cursoprofessor.Where(x => x.Professores.Count() >= 1).ToList();
-
-                return cursoProfTeste.Count();
-        }
 
 
 
@@ -633,7 +610,7 @@ namespace Censo.API.Controllers.Censo
                 var query = this.Context.ProfessorCursoEmec.ToListAsync();
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
-                var Cursoprofessor = MontaCursoProfessor999(await query, await ListaCursoArea);
+                var Cursoprofessor = MontaCursoProfessor(await query, await ListaCursoArea);
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();

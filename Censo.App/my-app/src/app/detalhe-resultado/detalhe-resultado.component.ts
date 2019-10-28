@@ -6,12 +6,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./detalhe-resultado.component.css']
 })
 export class DetalheResultadoComponent implements OnInit {
- 
+
   constructor() { }
 
   ngOnInit() {
-    
+
   }
+
 
 
 }
