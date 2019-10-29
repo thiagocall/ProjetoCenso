@@ -8,16 +8,15 @@
 </div>
 
 
-<div class="container">
+<div class="container" *ngIf="resultadoOtimizado">
   <div class="row">
 
-
-    <div class="col-sm-6">
+    <div class="col-sm-6" >
       <h5 class="display-5 p-2">Atual</h5>
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col"></th>
+            <th scope="col">Notas</th>
             <th scope="col">1 a 2</th>
             <th scope="col">3</th>
             <th scope="col">4 a 5</th>
@@ -26,39 +25,41 @@
         <tbody>
           <tr>
             <th scope="row">Doutor</th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonAtual.qtdD_1a2}}</td>
+            <td>{{dadosJsonAtual.qtdD_3}}</td>
+            <td>{{dadosJsonAtual.qtdD_4a5}}</td>
           </tr>
           <tr>
             <th scope="row">Nota Titulação</th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonAtual.qtdM_1a2}}</td>
+            <td>{{dadosJsonAtual.qtdM_3}}</td>
+            <td>{{dadosJsonAtual.qtdM_4a5}}</td>
           </tr>
           <tr>
             <th scope="row">Nota Regime</th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonAtual.qtdR_1a2}}</td>
+            <td>{{dadosJsonAtual.qtdR_3}}</td>
+            <td>{{dadosJsonAtual.qtdR_4a5}}</td>
           </tr>
           <tr>
-            <th scope="row">Nota</th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <th scope="row">Nota Corpo Docente</th>
+            <td>{{dadosJsonAtual.Nota1a2}}</td>
+            <td>{{dadosJsonAtual.Nota3}}</td>
+            <td>{{dadosJsonAtual.Nota4a5}}</td>
           </tr>
         </tbody>
       </table>
-      <div>
-        <i>1 a 2 Insatisfatório</i> | <i>3 satisfatório</i> | <i>4 a 5 Excelente</i>
+      <div cvlass="p-0">
+        <p class="m-0 p-0"><i style="font-size: 12px;" >* 1 a 2 Insatisfatório | 3 Satisfatório |  4 a 5 Excelente</i></p>
+        <p class="m-0 p-0"><i style="font-size: 12px;" >** As notas de corpo docente representam 30% do CPC</i></p>
       </div>
+      
     </div>
 
 
     <div class="col-sm-6">
       <h5 class="display-5 p-2">Otimizado</h5>
-      <table class="table">
+      <table class="table table-hover">
         <thead>
           <tr>
             <th scope="col"></th>
@@ -70,27 +71,27 @@
         <tbody>
           <tr>
             <th scope="row"></th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonOtm.qtdD_1a2}}</td>
+            <td>{{dadosJsonOtm.qtdD_3}}</td>
+            <td>{{dadosJsonOtm.qtdD_4a5}}</td>
           </tr>
           <tr>
             <th scope="row"></th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonOtm.qtdM_1a2}}</td>
+            <td>{{dadosJsonOtm.qtdM_3}}</td>
+            <td>{{dadosJsonOtm.qtdM_4a5}}</td>
           </tr>
           <tr>
             <th scope="row"></th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonOtm.qtdR_1a2}}</td>
+            <td>{{dadosJsonOtm.qtdR_3}}</td>
+            <td>{{dadosJsonOtm.qtdR_4a5}}</td>
           </tr>
           <tr>
             <th scope="row"></th>
-            <td>A</td>
-            <td>B</td>
-            <td>C</td>
+            <td>{{dadosJsonOtm.Nota1a2}}</td>
+            <td>{{dadosJsonOtm.Nota3}}</td>
+            <td>{{dadosJsonOtm.Nota4a5}}</td>
           </tr>
         </tbody>
       </table>
@@ -99,4 +100,8 @@
 
 
   </div>
+
+</div>
+<div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
+  <i class="fas fa-spinner fa-pulse fa-3x mt-5 "></i>
 </div>

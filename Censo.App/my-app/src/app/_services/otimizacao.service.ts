@@ -25,4 +25,11 @@ excluirResultadosOtimizados(idResultado: number) {
 }
 
 
+obterDetalheResultado(id: number) {
+
+  return this.http.get(this.baseURL + 'ObterResultados/' + id);
+
+}
+
+
 }

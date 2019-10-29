@@ -74,10 +74,10 @@ namespace Censo.API.Resultados
                             
                     // item.Professores.RemoveAll(pe => pe.Regime == "HORISTA");
 
-                                   item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe)) |
-                                            (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
+                                   item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe)) 
                                             );
                             
+                            //                (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
                         };
                           
 
@@ -179,11 +179,14 @@ namespace Censo.API.Resultados
                 int Nota3 = 0;
                 int Nota4a5 = 0;
                 int qtdD_1a2 = 0;
-                int qtdD_3a5 = 0;
+                int qtdD_3 = 0;
+                int qtdD_4a5 = 0;
                 int qtdM_1a2 = 0;
-                int qtdM_3a5 = 0;
+                int qtdM_3 = 0;
+                int qtdM_4a5 = 0;
                 int qtdR_1a2 = 0;
-                int qtdR_3a5 = 0;
+                int qtdR_3 = 0;
+                int qtdR_4a5 = 0;
 
                 QtdCursos = _resultado.Count();
                 // Índices de Nota Geral
@@ -192,12 +195,16 @@ namespace Censo.API.Resultados
                 Nota4a5 = _resultado.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
 
                 // Índices de Titulação
-                qtdD_1a2 = _resultado.Where(x => x.Nota_Doutor <= 2).Count();
-                qtdD_3a5 = _resultado.Where(x => x.Nota_Doutor >= 3).Count();
-                qtdM_1a2 = _resultado.Where(x => x.Nota_Mestre <= 2).Count();
-                qtdM_3a5 = _resultado.Where(x => x.Nota_Mestre >= 3).Count();
-                qtdR_1a2 = _resultado.Where(x => x.Nota_Regime <= 2).Count();
-                qtdR_3a5 = _resultado.Where(x => x.Nota_Regime >= 3).Count();
+                qtdD_1a2 = _resultado.Where(x => x.Nota_Doutor < 1.945).Count();
+                qtdD_3 = _resultado.Where(x => x.Nota_Doutor >= 1.945 && x.Nota_Doutor < 2.945).Count();
+                qtdD_4a5 = _resultado.Where(x => x.Nota_Doutor >= 2.945).Count();
+                qtdM_1a2 = _resultado.Where(x => x.Nota_Mestre < 1.945).Count();
+                qtdM_3 = _resultado.Where(x => x.Nota_Mestre >= 1.945 && x.Nota_Mestre < 2.945).Count();
+                qtdM_4a5 = _resultado.Where(x => x.Nota_Mestre >= 2.945).Count();
+                qtdR_1a2 = _resultado.Where(x => x.Nota_Regime < 1.945).Count();
+                qtdR_3 = _resultado.Where(x => x.Nota_Regime >= 1.945 && x.Nota_Regime < 2.945).Count();
+                qtdR_4a5 = _resultado.Where(x => x.Nota_Regime >= 2.945).Count();
+
 
                 return new {
                     QtdCursos,
@@ -205,11 +212,15 @@ namespace Censo.API.Resultados
                     Nota3, // alterar para somente nota 3
                     Nota4a5,
                     qtdD_1a2,
-                    qtdD_3a5,
+                    qtdD_3,
+                    qtdD_4a5,
                     qtdM_1a2,
-                    qtdM_3a5,
+                    qtdM_3,
+                    qtdM_4a5,
                     qtdR_1a2,
-                    qtdR_3a5
+                    qtdR_3,
+                    qtdR_4a5,
+
                         };
             }
 

@@ -132,11 +132,14 @@ namespace Censo.API.Controllers.Censo
         }
 
 
-        [HttpGet("ObterResultados{id}")]
+        [HttpGet("ObterResultados/{_id}")]
         public ActionResult obterResultadosporId(long _id)
         {
-            var resultado = this.ProducaoContext.TbResultado.FirstOrDefault(x => x.Id == _id);
-            return Ok(resultado);
+            var resultado = this.ProducaoContext.TbResultado.Select(x => new {x.Id, x.Resumo}).FirstOrDefault(x => x.Id == _id);
+            var resultadoAtual = this.ProducaoContext.TbResultadoAtual.Select(x => new {x.Id, x.Resumo}).FirstOrDefault(x => x.Id == _id);
+
+            var resultadoCompleto = new {resultado, resultadoAtual};
+            return Ok(resultadoCompleto);
         }
 
            [HttpGet("ObterResultadosCompleto")]
