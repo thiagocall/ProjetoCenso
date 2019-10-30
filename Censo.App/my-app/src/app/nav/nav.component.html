@@ -1,37 +1,50 @@
 <nav class="sdw navbar navbar-expand-md navbar-light fixed-top" style="background-color: #39496C">
-    <a class="navbar-brand" [routerLink]="['']" style="color: white; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><i class="fas fa-rocket m-2"></i>EA</a>
-  
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <a class="navbar-brand" [routerLink]="['']"
+    style="color: white; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><i
+      class="fas fa-rocket m-2"></i>EA</a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/Professor']" routerLinkActive="router-link-active" style="color: white">Professores <span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/Professor']" routerLinkActive="router-link-active"
+          style="color: white">Professores <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" style="color: white">
           Consultas
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" [routerLink]="['/ProfessorConsulta']" routerLinkActive="router-link-active" >Professores</a>
+          <a class="dropdown-item" [routerLink]="['/ProfessorConsulta']"
+            routerLinkActive="router-link-active">Professores</a>
           <a class="dropdown-item" href="#">Professores IES</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="#">Outros</a>
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/ProfessorIES']" routerLinkActive="router-link-active" style="color: white">Professor por IES <span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/ProfessorIES']" routerLinkActive="router-link-active"
+          style="color: white">Professor por IES <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/Censo']" routerLinkActive="router-link-active" style="color: white" >Censo <span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/Censo']" routerLinkActive="router-link-active" style="color: white">Censo
+          <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/Resultados']" routerLinkActive="router-link-active" style="color: white" >Resultados <span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/Resultados']" routerLinkActive="router-link-active"
+          style="color: white">Resultados <span class="sr-only">(current)</span></a>
       </li>
-      
     </ul>
+    <!--botão sair-->
+    <div class="d-flex justify-content-end"> <button [routerLink]="['/login']"
+        class="btn btn-outline-light">Sair</button>
+    </div>
+
   </div>
 </nav>
 <div class="container" style="height: 60px"></div>
