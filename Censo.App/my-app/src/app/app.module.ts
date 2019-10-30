@@ -27,6 +27,8 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
 import { TesteGraficoComponent } from './teste-grafico/teste-grafico.component';
 import { TelaLoginComponent } from './tela-login/tela-login.component';
 import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 @NgModule({
    declarations: [
@@ -46,7 +48,9 @@ import { UserComponent } from './user/user.component';
       DetalheResultadoComponent,
       TesteGraficoComponent,
       TelaLoginComponent,
-      UserComponent
+      UserComponent,
+      LoginComponent,
+      RegistrationComponent
    ],
    imports: [
       BrowserModule,
