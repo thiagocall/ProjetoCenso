@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { timingSafeEqual } from 'crypto';
+//  import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-detalhe-resultado',
@@ -29,7 +29,6 @@ export class DetalheResultadoComponent implements OnInit {
           this.resultadoOtimizado = this.dados.resultado;
           this.dadosJsonAtual = JSON.parse(this.resultadoAtual.resumo);
           this.dadosJsonOtm = JSON.parse(this.resultadoOtimizado.resumo);
-
 
       },
       error => {
