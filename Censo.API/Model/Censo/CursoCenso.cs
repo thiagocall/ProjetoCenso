@@ -14,6 +14,7 @@ namespace Censo.API.Model.Censo
         public string NomCursoCenso { get; set; }
         public long? QtdAlunos { get; set; }
         public long? CodArea { get; set; }
+        public string IndEnade { get; set; }
         [NotMapped]
         public List<ProfessorCurso> ListaProfessores { get; set; }
     }

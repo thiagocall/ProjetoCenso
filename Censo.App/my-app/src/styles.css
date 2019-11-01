@@ -9,7 +9,6 @@ html {
     
   }
 
-
   .div {
 
     background-color: #F7F7F7;
@@ -30,4 +29,11 @@ html {
  td {
 
    padding: 5px;
+ }
+
+
+ .fa-spinner{
+
+  color: #626567;
+
  }

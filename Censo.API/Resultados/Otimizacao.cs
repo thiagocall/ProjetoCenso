@@ -5,6 +5,7 @@ using System.Linq;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Parametros;
+using Censo.API.Data.Censo;
 
 namespace Censo.API.Resultados
 {
@@ -12,10 +13,12 @@ namespace Censo.API.Resultados
     {
 
         TempProducaoContext ResultContext;
+        CensoContext Context;
 
-        public Otimizacao (TempProducaoContext _resultContext)
+        public Otimizacao (TempProducaoContext _resultContext, CensoContext _context)
         {
             this.ResultContext = _resultContext;
+            this.Context = _context;
         }
 
         private ProfessorCurso professorCurso;
@@ -31,6 +34,12 @@ namespace Censo.API.Resultados
         {
 
             ListaprofessorCurso = new List<ProfessorCurso>();
+
+            var TaskEnade = Task.Run( () => {
+
+                return this.Context.CursoCenso.ToList();
+
+            });
 
                 // Monta Relação Professor Curso ####################
 
@@ -63,29 +72,44 @@ namespace Censo.API.Resultados
                     }
                 }
 
-                    // Reduzir professores com Carga zerada não doutores
+                    // ############## Alavanca Curso não Enade ############
+                    // ####################################################
 
-                    // var primanota = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
+                    Task.WaitAll(TaskEnade);
                     
+                    var CursoEnade = TaskEnade.Result;
+                    var CursoNaoEnade = CursoEnade.Where(x => x.IndEnade.Contains('N')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
+                    var CursoSimEnade = CursoEnade.Where(x => x.IndEnade.Contains('S')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
 
-                    // Remove Professores com Carga Horária Zerada não Doutores | Alavanca Professor Ofensor
+                      foreach(var item in _listaProfessor) {
+                            
 
-                    // _listaProfessor.Where(x => x.)
+                        item.Professores.RemoveAll(pe =>
+                                   RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe) && 
+                                                    _listaProfessor.Where(cp => cp.Professores
+                                                                            .Where(p => p.cpfProfessor == pe.cpfProfessor).Count() > 0)
+                                                                            .Select(cp => cp.CodEmec)
+                                                                            .ToList()
+                                                                            .Exists(x => CursoNaoEnade.Contains(x.ToString()) &&
+                                                                        CursoSimEnade.Contains(item.CodEmec.ToString()))
+                                             );
+                            
+                            //                (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
+                        };
 
-                    _listaProfessor.ForEach(
-                            CursoProf => {
-                                   // p.Professores.RemoveAll(x => x.Titulacao != "DOUTOR" & x.Regime == "CHZ/AFASTADO");
 
-                                   CursoProf.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, CursoProf, _dicPrevisao, pe)) |
-                                            (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
-                                            );
-                            }
-                    );
+                      foreach(var item in _listaProfessor) {
+                            
 
-                    var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
+                        item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe)) 
+                                             );
+                            
+                            //                (pe.Titulacao != "DOUTOR" & pe.Regime == "CHZ/AFASTADO") | pe.Titulacao == "GRADUADO"
+                        };
 
+                        var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
 
-                    return final;
+                        return final;
 
         }
 
@@ -170,6 +194,59 @@ namespace Censo.API.Resultados
                 return result;
                 
 
+            }
+
+
+            public dynamic MontaResultadoFinal(List<Resultado> _resultado) {
+
+                int QtdCursos = 0;
+                int Nota1a2 = 0;
+                int Nota3 = 0;
+                int Nota4a5 = 0;
+                int qtdD_1a2 = 0;
+                int qtdD_3 = 0;
+                int qtdD_4a5 = 0;
+                int qtdM_1a2 = 0;
+                int qtdM_3 = 0;
+                int qtdM_4a5 = 0;
+                int qtdR_1a2 = 0;
+                int qtdR_3 = 0;
+                int qtdR_4a5 = 0;
+
+                QtdCursos = _resultado.Count();
+                // Índices de Nota Geral
+                Nota1a2 = _resultado.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
+                Nota3 = _resultado.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
+                Nota4a5 = _resultado.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
+
+                // Índices de Titulação
+                qtdD_1a2 = _resultado.Where(x => x.Nota_Doutor < 1.945).Count();
+                qtdD_3 = _resultado.Where(x => x.Nota_Doutor >= 1.945 && x.Nota_Doutor < 2.945).Count();
+                qtdD_4a5 = _resultado.Where(x => x.Nota_Doutor >= 2.945).Count();
+                qtdM_1a2 = _resultado.Where(x => x.Nota_Mestre < 1.945).Count();
+                qtdM_3 = _resultado.Where(x => x.Nota_Mestre >= 1.945 && x.Nota_Mestre < 2.945).Count();
+                qtdM_4a5 = _resultado.Where(x => x.Nota_Mestre >= 2.945).Count();
+                qtdR_1a2 = _resultado.Where(x => x.Nota_Regime < 1.945).Count();
+                qtdR_3 = _resultado.Where(x => x.Nota_Regime >= 1.945 && x.Nota_Regime < 2.945).Count();
+                qtdR_4a5 = _resultado.Where(x => x.Nota_Regime >= 2.945).Count();
+
+
+                return new {
+                    QtdCursos,
+                    Nota1a2,
+                    Nota3, // alterar para somente nota 3
+                    Nota4a5,
+                    qtdD_1a2,
+                    qtdD_3,
+                    qtdD_4a5,
+                    qtdM_1a2,
+                    qtdM_3,
+                    qtdM_4a5,
+                    qtdR_1a2,
+                    qtdR_3,
+                    qtdR_4a5,
+
+                        };
             }
 
 
@@ -263,10 +340,9 @@ namespace Censo.API.Resultados
 
             return (resultado);
 
-
         }
 
-        public bool RemoveProfessor(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof )
+        public bool RemoveProfessor(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof, string _indNaoEnade = null)
         {
 
             var qtdCursos = _ListaCursoProfessor.Where(
@@ -279,7 +355,7 @@ namespace Censo.API.Resultados
 
             var qtdProf =  _cursoProfessor.Professores.Count();
 
-            if (notaNova >= notaAnt & qtdCursos > 5 & qtdProf > 5)
+            if (notaNova >= notaAnt & qtdCursos > 1 & qtdProf > 2)
             {
                 return true;
             }

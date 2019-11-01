@@ -41,6 +41,10 @@ namespace Censo.API.Data.Censo
                 entity.Property(e => e.NomCursoCenso)
                     .HasColumnName("NOM_CURSO_CENSO")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.IndEnade)
+                    .HasColumnName("IND_ENADE")
+                    .HasMaxLength(255);
             });
 
 
