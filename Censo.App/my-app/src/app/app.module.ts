@@ -2,7 +2,7 @@ import { BrowserModule} from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import {FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap';
@@ -50,7 +50,7 @@ import { RegistrationComponent } from './user/registration/registration.componen
       TelaLoginComponent,
       UserComponent,
       LoginComponent,
-      RegistrationComponent
+      RegistrationComponent,
    ],
    imports: [
       BrowserModule,
@@ -58,6 +58,7 @@ import { RegistrationComponent } from './user/registration/registration.componen
       HttpClientModule,
       ChartsModule,
       FormsModule,
+      ReactiveFormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
       BrowserAnimationsModule,
