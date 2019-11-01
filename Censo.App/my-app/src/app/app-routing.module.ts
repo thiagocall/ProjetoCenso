@@ -13,10 +13,21 @@ import {AppComposicaoComponent} from './app-composicao/app-composicao.component'
 import {AppResultadosComponent } from './app-resultados/app-resultados.component';
 import {DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
 import { TelaLoginComponent } from './tela-login/tela-login.component';
+import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 
 
 const routes: Routes = [
+
+  /*carregamento de rotas  autenticadas*/
+  {path: 'user', component: UserComponent,
+    children:[
+      {path: 'login', component: LoginComponent },
+      {path: 'registration', component: RegistrationComponent },
+    ]
+  },
 
   {path: 'Professor', component: ProfessorComponent },
   {path: 'ProfessorIES', component: ProfessorIESComponent },

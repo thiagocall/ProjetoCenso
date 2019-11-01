@@ -2,7 +2,7 @@ import { BrowserModule} from '@angular/platform-browser';
 import { NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import {FormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccordionModule } from 'ngx-bootstrap';
@@ -27,6 +27,8 @@ import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado
 import { TesteGraficoComponent } from './teste-grafico/teste-grafico.component';
 import { TelaLoginComponent } from './tela-login/tela-login.component';
 import { UserComponent } from './user/user.component';
+import { LoginComponent } from './user/login/login.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 @NgModule({
    declarations: [
@@ -46,7 +48,9 @@ import { UserComponent } from './user/user.component';
       DetalheResultadoComponent,
       TesteGraficoComponent,
       TelaLoginComponent,
-      UserComponent
+      UserComponent,
+      LoginComponent,
+      RegistrationComponent,
    ],
    imports: [
       BrowserModule,
@@ -54,6 +58,7 @@ import { UserComponent } from './user/user.component';
       HttpClientModule,
       ChartsModule,
       FormsModule,
+      ReactiveFormsModule,
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
       BrowserAnimationsModule,

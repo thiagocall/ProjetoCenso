@@ -15,5 +15,9 @@ export class InicioComponent implements OnInit {
 
     this.professores = ['Thiago Caldas', 'Marcus Sales', 'Cesar Augusto'];
   }
+  
+  loggedIn() {
+    return true;
+  }
 
 }
