@@ -10,6 +10,9 @@ namespace Censo.API.Data.Censo
 
         public virtual DbSet<CursoCenso> CursoCenso { get; set; }
         public virtual DbSet<ProfessorCursoCenso> ProfessorCursoCenso { get; set; }
+
+        public virtual DbSet<ProfessorCursoCenso20p> ProfessorCursoCenso20p { get; set; }
+
         public virtual DbSet<ProfessorCursoEmec> ProfessorCursoEmec { get; set; }
 
 
@@ -65,6 +68,26 @@ namespace Censo.API.Data.Censo
 
                 entity.Property(e => e.CodIes).HasColumnName("COD_IES");
             });
+
+
+             modelBuilder.Entity<ProfessorCursoCenso20p>(entity =>
+            {
+                entity.HasKey(e => new { e.CpfProfessor, e.CodCampus, e.CodCurso, e.NumHabilitacao })
+                    .HasName("PK__Rel_Prof__749E57416DB04B60");
+
+                entity.ToTable("Rel_Professor_Curso_Censo_20p");
+
+                entity.Property(e => e.CpfProfessor).HasColumnName("CPF_PROFESSOR");
+
+                entity.Property(e => e.CodCampus).HasColumnName("COD_CAMPUS");
+
+                entity.Property(e => e.CodCurso).HasColumnName("COD_CURSO");
+
+                entity.Property(e => e.NumHabilitacao).HasColumnName("NUM_HABILITACAO");
+
+                entity.Property(e => e.CodIes).HasColumnName("COD_IES");
+            });
+            
             
             
              modelBuilder.Entity<ProfessorCursoEmec>(entity =>

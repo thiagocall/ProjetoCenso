@@ -45,6 +45,8 @@ namespace Censo.API
             services.AddDbContext<ProfessorMatriculaContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<CursoEnquadramentoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<TempProducaoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection2")));
+            services.AddDbContext<CargaContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddScoped<IOtimizacao, Otimizacao>();
             services.AddCors();

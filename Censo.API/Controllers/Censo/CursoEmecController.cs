@@ -24,7 +24,7 @@ namespace Censo.API.Controllers.Censo
         public IConfiguration Configuration { get; }
         // public ProfessorCursoEmecContext Context { get; }
         public ProfessorIESContext ProfContext { get; }
-        public CensoContext Context { get; }
+        public CensoContext Context {get; }
 
         public TempProducaoContext ProducaoContext { get; set; }
 
@@ -33,7 +33,6 @@ namespace Censo.API.Controllers.Censo
         public IOtimizacao Otm { get; }
 
         public Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
-
 
 
         // public CursoCensoContext CursoCensoContext { get; set; }
@@ -580,8 +579,6 @@ namespace Censo.API.Controllers.Censo
             }
 
         }
-
-
 
 
 
