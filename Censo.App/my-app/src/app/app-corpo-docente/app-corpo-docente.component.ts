@@ -71,7 +71,7 @@ export class AppCorpoDocenteComponent implements OnInit {
       this.qtdR = this.infoCurso.qtdR;
 
       this.notaFaixa = this.faixa();
-      console.log(response);
+      //console.log(response);
 
     },
     error => {

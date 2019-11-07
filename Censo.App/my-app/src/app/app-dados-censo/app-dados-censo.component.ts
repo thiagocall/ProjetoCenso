@@ -35,7 +35,7 @@ export class AppDadosCensoComponent implements OnInit {
   Otimizar() {
 
     this.otmService.Otimizar(this.parametro).subscribe(
-      response => { console.log(response);
+      response => {
         // alert("Ok");
           this.app.ShowToast();
       },

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {environment } from '../../environments/environment';
 
 
@@ -12,28 +12,35 @@ export class ProfessorService {
 constructor(private http: HttpClient) { }
 
 baseUrl = environment.apiUrl;
+getToken() {
+  const tokenHeader = new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`});
+  return tokenHeader;
+}
+
 
 getProfessores() {
 
-  return this.http.get(this.baseUrl + 'Professor');
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'Professor', {headers: tokenHeader});
 
 }
 
 buscarProfessores(campo: string) {
 
-  return this.http.get(this.baseUrl + 'Professor/Busca/' + campo);
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'Professor/Busca/' + campo, {headers: tokenHeader});
 
 }
 
 getDados() {
-
-  return this.http.get(this.baseUrl + 'v1/dados/');
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/dados/' ,{headers: tokenHeader});
 
 }
 
 getInfoCurso(codigo: string) {
-
-  return this.http.get(this.baseUrl + 'v1/censo/cursoEmec/obterInfoCurso/' + codigo);
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/censo/cursoEmec/obterInfoCurso/' + codigo, {headers: tokenHeader});
 
 }
 

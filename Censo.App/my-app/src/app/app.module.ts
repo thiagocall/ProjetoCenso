@@ -25,7 +25,6 @@ import { AppComposicaoComponent } from './app-composicao/app-composicao.componen
 import { AppResultadosComponent } from './app-resultados/app-resultados.component';
 import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
 import { TesteGraficoComponent } from './teste-grafico/teste-grafico.component';
-import { TelaLoginComponent } from './tela-login/tela-login.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
@@ -47,7 +46,6 @@ import { RegistrationComponent } from './user/registration/registration.componen
       AppResultadosComponent,
       DetalheResultadoComponent,
       TesteGraficoComponent,
-      TelaLoginComponent,
       UserComponent,
       LoginComponent,
       RegistrationComponent,

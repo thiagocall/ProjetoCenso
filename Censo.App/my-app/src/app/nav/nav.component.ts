@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-inicio',
@@ -7,7 +9,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService
+  , public router: Router) { }
 
   professores = [];
 
@@ -17,7 +20,12 @@ export class InicioComponent implements OnInit {
   }
   
   loggedIn() {
-    return true;
+    return this.authService.loggedIn();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['user/login']);
   }
 
 }

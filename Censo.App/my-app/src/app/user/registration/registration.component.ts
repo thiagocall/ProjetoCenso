@@ -26,9 +26,9 @@ export class RegistrationComponent implements OnInit {
 
   validation() {
     this.registerForm = this.fb.group({
-      fullName: ['', Validators.required],
+     
       email: ['', [Validators.required, Validators.email]],
-      userName: ['', Validators.required],
+      
       passwords: this.fb.group({
         password: ['', [Validators.required, Validators.minLength(4)]],
         confirmPassword: ['', Validators.required]
@@ -50,14 +50,18 @@ export class RegistrationComponent implements OnInit {
   cadastrarUsuario() {
     if (this.registerForm.valid) {
       this.user = Object.assign(
+        { email: this.registerForm.get('email').value },
         { password: this.registerForm.get('passwords.password').value },
-        this.registerForm.value);
+        ); // this.registerForm.value
+
+        
       this.authService.register(this.user).subscribe(
         () => {
           this.router.navigate(['/user/login']);
         //  this.toastr.success('Cadastro Realizado');
         }, error => {
           const erro = error.error;
+          console.log(error)
           erro.forEach(element => {
             switch (element.code) {
               case 'DuplicateUserName':

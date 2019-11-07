@@ -1,35 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {environment } from '../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OtimizacaoService {
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-private baseURL = environment.apiUrl + 'v1/censo/CursoEmec/';
+  private baseURL = environment.apiUrl + 'v1/censo/CursoEmec/';
 
-Otimizar(obj: any) {
-  return this.http.post(`${this.baseURL}Otimizar`, obj);
-}
+  getToken() {
+    const tokenHeader = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
+    return tokenHeader;
+  }
 
-obterResultadosOtimizados() { // resultado da tabela TbResultado
-  return this.http.get(this.baseURL + 'ObterResultados');
-}
+  Otimizar(obj: any) {
+    const tokenHeader = this.getToken();
+    return this.http.post(`${this.baseURL}Otimizar`, obj, { headers: tokenHeader });
+  }
 
-excluirResultadosOtimizados(idResultado: number) {
-  console.log('idResultado');
-  return this.http.delete(this.baseURL + idResultado);
-}
+  obterResultadosOtimizados() { // resultado da tabela TbResultado
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseURL + 'ObterResultados', { headers: tokenHeader });
+  }
+
+  excluirResultadosOtimizados(idResultado: number) {
+    console.log('idResultado');
+    const tokenHeader = this.getToken();
+    return this.http.delete(this.baseURL + idResultado, { headers: tokenHeader });
+  }
 
 
-obterDetalheResultado(id: number) {
-
-  return this.http.get(this.baseURL + 'ObterResultados/' + id);
-
-}
-
-
+  obterDetalheResultado(id: number) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseURL + 'ObterResultados/' + id, { headers: tokenHeader });
+  }
 }
