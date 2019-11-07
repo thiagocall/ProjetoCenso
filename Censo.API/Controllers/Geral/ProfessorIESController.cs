@@ -29,10 +29,6 @@ namespace Censo.API.Controllers
         public async Task<IActionResult> Get()
         {
             
-            // HttpClient http = new HttpClient();
-            // var results = await http.GetStreamAsync("https://viacep.com.br/ws/22740260/xml/");
-
-            // return Ok(results);
 
             try
             {

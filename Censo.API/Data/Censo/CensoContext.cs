@@ -14,6 +14,8 @@ namespace Censo.API.Data.Censo
         public virtual DbSet<ProfessorCursoCenso20p> ProfessorCursoCenso20p { get; set; }
 
         public virtual DbSet<ProfessorCursoEmec> ProfessorCursoEmec { get; set; }
+        public virtual DbSet<ProfessorCursoEmec20p> ProfessorCursoEmec20p { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,8 +24,7 @@ namespace Censo.API.Data.Censo
 
             modelBuilder.Entity<CursoCenso>(entity =>
             {
-                entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao })
-                    .HasName("PK__Tb_Base___6CB5882B8B1659D7");
+                entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao });
 
                 entity.ToTable("Tb_Base_Curso_Censo");
 
@@ -53,8 +54,7 @@ namespace Censo.API.Data.Censo
 
             modelBuilder.Entity<ProfessorCursoCenso>(entity =>
             {
-                entity.HasKey(e => new { e.CpfProfessor, e.CodCampus, e.CodCurso, e.NumHabilitacao })
-                    .HasName("PK__Rel_Prof__749E57416DB04B60");
+                entity.HasKey(e => new { e.CpfProfessor, e.CodCampus, e.CodCurso, e.NumHabilitacao });
 
                 entity.ToTable("Rel_Professor_Curso_Censo");
 
@@ -72,8 +72,7 @@ namespace Censo.API.Data.Censo
 
              modelBuilder.Entity<ProfessorCursoCenso20p>(entity =>
             {
-                entity.HasKey(e => new { e.CpfProfessor, e.CodCampus, e.CodCurso, e.NumHabilitacao })
-                    .HasName("PK__Rel_Prof__749E57416DB04B60");
+                entity.HasKey(e => new { e.CpfProfessor, e.CodCampus, e.CodCurso, e.NumHabilitacao });
 
                 entity.ToTable("Rel_Professor_Curso_Censo_20p");
 
@@ -92,10 +91,46 @@ namespace Censo.API.Data.Censo
             
              modelBuilder.Entity<ProfessorCursoEmec>(entity =>
             {
-                entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao, e.CodEmec, e.CpfProfessor })
-                    .HasName("PK__Rel_Prof__54CCBB569E73C793");
+                entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao, e.CodEmec, e.CpfProfessor });
 
                 entity.ToTable("Rel_Professor_Curso_Emec");
+
+                entity.Property(e => e.CodCampus).HasColumnName("COD_CAMPUS");
+
+                entity.Property(e => e.CodCurso).HasColumnName("COD_CURSO");
+
+                entity.Property(e => e.NumHabilitacao).HasColumnName("NUM_HABILITACAO");
+
+                entity.Property(e => e.CodEmec).HasColumnName("COD_EMEC");
+
+                entity.Property(e => e.CpfProfessor).HasColumnName("CPF_PROFESSOR");
+
+                entity.Property(e => e.CodIes).HasColumnName("COD_IES");
+
+                entity.Property(e => e.NomCursoCenso)
+                    .HasColumnName("NOM_CURSO_CENSO")
+                    .HasMaxLength(255);
+                
+                entity.Property(e => e.IndAtivo)
+                    .HasColumnName("IND_ATIVO")
+                    .HasMaxLength(255);
+                
+                entity.Property(e => e.Titulacao)
+                    .HasColumnName("TITULACAO")
+                    .HasMaxLength(255);
+
+                 entity.Property(e => e.Regime)
+                    .HasColumnName("REGIME")
+                    .HasMaxLength(255);
+                
+            });
+
+
+        modelBuilder.Entity<ProfessorCursoEmec20p>(entity =>
+            {
+                entity.HasKey(e => new { e.CodCampus, e.CodCurso, e.NumHabilitacao, e.CodEmec, e.CpfProfessor });
+
+                entity.ToTable("Rel_Professor_Curso_Emec_20p");
 
                 entity.Property(e => e.CodCampus).HasColumnName("COD_CAMPUS");
 

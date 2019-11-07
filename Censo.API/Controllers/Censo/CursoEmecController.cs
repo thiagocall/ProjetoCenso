@@ -292,6 +292,64 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+
+        public List<CursoProfessor> MontaCursoProfessor20P([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
+        {
+
+            List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
+
+            var query = _profs;
+
+            var CursoArea = _CursoArea.ToDictionary(x => x.codEmec);
+
+            foreach (var res in query)
+            {
+                // Filtra parâmtetro indGraduacao
+                if (!(res.Titulacao == null || res.Titulacao == "GRADUADO")) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
+                {
+
+                    if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
+                    {
+                        CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
+                        prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].codArea : 9999;
+
+                        if (prof.Professores.Where(x => x.cpfProfessor == res.CpfProfessor).Count() == 0)
+                        {
+                            ProfessorEmec pr = new ProfessorEmec
+                            {
+                                cpfProfessor = res.CpfProfessor,
+                                Ativo = res.IndAtivo,
+                                Regime = res.Regime,
+                                Titulacao = res.Titulacao
+                            };
+                            //prof.Professores = new Dictionary<long, ProfessorEmec>();
+                            prof.Professores.Add(pr);
+                        }
+                        
+                    }
+                    else
+                    {
+                        CursoProfessor prof = new CursoProfessor();
+                        prof.CodEmec = res.CodEmec;
+                        prof.Professores = new List<ProfessorEmec>();
+                        ProfessorEmec pr = new ProfessorEmec
+                        {
+                            cpfProfessor = res.CpfProfessor,
+                            Ativo = res.IndAtivo,
+                            Regime = res.Regime,
+                            Titulacao = res.Titulacao
+                        };
+                        prof.Professores.Add(pr);
+                        cursoProfessor.Add(prof);
+
+                    }
+                }
+            }
+
+            return cursoProfessor;
+
+        }
+
         //################## Previsão ################################
 
         private double?[] GeraPrevisao(long? _id, string _tipo, List<CursoPrevisao> _query)

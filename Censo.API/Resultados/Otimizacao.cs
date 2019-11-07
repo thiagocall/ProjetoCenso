@@ -124,7 +124,7 @@ namespace Censo.API.Resultados
 
 
                         // ######################## Alavanca 20% ######################## //
-
+                        
                         
 
 
