@@ -3,6 +3,10 @@
 @import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 @import '../node_modules/chart.js/dist/Chart.min.css';
 
+#toast-container > div {
+  opacity:1;
+}
+
 
 html {
     background-color: #F7F7F7;

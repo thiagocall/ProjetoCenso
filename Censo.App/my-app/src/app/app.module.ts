@@ -5,7 +5,10 @@ import { ChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'ngx-bootstrap';
+
+
 
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
@@ -60,6 +63,7 @@ import { RegistrationComponent } from './user/registration/registration.componen
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
       BrowserAnimationsModule,
+      ToastrModule.forRoot(),
       AccordionModule.forRoot()
    ],
    providers: [],
