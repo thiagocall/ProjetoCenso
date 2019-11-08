@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     , private toastr: ToastrService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('token') != null) {
+    if (this.authService.loggedIn()) {
       this.router.navigate(['Inicio']);
     }
   }
@@ -28,12 +28,18 @@ export class LoginComponent implements OnInit {
       .subscribe(
         () => {
           this.router.navigate(['Inicio']);
-          this.toastr.success('Logado com Sucesso');
+          this.toastr.success('Logado com Sucesso',null, {
+            timeOut: 2000
+          });
         },
         error => {
-          this.toastr.error('Falha ao tentar Logar');
+          this.toastr.error('Falha ao tentar Logar',null, {
+            timeOut: 2000
+          });
         }
       );
+
+      console.log(this.authService.decodedToken);
   }
 
 }

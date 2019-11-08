@@ -1,7 +1,7 @@
 <div class="row mt-5">
   <div class="col-md-5 offset-1">
     <div class="">
-      <h1>Cadastro de Usuário</h1>
+      <h1 class="leter-primary">Cadastro de Usuário</h1>
     </div>
   </div>
 
@@ -11,7 +11,7 @@
       <div class="form-group">
         <label for="">Email:</label>
         <input class="form-control" type="text" formControlName="email" [ngClass]="{ 'is-invalid': registerForm.get('email').errors && 
-                                     registerForm.get('email').touched}" placeholder="Insira o Email" />
+                                     registerForm.get('email').touched}" placeholder="nome.sobrenome@estacio.br" />
         <div *ngIf="registerForm.get('email').hasError('required') &&
                     registerForm.get('email').touched" class="invalid-feedback">
           email é obrigatório.

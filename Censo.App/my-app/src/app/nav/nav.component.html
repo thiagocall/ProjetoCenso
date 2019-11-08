@@ -1,4 +1,4 @@
-<nav class="sdw navbar navbar-expand-md navbar-light fixed-top" style="background-color: #39496C" *ngIf="showMenu()">
+<nav class="sdw navbar navbar-expand-md navbar-light fixed-top" style="background-color: #39496C" *ngIf="loggedIn()">
   <a class="navbar-brand" [routerLink]="['']" 
     style="color: white; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif"><i
       class="fas fa-rocket m-2"></i>EA</a>
@@ -42,11 +42,13 @@
     </ul>
 
     <div class="d-inline-flex p-2 bd-highlight" style="color: white;">
-      Olá, {{userName()}}
+      Olá,&nbsp; <a style="text-transform: capitalize;" >
+       {{userName()}}
+      </a>
     </div>
 
     <!--botão sair-->
-    <div class="d-flex justify-content-end"> <button (click)="logout()" class="btn btn-outline-light">Sair</button>
+    <div class="d-flex justify-content-end"> <button (click)="logout()" class="btn btn-sm btn-outline-light">Sair</button>
     </div>
 
   </div>

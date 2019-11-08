@@ -15,6 +15,7 @@ import {DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { AuthGuard } from './auth/auth.guard';
 
 
 
@@ -28,16 +29,16 @@ const routes: Routes = [
     ]
   },
 
-  {path: 'Professor', component: ProfessorComponent },
-  {path: 'ProfessorIES', component: ProfessorIESComponent },
-  {path: 'ProfessorConsulta', component: ProfessorConsultaComponent },
-  {path: 'Censo', component: AppCensoComponent },
-  {path: 'CorpoDocente', component: AppCorpoDocenteComponent },
-  {path: 'DadosCenso', component: AppDadosCensoComponent },
-  {path: 'ComposicaoProfessor', component: AppComposicaoComponent },
-  {path: 'Resultados',   component: AppResultadosComponent},
-  {path: 'Resultados/:id', component: DetalheResultadoComponent},
-  {path: 'Inicio', component: AppHomeComponent},
+  {path: 'Professor', component: ProfessorComponent , canActivate: [AuthGuard]},
+  {path: 'ProfessorIES', component: ProfessorIESComponent ,canActivate: [AuthGuard]},
+  {path: 'ProfessorConsulta', component: ProfessorConsultaComponent  ,canActivate: [AuthGuard]},
+  {path: 'Censo', component: AppCensoComponent  ,canActivate: [AuthGuard]},
+  {path: 'CorpoDocente', component: AppCorpoDocenteComponent  ,canActivate: [AuthGuard]},
+  {path: 'DadosCenso', component: AppDadosCensoComponent  ,canActivate: [AuthGuard]},
+  {path: 'ComposicaoProfessor', component: AppComposicaoComponent  ,canActivate: [AuthGuard]},
+  {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
+  {path: 'Resultados/:id', component: DetalheResultadoComponent ,canActivate: [AuthGuard]},
+  {path: 'Inicio', component: AppHomeComponent ,canActivate: [AuthGuard]},
   {path: '', component: LoginComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
 
