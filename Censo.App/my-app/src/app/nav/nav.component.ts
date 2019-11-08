@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/_services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-inicio',
@@ -15,6 +16,7 @@ export class InicioComponent implements OnInit {
   , private toastr: ToastrService) { }
 
   professores = [];
+  JwtHelper = new JwtHelperService();
 
   ngOnInit() {
 
@@ -26,17 +28,19 @@ export class InicioComponent implements OnInit {
   }
 
   showMenu() {
-    return this.router.url !== '/user/login';
+    return localStorage.getItem('token') !== null;
   }
 
   logout() {
     localStorage.removeItem('token');
-    this.toastr.show('Log Out');
+    this.toastr.success('Log Out');
     this.router.navigate(['/user/login']);
   }
 
   userName() {
-    return sessionStorage.getItem('username');
+    // return sessionStorage.getItem('username').split('.')[0];
+    const token = this.JwtHelper.decodeToken(localStorage.getItem('token'));
+    return token.unique_name.split('.')[0];
   }
 
 }

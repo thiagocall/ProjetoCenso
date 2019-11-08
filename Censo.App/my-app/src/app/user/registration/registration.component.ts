@@ -60,14 +60,18 @@ export class RegistrationComponent implements OnInit {
       this.authService.register(this.user).subscribe(
         () => {
           this.router.navigate(['/user/login']);
-          this.toastr.success('Cadastro Realizado');
+          this.toastr.success('Cadastro Realizado',null, {
+            timeOut: 2000
+          });
         }, error => {
           const erro = error.error;
           console.log(error)
           erro.forEach(element => {
             switch (element.code) {
               case 'DuplicateUserName':
-                this.toastr.error('Cadastro Duplicado!');
+                this.toastr.error('Cadastro Duplicado!',null, {
+                  timeOut: 2000
+                });
                 break;
               default:
                this.toastr.error(`Erro no Cadatro! CODE: ${element.code}`);

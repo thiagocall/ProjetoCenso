@@ -94,14 +94,13 @@ namespace Censo.API.Controllers
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-                new Claim("meuValor", "oque voce quiser"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.ASCII
                                 .GetBytes(_configuration.GetSection("JWT:Key").Value));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             // tempo de expiração do token: 1 hora
-            var expiration = DateTime.UtcNow.AddHours(24);
+            var expiration = DateTime.UtcNow.AddDays(1);
             JwtSecurityToken token = new JwtSecurityToken(
                issuer: null,
                audience: null,
