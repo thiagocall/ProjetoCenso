@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
 
-  
+
   baseURL = 'http://localhost:5000/api/v1/usuarios/';
   jwtHelper = new JwtHelperService();
   decodedToken: any; //token que será decodificado
@@ -22,7 +22,7 @@ export class AuthService {
       .post(`${this.baseURL}login`, model).pipe( //post em 'http://localhost:5000/api/v1/usuarios/'
         map((response: any) => {
           const user = response;
-         // console.log(user);
+          // console.log(user);
           if (user) {
             localStorage.setItem('token', user.token); //salvando o token dentro do localStorage
             this.decodedToken = this.jwtHelper.decodeToken(user.token); //decodificar o token 
