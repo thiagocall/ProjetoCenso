@@ -37,7 +37,8 @@ const routes: Routes = [
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent },
   {path: 'Resultados',   component: AppResultadosComponent},
   {path: 'Resultados/:id', component: DetalheResultadoComponent},
-  {path: '', component: AppHomeComponent},
+  {path: 'Inicio', component: AppHomeComponent},
+  {path: '', component: LoginComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
 
 ];

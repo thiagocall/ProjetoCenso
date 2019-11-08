@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('token') != null) {
-      this.router.navigate(['']);
+      this.router.navigate(['Inicio']);
     }
   }
 
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.model)
       .subscribe(
         () => {
-          this.router.navigate(['']);
+          this.router.navigate(['Inicio']);
           this.toastr.success('Logado com Sucesso');
         },
         error => {
