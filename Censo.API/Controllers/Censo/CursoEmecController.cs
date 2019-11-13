@@ -649,6 +649,13 @@ namespace Censo.API.Controllers.Censo
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
+
+            var TaskEnade = await Task.Run( () => {
+
+                return this.Context.CursoCenso.ToList();
+
+            });
+
             var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
 
                 // int QtdCursos = 0;
@@ -681,7 +688,9 @@ namespace Censo.API.Controllers.Censo
                 }
                     );
 
-                List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual);
+                var CursoEnade = TaskEnade.Where(x => x.IndEnade.Contains('S')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
+
+                List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual, CursoEnade);
 
                 List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, Cursoprofessor, await ListaCursoArea, _formulario);
                 
@@ -762,7 +771,7 @@ namespace Censo.API.Controllers.Censo
 
                 var objResAtual = new TbResultadoAtual();
                 objResAtual.Id = ResId;
-               
+
 
                 Task.WaitAll(json, formJson, resumoJson, professorJson);
                 Task.WaitAll(jsonAt, formJsonAt, resumoJsonAt, professorJsonAt);

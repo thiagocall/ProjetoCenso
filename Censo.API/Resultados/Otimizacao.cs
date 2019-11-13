@@ -134,7 +134,6 @@ namespace Censo.API.Resultados
                          foreach(var item in _listaProfessor)
                         {
                             
-
                                 item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe, "N")
                                              ));
                             
@@ -142,20 +141,19 @@ namespace Censo.API.Resultados
 
 
 
-                        var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor);
+
+                        var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
 
                         return final;
 
         }
 
-        public List<Resultado> CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor) 
+        public List<Resultado> CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor, List<string> _listaEnade =  null) 
             {
-                
-                // var query = _listaProfessorEmec;
+
+                // ind_enade == "S" >> Monta os resultados só para os cursos incluídos no ENADE
 
                 var ListaPrevisaoSKU = _listaPrevisaoSKU;
-
-                // int area;
 
                 // ######## Calcula Nota Prévia dos Cursos ###########
 
@@ -221,7 +219,10 @@ namespace Censo.API.Resultados
                                             QtdProfessores = x.Professores.Count(),
                                             Doutores = x.Professores
                                                     .Where(p => p.Titulacao == "DOUTOR").Count(),
-                                            CodArea = x.CodArea
+                                            CodArea = x.CodArea,
+
+                                                    indEnade = (_listaEnade != null) ? _listaEnade.Contains(x.CodEmec.ToString()) ? "S" : "N" : "N"
+                                            
                                             // Professores = x.Professores,
                                             })
                                         .ToList();
@@ -233,6 +234,21 @@ namespace Censo.API.Resultados
 
 
             public dynamic MontaResultadoFinal(List<Resultado> _resultado) {
+
+                int QtdCursos_E = 0;
+                int Nota1a2_E = 0;
+                int Nota3_E = 0;
+                int Nota4a5_E = 0;
+                int qtdD_1a2_E = 0;
+                int qtdD_3_E = 0;
+                int qtdD_4a5_E = 0;
+                int qtdM_1a2_E = 0;
+                int qtdM_3_E = 0;
+                int qtdM_4a5_E = 0;
+                int qtdR_1a2_E = 0;
+                int qtdR_3_E = 0;
+                int qtdR_4a5_E = 0;
+
 
                 int QtdCursos = 0;
                 int Nota1a2 = 0;
@@ -248,29 +264,67 @@ namespace Censo.API.Resultados
                 int qtdR_3 = 0;
                 int qtdR_4a5 = 0;
 
-                QtdCursos = _resultado.Count();
+
+                // string indEnade = "";
+
+                List<Resultado> Resultado_Enade = _resultado.Where(r => r.indEnade == "S").ToList();
+                List<Resultado> Resultado_NaoEnade = _resultado;
+
+
+                QtdCursos_E = Resultado_Enade.Count();
                 // Índices de Nota Geral
-                Nota1a2 = _resultado.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
-                Nota3 = _resultado.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
-                Nota4a5 = _resultado.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
+                Nota1a2_E = Resultado_Enade.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
+                Nota3_E = Resultado_Enade.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
+                Nota4a5_E = Resultado_Enade.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
 
                 // Índices de Titulação
-                qtdD_1a2 = _resultado.Where(x => x.Nota_Doutor < 1.945).Count();
-                qtdD_3 = _resultado.Where(x => x.Nota_Doutor >= 1.945 && x.Nota_Doutor < 2.945).Count();
-                qtdD_4a5 = _resultado.Where(x => x.Nota_Doutor >= 2.945).Count();
-                qtdM_1a2 = _resultado.Where(x => x.Nota_Mestre < 1.945).Count();
-                qtdM_3 = _resultado.Where(x => x.Nota_Mestre >= 1.945 && x.Nota_Mestre < 2.945).Count();
-                qtdM_4a5 = _resultado.Where(x => x.Nota_Mestre >= 2.945).Count();
-                qtdR_1a2 = _resultado.Where(x => x.Nota_Regime < 1.945).Count();
-                qtdR_3 = _resultado.Where(x => x.Nota_Regime >= 1.945 && x.Nota_Regime < 2.945).Count();
-                qtdR_4a5 = _resultado.Where(x => x.Nota_Regime >= 2.945).Count();
+                qtdD_1a2_E = Resultado_Enade.Where(x => x.Nota_Doutor < 1.945).Count();
+                qtdD_3_E = Resultado_Enade.Where(x => x.Nota_Doutor >= 1.945 && x.Nota_Doutor < 2.945).Count();
+                qtdD_4a5_E = Resultado_Enade.Where(x => x.Nota_Doutor >= 2.945).Count();
+                qtdM_1a2_E = Resultado_Enade.Where(x => x.Nota_Mestre < 1.945).Count();
+                qtdM_3_E = Resultado_Enade.Where(x => x.Nota_Mestre >= 1.945 && x.Nota_Mestre < 2.945).Count();
+                qtdM_4a5_E = Resultado_Enade.Where(x => x.Nota_Mestre >= 2.945).Count();
+                qtdR_1a2_E = Resultado_Enade.Where(x => x.Nota_Regime < 1.945).Count();
+                qtdR_3_E = Resultado_Enade.Where(x => x.Nota_Regime >= 1.945 && x.Nota_Regime < 2.945).Count();
+                qtdR_4a5_E = Resultado_Enade.Where(x => x.Nota_Regime >= 2.945).Count();
 
+
+                QtdCursos = Resultado_NaoEnade.Count();
+                // Índices de Nota Geral
+                Nota1a2 = Resultado_NaoEnade.Where(x => x.Nota_CorpoDocente <= 2).Count(); // Insatisfatório
+                Nota3 = Resultado_NaoEnade.Where(x => x.Nota_CorpoDocente == 3).Count(); // Satisfatório
+                Nota4a5 = Resultado_NaoEnade.Where(x => x.Nota_CorpoDocente >=4).Count(); // Excelência
+
+                // Índices de Titulação
+                qtdD_1a2 = Resultado_NaoEnade.Where(x => x.Nota_Doutor < 1.945).Count();
+                qtdD_3 = Resultado_NaoEnade.Where(x => x.Nota_Doutor >= 1.945 && x.Nota_Doutor < 2.945).Count();
+                qtdD_4a5 = Resultado_NaoEnade.Where(x => x.Nota_Doutor >= 2.945).Count();
+                qtdM_1a2 = Resultado_NaoEnade.Where(x => x.Nota_Mestre < 1.945).Count();
+                qtdM_3 = Resultado_NaoEnade.Where(x => x.Nota_Mestre >= 1.945 && x.Nota_Mestre < 2.945).Count();
+                qtdM_4a5 = Resultado_NaoEnade.Where(x => x.Nota_Mestre >= 2.945).Count();
+                qtdR_1a2 = Resultado_NaoEnade.Where(x => x.Nota_Regime < 1.945).Count();
+                qtdR_3 = Resultado_NaoEnade.Where(x => x.Nota_Regime >= 1.945 && x.Nota_Regime < 2.945).Count();
+                qtdR_4a5 = Resultado_NaoEnade.Where(x => x.Nota_Regime >= 2.945).Count();
 
 
                 return new {
+                    QtdCursos_E,
+                    Nota1a2_E,
+                    Nota3_E,
+                    Nota4a5_E,
+                    qtdD_1a2_E,
+                    qtdD_3_E,
+                    qtdD_4a5_E,
+                    qtdM_1a2_E,
+                    qtdM_3_E,
+                    qtdM_4a5_E,
+                    qtdR_1a2_E,
+                    qtdR_3_E,
+                    qtdR_4a5_E,
+
                     QtdCursos,
                     Nota1a2,
-                    Nota3, // alterar para somente nota 3
+                    Nota3,
                     Nota4a5,
                     qtdD_1a2,
                     qtdD_3,
@@ -280,8 +334,7 @@ namespace Censo.API.Resultados
                     qtdM_4a5,
                     qtdR_1a2,
                     qtdR_3,
-                    qtdR_4a5,
-
+                    qtdR_4a5
                         };
             }
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class AuthService {
 
 
-  baseURL = 'http://localhost:5000/api/v1/usuarios/';
+  baseURL = environment.apiUrl + 'v1/usuarios/';
   jwtHelper = new JwtHelperService();
   decodedToken: any; //token que será decodificado
 

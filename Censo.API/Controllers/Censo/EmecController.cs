@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Censo.API.Controllers.Censo;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Censo.API.Controllers.Censo
 {
+    [AllowAnonymous]
     [Route("api/Censo/[controller]")]
     [ApiController]
     public class EmecController: ControllerBase
@@ -27,14 +29,14 @@ namespace Censo.API.Controllers.Censo
 
         // download pdf from site
         [HttpGet]
-        public ActionResult Get(){
+        public FileStreamResult  Get(){
 
-            FileStream fs = new FileStream(@"C:\Users\thiago.caldas\Desktop\HOSTGATOR BRASIL HOSPEDAGEM DE SITES.pdf", FileMode.Open, FileAccess.Read);
+            FileStream fs = new FileStream(@"C:\Users\thiago.caldas\Desktop\Atividades_2019-11-05.xlsx", FileMode.Open, FileAccess.Read);
             
-            
-            
-            FileStreamResult fsr = new FileStreamResult(fs ,"application/pdf");
-            return fsr;
+            // File fsr = File(fs ,"application/Excel", "Alunos.xlsx");
+
+    
+            return File(fs ,"application/Excel", "Alunos.xlsx");
             
         }
 

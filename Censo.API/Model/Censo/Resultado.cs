@@ -33,6 +33,7 @@ namespace Censo.API.Model.Censo
         public int QtdProfessores { get; set; }
         public int Doutores { get; set; }
         public int CodArea { get; set; }
+        public string indEnade { get; set; }
 
 
     }
