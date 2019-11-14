@@ -281,13 +281,10 @@ namespace Censo.API.Controllers
 
                       var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCurso);
                  
-                      // pegar nome professor e regime
+                      // pegar nome do professor -- titulacao -- regime
                       var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
                       var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-
-                    //var results = await this.censocontext.ProfessorCursoCenso.ToListAsync();
-                    //var query = await this.Context.ProfessorCursoCenso.ToListAsync();
-                    List<ProfessorDetalhe> listaprofessordetalhe = new List<ProfessorDetalhe>();
+                      List<ProfessorDetalhe> listaprofessordetalhe = new List<ProfessorDetalhe>();
 
                         foreach (var item in dic)
                         {
@@ -295,13 +292,12 @@ namespace Censo.API.Controllers
                            if (listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString()) == null)
                            {
                                var professordetalhe = new ProfessorDetalhe();
-                          
-                                
                                 professordetalhe.CpfProfessor = item.CpfProfessor.ToString();
                                 //nomeprofessor//titulacao//regime
                                 professordetalhe.NomProfessor = professor.NomProfessor;
                                 professordetalhe.titulacao = professor.Titulacao;
-                                professordetalhe.regime = professor.regime;
+                                //professordetalhe.regime = professor.regime;
+                                professordetalhe.regime = regime[item.CpfProfessor.ToString()].Regime;
                                                                                 
                                 professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
                                                                         nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
@@ -317,7 +313,7 @@ namespace Censo.API.Controllers
                                //nomeprofessor//titulacao//regime
                                 professordetalhe.NomProfessor = professor.NomProfessor;
                                 professordetalhe.titulacao = professor.Titulacao;
-                                professordetalhe.regime = professor.regime;
+                                professordetalhe.regime = regime[item.CpfProfessor.ToString()].Regime;
                                  professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
                                                                         nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
                                                                         nomcurso = dicCurso.TryGetValue(item.CodCurso, out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
