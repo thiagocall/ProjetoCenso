@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Censo.API.Resultados;
 using Censo.API.Model;
+//using Censo.API.Controllers.Censo;
+using Censo.API.Data.Censo;
+using Censo.API.Model.Censo;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using OfficeOpenXml;
 
 namespace Censo.API.Controllers
-{   
+{
     [AllowAnonymous]
     [Route ("api/[controller]")]
     [ApiController]
@@ -23,15 +26,24 @@ namespace Censo.API.Controllers
         public ProfessorContext context;
         public RegimeContext regContext;
 
+        public CensoContext  censocontext;
+
+        public CampusContext CampusContext;
+
         public ProfessorMatriculaContext MatriculaContext;
 
-        public ProfessorController(ProfessorContext Context,RegimeContext RegContext, ProfessorMatriculaContext _matContext)
+        public ProfessorController(ProfessorContext Context,RegimeContext RegContext, CensoContext  Censocontext, 
+                                                CampusContext campusContext,
+                                                ProfessorMatriculaContext _matContext)
         {
             this.context = Context;
             this.regContext = RegContext;
             this.MatriculaContext = _matContext;
+            this.censocontext = Censocontext;
+            this.CampusContext = campusContext;
             this.context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.regContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.censocontext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.MatriculaContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             
 
@@ -331,8 +343,112 @@ namespace Censo.API.Controllers
 
         }
 
+        // nova pesquisa detalhe professor
+
+        [HttpGet("BuscaDetalhe/{id}")]
+        public async Task<IActionResult> BuscaDetalhe(string id)
+        {
+            
+                try
+                {
+
+                      var diccampus = this.CampusContext.TbSiaCampus.ToDictionary(x => x.CodCampus);
+                     var dic = this.censocontext.ProfessorCursoCenso
+                                                        .Where(x => x.CpfProfessor.ToString() == id )
+                                                        .ToList();
+                      var dic1 = this.censocontext.CursoCenso.Select(x => new CursoDetalhe {CodCurso = x.CodCurso, NomCurso = x.NomCursoCenso})
+                                        .ToList();
+
+                      var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCurso);
+                 
+                      // pegar nome professor e regime
+                      var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
+                      var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+
+                    //var results = await this.censocontext.ProfessorCursoCenso.ToListAsync();
+                    //var query = await this.Context.ProfessorCursoCenso.ToListAsync();
+                    List<ProfessorDetalhe> listaprofessordetalhe = new List<ProfessorDetalhe>();
+
+                        foreach (var item in dic)
+                        {
+
+                           if (listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString()) == null)
+                           {
+                               var professordetalhe = new ProfessorDetalhe();
+                          
+                                
+                                professordetalhe.CpfProfessor = item.CpfProfessor.ToString();
+                                //nomeprofessor//titulacao//regime
+                                professordetalhe.NomProfessor = professor.NomProfessor;
+                                professordetalhe.titulacao = professor.Titulacao;
+                                professordetalhe.regime = professor.regime;
+                                                                                
+                                professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
+                                                                        nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
+                                                                        nomcurso = dicCurso.TryGetValue(item.CodCurso, out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
+                                                                        });
+                                
+                                listaprofessordetalhe.Add(professordetalhe); 
+
+                           }     
+                           else 
+                           {
+                               var professordetalhe = listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString());
+                               //nomeprofessor//titulacao//regime
+                                professordetalhe.NomProfessor = professor.NomProfessor;
+                                professordetalhe.titulacao = professor.Titulacao;
+                                professordetalhe.regime = professor.regime;
+                                 professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
+                                                                        nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
+                                                                        nomcurso = dicCurso.TryGetValue(item.CodCurso, out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
+                                                                        });
+
+                           }
+
+                          
+                        }
+
+                    
+
+                  //return Ok(results2);
+                  return Ok(listaprofessordetalhe);
+                    
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+                // Termino da pesquisa detalhe professor
+                      
+        }
 
 
 
     }
+
+
+
+     public class CursoComparer : IEqualityComparer<CursoDetalhe>
+    {
+        public bool Equals(CursoDetalhe x, CursoDetalhe y)
+        {
+            if (x.CodCurso == y.CodCurso)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetHashCode(CursoDetalhe obj)
+        {
+            return obj.CodCurso.GetHashCode();
+        }
+    }
+
+
+   
+
 }
