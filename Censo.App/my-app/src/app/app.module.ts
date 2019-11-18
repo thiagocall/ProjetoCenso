@@ -31,6 +31,9 @@ import { TesteGraficoComponent } from './teste-grafico/teste-grafico.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { RegulatorioComponent } from './nav-regulatorio/regulatorio/regulatorio.component';
+import { CorpoDocenteComponent } from './nav-regulatorio/corpo-docente/corpo-docente.component';
+import { ProfessorConsultaDetalheComponent } from './professor-consulta-detalhe/professor-consulta-detalhe.component';
 
 @NgModule({
    declarations: [
@@ -52,6 +55,9 @@ import { RegistrationComponent } from './user/registration/registration.componen
       UserComponent,
       LoginComponent,
       RegistrationComponent,
+      RegulatorioComponent,
+      CorpoDocenteComponent,
+      ProfessorConsultaDetalheComponent
    ],
    imports: [
       BrowserModule,

@@ -1,20 +1,19 @@
-
-  table {
+/*table {
     border: 1px solid #F2F2F2;
     border-radius: .25rem;
     box-shadow: 2px 2px 6px 3px #E2E2E2;
   }
   
   thead tr:first-child {
-    background: #fff;
-    color: #000;
+    background: #39496c;
+    color: #fff;
     border: none;
-  }
+  } */
   
- 
-  
- 
-  
- 
-  
+.titulo{
+  color: black;
+  font-weight: bold;
+  text-align: left;
+}
+    
   

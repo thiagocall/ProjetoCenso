@@ -1,15 +1,19 @@
 <div class="container  mt-4">
   <div class="d-flex">
     <h3 class="mr-auto">Cursos Enade</h3>
-    <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-auto">Voltar</button>
+
+    <div class="p-2">
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-success ml-auto" tooltip="Exportar excel"> <i
+          class="fas fa-file-excel fa-1x"></i> Exportar</button>
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2">Voltar</button>
+    </div>
+
   </div>
   <hr>
 </div>
 
-
 <div class="container" *ngIf="resultadoOtimizado">
   <div class="row">
-
     <div class="col-sm-6">
       <h5 class="display-5">Atual</h5>
       <table class="table table-hover">
@@ -48,8 +52,6 @@
           </tr>
         </tbody>
       </table>
-
-
     </div>
 
 
@@ -92,110 +94,98 @@
         </tbody>
       </table>
     </div>
-
   </div>
-
 
 
   <!--Enade-->
-
+  <div class="p-2"></div>
   <h3 class="mr-auto">Resultado Geral</h3>
-
-  <div class="container" *ngIf="resultadoOtimizado">
-    <div class="row">
-
-      <div class="col-sm-6">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">Notas</th>
-              <th scope="col">1 a 2</th>
-              <th scope="col">3</th>
-              <th scope="col">4 a 5</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Doutor</th>
-              <td>{{dadosJsonAtual.qtdD_1a2}}</td>
-              <td>{{dadosJsonAtual.qtdD_3}}</td>
-              <td>{{dadosJsonAtual.qtdD_4a5}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Nota Titulação</th>
-              <td>{{dadosJsonAtual.qtdM_1a2}}</td>
-              <td>{{dadosJsonAtual.qtdM_3}}</td>
-              <td>{{dadosJsonAtual.qtdM_4a5}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Nota Regime</th>
-              <td>{{dadosJsonAtual.qtdR_1a2}}</td>
-              <td>{{dadosJsonAtual.qtdR_3}}</td>
-              <td>{{dadosJsonAtual.qtdR_4a5}}</td>
-            </tr>
-            <tr>
-              <th scope="row">Nota Corpo Docente</th>
-              <td>{{dadosJsonAtual.Nota1a2}}</td>
-              <td>{{dadosJsonAtual.Nota3}}</td>
-              <td>{{dadosJsonAtual.Nota4a5}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div style="display: flex; width: 200%;">
-          <p class="m-0 p-0"><i style="font-size: 12px;">*1 a 2 Insatisfatório | 3 Satisfatório | 4 a 5 Excelente</i>
-          </p>
-          <p class="m-0 p-0">&nbsp;<i style="font-size: 12px;">&nbsp;**As notas de corpo docente representam 30% do
-              CPC</i></p>
-        </div>
-
+  <div class="row">
+    <div class="col-sm-6">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Notas</th>
+            <th scope="col">1 a 2</th>
+            <th scope="col">3</th>
+            <th scope="col">4 a 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Doutor</th>
+            <td>{{dadosJsonAtual.qtdD_1a2}}</td>
+            <td>{{dadosJsonAtual.qtdD_3}}</td>
+            <td>{{dadosJsonAtual.qtdD_4a5}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Nota Titulação</th>
+            <td>{{dadosJsonAtual.qtdM_1a2}}</td>
+            <td>{{dadosJsonAtual.qtdM_3}}</td>
+            <td>{{dadosJsonAtual.qtdM_4a5}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Nota Regime</th>
+            <td>{{dadosJsonAtual.qtdR_1a2}}</td>
+            <td>{{dadosJsonAtual.qtdR_3}}</td>
+            <td>{{dadosJsonAtual.qtdR_4a5}}</td>
+          </tr>
+          <tr>
+            <th scope="row">Nota Corpo Docente</th>
+            <td>{{dadosJsonAtual.Nota1a2}}</td>
+            <td>{{dadosJsonAtual.Nota3}}</td>
+            <td>{{dadosJsonAtual.Nota4a5}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="display: flex; width: 200%;">
+        <p class="m-0 p-0"><i style="font-size: 12px;">*1 a 2 Insatisfatório | 3 Satisfatório | 4 a 5 Excelente</i>
+        </p>
+        <p class="m-0 p-0">&nbsp;<i style="font-size: 12px;">&nbsp;**As notas de corpo docente representam 30% do
+            CPC</i></p>
       </div>
-
-
-      <div class="col-sm-6">
-        <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col"></th>
-              <th scope="col">1 a 2</th>
-              <th scope="col">3</th>
-              <th scope="col">4 a 5</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row"></th>
-              <td>{{dadosJsonOtm.qtdD_1a2}}</td>
-              <td>{{dadosJsonOtm.qtdD_3}}</td>
-              <td>{{dadosJsonOtm.qtdD_4a5}}</td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td>{{dadosJsonOtm.qtdM_1a2}}</td>
-              <td>{{dadosJsonOtm.qtdM_3}}</td>
-              <td>{{dadosJsonOtm.qtdM_4a5}}</td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td>{{dadosJsonOtm.qtdR_1a2}}</td>
-              <td>{{dadosJsonOtm.qtdR_3}}</td>
-              <td>{{dadosJsonOtm.qtdR_4a5}}</td>
-            </tr>
-            <tr>
-              <th scope="row"></th>
-              <td>{{dadosJsonOtm.Nota1a2}}</td>
-              <td>{{dadosJsonOtm.Nota3}}</td>
-              <td>{{dadosJsonOtm.Nota4a5}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-
 
     </div>
 
+    <div class="col-sm-6">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">1 a 2</th>
+            <th scope="col">3</th>
+            <th scope="col">4 a 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row"></th>
+            <td>{{dadosJsonOtm.qtdD_1a2}}</td>
+            <td>{{dadosJsonOtm.qtdD_3}}</td>
+            <td>{{dadosJsonOtm.qtdD_4a5}}</td>
+          </tr>
+          <tr>
+            <th scope="row"></th>
+            <td>{{dadosJsonOtm.qtdM_1a2}}</td>
+            <td>{{dadosJsonOtm.qtdM_3}}</td>
+            <td>{{dadosJsonOtm.qtdM_4a5}}</td>
+          </tr>
+          <tr>
+            <th scope="row"></th>
+            <td>{{dadosJsonOtm.qtdR_1a2}}</td>
+            <td>{{dadosJsonOtm.qtdR_3}}</td>
+            <td>{{dadosJsonOtm.qtdR_4a5}}</td>
+          </tr>
+          <tr>
+            <th scope="row"></th>
+            <td>{{dadosJsonOtm.Nota1a2}}</td>
+            <td>{{dadosJsonOtm.Nota3}}</td>
+            <td>{{dadosJsonOtm.Nota4a5}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
 </div>
 <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
   <i class="fas fa-spinner fa-pulse fa-3x mt-5 "></i>

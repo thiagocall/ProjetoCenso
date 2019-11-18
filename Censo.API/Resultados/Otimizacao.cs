@@ -101,15 +101,12 @@ namespace Censo.API.Resultados
                                                                             .ToList()
                                                                             .Exists(x => CursoNaoEnade.Contains(x.ToString()) &&
                                                                         CursoSimEnade.Contains(item.CodEmec.ToString()))
-                                             );
-
-                        };
-
+                                                    );
+                                                    
+                                };
 
 
                     // ######################## Alavanca Colaborador ######################## //
-
-                      
 
                            foreach(var item in _listaProfessor)
                       {
@@ -124,8 +121,19 @@ namespace Censo.API.Resultados
 
 
                         // ######################## Alavanca 20% ######################## //
+                        // Adiciona os professores 20% //
                         
-                        
+
+                        foreach(var item in _listaProfessor)
+                      {
+                            
+                                item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe) &&
+                                                        pe.Regime == "HORISTA" &&
+                                                        ((cargaDS.TryGetValue(pe.cpfProfessor.ToString(), out var ds) ? ds.QtdHoras : 0) +
+                                                         (cargaFS.TryGetValue(pe.cpfProfessor.ToString(), out var fs) ? fs.QtdHoras : 0)) < 8 
+                                             ));
+                            
+                        };
 
 
 
@@ -462,10 +470,54 @@ namespace Censo.API.Resultados
             throw new NotImplementedException();
         }
 
+        public void AddProfessor20p(List<CursoProfessor> _cursoProfessor, List<ProfessorCursoEmec20p> _listaProfessor20p)
+        {
+            // Adiciona os professores 20% nos cursos
+                
+           
+            foreach (var emec in _listaProfessor20p)
+            {
+                
+                try
+                {
+                    var codEmec = emec.CodEmec;
+                    var qtd = _cursoProfessor
+                                    .Find(x => x.CodEmec == codEmec)
+                                    .Professores.Where(x => x.cpfProfessor == emec.CpfProfessor)
+                                    .Count();
+                    
+                    if (qtd < 1) {
+                        
+                        var curso = _cursoProfessor.Find(x => x.CodEmec == emec.CodEmec);
+                        
+                        if (curso != null)
+                        {
+
+                            if (curso.Professores.Where(x => x.cpfProfessor == emec.CpfProfessor).Count() < 1 )
+                            {
+
+                                curso.Professores.Add(
+                                new ProfessorEmec {
+                                    Ativo = emec.IndAtivo,
+                                    cpfProfessor = emec.CpfProfessor,
+                                    Regime = emec.Regime,
+                                    Titulacao = emec.Titulacao
+                                    }
+                                );  
+                            }
+                            
+                        }
+                    }
+                }
+
+            catch (System.Exception ex)
+            {
+                
+            }
+        }
 
 
-
-
+        }
 
 
 
