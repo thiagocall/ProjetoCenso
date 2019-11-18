@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { saveAs } from 'file-saver';
 //  import { timingSafeEqual } from 'crypto';
 
 @Component({
@@ -10,12 +11,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class DetalheResultadoComponent implements OnInit {
 
-  constructor(private otimizacaoService: OtimizacaoService, private router: Router, private thisRoute: ActivatedRoute) { }
+  constructor(private otimizacaoService: OtimizacaoService,
+              private router: Router,
+              private thisRoute: ActivatedRoute) { }
+
   dados: any;
   dadosJsonAtual: any;
   dadosJsonOtm: any;
   resultadoAtual: any;
   resultadoOtimizado: any;
+  fileUrl;
   id: any;
 
   getDados() {
@@ -37,6 +42,19 @@ export class DetalheResultadoComponent implements OnInit {
     );
 
   }
+
+  exportarResultadoExcel(){ 
+    let thefile;
+    let blob;
+    
+    this.otimizacaoService.exportarResultadoExcel(this.id).subscribe(response => { 
+      blob = new Blob([response], { type: 'application/octet-stream'});
+      saveAs(blob, `ResultadoCenso_${this.id}.xlsx`);
+    }
+    );
+    
+        // window.open(window.URL.createObjectURL(thefile));
+    };
 
   ngOnInit() {
 
