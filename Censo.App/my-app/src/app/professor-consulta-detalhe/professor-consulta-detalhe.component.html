@@ -1,0 +1,121 @@
+<!-- <div class="container">
+  <div class="row">
+    <div class="col-md-10" style="margin-top: 8%">
+
+      <div class="d-flex flex-row-reverse bd-highlight">
+        <button [routerLink]="['/ProfessorConsulta']" class="btn btn-outline-primary btn-sm ">Voltar</button>
+      </div>
+
+      <div class="p-1"></div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Cpf</th>
+            <th>Regime</th>
+            <th>Titulação</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of professores">
+            <td>{{item.nomProfessor}}</td>
+            <td>{{item.cpfProfessor}}</td>
+            <td>{{item.regime}}</td>
+            <td>{{item.titulacao}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="container">
+  <div class=" p-4">
+  </div>
+  <div class="row container">
+    <div class="form-group col-md-8">
+      <div class="input-group mb-3">
+        <h2>Detalhe Professor</h2>
+      </div>
+    </div>
+  </div>
+
+
+  <form ngFor="let item of professor">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label>CPF:</label>
+        <input type="text" class="form-control" id="cpf" disabled="true"> {{item.nomProfessor}}
+
+      </div>
+      <div class="form-group col-md-4">
+        <label>Nome:</label>
+        <input type="text" class="form-control" id="nome" disabled="true">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Titulação:</label>
+        <input type="text" class="form-control" id="titulacao" disabled="true">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label>Regime:</label>
+        <input type="text" class="form-control" id="regime" disabled="true">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Cod Região:</label>
+        <input type="text" class="form-control" id="codRegiao" disabled="true">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Nome da Região:</label>
+        <input type="text" class="form-control" id="nomeRegiao" disabled="true">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label>Quantidade de Horas Ds:</label>
+        <input type="text" class="form-control" id="qtdHorasDs" disabled="true">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Quantidade de Horas Fs:</label>
+        <input type="text" class="form-control" id="qtdHorasFs" disabled="true">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Carga Total:</label>
+        <input type="text" class="form-control" id="cargaTotal" disabled="true">
+      </div>
+    </div>
+
+  </form>
+
+
+  <!--tabela-->
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Código do Curso</th>
+        <th>Nome do Curso</th>
+        <th>Nome do Campus</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <div *ngIf='!professor.length' class="alert alert-danger mt-4" role="alert">
+        Não há informações nessa busca!
+      </div>
+      <tr *ngFor="let item of professor">
+        <td>{{item.codcurso}}</td>
+        <td>{{item.nomcurso}}</td>
+        <td>{{item.nomcampus}}</td>
+        <td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!--   
+   <td>{{item.cpfProfessor}}</td>
+   <td>{{item.titulacao}}</td> -->
