@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Censo.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/ForaDeSede")]
     [ApiController]
     public class ProfessorForaSedeController: ControllerBase

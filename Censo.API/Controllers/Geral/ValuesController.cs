@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Censo.API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase

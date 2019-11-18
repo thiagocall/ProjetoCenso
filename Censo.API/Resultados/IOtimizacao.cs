@@ -26,6 +26,8 @@ namespace Censo.API.Resultados
 
         void AddProfessor(CursoProfessor _cursoProfessor);
 
+        void AddProfessor20p(List<CursoProfessor> _cursoProfessor, List<ProfessorCursoEmec20p> _listaProfessor20p);
+
 
     }
 

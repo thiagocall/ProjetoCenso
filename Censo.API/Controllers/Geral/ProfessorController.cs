@@ -12,6 +12,8 @@ using Censo.API.Model;
 using Censo.API.Data.Censo;
 using Censo.API.Model.Censo;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
+using OfficeOpenXml;
 
 namespace Censo.API.Controllers
 {
@@ -167,6 +169,84 @@ namespace Censo.API.Controllers
                         }
 
                   return Ok(results);
+                    
+                }
+                catch (System.Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta."  + e.Message);
+                }
+    
+
+        }
+
+
+        [HttpGet("Lista/Excel")]
+        public async Task<IActionResult> ListaProfessoresDownload()
+        {
+
+                List<ProfessorMatricula> matricula;
+                Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+
+                var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+
+                
+                Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            
+                try
+                {
+
+                 Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+
+                    Task.WaitAll(task1);
+
+                    matricula = await mat;
+
+                    var results =  await Professores.getProfessores(context).ToListAsync();
+
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+
+                            else
+                            {
+                                item.regime = "CHZ/AFASTADO";
+                            }
+
+                            if (matricula.Where(x => x.cpfProfessor.ToString() == item.CpfProfessor).Count() > 0)
+                            {
+                                
+                                DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == item.CpfProfessor).Min(d => d.dtAdmissao);
+
+                                item.dtAdmissao = (_data != null) ? _data.Value.ToString("dd/MM/yyyy") : null;
+
+                            }
+                        }
+
+            //  Monta arquivo para Download em Excel
+
+            var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("Dados");
+                workSheet.Cells.LoadFromCollection(results, true);
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "ProfessorCenso.xlsx";
+    
+            return File(stream, contentType, fileName);
+
+                  // return Ok(results);
                     
                 }
                 catch (System.Exception e)

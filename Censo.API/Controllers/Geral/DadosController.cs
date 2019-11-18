@@ -8,9 +8,11 @@ using Censo.API.Model.dados;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Censo.API.Controllers.Censo;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Censo.API.Controllers.Geral
 {
+    [AllowAnonymous]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class DadosController: ControllerBase

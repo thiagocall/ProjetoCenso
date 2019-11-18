@@ -673,9 +673,12 @@ namespace Censo.API.Controllers.Censo
             {
 
                 var query = this.Context.ProfessorCursoEmec.ToListAsync();
+                var query20p = this.Context.ProfessorCursoEmec20p.ToListAsync();
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
                 var Cursoprofessor = MontaCursoProfessor(await query, await ListaCursoArea);
+                Otm.AddProfessor20p(Cursoprofessor, await query20p);
+                // var Cursoprofessor20p = MontaCursoProfessor(await query20p, await ListaCursoArea);;
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
@@ -692,6 +695,7 @@ namespace Censo.API.Controllers.Censo
 
                 List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual, CursoEnade);
 
+
                 List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, Cursoprofessor, await ListaCursoArea, _formulario);
                 
                 // ############## Monta resultados a partir do cenário otimizado ################# //
@@ -705,7 +709,6 @@ namespace Censo.API.Controllers.Censo
                 // string professorJson;
 
                  sw.Stop();
-
 
                 // ############ Monta Objeto resultado Otimizado ############## //
                 Task<string> json = Task.Run(

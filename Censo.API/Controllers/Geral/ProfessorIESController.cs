@@ -9,9 +9,11 @@ using Censo.API.Resultados;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Censo.API.Controllers
 {
+    [AllowAnonymous]
     [Route ("api/[controller]")]
     [ApiController]
     public class ProfessorIESController: ControllerBase
