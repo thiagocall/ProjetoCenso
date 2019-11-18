@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.IO;
+using OfficeOpenXml;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -228,6 +231,53 @@ namespace Censo.API.Controllers.Censo
             }
 
             return Ok(new { previsao, cursoProfessor = cursoEmec.Professores.ToList(), perc_M, perc_D, perc_R, notaM, notaD, notaR, qtdD, qtdM, qtdR });
+        }
+
+
+
+        [AllowAnonymous]
+        [HttpGet("Resultado/Excel/{id}")]
+        public async Task<IActionResult> ExportaResultado(long id) {
+
+             try
+            {
+                var resultadoOTM = await this.ProducaoContext.TbResultado
+                        .FirstOrDefaultAsync(r => r.Id == id);
+                
+                // Tratando dados para Excel
+
+                var parametros =  new List<ParametrosCenso>();
+                //var resultados = new List<Resultado>();
+
+                parametros.Add(JsonConvert.DeserializeObject<ParametrosCenso>(resultadoOTM.Parametro));
+
+                var resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
+
+                // var resultado = resultadoOTM.Resultado;
+
+            //  Monta arquivo para Download em Excel
+
+                var stream = new MemoryStream();
+
+                using (var package = new ExcelPackage(stream)) {                
+                    var shParam = package.Workbook.Worksheets.Add("Parametros");
+                    var shResumo = package.Workbook.Worksheets.Add("Resultado");
+                    shParam.Cells.LoadFromCollection(parametros, true);
+                    shResumo.Cells.LoadFromCollection(resultados, true);
+                    package.Save();            
+                };  
+
+                    stream.Position = 0;
+                    var contentType = "application/octet-stream";
+                    var fileName = "Resultado.xlsx";
+
+                return File(stream, contentType, fileName);
+            }
+            catch (System.Exception)
+            {
+                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
+            }        
+
         }
 
         // ########## Monta a lista de cursos por professores ##########
