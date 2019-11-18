@@ -36,7 +36,7 @@ export class ProfessorConsultaDetalheComponent implements OnInit {
 
       response => {
         this.professor = response;
-        console.log('PROFESSOR : ' + this.professor);
+       // console.log('PROFESSOR : ' + this.professor.codRegiao);
       },
       error => {
         console.log(error);
