@@ -20,9 +20,7 @@ namespace Censo.API.Controllers.Censo
         }
 
         // public async List<string> getProfessorCurso() {
-
-             
-            
+        
         // }
         
 

@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Censo.API.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Censo.API.Controllers
 
-{
+{   
+    [AllowAnonymous]
     [Route("api/ProfessorContrato")]
     [ApiController]
     public class ProfessorContratoController: ControllerBase
