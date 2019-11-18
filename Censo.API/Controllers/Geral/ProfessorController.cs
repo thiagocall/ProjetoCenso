@@ -12,6 +12,8 @@ using Censo.API.Model;
 using Censo.API.Data.Censo;
 using Censo.API.Model.Censo;
 using Microsoft.AspNetCore.Authorization;
+using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Censo.API.Controllers
 {
@@ -272,7 +274,7 @@ namespace Censo.API.Controllers
                 try
                 {
 
-                      var diccampus = this.CampusContext.TbSiaCampus.ToDictionary(x => x.CodCampus);
+                     var diccampus = this.CampusContext.TbSiaCampus.ToDictionary(x => x.CodCampus);
                      var dic = this.censocontext.ProfessorCursoCenso
                                                         .Where(x => x.CpfProfessor.ToString() == id )
                                                         .ToList();
@@ -280,23 +282,29 @@ namespace Censo.API.Controllers
                                         .ToList();
 
                       var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCurso);
-                 
+
+                      //List<ProfessorMatricula> matricula;
+                      //var mat = this.MatriculaContext.ProfessorMatricula.ToDictionary(x => x.cpfProfessor.ToString());
+
                       // pegar nome do professor -- titulacao -- regime
                       var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
                       var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
                       ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
 
+                        //cpf/nomeprofessor//titulacao//regime
                         professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
-                        //nomeprofessor//titulacao//regime
                         professordetalhe.NomProfessor = professor.NomProfessor;
                         professordetalhe.titulacao = professor.Titulacao;
                         professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
                         
-                        professordetalhe.nomeRegiao 
-                        professordetalhe.CargaTotal = regime[professordetalhe.CpfProfessor.ToString()].CargaTotal;
-                        professordetalhe.QtdHorasDs = regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs;
-                        professordetalhe.QtdHorasFs = regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs;
+                        // RECEBENDO A REGIAO
+                        //professordetalhe.nomeRegiao = mat[professordetalhe.CpfProfessor.ToString()].nomeRegiao;
+                        //mat.Where(p => p.cpfProfessor.ToString() == item.CpfProfessor));
 
+                        //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
+                        professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
+                        professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
+                        professordetalhe.QtdHorasFs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs) ,2);
 
                         foreach (var item in dic)
                         {
