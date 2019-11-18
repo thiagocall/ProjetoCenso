@@ -1,11 +1,10 @@
 <div class="container">
   <div class=" p-4">
   </div>
-  <div>
 
     <div class="row container">
       <div class="form-group col-md-8">
-        <div class="input-group mb-3">
+        <div class="input-group">
           <h2>Detalhe Professor</h2>
         </div>
       </div>
@@ -15,7 +14,7 @@
     </div>
 
     <!--spinner-->
-    <div *ngIf="!professor" class="container text-center mt-5 p-5">
+    <div *ngIf="!professor" class="container text-center mt-5">
       <i class="fas fa-spinner fa-pulse fa-5x mt-5"></i>
     </div>
 
@@ -25,51 +24,51 @@
         <div class="form-row">
 
           <div class="form-group col-md-4">
-            <label>CPF:</label>
+            <div class="titulo">CPF:</div>
             <input type="text" class="form-control" id="cpf" disabled="true" value="{{professor.cpfProfessor}}">
           </div>
 
           <div class="form-group col-md-4">
-            <label>Nome:</label>
+            <div class="titulo">Nome:</div>
             <input type="text" class="form-control" id="nome" disabled="true" value="{{professor.nomProfessor}}">
           </div>
 
           <div class="form-group col-md-4">
-            <label>Titulação:</label>
+            <div class="titulo">Titulação:</div>
             <input type="text" class="form-control" id="titulacao" disabled="true" value="{{professor.titulacao}}">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label>Regime:</label>
+            <div class="titulo">Regime:</div>
             <input type="text" class="form-control" id="regime" disabled="true" value="{{professor.regime}}">
           </div>
 
           <div class="form-group col-md-4">
-            <label>Cod Região:</label>
+            <div class="titulo">Cod Região:</div>
             <input type="text" class="form-control" id="codRegiao" disabled="true" value="{{professor.codRegiao}}">
           </div>
 
           <div class="form-group col-md-4">
-            <label>Nome da Região:</label>
+            <div class="titulo">Nome da Região:</div>
             <input type="text" class="form-control" id="nomeRegiao" disabled="true" value="{{professor.nomeRegiao}}">
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label>Quantidade de Horas Ds:</label>
+            <div class="titulo">Quantidade de Horas Ds:</div>
             <input type="text" class="form-control" id="qtdHorasDs" disabled="true" value="{{professor.qtdHorasDs}}">
           </div>
 
           <div class="form-group col-md-4">
-            <label>Quantidade de Horas Fs:</label>
+            <div class="titulo">Quantidade de Horas Fs:</div>
             <input type="text" class="form-control" id="qtdHorasFs" disabled="true" value="{{professor.qtdHorasFs}}">
           </div>
 
           <div class="form-group col-md-4">
-            <label>Carga Total:</label>
+            <div class="titulo">Carga Total:</div>
             <input type="text" class="form-control" id="cargaTotal" disabled="true" value="{{professor.cargaTotal}}">
           </div>
         </div>

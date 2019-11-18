@@ -17,19 +17,6 @@ export class ProfessorConsultaDetalheComponent implements OnInit {
   id: any;
 
 
-  /*//funcionando
-  buscarCpfProfessores() {
-    this.id = this.thisRoute.snapshot.paramMap.get('id');
-    this.professorService.buscarProfessores(this.id).subscribe(
-      response => {
-        this.professores = response;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  } */
-
   buscarCpfProfessor() {
     this.id = this.thisRoute.snapshot.paramMap.get('id');
     this.professorService.professorConsultaDetalhe(this.id).subscribe(
