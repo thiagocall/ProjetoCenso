@@ -301,6 +301,7 @@ namespace Censo.API.Controllers
                         //professordetalhe.nomeRegiao = mat[professordetalhe.CpfProfessor.ToString()].nomeRegiao;
                         //mat.Where(p => p.cpfProfessor.ToString() == item.CpfProfessor));
 
+
                         //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
                         professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
                         professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
@@ -323,8 +324,6 @@ namespace Censo.API.Controllers
                           
 
                         }
-
-                    
 
                         //return Ok(results2);
                         return Ok(professordetalhe);
