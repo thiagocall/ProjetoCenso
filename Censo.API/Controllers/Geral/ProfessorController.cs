@@ -292,6 +292,12 @@ namespace Censo.API.Controllers
                         professordetalhe.titulacao = professor.Titulacao;
                         professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
                         
+                        professordetalhe.nomeRegiao 
+                        professordetalhe.CargaTotal = regime[professordetalhe.CpfProfessor.ToString()].CargaTotal;
+                        professordetalhe.QtdHorasDs = regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs;
+                        professordetalhe.QtdHorasFs = regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs;
+
+
                         foreach (var item in dic)
                         {
 
