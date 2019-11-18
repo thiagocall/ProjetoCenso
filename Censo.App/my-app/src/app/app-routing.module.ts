@@ -16,6 +16,10 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { AuthGuard } from './auth/auth.guard';
+import { RegulatorioComponent } from './nav-regulatorio/regulatorio/regulatorio.component';
+import { CorpoDocenteComponent } from './nav-regulatorio/corpo-docente/corpo-docente.component';
+import { ProfessorConsultaDetalheComponent } from './professor-consulta-detalhe/professor-consulta-detalhe.component';
+
 
 
 
@@ -38,6 +42,9 @@ const routes: Routes = [
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent  ,canActivate: [AuthGuard]},
   {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
   {path: 'Resultados/:id', component: DetalheResultadoComponent ,canActivate: [AuthGuard]},
+  {path: 'Regulatorio', component: RegulatorioComponent ,canActivate: [AuthGuard]},
+  {path: 'RegulatorioCorpoDocente', component: CorpoDocenteComponent ,canActivate: [AuthGuard]},
+  {path: 'ProfessorConsultaDetalhe/:id', component: ProfessorConsultaDetalheComponent ,canActivate: [AuthGuard]},
   {path: 'Inicio', component: AppHomeComponent ,canActivate: [AuthGuard]},
   {path: '', component: LoginComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
@@ -48,4 +55,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }
