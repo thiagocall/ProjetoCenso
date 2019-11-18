@@ -284,50 +284,36 @@ namespace Censo.API.Controllers
                       // pegar nome do professor -- titulacao -- regime
                       var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
                       var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-                      List<ProfessorDetalhe> listaprofessordetalhe = new List<ProfessorDetalhe>();
+                      ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
 
+                        professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
+                        //nomeprofessor//titulacao//regime
+                        professordetalhe.NomProfessor = professor.NomProfessor;
+                        professordetalhe.titulacao = professor.Titulacao;
+                        professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                        
                         foreach (var item in dic)
                         {
 
-                           if (listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString()) == null)
+                           //if (listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString()) == null)
+                           if (dic.Count > 0)
                            {
-                               var professordetalhe = new ProfessorDetalhe();
-                                professordetalhe.CpfProfessor = item.CpfProfessor.ToString();
-                                //nomeprofessor//titulacao//regime
-                                professordetalhe.NomProfessor = professor.NomProfessor;
-                                professordetalhe.titulacao = professor.Titulacao;
-                                //professordetalhe.regime = professor.regime;
-                                professordetalhe.regime = regime[item.CpfProfessor.ToString()].Regime;
                                                                                 
                                 professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
                                                                         nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
                                                                         nomcurso = dicCurso.TryGetValue(item.CodCurso, out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
                                                                         });
                                 
-                                listaprofessordetalhe.Add(professordetalhe); 
-
+                               
                            }     
-                           else 
-                           {
-                               var professordetalhe = listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString());
-                               //nomeprofessor//titulacao//regime
-                                professordetalhe.NomProfessor = professor.NomProfessor;
-                                professordetalhe.titulacao = professor.Titulacao;
-                                professordetalhe.regime = regime[item.CpfProfessor.ToString()].Regime;
-                                 professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
-                                                                        nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
-                                                                        nomcurso = dicCurso.TryGetValue(item.CodCurso, out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
-                                                                        });
-
-                           }
-
                           
+
                         }
 
                     
 
-                  //return Ok(results2);
-                  return Ok(listaprofessordetalhe);
+                        //return Ok(results2);
+                        return Ok(professordetalhe);
                     
                 }
                 catch (System.Exception ex)
