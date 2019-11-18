@@ -235,7 +235,7 @@ namespace Censo.API.Controllers.Censo
 
 
 
-        [AllowAnonymous]
+        
         [HttpGet("Resultado/Excel/{id}")]
         public async Task<IActionResult> ExportaResultado(long id) {
 
