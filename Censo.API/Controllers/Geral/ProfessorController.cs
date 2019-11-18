@@ -67,10 +67,8 @@ namespace Censo.API.Controllers
                     );
 
                     Task.WaitAll(task1);
-                    
-                    
                 
-
+        
                     var results =  await Professores.getProfessores(context).ToListAsync();
 
                         foreach (var item in results)
@@ -189,7 +187,6 @@ namespace Censo.API.Controllers
 
                 var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
 
-                
                 Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             
                 try
@@ -253,7 +250,39 @@ namespace Censo.API.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta."  + e.Message);
                 }
-    
+
+        }
+
+
+         [HttpGet("ProfessorCenso/Excel")]
+        public async Task<IActionResult> ProfessorCensoDownload()
+        {
+
+            try
+            {
+                var professorCenso = await this.censocontext.ProfessorCursoEmec.ToListAsync();
+
+            //  Monta arquivo para Download em Excel
+
+             var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("ProfCursoCenso");
+                workSheet.Cells.LoadFromCollection(professorCenso, true);
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "ProfCursoCenso.xlsx";
+
+                return File(stream, contentType, fileName);
+            }
+            catch (System.Exception)
+            {
+                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
+            }                
+                      
 
         }
 
