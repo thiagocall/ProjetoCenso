@@ -1,7 +1,13 @@
 <div class="container  mt-4">
   <div class="d-flex">
     <h3 class="mr-auto">Cursos Enade</h3>
-    <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-auto">Voltar</button>
+
+    <div class="p-2">
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-success ml-auto" tooltip="Exportar excel"> <i
+          class="fas fa-file-excel fa-1x"></i> Exportar</button>
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2">Voltar</button>
+    </div>
+
   </div>
   <hr>
 </div>
