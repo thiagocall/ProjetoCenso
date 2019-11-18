@@ -240,9 +240,9 @@ namespace Censo.API.Controllers
                 package.Save();            
             };  
 
-           stream.Position = 0;
-            var contentType = "application/octet-stream";
-            var fileName = "ProfessorCenso.xlsx";
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "ProfessorCenso.xlsx";
     
             return File(stream, contentType, fileName);
 
