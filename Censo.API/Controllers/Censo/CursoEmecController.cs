@@ -255,15 +255,15 @@ namespace Censo.API.Controllers.Censo
 
                 // var resultado = resultadoOTM.Resultado;
 
-            //  Monta arquivo para Download em Excel
+                //  Monta arquivo para Download em Excel
 
                 var stream = new MemoryStream();
 
                 using (var package = new ExcelPackage(stream)) {                
-                    var shParam = package.Workbook.Worksheets.Add("Parametros");
                     var shResumo = package.Workbook.Worksheets.Add("Resultado");
-                    shParam.Cells.LoadFromCollection(parametros, true);
+                    var shParam = package.Workbook.Worksheets.Add("Parametros");
                     shResumo.Cells.LoadFromCollection(resultados, true);
+                    shParam.Cells.LoadFromCollection(parametros, true);
                     package.Save();            
                 };  
 
