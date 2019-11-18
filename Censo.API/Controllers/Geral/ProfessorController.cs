@@ -12,13 +12,9 @@ using Censo.API.Model;
 using Censo.API.Data.Censo;
 using Censo.API.Model.Censo;
 using Microsoft.AspNetCore.Authorization;
-<<<<<<< HEAD
-using System.Text.RegularExpressions;
-using System.Globalization;
-=======
+
 using System.IO;
 using OfficeOpenXml;
->>>>>>> c20620fc2ab3a113ea3b7c2e3f3468166c9ba612
 
 namespace Censo.API.Controllers
 {
