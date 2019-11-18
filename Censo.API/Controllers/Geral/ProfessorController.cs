@@ -391,7 +391,10 @@ namespace Censo.API.Controllers
 
                       var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCurso);
 
-                      //List<ProfessorMatricula> matricula;
+                      //  defuinindo a LISTA de matricula
+                      List<ProfessorMatricula> matricula;
+                      var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+                      matricula = await mat;
                       //var mat = this.MatriculaContext.ProfessorMatricula.ToDictionary(x => x.cpfProfessor.ToString());
 
                       // pegar nome do professor -- titulacao -- regime
@@ -406,10 +409,10 @@ namespace Censo.API.Controllers
                         professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
                         
                         // RECEBENDO A REGIAO
-                        //professordetalhe.nomeRegiao = mat[professordetalhe.CpfProfessor.ToString()].nomeRegiao;
-                        //mat.Where(p => p.cpfProfessor.ToString() == item.CpfProfessor));
-
-
+                        //professordetalhe.nomeRegiao = "BRASIL";
+                        professordetalhe.nomeRegiao = matricula.First().nomeRegiao;
+                        professordetalhe.codRegiao = matricula.First().codRegiao;
+                        
                         //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
                         professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
                         professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
