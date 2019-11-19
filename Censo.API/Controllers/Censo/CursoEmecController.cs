@@ -234,7 +234,6 @@ namespace Censo.API.Controllers.Censo
         }
 
 
-
         
         [HttpGet("Resultado/Excel/{id}")]
         public async Task<IActionResult> ExportaResultado(long id) {
