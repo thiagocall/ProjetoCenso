@@ -1,0 +1,31 @@
+
+.titulo {
+    border: 1px solid #F2F2F2;
+    border-radius: .25rem;
+    box-shadow: 2px 2px 6px 3px #E2E2E2;
+  }
+
+  .fundo-tabela {
+    background-color: white;
+    width: 80%;
+    height: auto;
+    border-radius: 28px;
+
+   /*borda fundo da tabela*/
+    border: 1px solid #F2F2F2;
+    border-radius: .30rem;
+    box-shadow: 2px 2px 6px 3px #E2E2E2;
+  }
+
+  .tabela-centralizada {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-left: 200px;
+  }
+
+  .table{
+    width: 750px;
+    height: auto;
+  }
+

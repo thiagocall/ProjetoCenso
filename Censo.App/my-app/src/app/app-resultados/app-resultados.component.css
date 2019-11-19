@@ -12,3 +12,9 @@ td {
     overflow-x:auto;
    
 }
+
+.titulo {
+    border: 1px solid #F2F2F2;
+    border-radius: .25rem;
+    box-shadow: 2px 2px 6px 3px #E2E2E2;
+  }
