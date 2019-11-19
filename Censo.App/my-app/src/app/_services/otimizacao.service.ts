@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,5 +37,10 @@ export class OtimizacaoService {
   obterDetalheResultado(id: number) {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseURL + 'ObterResultados/' + id, { headers: tokenHeader });
+  }
+
+  exportarResultadoExcel(id: number) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseURL + 'Resultado/Excel/' + id, {responseType: 'blob', headers: tokenHeader});
   }
 }
