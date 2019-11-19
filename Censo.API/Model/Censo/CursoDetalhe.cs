@@ -5,5 +5,7 @@ namespace Censo.API.Model.Censo
         public long? CodCurso { get; set; }
         public string NomCurso { get; set; }
 
+        public long CodCampus { get; set; }
+
     }
 }

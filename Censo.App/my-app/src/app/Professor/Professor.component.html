@@ -2,13 +2,15 @@
   <div class="row mt-5">
     <div class="col-md-3">
       <div class="card mb-2">
-        <div id ="cardhead"  class="card-header"><h5>Professores</h5></div>
+        <div id="cardhead" class="card-header">
+          <h5>Professores</h5>
+        </div>
         <div class="card-body text-center" style="background-color:white;">
           <h4 class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
             {{professores.qtdProfessores}}
           </h4>
-          <small id="cardtail">Quantidade professores ativos</small>            
+          <small id="cardtail">Quantidade professores ativos</small>
         </div>
         <!-- <div class="card-footer" *ngIf="professores">
           <p>É o total de professores considerados </p> 
@@ -17,13 +19,15 @@
     </div>
     <div class="col-md-3">
       <div class="card mb-2">
-        <div id ="cardhead" class="card-header"><h5>Doutores</h5></div>
+        <div id="cardhead" class="card-header">
+          <h5>Doutores</h5>
+        </div>
         <div class="card-body text-center" style="background-color:white">
           <h4 id="ctest" class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
             {{professores.qtdDoutor}}
           </h4>
-          <small id="cardtail">Professores titulados doutores </small>            
+          <small id="cardtail">Professores titulados doutores </small>
         </div>
         <!-- <div class="card-footer" *ngIf="professores">
           <p>Professores titulados Doutores</p> 
@@ -32,29 +36,33 @@
     </div>
     <div class="col-md-3">
       <div class="card mb-2">
-        <div id ="cardhead" class="card-header"><h5>Mestres</h5></div>
+        <div id="cardhead" class="card-header">
+          <h5>Mestres</h5>
+        </div>
         <div class="card-body text-center" style="background-color:white">
           <h4 id="ctest" class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
             {{professores.qtdMestre}}
           </h4>
-          <small id="cardtail">Professores titulados mestres</small>            
+          <small id="cardtail">Professores titulados mestres</small>
         </div>
         <!-- <div class="card-footer" *ngIf="professores">
           <p>Professores titulados Mestres</p> 
         </div> -->
       </div>
-      
+
     </div>
     <div class="col-md-3">
       <div class="card mb-2">
-        <div id ="cardhead" class="card-header"><h5>Especialistas</h5></div>
+        <div id="cardhead" class="card-header">
+          <h5>Especialistas</h5>
+        </div>
         <div class="card-body text-center" style="background-color:white">
-          <h4  class="card-text" style="color: #040972">
+          <h4 class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
             {{professores.qtdEspecialista}}
           </h4>
-          <small id="cardtail">Professores com especialização</small>            
+          <small id="cardtail">Professores com especialização</small>
         </div>
         <!-- <div class="card-footer" *ngIf="professores">
           <p>É o total de professores Especialistas(<i>lato senso</i>)</p>
@@ -62,60 +70,59 @@
       </div>
     </div>
   </div>
-  
+
   <div class="container mt-5">
+    <div class="d-flex align-items-start">
       <h4>Informações Importantes</h4>
-      <hr>
+      
+      <button class="btn btn-sm btn-outline-success ml-4" download="Resultado.xlsx"
+        (click)="exportarResultadoExcel()">
+        <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
+    </div>
+    <hr>
   </div>
 
-  <div id ="graficos" class="container">
+
+
+
+  <div id="graficos" class="container">
     <div *ngIf="!professores" class="container text-center mt-5">
       <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
     </div>
 
-    
+
     <div class="row mt-5 pb-4 pt-2">
-      
+
       <div class="col md-6">
-        
+
         <div class="container pt-5" *ngIf="professores">
           <div style="display: block; width: 80%">
-              
-              <canvas baseChart
-              [datasets]=barChartData
-              [labels]=barChartLabels
-              [options]=barChartOptions
-              [legend]=barChartLegend
-              [chartType]=barChartType
-              [colors]=barChartColors>
+
+            <canvas baseChart [datasets]=barChartData [labels]=barChartLabels [options]=barChartOptions
+              [legend]=barChartLegend [chartType]=barChartType [colors]=barChartColors>
             </canvas>
           </div>
-          
+
         </div>
       </div>
-      
+
       <div class="col md-6">
-          <div class="container">
-            <div>
-              <div *ngIf="professores">
-                <div style="display: block">
-                    <canvas baseChart
-                    [labels]=radarChartLabels
-                    [datasets]=radarChartData
-                    [legend]=radarChartLegend
-                    [chartType]=radarChartType
-                    [options]=radarChartOptions
-                    [colors]=radarChartColor>
-                    
-                  </canvas>
-                </div>
+        <div class="container">
+          <div>
+            <div *ngIf="professores">
+              <div style="display: block">
+                <canvas baseChart [labels]=radarChartLabels [datasets]=radarChartData [legend]=radarChartLegend
+                  [chartType]=radarChartType [options]=radarChartOptions [colors]=radarChartColor>
+
+                </canvas>
               </div>
             </div>
           </div>
-       
-        
+        </div>
+
+
       </div>
     </div>
-    
+
   </div>
-  </div>
+</div>

@@ -385,10 +385,13 @@ namespace Censo.API.Controllers
                      var dic = this.censocontext.ProfessorCursoCenso
                                                         .Where(x => x.CpfProfessor.ToString() == id )
                                                         .ToList();
-                      var dic1 = this.censocontext.CursoCenso.Select(x => new CursoDetalhe {CodCurso = x.CodCurso, NomCurso = x.NomCursoCenso})
+                      var dic1 = this.censocontext.CursoCenso.Select(x => 
+                                            new CursoDetalhe {CodCurso = x.CodCurso,
+                                                             NomCurso = x.NomCursoCenso,
+                                                             CodCampus = x.CodCampus })
                                         .ToList();
 
-                      var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCurso);
+                      var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCampus.ToString() + "_" + x.CodCurso.ToString());
 
                       //  defuinindo a LISTA de matricula
                       List<ProfessorMatricula> matricula;
@@ -396,7 +399,7 @@ namespace Censo.API.Controllers
                       matricula = await mat;
                       //var mat = this.MatriculaContext.ProfessorMatricula.ToDictionary(x => x.cpfProfessor.ToString());
 
-                      // pegar nome do professor -- titulacao -- regime
+                      // pegar os contextos
                       var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
                       var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
                       ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
@@ -407,8 +410,7 @@ namespace Censo.API.Controllers
                         professordetalhe.titulacao = professor.Titulacao;
                         professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
                         
-                        // RECEBENDO A REGIAO
-                        //professordetalhe.nomeRegiao = "BRASIL";
+                        // RECEBENDO O CODIGO DA REGIAO E O NOME
                         professordetalhe.nomeRegiao = matricula.First().nomeRegiao;
                         professordetalhe.codRegiao = matricula.First().codRegiao;
                         
@@ -426,7 +428,7 @@ namespace Censo.API.Controllers
                                                                                 
                                 professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
                                                                         nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
-                                                                        nomcurso = dicCurso.TryGetValue(item.CodCurso, out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
+                                                                        nomcurso = dicCurso.TryGetValue(item.CodCampus.ToString() + "_" + item.CodCurso.ToString(), out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
                                                                         });
                                 
                                
@@ -457,7 +459,7 @@ namespace Censo.API.Controllers
     {
         public bool Equals(CursoDetalhe x, CursoDetalhe y)
         {
-            if (x.CodCurso == y.CodCurso)
+            if ( x.CodCampus.ToString() + "_" + x.CodCurso.ToString() == y.CodCampus.ToString() + "_" + y.CodCurso.ToString())
             {
                 return true;
             }
