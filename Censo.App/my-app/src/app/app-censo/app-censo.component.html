@@ -1,28 +1,29 @@
-
 <div class="container mb-5 ml-2 mt-4">
-    <h3>
-        Ferramenta de Informações para o Censo Docente
-    </h3>
-</div>    
+    <h2>
+        Censo Docente
+    </h2>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-4">
             <div class="container">
-                
-                <div class="card" style="width: 18rem">
-                    <div class="card-header"><h5 class="card-title">Corpo Docente</h5></div>
+                <div class="card " style="width: 18rem">
+                    <div class="card-header">
+                        <h5 class="card-title">Corpo Docente</h5>
+                    </div>
                     <div class="card-body">
-                        
                         <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
                         <a [routerLink]="['/CorpoDocente']" class="btn btn-primary">Ver</a>
                     </div>
                 </div>
-            </div>   
+            </div>
         </div>
-        <div class="col-md-4"> 
+        <div class="col-md-4">
             <div class="container">
                 <div class="card" style="width: 18rem">
-                    <div class="card-header"><h5 class="card-title">Composição CPC</h5></div>
+                    <div class="card-header">
+                        <h5 class="card-title">Composição CPC</h5>
+                    </div>
                     <div class="card-body">
                         <p class="card-text">Ver a Previsão da Nota do CPC por Curso</p>
                         <a [routerLink]="['/ComposicaoProfessor']" class="btn btn-primary">Ver</a>
@@ -33,16 +34,16 @@
         <div class="col-md-4">
             <div class="container">
                 <div class="card" style="width: 18rem">
-                    <div class="card-header"><h5 class="card-title">Resultados</h5></div>
+                    <div class="card-header">
+                        <h5 class="card-title">Resultados</h5>
+                    </div>
                     <div class="card-body">
                         <p class="card-text">Configure e Crie Cenários para o Censo Docente</p>
-                        <a  [routerLink]="['/Resultados']" routerLinkActive="router-link-active"  class="btn btn-primary">Ver</a>
+                        <a [routerLink]="['/Resultados']" routerLinkActive="router-link-active"
+                            class="btn btn-primary">Ver</a>
                     </div>
                 </div>
-                
             </div>
         </div>
-        
-        
     </div>
 </div>
