@@ -1,25 +1,31 @@
-<div class="container mt-5 mb-1">
-    <div class="input-group mb-0 col-md-8">
-        <input [(ngModel)]="campo" type="text" class="form-control" placeholder="Informe o professor"
-            aria-label="Recipient's username" aria-describedby="button-addon2">
-        <div class="input-group-append">
-            <button class="btn btn-outline-primary" type="button" id="button-addon2"
-                (click)='buscarProfessores()'>Pesquisar</button>
-        </div>
-    </div>
+<div class="container mt-5 mb-5">
+    
 </div>
-<div class="container">
-    <div class="row">
+<div class="container fundo-tabela ">
+
+        
+            <div class="p-4 "></div>
+                <div class="input-group mb-0 col-md-9 tabela-centralizada">
+                    <input [(ngModel)]="campo" type="text" class="form-control " placeholder="Informe o professor"
+                        aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary mr-5" type="button" id="button-addon2"
+                            (click)='buscarProfessores()'>Pesquisar</button>
+                    </div>
+                </div>
+           
+
+    <div class="row tabela-centralizada">
         <div class="col-md-8" style="margin-top: 5%">
             <h3>
                 Professores
             </h3>
 
-            <table class="table">
-                <thead>
+            <table class="table titulo-tabela">
+                <thead class="titulo">
                     <tr>
                         <th>Nome</th>
-                        <th>Cpf</th>
+                        <th>CPF</th>
                         <th>Regime</th>
                         <th>Titulacao</th>
                         <th></th>
@@ -46,7 +52,7 @@
                     </tr>
                 </tbody>
             </table>
-            <hr>
+            <hr style="width: 750px;">
         </div>
     </div>
 </div>
