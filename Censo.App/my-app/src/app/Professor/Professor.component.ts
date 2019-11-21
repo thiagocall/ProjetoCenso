@@ -4,7 +4,7 @@ import { Dados } from 'src/app/dados';
 import { ChartDataSets, ChartType, RadialChartOptions } from 'chart.js';
 import { R3TargetBinder } from '@angular/compiler';
 import { ProfessorService } from '../_services/professor.service';
-
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-professor',
@@ -110,6 +110,18 @@ export class ProfessorComponent implements OnInit {
 
 
                                 });
+
+      }
+
+    exportarResultadoExcel() {
+
+    let blob;
+    this.professorService.getProfessorExcel().subscribe(response => { 
+      blob = new Blob([response], { type: 'application/octet-stream'});
+      saveAs(blob, 'Professores.xlsx');
+    }
+    );
+
 
       }
 

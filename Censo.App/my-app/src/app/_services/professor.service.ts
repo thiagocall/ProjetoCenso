@@ -46,6 +46,10 @@ getInfoCurso(codigo: string) {
   return this.http.get(this.baseUrl + 'v1/censo/cursoEmec/obterInfoCurso/' + codigo, {headers: tokenHeader});
 }
 
+getProfessorExcel() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
+}
 
 
 }

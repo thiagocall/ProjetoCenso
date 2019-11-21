@@ -53,59 +53,11 @@ namespace Censo.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-                
-                Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
-            
+                 
                 try
                 {
 
-                 Task task1 = Task.Factory.StartNew (
-                    () => 
-                    {
-                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-                    }
-                    );
-
-                    Task.WaitAll(task1);
-                
-        
-                    var results =  await Professores.getProfessores(context).ToListAsync();
-
-                        foreach (var item in results)
-                        {
-                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
-                            {
-                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
-                            }
-
-                            else
-                            {
-                                item.regime = "CHZ/AFASTADO";
-                            }
-                        }
-
-                     
-                    var qtdProfessores = results.Count();
-                    var qtdDoutor = results.Where(x => x.Titulacao == "DOUTOR").Count();
-                    var qtdMestre = results.Where(x => x.Titulacao == "MESTRE").Count();
-                    var qtdEspecialista = results.Where(x => x.Titulacao == "ESPECIALISTA").Count();
-                    var qtdNTitulado = results.Where(x => x.Titulacao == "NÃO IDENTIFICADA").Count();
-                    var qtdRegime = results.Where(x => x.regime == "TEMPO INTEGRAL" | x.regime == "TEMPO PARCIAL" ).Count();
-                    var qtdTempoIntegral = results.Where(x => x.regime == "TEMPO INTEGRAL").Count();
-                    var qtdTempoParcial = results.Where(x => x.regime == "TEMPO PARCIAL" ).Count();
-                    var qtdHorista = results.Where(x => x.regime == "HORISTA" ).Count();
-
-                    var res = new { qtdDoutor, 
-                                    qtdMestre,
-                                    qtdRegime,
-                                    qtdTempoIntegral,
-                                    qtdTempoParcial,
-                                    qtdHorista,
-                                    qtdProfessores,
-                                    qtdNTitulado,
-                                    qtdEspecialista};
-
-                  return Ok(res);
+                return Ok(await getProfessores());
                     
                 }
                 catch (System.Exception)
@@ -260,7 +212,36 @@ namespace Censo.API.Controllers
 
             try
             {
-                var professorCenso = await this.censocontext.ProfessorCursoEmec.ToListAsync();
+
+
+                 Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            
+
+                 Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+
+                
+                Task.WaitAll(task1);
+
+                var results =  await Professores.getProfessores(this.context).ToListAsync();
+
+                                foreach (var item in results)
+                                {
+                                    if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                                    {
+                                        item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                                    }
+
+                                    else
+                                    {
+                                        item.regime = "CHZ/AFASTADO";
+                                    }
+                                }
+
 
             //  Monta arquivo para Download em Excel
 
@@ -268,13 +249,21 @@ namespace Censo.API.Controllers
 
              using (var package = new ExcelPackage(stream)) {                
                 var workSheet = package.Workbook.Worksheets.Add("ProfCursoCenso");
-                workSheet.Cells.LoadFromCollection(professorCenso, true);
+                workSheet.Cells.LoadFromCollection(results
+                                                .Select(x => 
+                                                        new {CPF = x.CpfProfessor,
+                                                             NOME = x.NomProfessor,
+                                                             NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
+                                                             REGIME = x.regime,
+                                                             TITULACAO = x.Titulacao
+                                                       }), true);
+                // workSheet.Column(3).Style.Numberformat.Format = "dd/MM/yyyy";
                 package.Save();            
             };  
 
                 stream.Position = 0;
                 var contentType = "application/octet-stream";
-                var fileName = "ProfCursoCenso.xlsx";
+                var fileName = "file.xlsx";
 
                 return File(stream, contentType, fileName);
             }
@@ -450,6 +439,62 @@ namespace Censo.API.Controllers
         }
 
 
+
+
+
+        public async Task<dynamic> getProfessores() {
+
+            Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            
+
+                 Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+
+                    Task.WaitAll(task1);
+                
+        
+                    var results =  await Professores.getProfessores(this.context).ToListAsync();
+
+                        foreach (var item in results)
+                        {
+                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+
+                            else
+                            {
+                                item.regime = "CHZ/AFASTADO";
+                            }
+                        }
+
+                     
+                    var qtdProfessores = results.Count();
+                    var qtdDoutor = results.Where(x => x.Titulacao == "DOUTOR").Count();
+                    var qtdMestre = results.Where(x => x.Titulacao == "MESTRE").Count();
+                    var qtdEspecialista = results.Where(x => x.Titulacao == "ESPECIALISTA").Count();
+                    var qtdNTitulado = results.Where(x => x.Titulacao == "NÃO IDENTIFICADA").Count();
+                    var qtdRegime = results.Where(x => x.regime == "TEMPO INTEGRAL" | x.regime == "TEMPO PARCIAL" ).Count();
+                    var qtdTempoIntegral = results.Where(x => x.regime == "TEMPO INTEGRAL").Count();
+                    var qtdTempoParcial = results.Where(x => x.regime == "TEMPO PARCIAL" ).Count();
+                    var qtdHorista = results.Where(x => x.regime == "HORISTA" ).Count();
+
+                    var res = new { qtdDoutor, 
+                                    qtdMestre,
+                                    qtdRegime,
+                                    qtdTempoIntegral,
+                                    qtdTempoParcial,
+                                    qtdHorista,
+                                    qtdProfessores,
+                                    qtdNTitulado,
+                                    qtdEspecialista};
+
+                  return res;
+        }
 
     }
 

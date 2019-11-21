@@ -12,13 +12,13 @@ namespace Censo.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReguularioController : ControllerBase
+    public class RegulatorioController : ControllerBase
     {
 
         public ProfessorContext Context { get; }
 
 
-        public ReguularioController(ProfessorContext context)
+        public RegulatorioController(ProfessorContext context)
         {
             this.Context = context;
         }
