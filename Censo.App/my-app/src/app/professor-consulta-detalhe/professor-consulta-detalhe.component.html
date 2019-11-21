@@ -5,11 +5,11 @@
   <div class="row container">
     <div class="form-group col-md-8">
       <div class="input-group">
-        <h2>Detalhe Professor</h2>
+        <h2 class="font-weight-light">Detalhe Professor</h2>
       </div>
     </div>
-    <div class="col-md-1 offset-3">
-      <button [routerLink]="['/ProfessorConsulta']" class="btn btn-outline-primary" style="padding-left: 20px;  padding-right: 20px;"> Voltar</button>
+    <div class="col-md-1 offset-1">
+      <button [routerLink]="['/ProfessorConsulta']" class="btn btn-outline-primary"  style="padding-left: 20px;  padding-right: 20px;"> Voltar</button>
     </div>
   </div>
 
@@ -23,7 +23,7 @@
     <form>
       <div class="form-row">
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <div class="titulo">CPF:</div>
           <input type="text" class="form-control" id="cpf" disabled="true" value="{{professor.cpfProfessor}}">
         </div>
@@ -33,14 +33,14 @@
           <input type="text" class="form-control" id="nome" disabled="true" value="{{professor.nomProfessor}}">
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <div class="titulo">Titulação:</div>
           <input type="text" class="form-control" id="titulacao" disabled="true" value="{{professor.titulacao}}">
         </div>
       </div>
 
       <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <div class="titulo">Regime:</div>
           <input type="text" class="form-control" id="regime" disabled="true" value="{{professor.regime}}">
         </div>
@@ -50,14 +50,14 @@
           <input type="text" class="form-control" id="codRegiao" disabled="true" value="{{professor.codRegiao}}">
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <div class="titulo">Nome da Região:</div>
           <input type="text" class="form-control" id="nomeRegiao" disabled="true" value="{{professor.nomeRegiao}}">
         </div>
       </div>
 
       <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <div class="titulo">Quantidade de Horas Ds:</div>
           <input type="text" class="form-control" id="qtdHorasDs" disabled="true" value="{{professor.qtdHorasDs}}">
         </div>
@@ -67,7 +67,7 @@
           <input type="text" class="form-control" id="qtdHorasFs" disabled="true" value="{{professor.qtdHorasFs}}">
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-3">
           <div class="titulo">Carga Total:</div>
           <input type="text" class="form-control" id="cargaTotal" disabled="true" value="{{professor.cargaTotal}}">
         </div>
@@ -76,8 +76,8 @@
 
     <div class="p-4"></div>
     <!--tabela-->
-    <table class="table table-hover">
-      <thead>
+    <table class="table table-hover fundo-tabela" style="width: 900px;">
+      <thead class="titulo-tabela">
         <tr>
           <th class="text-left">Código do Curso</th>
           <th class="text-left">Nome do Curso</th>

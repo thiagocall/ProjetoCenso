@@ -34,6 +34,7 @@ import { RegistrationComponent } from './user/registration/registration.componen
 import { RegulatorioComponent } from './nav-regulatorio/regulatorio/regulatorio.component';
 import { CorpoDocenteComponent } from './nav-regulatorio/corpo-docente/corpo-docente.component';
 import { ProfessorConsultaDetalheComponent } from './professor-consulta-detalhe/professor-consulta-detalhe.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
    declarations: [
@@ -57,7 +58,8 @@ import { ProfessorConsultaDetalheComponent } from './professor-consulta-detalhe/
       RegistrationComponent,
       RegulatorioComponent,
       CorpoDocenteComponent,
-      ProfessorConsultaDetalheComponent
+      ProfessorConsultaDetalheComponent,
+      
    ],
    imports: [
       BrowserModule,
@@ -70,7 +72,9 @@ import { ProfessorConsultaDetalheComponent } from './professor-consulta-detalhe/
       TooltipModule.forRoot(),
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
-      AccordionModule.forRoot()
+      AccordionModule.forRoot(),
+      NgxPaginationModule
+      
    ],
    providers: [],
    bootstrap: [

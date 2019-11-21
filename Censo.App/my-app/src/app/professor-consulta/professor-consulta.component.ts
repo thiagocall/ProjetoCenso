@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
 import { ProfessorService } from '../_services/professor.service';
 import { isNgTemplate } from '@angular/compiler';
@@ -6,11 +6,11 @@ import { isNgTemplate } from '@angular/compiler';
 @Component({
   selector: 'app-professor-consulta',
   templateUrl: './professor-consulta.component.html',
-  styleUrls: ['./professor-consulta.component.css']
+  styleUrls: ['./professor-consulta.component.css'],
 })
 export class ProfessorConsultaComponent implements OnInit {
 
-  constructor(private professorService: ProfessorService) {   }
+  constructor(private professorService: ProfessorService) { }
 
   professores;
   public campo;
@@ -19,16 +19,17 @@ export class ProfessorConsultaComponent implements OnInit {
   ngOnInit() {
   }
 
-  buscarProfessores() { 
+  buscarProfessores() {
     this.professorService.buscarProfessores(this.campo).subscribe(
-    response => {
-      this.professores = response;
-    },
-    error => {
-      console.log(error);
-    });
+      response => {
+        this.professores = response;
+      },
+      error => {
+        console.log(error);
+      });
   }
 
-  }
+
+}
 
 
