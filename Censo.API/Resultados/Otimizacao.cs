@@ -560,49 +560,5 @@ namespace Censo.API.Resultados
 
 
 
-    // public class ProfessorComparer : IEqualityComparer<ProfessorCursoEmec>
-    // {
-    //     public bool Equals(ProfessorCursoEmec x, ProfessorCursoEmec y)
-    //     {
-    //         if (x.CpfProfessor == y.CpfProfessor)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //         {
-    //             return false;
-    //         }
-    //     }
-
-    //     public int GetHashCode(ProfessorCursoEmec obj)
-    //     {
-    //         return obj.CpfProfessor.GetHashCode();
-    //     }
-    // }
-
-
-    // public class ProfessorCursoComparer : IEqualityComparer<CursoProfessor>
-    // {
-    //     public bool Equals(CursoProfessor x, CursoProfessor y)
-    //     {
-    //         if (x.CodEmec == y.CodEmec)
-    //         {
-    //             return true;
-    //         }
-    //         else
-    //         {
-    //             return false;
-    //         }
-    //     }
-
-    //     public int GetHashCode(CursoProfessor obj)
-    //     {
-    //         return obj.CodEmec.GetHashCode();
-    //     }
-
-    // }
-
-    
-
 
 }

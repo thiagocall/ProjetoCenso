@@ -248,12 +248,27 @@ namespace Censo.API.Controllers.Censo
                 var parametros =  new List<ParametrosCenso>();
                 //var resultados = new List<Resultado>();
 
+                var ListaCurso = this.Context.CursoCenso.ToListAsync();
+
                 parametros.Add(JsonConvert.DeserializeObject<ParametrosCenso>(resultadoOTM.Parametro));
 
                 var resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
 
                 var professores = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);
-                
+
+                var cursoCenso = await ListaCurso;
+
+                Dictionary<long?, string> CursoEmec = new Dictionary<long?, string>();
+
+                cursoCenso.ForEach( p =>
+                {
+                    if (!CursoEmec.TryGetValue(p.CodEmec, out string cr)) {
+                        
+                        CursoEmec.Add(p.CodEmec, p.NomCursoCenso);
+                    }
+                    
+                     
+                });
 
 
                 List<ProfessorExcel> listaProfessor = new List<ProfessorExcel>();
@@ -263,14 +278,15 @@ namespace Censo.API.Controllers.Censo
                     item.Professores.ForEach( (p) =>
                             {
                                listaProfessor.Add( new ProfessorExcel { 
-                                
+                                   
                                    cpfProfessor = p.cpfProfessor,
                                    Regime = p.Regime,
                                    Titulacao = p.Titulacao,
+                                   NomeCurso = CursoEmec[item.CodEmec],
                                    CodEmec = item.CodEmec,
                                    Nota_Doutor = item.Nota_Doutor,
                                    Nota_Mestre = item.Nota_Mestre,
-                                   Nota_Regime = item.Nota_Regime
+                                   Nota_Regime = item.Nota_Regime,
 
                                })  ;
                             });
