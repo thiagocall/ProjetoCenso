@@ -136,7 +136,6 @@ namespace Censo.API.Resultados
                         };
 
 
-
                         // ######################## Limpeza força bruta ######################## //
 
                          foreach(var item in _listaProfessor)
@@ -146,8 +145,6 @@ namespace Censo.API.Resultados
                                              ));
                             
                          };
-
-
 
 
                         var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
@@ -465,16 +462,39 @@ namespace Censo.API.Resultados
         }
 
 
-        public void AddProfessor(CursoProfessor _cursoProfessor)
+       public bool AddProfessor(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof, string _indNaoEnade = null)
         {
-            throw new NotImplementedException();
+
+            var qtdCursos = _ListaCursoProfessor.Where(
+                                            x => x.Professores.Where(
+                                                        c => c.cpfProfessor == _prof.cpfProfessor).Count() > 0).Count();
+
+            var notaAnt = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao);
+
+            var notaNova = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao, 1);
+
+            var qtdProf =  _cursoProfessor.Professores.Count();
+
+            if (notaNova >= notaAnt)
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+
         }
 
-        public void AddProfessor20p(List<CursoProfessor> _cursoProfessor, List<ProfessorCursoEmec20p> _listaProfessor20p)
+
+        public void AddProfessor20p(List<CursoProfessor> _cursoProfessor, List<ProfessorCursoEmec20p> _listaProfessor20p, Dictionary<long?, PrevisaoSKU> _dicPrevisao, ParametrosCenso _param)
         {
+
+            // Controle de Uso
+            Dictionary<long, int> listaUsoProfessor =  new Dictionary<long, int>();
             // Adiciona os professores 20% nos cursos
                 
-           
             foreach (var emec in _listaProfessor20p)
             {
                 
@@ -493,17 +513,31 @@ namespace Censo.API.Resultados
                         if (curso != null)
                         {
 
-                            if (curso.Professores.Where(x => x.cpfProfessor == emec.CpfProfessor).Count() < 1 )
-                            {
-
-                                curso.Professores.Add(
-                                new ProfessorEmec {
+                            var _prof=  new ProfessorEmec {
                                     Ativo = emec.IndAtivo,
                                     cpfProfessor = emec.CpfProfessor,
                                     Regime = emec.Regime,
                                     Titulacao = emec.Titulacao
+                                    };
+
+
+                            if (curso.Professores.Where(x => x.cpfProfessor == emec.CpfProfessor).Count() < 1  &
+                                AddProfessor(_cursoProfessor, curso, _dicPrevisao, _prof)
+                                    & (listaUsoProfessor.TryGetValue(emec.CpfProfessor, out int dic) ? dic : 0) < _param.usoProfessor )
+                            {
+
+                                curso.Professores.Add(_prof);
+
+                                    // Adciona controle de adição de professores
+                                    if (listaUsoProfessor.ContainsKey(emec.CpfProfessor)) {
+
+                                        listaUsoProfessor[emec.CpfProfessor] += 1;
+
+
+                                    } else {
+                                        listaUsoProfessor.Add(emec.CpfProfessor, 1);
                                     }
-                                );  
+
                             }
                             
                         }

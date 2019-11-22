@@ -252,7 +252,29 @@ namespace Censo.API.Controllers.Censo
 
                 var resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
 
-                // var resultado = resultadoOTM.Resultado;
+                var professores = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);
+                
+
+
+                List<ProfessorExcel> listaProfessor = new List<ProfessorExcel>();
+
+                foreach (var item in professores)
+                {
+                    item.Professores.ForEach( (p) =>
+                            {
+                               listaProfessor.Add( new ProfessorExcel { 
+                                
+                                   cpfProfessor = p.cpfProfessor,
+                                   Regime = p.Regime,
+                                   Titulacao = p.Titulacao,
+                                   CodEmec = item.CodEmec,
+                                   Nota_Doutor = item.Nota_Doutor,
+                                   Nota_Mestre = item.Nota_Mestre,
+                                   Nota_Regime = item.Nota_Regime
+
+                               })  ;
+                            });
+                }
 
                 //  Monta arquivo para Download em Excel
 
@@ -261,8 +283,10 @@ namespace Censo.API.Controllers.Censo
                 using (var package = new ExcelPackage(stream)) {                
                     var shResumo = package.Workbook.Worksheets.Add("Resultado");
                     var shParam = package.Workbook.Worksheets.Add("Parametros");
+                    var shProfessores = package.Workbook.Worksheets.Add("Professores");
                     shResumo.Cells.LoadFromCollection(resultados, true);
                     shParam.Cells.LoadFromCollection(parametros, true);
+                    shProfessores.Cells.LoadFromCollection(listaProfessor, true);
                     package.Save();            
                 };  
 
@@ -698,7 +722,6 @@ namespace Censo.API.Controllers.Censo
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-
             var TaskEnade = await Task.Run( () => {
 
                 return this.Context.CursoCenso.ToList();
@@ -726,13 +749,11 @@ namespace Censo.API.Controllers.Censo
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
                 var Cursoprofessor = MontaCursoProfessor(await query, await ListaCursoArea);
-                Otm.AddProfessor20p(Cursoprofessor, await query20p);
                 // var Cursoprofessor20p = MontaCursoProfessor(await query20p, await ListaCursoArea);;
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
 
-                var CursoNota = getNotaCursos(await query, await ListaCursoArea);
 
                 List<CursoProfessor> cursoProfessorAtual = new List<CursoProfessor>();
                 Cursoprofessor.ForEach( (item) => {
@@ -740,10 +761,14 @@ namespace Censo.API.Controllers.Censo
                 }
                     );
 
+                var CursoNota = getNotaCursos(await query, await ListaCursoArea);
+
+                Otm.AddProfessor20p(Cursoprofessor, await query20p, ListaPrevisaoSKU, _formulario);
+
+
                 var CursoEnade = TaskEnade.Where(x => x.IndEnade.Contains('S')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
 
                 List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual, CursoEnade);
-
 
                 List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, Cursoprofessor, await ListaCursoArea, _formulario);
                 
