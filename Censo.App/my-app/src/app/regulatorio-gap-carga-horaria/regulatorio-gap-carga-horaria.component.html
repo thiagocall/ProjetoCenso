@@ -1,0 +1,63 @@
+<div class="container mt-5 mb-5">
+</div>
+<div class="container fundo-tabela ">
+  <div class="p-3 "></div>
+  <div class="input-group mb-0 col-md-9 tabela-centralizada">
+    <input [(ngModel)]="campo" type="text" class="form-control " placeholder="Informe o professor"
+      aria-label="Recipient's username" aria-describedby="button-addon2">
+    <div class="input-group-append">
+      <button class="btn btn-outline-primary mr-5" type="button" id="button-addon2"
+        (click)='buscarProfessores()'>Pesquisar</button>
+    </div>
+  </div>
+  <div class="row tabela-centralizada">
+    <div class="col-md-8" style="margin-top: 2%">
+      <h3 class="titulo">
+        Pesquisa Professor
+      </h3>
+      <table class="table table-hover titulo-tabela">
+        <thead class="titulo">
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Regime</th>
+            <th>CHDS</th>
+            <th>CHTS</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>A</td>
+          <td>A</td>
+          <td>A</td>
+          <td>A</td>
+          <td>A</td>
+          <td>
+          <button type="button" class="btn btn-outline-primary btn-sm" tooltip="Adicionar">
+            <i class="fas fa-user-plus 2x"></i>
+          </button>
+          </td>
+          <!--- <tr *ngFor="let item of professores | paginate: { itemsPerPage: 7, currentPage: p }">
+                         
+                         <td>{{item.nomProfessor}}</td>
+                          <td>{{item.cpfProfessor}}</td>
+                          <td>{{item.regime}}</td>
+                          <td>{{item.titulacao}}</td>
+                          <td> 
+                              <div class="btn-group">
+                                  Botão + 
+                                  <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
+                                      [routerLink]="['/ProfessorConsultaDetalhe',item.cpfProfessor]" tooltip="Detalhes">
+                                      <i id="i_{{item.cpfProfessor}}" class="fas fa-search 2x"></i>
+                                  </button>
+                              </div>
+                          </td>
+                      </tr> -->
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="p = $event" *ngIf="professores" previousLabel="Anterior" nextLabel="Próximo">
+      </pagination-controls>
+      <hr style="width: 750px;">
+    </div>
+  </div>
+</div>

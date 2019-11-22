@@ -1,5 +1,13 @@
 .sdw {
-
     box-shadow: 4px 4px 4px 0px #d7d7d7;
+}
 
+.router-link-active {
+    background-color: #1eb8de; 
+    border-radius: 30px;   
+}
+
+.router-link {
+    background-color: #1eb8de; 
+    border-radius: 30px;   
 }
