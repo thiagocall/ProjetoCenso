@@ -17,4 +17,9 @@ getToken() {
 }
 
 
+getRegulatorioCorpoDocenteExcel() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'regulatorio/BuscaIes/excel', {responseType: 'blob', headers: tokenHeader});
+}
+
 }

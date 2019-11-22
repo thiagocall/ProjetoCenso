@@ -1,9 +1,9 @@
 <div class="container mb-5 ml-2 mt-4">
   <div class="mx-auto mt-5" style="width: 790px;">
     <h2 class="font-weight-light" style="color:black;">
-       Regulatório
+      Regulatório
     </h2>
-</div>
+  </div>
 </div>
 
 
@@ -14,110 +14,116 @@
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
     </ol>
   </div>
-    <div class="carousel-inner">
+  <div class="carousel-inner">
 
 
-      <div class="carousel-item active">
-          <div class="container">
-              <div class="row">
-                <!-- card 1-->
-                <div class="col-md-4">
-                  <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                      <h5 class="card-title">Corpo Docente</h5>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">Relatório com informações rápidas sobre o corpo docente da Estácio</p>
-                      <a [routerLink]="['/RegulatorioCorpoDocente']" class="btn btn-primary"><i class="far fa-file-excel"></i> Exportar</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- fim card 1 -->
-                <!-- card 2-->
-                <div class="col-md-4">
-                  <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                      <h5 class="card-title">Professor IES</h5>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                      <a [routerLink]="['/RegulatorioProfessorIes']" class="btn btn-primary">Ver</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- fim card 2 -->
-                <!-- card 2-->
-                <div class="col-md-4">
-                  <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                      <h5 class="card-title">Professor Curso</h5>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                      <a [routerLink]="['/RegulatorioProfessorCurso']" class="btn btn-primary">Ver</a>
-                    </div>
-                  </div>
-                </div>
-                <!-- fim card 3 -->
+    <div class="carousel-item active">
+      <div class="container">
+        <div class="row">
+          <!-- card 1-->
+          <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title">Corpo Docente</h5>
               </div>
-            </div>      </div>
-
-
-      <div class="carousel-item">
-          <div class="container">
-              <div class="row">
-                <!-- card 1-->
-                <div class="col-md-4">
-                  <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                      <h5 class="card-title">Professor Fora de Sede</h5>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                      <a [routerLink]="['/RegulatorioProfessorForaDeSede']" class="btn btn-primary">Ver</a>                    </div>
-                  </div>
-                </div>
-                <!-- fim card 1 -->
-                <!-- card 2-->
-                <div class="col-md-4">
-                  <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                      <h5 class="card-title">Gap Carga Horária</h5>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                      <a [routerLink]="['/RegulatorioProfessorGapCargaHoraria']" class="btn btn-primary">Ver</a>                    </div>
-                  </div>
-                </div>
-                <!-- fim card 2 -->
-                <!-- card 2-->
-                <div class="col-md-4">
-                  <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                      <h5 class="card-title">Gera Termo TI / TP</h5>
-                    </div>
-                    <div class="card-body">
-                      <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                      <a [routerLink]="['/RegulatorioProfessorTermoTiTp']" class="btn btn-primary">Ver</a>                    </div>
-                  </div>
-                </div>
-                <!-- fim card 3 -->
+              <div class="card-body">
+                <p class="card-text">Relatório com informações rápidas sobre o corpo docente da Estácio</p>
+                <!-- <a (click)="exportarResultadoExcel()" class="btn btn-primary"><i class="far fa-file-excel"></i> Exportar</a> -->
+                <button class="btn btn-sm btn-outline-success ml-4 ml-auto" (click)="exportarResultadoExcel()">
+                  <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
               </div>
-            </div>      
+            </div>
           </div>
-
-    
-
-
-
+          <!-- fim card 1 -->
+          <!-- card 2-->
+          <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title">Professor IES</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <a [routerLink]="['/RegulatorioProfessorIes']" class="btn btn-primary">Ver</a>
+              </div>
+            </div>
+          </div>
+          <!-- fim card 2 -->
+          <!-- card 2-->
+          <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title">Professor Curso</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <a [routerLink]="['/RegulatorioProfessorCurso']" class="btn btn-primary">Ver</a>
+              </div>
+            </div>
+          </div>
+          <!-- fim card 3 -->
+        </div>
+      </div>
     </div>
-    <a class="carousel-control-prev"  href="#carouselExampleIndicators" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-  
-    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
+
+
+    <div class="carousel-item">
+      <div class="container">
+        <div class="row">
+          <!-- card 1-->
+          <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title">Professor Fora de Sede</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <a [routerLink]="['/RegulatorioProfessorForaDeSede']" class="btn btn-primary">Ver</a>
+              </div>
+            </div>
+          </div>
+          <!-- fim card 1 -->
+          <!-- card 2-->
+          <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title">Gap Carga Horária</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <a [routerLink]="['/RegulatorioProfessorGapCargaHoraria']" class="btn btn-primary">Ver</a>
+              </div>
+            </div>
+          </div>
+          <!-- fim card 2 -->
+          <!-- card 2-->
+          <div class="col-md-4">
+            <div class="card" style="width: 18rem">
+              <div class="card-header">
+                <h5 class="card-title">Gera Termo TI / TP</h5>
+              </div>
+              <div class="card-body">
+                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <a [routerLink]="['/RegulatorioProfessorTermoTiTp']" class="btn btn-primary">Ver</a>
+              </div>
+            </div>
+          </div>
+          <!-- fim card 3 -->
+        </div>
+      </div>
+    </div>
+
+
+
+
+
   </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
