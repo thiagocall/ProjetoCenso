@@ -400,9 +400,11 @@ namespace Censo.API.Controllers
                         professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
                         
                         // RECEBENDO O CODIGO DA REGIAO E O NOME
-                        professordetalhe.nomeRegiao = matricula.First().nomeRegiao;
-                        professordetalhe.codRegiao = matricula.First().codRegiao;
-                        
+                        professordetalhe.Regioes = matricula.Where(x => x.cpfProfessor.ToString() == id)
+                                                                        .Select(x => x.nomeRegiao)
+                                                                        .Distinct()
+                                                                        .ToList();
+                                                
                         //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
                         professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
                         professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);

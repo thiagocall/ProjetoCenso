@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Censo.API.Data;
+using Censo.API.Model;
+using Censo.API.Model.Censo;
+using Censo.API.Resultados;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Censo.API.Controllers
 {
@@ -14,73 +20,120 @@ namespace Censo.API.Controllers
     [ApiController]
     public class RegulatorioController : ControllerBase
     {
-
-        public ProfessorContext Context { get; }
-
-
-        public RegulatorioController(ProfessorContext context)
+        public ProfessorIESContext context;
+        public ProfessorContext Profcontext;
+                
+        public RegimeContext RegContext;
+        
+        public RegulatorioController(ProfessorIESContext Context, ProfessorContext ProfContext, RegimeContext regimeContext)
         {
-            this.Context = context;
+            this.context = Context;
+            this.Profcontext = ProfContext;
+            this.RegContext = regimeContext;
+
         }
         
-        // GET api/values
-        
-        
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
+     
+        // POST api/values
+     
+        // EXPORTACAO CORPO DOCENTE
+        [AllowAnonymous]
+        [HttpGet("BuscaIes/Excel")]
+        public async Task<IActionResult> BuscaIesDownload()
         {
-//Where(x => x.CpfProfessor == 3566706)
-             try
-            {
-                var results = await Context.Professores.ToListAsync();
-            
-                return Ok(results);
-                
-            }
-            catch (System.Exception)
-            {
-                
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados");
-            }
-            
-        }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
-        {
             try
             {
-                var results = await Context.Professores.Where(x => x.CpfProfessor == id).ToListAsync();
+
+
+                 Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             
-                return Ok(results);
+
+                 Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+
                 
+                Task.WaitAll(task1);
+
+                var results =  await Professores.getProfessores(this.Profcontext).ToListAsync();
+
+                                foreach (var item in results)
+                                {
+                                    if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                                    {
+                                        item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                                    }
+
+                                    else
+                                    {
+                                        item.regime = "CHZ/AFASTADO";
+                                    }
+                                }
+
+
+            //  Monta arquivo para Download em Excel
+
+             var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("ProfCursoCenso");
+                workSheet.Cells.LoadFromCollection(results
+                                                .Select(x => 
+                                                        new {CPF = x.CpfProfessor,
+                                                             NOME = x.NomProfessor,
+                                                             NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
+                                                             REGIME = x.regime,
+                                                             TITULACAO = x.Titulacao
+                                                       }), true);
+                // workSheet.Column(3).Style.Numberformat.Format = "dd/MM/yyyy";
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "file.xlsx";
+
+                return File(stream, contentType, fileName);
             }
             catch (System.Exception)
             {
-                
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados");
-            }
+                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
+            }                
+                      
+
+        }
+ 
+
+        // INICIO PROFESSOR IES
+       [AllowAnonymous]
+       [HttpGet("BuscaIes/{id}")]
+        public ActionResult<List<ProfessorIes>> BuscaIes(long? id)
+        {
+
+            var results = Professores.getProfessoresIES(context).Where(p => p.CodInstituicao == id).ToList();
+            
+            //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
+
+                var dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+
+                 foreach (var item in results)
+                {
+                    if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                            {
+                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                            }
+                }
         
+                return Ok(results);
+                
+                // var results = Professores.getProfessoresIES(context).Where(x => x.CpfProfessor == id).ToList();
+                // return results;  
+
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }
