@@ -12,8 +12,8 @@ namespace Censo.API.Resultados
     public static class Professores
     {
 
-       
         public static List<Professor> ListaProfessorIES;
+        
         public static DbSet<Professor> getProfessores( ProfessorContext _context){
 
             var results = _context.Professores;

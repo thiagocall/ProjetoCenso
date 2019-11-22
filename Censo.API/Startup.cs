@@ -89,6 +89,7 @@ namespace Censo.API
             services.AddDbContext<CursoEnquadramentoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<TempProducaoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection2")));
             services.AddDbContext<CargaContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
 
 
 

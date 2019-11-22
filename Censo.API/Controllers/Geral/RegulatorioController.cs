@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Censo.API.Data;
+using Censo.API.Data.Censo;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Resultados;
@@ -20,23 +21,30 @@ namespace Censo.API.Controllers
     [ApiController]
     public class RegulatorioController : ControllerBase
     {
-        public ProfessorIESContext context;
+        public ProfessorIESContext Context;
         public ProfessorContext Profcontext;
-                
         public RegimeContext RegContext;
-        
-        public RegulatorioController(ProfessorIESContext Context, ProfessorContext ProfContext, RegimeContext regimeContext)
+        public CensoContext CContext;
+
+        public CargaContext CgContext;
+                 
+        public RegulatorioController(ProfessorIESContext Context, ProfessorContext ProfContext
+                                    , RegimeContext regimeContext
+                                    ,CensoContext CContext
+                                    , CargaContext cargaContext)
         {
-            this.context = Context;
+            this.Context = Context;
             this.Profcontext = ProfContext;
             this.RegContext = regimeContext;
+            this.CContext = CContext;
+            this.CgContext = cargaContext;
 
         }
         
      
         // POST api/values
      
-        // EXPORTACAO CORPO DOCENTE
+        // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
         [AllowAnonymous]
         [HttpGet("BuscaIes/Excel")]
         public async Task<IActionResult> BuscaIesDownload()
@@ -107,15 +115,15 @@ namespace Censo.API.Controllers
 
         }
  
-
+                
         // INICIO PROFESSOR IES
        [AllowAnonymous]
        [HttpGet("BuscaIes/{id}")]
         public ActionResult<List<ProfessorIes>> BuscaIes(long? id)
         {
 
-            var results = Professores.getProfessoresIES(context).Where(p => p.CodInstituicao == id).ToList();
-            
+            var results = Professores.getProfessoresIES(Context).Where(p => p.CodInstituicao == id).ToList();
+
             //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
 
                 var dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
@@ -135,5 +143,39 @@ namespace Censo.API.Controllers
 
         }
 
+
+        //Curso Professor Emec
+        [AllowAnonymous]
+        [HttpGet("Emec/{id}")]
+        public async Task<IActionResult> Get(long? id)
+        {
+            Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            
+            Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = CgContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());                      
+                    }
+                    );
+      
+            var query = await this.CContext.ProfessorCursoCenso.ToListAsync();
+         
+                var results = query.Select(x => new 
+                                    {   
+                                        CpfProfessor = x.CpfProfessor, 
+                                        CodIes = x.CodIes,
+                                        CodCampus = x.CodCampus,
+                                        CodCurso = x.CodCurso,
+                                        NumHabilitacao = x.NumHabilitacao,
+                                        regime = dic.TryGetValue(x.CpfProfessor.ToString(),out ProfessorRegime pp) ? pp.Regime:"CHZ/AFASTADO",
+                                        Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? ps.QtdHorasDs:0,
+                                        Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? pf.QtdHorasFs:0,
+                                        }).ToList();
+
+            return Ok(results);
+            
+        }
+       
+        
     }
 }

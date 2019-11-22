@@ -1,3 +1,4 @@
+using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,8 @@ namespace Censo.API.Data.Censo
 
         public virtual DbSet<CargaDS> CargaDS { get; set; }
         public virtual DbSet<CargaFS> CargaFS { get; set; }
+
+        public virtual DbSet<ProfessorRegime> ProfessorRegime { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -48,7 +51,24 @@ namespace Censo.API.Data.Censo
 
             );
 
+            modelBuilder.Entity<ProfessorRegime>(entity =>
+                    {
+                        entity.HasKey(e => new { e.CpfProfessor });
 
+                        entity.ToTable("Rel_Titulacao_Docente_Censo");
+
+                        entity.Property(e => e.CpfProfessor).HasColumnName("CPF_PROFESSOR");
+
+                        entity.Property(e => e.QtdHorasDs).HasColumnName("Qtd_Horas_DS");
+                        
+                        entity.Property(e => e.QtdHorasFs).HasColumnName("Qtd_Horas_FS");
+
+                        entity.Property(e => e.CargaTotal).HasColumnName("Carga_Total");
+
+                        entity.Property(e => e.Regime).HasColumnName("Regime");
+                    }
+            
+            );
 
         }
 

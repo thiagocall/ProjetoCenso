@@ -61,7 +61,6 @@ namespace Censo.API.CargaHoraria
             using (SqlConnection conn = new SqlConnection(strConn))
             {
 
-
                 conn.Open();
 
                 SqlCommand cmd = new SqlCommand("select * from Rel_MATRICULA_CARGA_EX_DS",conn);
