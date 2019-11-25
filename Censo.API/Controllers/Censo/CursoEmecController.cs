@@ -804,8 +804,10 @@ namespace Censo.API.Controllers.Censo
 
                 var CursoNota = getNotaCursos(await query, await ListaCursoArea);
 
-                Otm.AddProfessor20p(Cursoprofessor, await query20p, ListaPrevisaoSKU, _formulario);
-
+                if (_formulario.otimiza20p)
+                {
+                    Otm.AddProfessor20p(Cursoprofessor, await query20p, ListaPrevisaoSKU, _formulario);
+                }
 
                 var CursoEnade = TaskEnade.Where(x => x.IndEnade.Contains('S')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
 

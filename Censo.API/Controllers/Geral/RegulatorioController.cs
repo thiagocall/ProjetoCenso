@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
@@ -45,59 +46,45 @@ namespace Censo.API.Controllers
         // POST api/values
      
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
+        // AJUSTE PARA CIRACAO DE DOWNLOAD EXCEL PASSANDO O ID - THIAGO CALDAS
         [AllowAnonymous]
-        [HttpGet("BuscaIes/Excel")]
-        public async Task<IActionResult> BuscaIesDownload()
+        [HttpGet("BuscaIesID/Excel/{id}")]
+        public async Task<IActionResult> BuscaIesDownload(long id)
         {
+
 
             try
             {
 
+                var results = Professores.getProfessoresIES(Context).Where(p => p.CodInstituicao == id).ToList();
 
-                 Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
-            
+                    //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
 
-                 Task task1 = Task.Factory.StartNew (
-                    () => 
-                    {
-                      dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-                    }
-                    );
+                var dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
-                
-                Task.WaitAll(task1);
-
-                var results =  await Professores.getProfessores(this.Profcontext).ToListAsync();
-
-                                foreach (var item in results)
-                                {
-                                    if (dic.ContainsKey(item.CpfProfessor.ToString()))
-                                    {
-                                        item.regime = dic[item.CpfProfessor.ToString()].Regime;
-                                    }
-
-                                    else
-                                    {
-                                        item.regime = "CHZ/AFASTADO";
-                                    }
-                                }
-
+                foreach (var item in results)
+            {
+                if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                        {
+                            item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                        }
+            }
 
             //  Monta arquivo para Download em Excel
 
              var stream = new MemoryStream();
 
              using (var package = new ExcelPackage(stream)) {                
-                var workSheet = package.Workbook.Worksheets.Add("ProfCursoCenso");
-                workSheet.Cells.LoadFromCollection(results
-                                                .Select(x => 
-                                                        new {CPF = x.CpfProfessor,
-                                                             NOME = x.NomProfessor,
-                                                             NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
-                                                             REGIME = x.regime,
-                                                             TITULACAO = x.Titulacao
-                                                       }), true);
+                var workSheet = package.Workbook.Worksheets.Add("ProfessorIES");
+                workSheet.Cells.LoadFromCollection(results, true);
                 // workSheet.Column(3).Style.Numberformat.Format = "dd/MM/yyyy";
+
+                                                    //         .Select(x =>     new {CPF = x.CpfProfessor,
+                                                    //          NOME = x.NomProfessor,
+                                                    //          NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
+                                                    //          REGIME = x.regime,
+                                                    //          TITULACAO = x.Titulacao
+                                                    //    })
                 package.Save();            
             };  
 
@@ -114,7 +101,65 @@ namespace Censo.API.Controllers
                       
 
         }
- 
+
+
+        // POST api/values
+     
+        // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
+        // AJUSTE PARA CRIAÇÃO DE DOWNLOAD EXCEL POR IES PASSANDO ID THIAGO CALDAS
+        [AllowAnonymous]
+        [HttpGet("BuscaIes/Excel")]
+        public async Task<IActionResult> IesDownload()
+        {
+
+
+            try
+            {
+
+                var results = Professores.getProfessores(this.Profcontext).ToList();
+
+                    //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
+
+                var dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+
+                foreach (var item in results)
+            {
+                if (dic.ContainsKey(item.CpfProfessor.ToString()))
+                        {
+                            item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                        } else {
+                            item.regime = "CHZ/AFASTADO";
+                        }
+            }
+
+            //  Monta arquivo para Download em Excel
+
+             var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("ProfessorIES");
+                workSheet.Cells.LoadFromCollection(results.Select(x =>     new {CPF = x.CpfProfessor,
+                                                              NOME = x.NomProfessor,
+                                                              NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
+                                                              REGIME = x.regime,
+                                                              TITULACAO = x.Titulacao
+                                                        }), true);
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "file.xlsx";
+
+                return File(stream, contentType, fileName);
+            }
+            catch (System.Exception)
+            {
+                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
+            }                
+                      
+
+        }
                 
         // INICIO PROFESSOR IES
        [AllowAnonymous]

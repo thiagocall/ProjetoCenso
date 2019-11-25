@@ -22,9 +22,9 @@ export class RegulatorioService {
     return this.http.get(this.baseUrl + 'regulatorio/BuscaIes/excel', { responseType: 'blob', headers: tokenHeader });
   }
 
-  getRegulatorioProfessorIesExcel(codigo: string) {
+  getRegulatorioProfessorIesExcel(_ies: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/buscaies/' + codigo, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'regulatorio/buscaiesID/excel/' + _ies, { responseType: 'blob', headers: tokenHeader });
   }
 
   getRegulatorioBuscaIes(codigo: string) {

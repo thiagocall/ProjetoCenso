@@ -57,11 +57,11 @@ export class RegulatorioProfessorIesComponent implements OnInit {
     );
   } 
 
-  exportarResultadoExcel(codigo: string) {
+  exportarResultadoExcel(codies: any) {
     let blob;
-    this.regulatorioService.getRegulatorioProfessorIesExcel(codigo).subscribe(response => {
+    this.regulatorioService.getRegulatorioProfessorIesExcel(codies).subscribe(response => {
       blob = new Blob([response], { type: 'application/octet-stream' });
-      saveAs(blob, 'Professor-IES.xlsx');
+      saveAs(blob, `Professor_IES_${codies}.xlsx`);
     }
     );
   }

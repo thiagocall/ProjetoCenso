@@ -18,7 +18,7 @@
   <div class="container mt-4 p-0">
     <div class="d-flex align-items-start mt-2">
       <h4>Professor Por IES</h4>
-      <button class="btn btn-sm btn-outline-success ml-4 " (click)="exportarResultadoExcel()">
+      <button class="btn btn-sm btn-outline-success ml-4 " (click)="exportarResultadoExcel(_codIes.value)" *ngIf="_codIes.value">
         <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
     </div>
     <table class="table table-hover">
