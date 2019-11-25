@@ -1,0 +1,19 @@
+
+.tit th {
+    border: 0.1px solid #e5e5e5;
+}
+
+thead tr th {
+    vertical-align: middle !important;
+}
+
+.fundo {
+
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px 2px #F0F0F0;
+    min-height: 600px;
+
+}
