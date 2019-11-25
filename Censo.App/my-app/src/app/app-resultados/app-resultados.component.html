@@ -27,12 +27,12 @@
     <div class="table-overflow">
       <table class="table table-striped">
         <thead>
-          <tr>
+          <tr style="text-align: center">
             <th scope="col">Id Resultado</th>
             <th scope="col">Tempo Execução</th>
             <th scope="col">Data Otimização</th>
             <th scope="col"></th>
-            <th scope="col"></th>
+            <th scope="col">Comparar</th>
           </tr>
 
 
@@ -40,7 +40,7 @@
         <tbody *ngFor="let item of resultadoOtimizado">
 
 
-          <tr>
+          <tr style="text-align: center">
             <th scope="row">{{item.id}}</th>
             <td>{{item.tempoExecucao}}</td>
             <td>{{getData(item.id)}}</td>

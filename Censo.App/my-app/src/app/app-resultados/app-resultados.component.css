@@ -18,3 +18,12 @@ td {
     border-radius: .25rem;
     box-shadow: 2px 2px 6px 3px #E2E2E2;
   }
+
+  tbody td, th {
+    /* text-align: center; */
+}
+
+thead {
+    /* text-align: center; */
+
+}
