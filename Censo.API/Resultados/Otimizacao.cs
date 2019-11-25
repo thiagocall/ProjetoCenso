@@ -408,7 +408,6 @@ namespace Censo.API.Resultados
                 double perc_D = qtdD / qtdProf;
                 double perc_M = qtdM / qtdProf;
                 double perc_R = qtdR / qtdProf;
-                ////e.CodCampus, e.CodCurso, e.NumHabilitacao
 
                 var area = _cursoProfessor.CodArea;
                     

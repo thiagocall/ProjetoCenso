@@ -23,6 +23,7 @@ import { RegulatorioProfessorCursoComponent } from './regulatorio-professor-curs
 import { RegulatorioProfessorForaSedeComponent } from './regulatorio-professor-fora-sede/regulatorio-professor-fora-sede.component';
 import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-horaria/regulatorio-gap-carga-horaria.component';
 import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulatorio-termo-ti-tp.component';
+import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
 
 
 const routes: Routes = [
@@ -41,8 +42,9 @@ const routes: Routes = [
   {path: 'CorpoDocente', component: AppCorpoDocenteComponent  ,canActivate: [AuthGuard]},
   {path: 'DadosCenso', component: AppDadosCensoComponent  ,canActivate: [AuthGuard]},
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent  ,canActivate: [AuthGuard]},
+  {path: 'Resultados/Comparar', component: AppCompararComponent ,pathMatch: 'full', canActivate: [AuthGuard]},
+  {path: 'Resultados/:id', component: DetalheResultadoComponent ,pathMatch: 'full',canActivate: [AuthGuard]},
   {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
-  {path: 'Resultados/:id', component: DetalheResultadoComponent ,canActivate: [AuthGuard]},
   {path: 'Regulatorio', component: RegulatorioComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioCorpoDocente', component: CorpoDocenteComponent ,canActivate: [AuthGuard]},
   {path: 'ProfessorConsultaDetalhe/:id', component: ProfessorConsultaDetalheComponent ,canActivate: [AuthGuard]},

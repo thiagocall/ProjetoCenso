@@ -9,6 +9,10 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
 
   constructor() { }
 
+  exportarResultadoExcel() {
+    
+  }
+
   ngOnInit() {
   }
 

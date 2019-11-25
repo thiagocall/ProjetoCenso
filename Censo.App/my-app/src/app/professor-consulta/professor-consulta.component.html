@@ -43,8 +43,8 @@
                     </tr>
                 </tbody>
             </table>
-            <pagination-controls (pageChange)="p = $event" *ngIf="professores" previousLabel="Anterior"
-                nextLabel="Próximo"></pagination-controls>
+            <pagination-controls *ngIf="professores" previousLabel="Anterior"
+                nextLabel="Próximo" (pageChange)="p = $event"></pagination-controls>
             <hr style="width: 750px;">
         </div>
     </div>

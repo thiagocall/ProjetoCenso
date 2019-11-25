@@ -1,17 +1,25 @@
+
+
 <div class="container">
   <div class=" p-4">
   </div>
   <div class="row container">
-    <div class="form-group col-md-8">
-      <div class="input-group mb-3">
+    <div class="col-md-8">
+      <div class="mb-3">
         <h2>Meus Resultados</h2>
-
+        
       </div>
+      
     </div>
+ 
 
-    <div class="col-md-1 offset-2">
-      <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fa fa-plus 2x"
-            aria-hidden="true"></i></span> Incluir Resultado</button>
+    <div class="col-md-4">
+        <button  [routerLink]="['/Resultados/Comparar/']" [queryParams]="{res: listaCompara}" class="btn btn-outline-primary mr-1" *ngIf="listaCompara?.length > 1"> <span><i class="fas fa-equals 2x"
+          aria-hidden="true"></i></span> Comparar <span class="badge badge-info">{{listaCompara?.length}}</span></button>
+        
+          <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
+            aria-hidden="true"></i></span> Incluir Resultado</button> 
+      
     </div>
   </div>
 
@@ -23,6 +31,7 @@
             <th scope="col">Id Resultado</th>
             <th scope="col">Tempo Execução</th>
             <th scope="col">Data Otimização</th>
+            <th scope="col"></th>
             <th scope="col"></th>
           </tr>
 
@@ -53,6 +62,12 @@
                   <i class="fas fa-trash-alt 2x"></i>
                 </button>
               </div>
+            </td>
+            <td>
+                <div class="custom-control custom-checkbox mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="chk_{{item.id}}" (change)="addCompara(item.id, $event.target.checked)">
+                    <label class="custom-control-label" for="chk_{{item.id}}"></label>
+                  </div>
             </td>
           </tr>
           <tr>
@@ -97,6 +112,7 @@
                               {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
                             </td>
                           </tr>
+                        
 
                           <!-- <tr>
                           <th scope="row">Quantidade de Doutor 1 a 2</th>

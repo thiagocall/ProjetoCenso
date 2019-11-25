@@ -21,11 +21,24 @@ export class AppResultadosComponent implements OnInit {
 
   confirma: boolean;
   idSelecionado: number;
+  listaCompara: Array<any> = new Array<any>();
+
+
 
 
   ngOnInit() {
     this.getResultado();
   }
+
+  addCompara(id: number, ind: any) {
+    if (ind) {
+      this.listaCompara.push(id);
+    } else {
+      this.listaCompara.splice(this.listaCompara.indexOf(id), 1);
+    }
+
+  }
+
 
   getResultado() {
     this.OtimizacaoService.obterResultadosOtimizados().subscribe(

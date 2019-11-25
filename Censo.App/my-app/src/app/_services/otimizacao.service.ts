@@ -43,4 +43,9 @@ export class OtimizacaoService {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseURL + 'Resultado/Excel/' + id, {responseType: 'blob', headers: tokenHeader});
   }
+
+  getComparaResultado(resultados: any) {
+    const tokenHeader = this.getToken();
+    return this.http.post(this.baseURL + 'ComparaResultado', resultados, {headers: tokenHeader});
+  }
 }

@@ -9,6 +9,14 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
 
   constructor() { }
 
+  p: any;
+  campo: any;
+  professores: any;
+
+  buscarProfessores() {
+
+  }
+
   ngOnInit() {
   }
 

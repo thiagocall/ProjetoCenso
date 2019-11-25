@@ -38,6 +38,7 @@ import { RegulatorioProfessorCursoComponent } from './regulatorio-professor-curs
 import { RegulatorioProfessorForaSedeComponent } from './regulatorio-professor-fora-sede/regulatorio-professor-fora-sede.component';
 import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-horaria/regulatorio-gap-carga-horaria.component';
 import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulatorio-termo-ti-tp.component';
+import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
 
 @NgModule({
    declarations: [
@@ -65,7 +66,8 @@ import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulat
       RegulatorioProfessorCursoComponent,
       RegulatorioProfessorForaSedeComponent,
       RegulatorioGapCargaHorariaComponent,
-      RegulatorioTermoTiTpComponent
+      RegulatorioTermoTiTpComponent,
+      AppCompararComponent
    ],
    imports: [
       BrowserModule,
@@ -79,7 +81,7 @@ import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulat
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
       AccordionModule.forRoot(),
-      NgxPaginationModule
+      NgxPaginationModule,
    ],
    providers: [],
    bootstrap: [

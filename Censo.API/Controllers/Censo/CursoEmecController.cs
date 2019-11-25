@@ -439,6 +439,31 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        [HttpPost("ComparaResultado")]
+        public async Task<IActionResult> getComparaResultado( string[] _listaResultado) {
+
+
+            try 
+            {
+
+                    var res = await this.ProducaoContext.TbResultado
+                                        .Where(r => _listaResultado.Contains(r.Id.ToString()))
+                                        .OrderByDescending(r => r.Id)
+                                        .Select(r => new {r.Id, r.Resumo})
+                                        .ToArrayAsync();
+
+                    return Ok(res) ;
+
+            }
+            catch (Exception e) {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
+            }
+
+        }
+
+
+
         //################## Previsão ################################
 
         private double?[] GeraPrevisao(long? _id, string _tipo, List<CursoPrevisao> _query)

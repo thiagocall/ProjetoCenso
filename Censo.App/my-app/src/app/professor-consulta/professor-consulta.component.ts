@@ -15,6 +15,7 @@ export class ProfessorConsultaComponent implements OnInit {
   professores;
   public campo;
   cpfProfessor;
+  p: any;
 
   ngOnInit() {
   }
