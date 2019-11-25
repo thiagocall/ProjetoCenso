@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Censo.API.Controllers.Censo;
 using Microsoft.AspNetCore.Authorization;
+using Censo.API.Model;
 
 namespace Censo.API.Controllers.Geral
 {
@@ -17,12 +18,16 @@ namespace Censo.API.Controllers.Geral
     [ApiController]
     public class DadosController: ControllerBase
     {
-        private CensoContext CensoContex { get; set; }
+    private CensoContext CensoContex { get; set; }
     public dadosContext DadosContext { get; set; }
-        public DadosController(CensoContext _censoContex, dadosContext _dadosContext)
+
+    public RegionalSiaContext RegionalContext {get;set;}
+        public DadosController(CensoContext _censoContex, dadosContext _dadosContext, RegionalSiaContext _regContext)
         {   
             this.CensoContex = _censoContex;
             this.DadosContext = _dadosContext;
+            this.RegionalContext = _regContext;
+
         }
 
         [HttpGet]
@@ -67,9 +72,83 @@ namespace Censo.API.Controllers.Geral
 
         }
 
-        
+
+        [HttpGet("getIES")]
+        public async Task<IActionResult> getIes () {
+
+            var result = await this.RegionalContext.RegionalSia.ToListAsync();
+
+            var ies = Task.Factory.StartNew( () =>
+            {    
+                return      result.Distinct<RegionalSia>(new CodIesComparer())
+                            .Select(x => new { CodIes = (int)x.CodIes, x.NomIes})
+                            .ToList();
+            }
+            );
+
+
+            var campus = Task.Factory.StartNew( () =>
+            {    
+                return      result.Distinct<RegionalSia>(new CodCampusComparer())
+                            .Select(x => new { CodCampus = (int)x.CodCampus, x.NomCampus, CodIes = (int)x.CodIes})
+                            .ToList();
+            }
+            );
+
+            Task.WaitAll(ies, campus);
+
+            var resultFinal = new {
+                ies = ies.Result,
+                campus = campus.Result
+            };
+            
+
+            return Ok(resultFinal);
+
+        }
+
+
+    }
 
 
 
+    public class CodIesComparer : IEqualityComparer<RegionalSia>
+    {
+        public bool Equals(RegionalSia x, RegionalSia y)
+        {
+            if ( x.CodIes  == y.CodIes)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetHashCode(RegionalSia obj)
+        {
+            return obj.CodIes.GetHashCode();
+        }
+    }
+
+    public class CodCampusComparer : IEqualityComparer<RegionalSia>
+    {
+        public bool Equals(RegionalSia x, RegionalSia y)
+        {
+            if ( x.CodCampus  == y.CodCampus)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetHashCode(RegionalSia obj)
+        {
+            return obj.CodIes.GetHashCode();
+        }
     }
 }
