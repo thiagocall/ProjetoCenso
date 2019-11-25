@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RegulatorioService } from '../_services/regulatorio.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-regulatorio-professor-ies',
@@ -7,13 +9,61 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegulatorioProfessorIesComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private regulatorioService: RegulatorioService) { }
+  resultado: any;
+  resultadoId: any;
+  codigo: any;
+  ies: any;
+  p: any;
+  
   ngOnInit() {
+   this.getIes();
+    //this.buscaId(this.codIes);
   }
 
-  getCampus() {
-    
+   //codInstituicao
+   buscaId(codIes: string) {
+    this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
+      response => {
+        this.resultadoId = response;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getIes() {
+    this.regulatorioService.getIes().subscribe(
+      response => {
+        //ordenação com sort
+        this.resultado = response;
+        this.ies = this.resultado.ies;
+        this.ies.sort(function (a,b) {
+          if (a.nomIes > b.nomIes) {
+            return 1;
+          }
+          if (a.nomIes < b.nomIes) {
+            return -1;
+          }
+          return 0;
+        });
+
+        console.log(this.resultado.ies);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  } 
+
+  exportarResultadoExcel(codigo: string) {
+    let blob;
+    this.regulatorioService.getRegulatorioProfessorIesExcel(codigo).subscribe(response => {
+      blob = new Blob([response], { type: 'application/octet-stream' });
+      saveAs(blob, 'Professor-IES.xlsx');
+    }
+    );
   }
 
 }

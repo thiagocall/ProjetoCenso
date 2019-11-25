@@ -38,7 +38,6 @@ export class AppCorpoDocenteComponent implements OnInit {
       this.resultado = response;
       this.listaCampus = this.resultado.campus;
       this.listaCursos = this.resultado.cursos;
-
     },
     error => {
       console.log(error);
