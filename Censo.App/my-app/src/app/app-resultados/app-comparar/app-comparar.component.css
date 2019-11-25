@@ -5,6 +5,11 @@
 
 thead tr th {
     vertical-align: middle !important;
+    text-align: center;
+}
+
+tbody td {
+    text-align: center;
 }
 
 .fundo {
