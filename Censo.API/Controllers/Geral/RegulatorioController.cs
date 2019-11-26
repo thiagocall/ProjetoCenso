@@ -202,8 +202,13 @@ namespace Censo.API.Controllers
                       dic = CgContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());                      
                     }
                     );
+            
       
-            var query = await this.CContext.ProfessorCursoCenso.ToListAsync();
+            var query = await this.CContext.ProfessorCursoEmec
+                            .Where(p => p.CodEmec == id)
+                                    .ToListAsync();
+
+            Task.WaitAll(task1);
          
                 var results = query.Select(x => new 
                                     {   
@@ -211,10 +216,10 @@ namespace Censo.API.Controllers
                                         CodIes = x.CodIes,
                                         CodCampus = x.CodCampus,
                                         CodCurso = x.CodCurso,
-                                        NumHabilitacao = x.NumHabilitacao,
+                                        NumHabilitacao = (long?)x.NumHabilitacao == -1 ? null : (long?)x.NumHabilitacao,
                                         regime = dic.TryGetValue(x.CpfProfessor.ToString(),out ProfessorRegime pp) ? pp.Regime:"CHZ/AFASTADO",
-                                        Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? ps.QtdHorasDs:0,
-                                        Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? pf.QtdHorasFs:0,
+                                        Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? Math.Round((decimal)ps.QtdHorasDs, 2) : 0,
+                                        Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? Math.Round((decimal)pf.QtdHorasFs, 2) : 0,
                                         }).ToList();
 
             return Ok(results);

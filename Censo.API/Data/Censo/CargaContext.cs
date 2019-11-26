@@ -55,13 +55,13 @@ namespace Censo.API.Data.Censo
                     {
                         entity.HasKey(e => new { e.CpfProfessor });
 
-                        entity.ToTable("Rel_Titulacao_Docente_Censo");
+                        entity.ToTable("Rel_Professor_Regime");
 
                         entity.Property(e => e.CpfProfessor).HasColumnName("CPF_PROFESSOR");
 
-                        entity.Property(e => e.QtdHorasDs).HasColumnName("Qtd_Horas_DS");
+                        entity.Property(e => e.QtdHorasDs).HasColumnName("QtdHoras_DS");
                         
-                        entity.Property(e => e.QtdHorasFs).HasColumnName("Qtd_Horas_FS");
+                        entity.Property(e => e.QtdHorasFs).HasColumnName("QtdHoras_FS");
 
                         entity.Property(e => e.CargaTotal).HasColumnName("Carga_Total");
 
