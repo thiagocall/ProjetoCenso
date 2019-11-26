@@ -114,7 +114,7 @@ namespace Censo.API.Controllers.Geral
         public async Task<IActionResult> getCampus () {
 
             var curso = this.CensoContex.CursoCenso.ToListAsync();
-            var campus = this.CampusContext.TbSiaCampus.Select(x => new {codCurso = (int)x.CodCampus, nomCurso = x.NomCampus}).ToListAsync();
+            var campus = this.CampusContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
 
             var resultado = new {Cursos = await curso, Campi = await campus};
 
