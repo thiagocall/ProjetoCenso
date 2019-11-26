@@ -19,15 +19,9 @@
     }
   
     .tabela-centralizada {
-      display: flex;
-      flex-wrap: wrap;
-      margin-right: 0px;
-      margin-left: 200px;
+      margin: 15px;
     }
   
-    .table{
-      width: 750px;
-      height: auto;
-    }
+    
   
  

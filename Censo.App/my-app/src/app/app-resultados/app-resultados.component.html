@@ -1,5 +1,3 @@
-
-
 <div class="container">
   <div class=" p-4">
   </div>
@@ -7,19 +5,16 @@
     <div class="col-md-8">
       <div class="mb-3">
         <h2>Meus Resultados</h2>
-        
       </div>
-      
     </div>
- 
 
     <div class="col-md-4">
-        <button  [routerLink]="['/Resultados/Comparar/']" [queryParams]="{res: listaCompara}" class="btn btn-outline-primary mr-1" *ngIf="listaCompara?.length > 1"> <span><i class="fas fa-equals 2x"
-          aria-hidden="true"></i></span> Comparar <span class="badge badge-info">{{listaCompara?.length}}</span></button>
-        
-          <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
-            aria-hidden="true"></i></span> Incluir Resultado</button> 
-      
+      <button [routerLink]="['/Resultados/Comparar/']" [queryParams]="{res: listaCompara}"
+        class="btn btn-outline-primary mr-1" *ngIf="listaCompara?.length > 1"> <span><i class="fas fa-equals 2x"
+            aria-hidden="true"></i></span> Comparar <span
+          class="badge badge-info">{{listaCompara?.length}}</span></button>
+      <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
+            aria-hidden="true"></i></span> Incluir Resultado</button>
     </div>
   </div>
 
@@ -34,12 +29,8 @@
             <th scope="col"></th>
             <th scope="col">Comparar</th>
           </tr>
-
-
         </thead>
         <tbody *ngFor="let item of resultadoOtimizado">
-
-
           <tr style="text-align: center">
             <th scope="row">{{item.id}}</th>
             <td>{{item.tempoExecucao}}</td>
@@ -64,10 +55,11 @@
               </div>
             </td>
             <td>
-                <div class="custom-control custom-checkbox mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="chk_{{item.id}}" (change)="addCompara(item.id, $event.target.checked)">
-                    <label class="custom-control-label" for="chk_{{item.id}}"></label>
-                  </div>
+              <div class="custom-control custom-checkbox mr-sm-2">
+                <input type="checkbox" class="custom-control-input" id="chk_{{item.id}}"
+                  (change)="addCompara(item.id, $event.target.checked)">
+                <label class="custom-control-label" for="chk_{{item.id}}"></label>
+              </div>
             </td>
           </tr>
           <tr>
@@ -94,14 +86,16 @@
                           <tr>
                             <th scope="row">Nota 1 a 2</th>
                             <td>{{getResumo(item?.resumo).Nota1a2_E}}</td>
-                            <td>{{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
+                            <td>
+                              {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
                             </td>
 
                           </tr>
                           <tr>
                             <th scope="row">Nota 3</th>
                             <td>{{getResumo(item?.resumo)?.Nota3_E}}</td>
-                            <td>{{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
+                            <td>
+                              {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
                             </td>
 
                           </tr>
@@ -112,7 +106,7 @@
                               {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
                             </td>
                           </tr>
-                        
+
 
                           <!-- <tr>
                           <th scope="row">Quantidade de Doutor 1 a 2</th>
