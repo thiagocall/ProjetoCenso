@@ -1,6 +1,4 @@
-<div class="container mt-5 mb-5">
-</div>
-<div class="container fundo-tabela ">
+<div class="container fundo-tabela mt-5">
   <div class="p-3 "></div>
   <div class="input-group mb-0 col-md-9 tabela-centralizada">
     <input [(ngModel)]="campo" type="text" class="form-control " placeholder="Informe o professor"
@@ -33,9 +31,9 @@
           <td>A</td>
           <td>A</td>
           <td>
-          <button type="button" class="btn btn-outline-primary btn-sm" tooltip="Adicionar">
-            <i class="fas fa-user-plus 2x"></i>
-          </button>
+            <button type="button" class="btn btn-outline-primary btn-sm" tooltip="Adicionar">
+              <i class="fas fa-user-plus 2x"></i>
+            </button>
           </td>
           <!--- <tr *ngFor="let item of professores | paginate: { itemsPerPage: 7, currentPage: p }">
                          
@@ -57,7 +55,7 @@
       </table>
       <pagination-controls *ngIf="professores" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
       </pagination-controls>
-      <hr style="width: 750px;">
+      <hr style="width: 690px;">
     </div>
   </div>
 </div>

@@ -38,5 +38,16 @@ export class RegulatorioService {
   }
 
 
+  getRegulatorioProfessorCurso(codigo: string) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'regulatorio/buscaies/' + codigo, { headers: tokenHeader });
+  }
+
+  getCampus() {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'v1/dados/geties/', { headers: tokenHeader });
+  }
+
+
 
 }
