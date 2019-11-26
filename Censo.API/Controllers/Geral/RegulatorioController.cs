@@ -195,11 +195,13 @@ namespace Censo.API.Controllers
         public async Task<IActionResult> Get(long? id)
         {
             Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            Dictionary<string, Professor> dicprof = new Dictionary<string, Professor>();
             
             Task task1 = Task.Factory.StartNew (
                     () => 
                     {
                       dic = CgContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());                      
+                      dicprof = this.Profcontext.Professores.ToDictionary(x => x.CpfProfessor.ToString());
                     }
                     );
             
@@ -220,6 +222,8 @@ namespace Censo.API.Controllers
                                         regime = dic.TryGetValue(x.CpfProfessor.ToString(),out ProfessorRegime pp) ? pp.Regime:"CHZ/AFASTADO",
                                         Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? Math.Round((decimal)ps.QtdHorasDs, 2) : 0,
                                         Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? Math.Round((decimal)pf.QtdHorasFs, 2) : 0,
+                                        nomprofessor = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor pr) ? pr.NomProfessor : "",
+                                        Titulacao = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor tit) ? tit.Titulacao : ""
                                         }).ToList();
 
             return Ok(results);
