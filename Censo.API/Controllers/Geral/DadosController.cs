@@ -20,13 +20,15 @@ namespace Censo.API.Controllers.Geral
     {
     private CensoContext CensoContex { get; set; }
     public dadosContext DadosContext { get; set; }
+    public CampusContext CampusContext { get; set; }
 
     public RegionalSiaContext RegionalContext {get;set;}
-        public DadosController(CensoContext _censoContex, dadosContext _dadosContext, RegionalSiaContext _regContext)
+        public DadosController(CensoContext _censoContex, dadosContext _dadosContext, RegionalSiaContext _regContext, CampusContext _campusContex)
         {   
             this.CensoContex = _censoContex;
             this.DadosContext = _dadosContext;
             this.RegionalContext = _regContext;
+            this.CampusContext = _campusContex;
 
         }
 
@@ -72,7 +74,7 @@ namespace Censo.API.Controllers.Geral
 
         }
 
-        
+
         [HttpGet("getIES")]
         public async Task<IActionResult> getIes () {
 
@@ -108,8 +110,19 @@ namespace Censo.API.Controllers.Geral
         }
 
 
-    }
+        [HttpGet("getCampus")]
+        public async Task<IActionResult> getCampus () {
 
+            var curso = this.CensoContex.CursoCenso.ToListAsync();
+            var campus = this.CampusContext.TbSiaCampus.Select(x => new {codCurso = (int)x.CodCampus, nomCurso = x.NomCampus}).ToListAsync();
+
+            var resultado = new {Cursos = await curso, Campi = await campus};
+
+            return Ok(resultado);
+
+        }
+
+    }
 
 
     public class CodIesComparer : IEqualityComparer<RegionalSia>
@@ -148,7 +161,30 @@ namespace Censo.API.Controllers.Geral
 
         public int GetHashCode(RegionalSia obj)
         {
-            return obj.CodIes.GetHashCode();
+            return obj.CodCampus.GetHashCode();
+        }
+    }
+
+
+
+    public class CampusComparer : IEqualityComparer<CampusSia>
+    {
+        public bool Equals(CampusSia x, CampusSia y)
+        {
+            if ( x.CodCampus  == y.CodCampus)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int GetHashCode(CampusSia obj)
+        {
+            return obj.CodCampus.GetHashCode();
         }
     }
 }
+
