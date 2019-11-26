@@ -4,9 +4,9 @@
         <div class="form">
           <div>
             <label><b>Campus</b></label>
-            <select class="form-control">
-              <option>Campus aqui</option>
-            </select>
+            <select #_codIes class="form-control" id="campus">
+                <option *ngFor="let item of campus" value="{{item.codCampus}}">{{item.nomIes}}</option>
+              </select>
           </div>
         </div>
       </div>
@@ -23,7 +23,9 @@
           </div>
         </div>
       </div>
-    </div>
+
+
+   
   
   
       <div class="container mt-5">

@@ -1,0 +1,6 @@
+.table-overflow {
+    width: 1120px; 
+    height: 500px;
+    overflow-x:auto;
+   
+}
