@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RegulatorioService } from '../_services/regulatorio.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-regulatorio-professor-curso',
@@ -9,53 +10,53 @@ import { RegulatorioService } from '../_services/regulatorio.service';
 export class RegulatorioProfessorCursoComponent implements OnInit {
 
   constructor(private regulatorioService: RegulatorioService) { }
-  resultado: any;
-  resultadoId: any;
-  codigo: any;
-  campus: any;  //ies = campus // codIes codcampus
+  campi:any;
+  curso:any[];
+  dados: any;
+  cursoFiltrado:any;
+  resultado:any;
+  errodados = false;
   p: any;
+
   
   ngOnInit() {
-   //this.getCampus(); 
+  this.getCampus();
   }
 
-   //codInstituicao
-   buscaId(codCampus: string) {
-    this.regulatorioService.getRegulatorioProfessorCurso(codCampus).subscribe(
-      response => {
-        this.resultadoId = response;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
-
-  /*
+  
   getCampus() {
     this.regulatorioService.getCampus().subscribe(
       response => {
-        //ordenação com sort
-        this.resultado = response;
-        this.campus = this.resultado.ies;
-        this.campus.sort(function (a,b) {
-          if (a.nomIes > b.nomIes) {
-            return 1;
-          }
-          if (a.nomIes < b.nomIes) {
-            return -1;
-          }
-          return 0;
-        });
-
-        console.log(this.resultado.ies);
+        this.errodados = false;
+        this.dados = response;
+        this.curso = this.dados.cursos;
+        //console.log(this.curso);
+        this.campi = this.dados.campi;
       },
       error => {
         console.log(error);
       }
     );
-  } */
+  } 
 
+ 
+  getCurso(valor: number){
+    console.log(this.curso);
+    this.cursoFiltrado = this.curso.filter(c => c.codCampus == valor);
+  }
+
+  getResultado(valor: number){
+    this.regulatorioService.getRegulatorioProfessorCurso(valor).subscribe(
+      response => {
+        this.resultado = response;
+        console.log(this.resultado);
+      },
+      error => {
+        this.errodados = true;
+        console.log(error);
+      }
+    );
+  }
 
  
 

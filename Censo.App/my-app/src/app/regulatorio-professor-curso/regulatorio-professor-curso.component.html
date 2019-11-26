@@ -1,104 +1,90 @@
 <div class="container mt-2 ml-4">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form">
-          <div>
-            <label><b>Campus</b></label>
-            <select #_codIes class="form-control" id="campus">
-                <option *ngFor="let item of campus" value="{{item.codCampus}}">{{item.nomIes}}</option>
-              </select>
-          </div>
+  <div class="row p-5">
+    <div class="col-md-6">
+      <div class="form">
+          <div *ngIf="campi">
+        <label for="campi"><b>Campus</b></label>
+        <select #_codCampus class="form-control" id="campi" (change)="getCurso(_codCampus.value)">
+          <option disabled value="0">-- Selecione o Campus --</option>
+          <option *ngFor="let item of campi" value="{{item.codCampus}}">{{item.nomCampus}}</option>
+        </select>
         </div>
-      </div>
-  
-      <div class="col-md-6">
-        <div class="col-md-6">
-          <div class="form">
-            <div>
-              <label><b>Curso</b></label>
-              <select class="form-control">
-                <option>Curso aqui</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
 
 
-   
-  
-  
-      <div class="container mt-5">
-          <div class="d-flex align-items-start">
-            <h4>Professor curso</h4>
-            
-            <button class="btn btn-sm btn-outline-success ml-2" 
-              (click)="exportarResultadoExcel()">
-              <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
-          </div>
-         
-        </div>
-  
-  
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form" *ngIf="cursoFiltrado">
+        <label for="curso"><b>Curso</b></label>
+        <select class="form-control" [(ngModel)]="selecione" (change)="getResultado(selecione)">
+          <option disabled value="0">-- Selecione o Curso --</option>
+          <option *ngFor="let item of cursoFiltrado" value="{{item.codEmec}}">{{item.nomCursoCenso}}</option>
+        </select>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+      <h4 class="font-weight-light" style="margin-left: 38px;">Professor Curso</h4>
+
+
       <div class="container">
-        <!--spinner 
-        <div *ngIf="!listaCampus" class="container text-center mt-5">
-          <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
-        </div> -->
-  
-  
-        <div class="row">
-          <div class="col-md-7">
-            <!-- dados nao encontrados 
-            <div class="alert alert-warning mt-5 card1" *ngIf="errodados">Ops! Não localizamos esses dados.
-            </div> -->
-            <div class="container mt-3">
+          <div *ngIf="!dados" class="container text-center mt-5">
+              <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
+          </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-warning mt-5 card1" *ngIf="errodados">Ops! Não localizamos esses dados.
+          </div>
+          <div class="container mt-3" *ngIf="resultado">
+            <div class="table-overflow">
               <table class="table">
                 <thead>
-                  <th>A</th>
-                  <th>B</th>
-                  <th>C</th>
-                  <th>D</th>
-                  <th>E</th>
-  
-  
+                  <th>Cpf Professor</th>
+                  <th>Cod Ies</th>
+                  <th>Cod Campus</th>
+                  <th>Cod Curso</th>
+                  <th>Habilitação</th>
+                  <th>Regime</th>
+                  <th>Hora DS</th>
+                  <th>Hora FS</th>
+                  <th>Nome Professor</th>
+                  <th>Titulação</th>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">U</th>
-                    <td>U</td>
-                    <td>U</td>
-                    <td>U</td>
-                    <td>U</td>
-  
-                  </tr>
-                  <tr>
-                    <th scope="row">M</th>
-                    <td>M</td>
-                    <td>M</td>
-                    <td>M</td>
-                    <td>M</td>
-  
-                  </tr>
-                  <tr>
-                    <th scope="row">P</th>
-                    <td>P</td>
-                    <td>P</td>
-                    <td>P</td>
-                    <td>P</td>
-  
+                  <tr *ngFor="let item of resultado | paginate: { itemsPerPage: 8, currentPage: p }">
+                    <td>{{item?.cpfProfessor}}</td>
+                    <td>{{item?.codIes}}</td>
+                    <td>{{item?.codCampus}}</td>
+                    <td>{{item?.codCurso}}</td>
+                    <td>{{item?.numHabilitacao}}</td>
+                    <td>{{item?.regime}}</td>
+                    <td>{{item?.qtd_Horas_DS}}</td>
+                    <td>{{item?.qtd_Horas_FS}}</td>
+                    <td>{{item?.nomprofessor}}</td>
+                    <td>{{item?.titulacao}}</td>
                   </tr>
                 </tbody>
               </table>
-  
-  
             </div>
-  
+            <div class="container">
+              <hr>
+              <pagination-controls *ngIf="resultado" previousLabel="Anterior" nextLabel="Próximo"
+                (pageChange)="p = $event">
+              </pagination-controls>
+            </div>
+
           </div>
-  
+
         </div>
-  
-  
+
       </div>
-  
+
+
+      
     </div>
+  </div>
