@@ -5,11 +5,17 @@
       <label for="nomInstituicao"><b>Selecione a Instituição </b></label>
       <div class="input-group">
         <select #_codIes class="form-control" id="ies">
+          <option value="0" disabled>-- Selecione uma Instituição --</option>
           <option *ngFor="let item of ies" value="{{item.codIes}}">{{item.nomIes}}</option>
         </select>
         <div class="input-group-append ">
           <button class="btn btn-outline-primary" (click)="buscaId(_codIes.value)">Buscar</button>
         </div>
+        <div class="input-group-append ">
+            <button class="btn btn-sm btn-outline-success" (click)="exportarResultadoExcel(_codIes.value)">Buscar</button>
+          </div>
+        <button class="btn btn-sm btn-outline-success ml-4 " (click)="exportarResultadoExcel(_codIes.value)" *ngIf="_codIes.value">
+            <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
 
       </div>
     </div>
