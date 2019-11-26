@@ -57,7 +57,6 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
       }
     );
   }
-
  
 
 }
