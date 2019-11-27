@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Censo.API.Campus;
 using Censo.API.Data;
 using Censo.API.Data.Censo;
+using Censo.API.ForaDeSede;
 using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Resultados;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OfficeOpenXml;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
@@ -26,23 +29,61 @@ namespace Censo.API.Controllers
         public ProfessorContext Profcontext;
         public RegimeContext RegContext;
         public CensoContext CContext;
-
         public CargaContext CgContext;
-                 
+        public CampusContext CampusContext;
+        IConfiguration Configuration;
+
+        List<string> listaForaSede;
+        
+        public Dictionary<string, List<string>> dicProfessorCampus;
+
         public RegulatorioController(ProfessorIESContext Context, ProfessorContext ProfContext
                                     , RegimeContext regimeContext
-                                    ,CensoContext CContext
-                                    , CargaContext cargaContext)
+                                    , CensoContext CContext
+                                    , CargaContext cargaContext
+                                    , CampusContext _campusContext
+                                    , IConfiguration _configuration)
         {
+
+            if (dicProfessorCampus == null)
+            {
+                  dicProfessorCampus = CampusProfessor.getCampusProfessor(_configuration);
+            }
+    
             this.Context = Context;
             this.Profcontext = ProfContext;
             this.RegContext = regimeContext;
             this.CContext = CContext;
             this.CgContext = cargaContext;
+            this.CampusContext = _campusContext;
+
+            this.listaForaSede = new List<string>(){
+                    "4"
+                    ,"5"
+                    ,"7"
+                    ,"8"
+                    ,"33"
+                    ,"42"
+                    ,"43"
+                    ,"44"
+                    ,"49"
+                    ,"51"
+                    ,"52"
+                    ,"61"
+                    ,"67"
+                    ,"297"
+                    ,"301"
+                    ,"564"
+                    ,"720"
+                    ,"721"
+                    ,"1002"
+
+            };
 
         }
         
-     
+
+
         // POST api/values
      
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
@@ -230,6 +271,71 @@ namespace Censo.API.Controllers
             
         }
        
-        
+        /* fora de sede */
+        [AllowAnonymous]
+        [HttpGet("foradesede/{id}")]
+        public ActionResult foradesede(long? id)
+        //public async Task<IActionResult> Get(long? id)
+        {
+            var dicRegime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+
+    
+
+            var campProfessor = CampusProfessor.getCampusProfessor(this.Configuration);
+
+            var results = ForaDeSedePr.OtimizaProfessorForaDeSede(Context.ProfessorIES, dicProfessorCampus)
+             .Select(p => new
+                                           {
+                                               CpfProfessor = p.CpfProfessor,
+                                               NomProfessor = p.NomProfessor,
+                                               ativo = p.ativo,
+                                               regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
+                                               titulacao = p.titulacao,
+                                               campi = campProfessor.FirstOrDefault(c => c.Key == p.CpfProfessor.ToString()).Value.ToList()
+                                               //}).Where(c => c.CodCampus == id).ToList();
+                                            }
+                                        )
+                               .ToList();
+
+            return Ok(results);
+
+        }
+  
+
+        /* inicio */
+        [AllowAnonymous]
+        [HttpGet("BuscaCampus")]
+
+        public ActionResult<List<CampusContext>> BuscaCampus()
+        {
+
+            //var results = CampusContext.TbSiaCampus.Where(p => p.CodCampus == id).ToList();
+            var results = CampusContext.TbSiaCampus.Select(x => new { CodCampus = (int)x.CodCampus, x.NomCampus})
+                                                    .Where(x => this.listaForaSede.Contains(x.CodCampus.ToString()))
+                                                    .OrderBy(x => x.NomCampus)
+                                                    .ToList() ;
+            
+            return Ok(results);
+        }
+        /* fim */
+
+
+        /* busca professor dentro dos campus */
+
+        [AllowAnonymous]
+        [HttpGet("BuscaProfCampus")]
+
+        public ActionResult<List<CampusContext>> BuscaProfCampus()
+        {
+
+            //var results = CampusContext.TbSiaCampus.Where(p => p.CodCampus == id).ToList();
+            var results = CampusContext.TbSiaCampus.Select(x => new { CodCampus = (int)x.CodCampus, x.NomCampus})
+                                                    .OrderBy(x => x.NomCampus)
+                                                    .ToList() ;
+            
+            return Ok(results);
+        }
+        /* fim */
+
     }
 }
