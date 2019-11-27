@@ -16,6 +16,8 @@ export class AppDadosCensoComponent implements OnInit {
 
   app = new AppComponent();
 
+  selecionado = 'true';
+
 
   ngOnInit() {
     this.parametro = new Parametro();
@@ -28,6 +30,7 @@ export class AppDadosCensoComponent implements OnInit {
   Restaurar() {
 
     this.parametro = new Parametro();
+    this.selecionado = 'true';
 
   }
 
@@ -42,6 +45,8 @@ export class AppDadosCensoComponent implements OnInit {
       error => {(error);
       }
     );
+
+    
   }
 
   
@@ -67,6 +72,7 @@ class Parametro {
         this.usoProfessor = 10;
         this.usoProfessorGeral = 15;
         this.PercReduProf = 20;
+        this.Metodo = -1;
 
   }
 
@@ -84,5 +90,6 @@ class Parametro {
   usoProfessor: number;
   usoProfessorGeral: number;
   PercReduProf: number;
+  Metodo: number;
 
 }

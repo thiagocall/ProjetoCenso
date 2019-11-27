@@ -37,6 +37,8 @@ namespace Censo.API.Controllers.Censo
 
         public Dictionary<long?, PrevisaoSKU> ListaPrevisaoSKU;
 
+        public ParametrosCenso Formulario { get; set; }
+
 
         // public CursoCensoContext CursoCensoContext { get; set; }
 
@@ -156,12 +158,12 @@ namespace Censo.API.Controllers.Censo
         // DELETE api/values/5
         public async Task<IActionResult> Delete(long id)
         {
-            var item = this.ProducaoContext.TbResultado.Find(id); 
-            this.ProducaoContext.Remove(item); 
+            var item = this.ProducaoContext.TbResultado.Find(id);
+            var item2 = this.ProducaoContext.TbResultadoAtual.Find(id);
+            this.ProducaoContext.RemoveRange(item, item2); 
             await this.ProducaoContext.SaveChangesAsync(); //comitar a alteração do dado
             return Ok();
         }
-
 
         [HttpGet("obterInfoCurso/{codCurso}")]
         public async Task<IActionResult> getDadosCursoEmec(long codCurso)
@@ -477,18 +479,18 @@ namespace Censo.API.Controllers.Censo
             switch (_tipo.ToUpper())
             {
                 case "M":
-                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Mestre).ToList());
-                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Mestre).ToList());
+                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Mestre).ToList(),this.Formulario.Metodo);
+                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Mestre).ToList(),this.Formulario.Metodo);
                     break;
 
                 case "D":
-                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Doutor).ToList());
-                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Doutor).ToList());
+                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Doutor).ToList(),this.Formulario.Metodo);
+                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Doutor).ToList(),this.Formulario.Metodo);
                     break;
 
                 case "R":
-                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Regime).ToList());
-                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
+                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Regime).ToList(),this.Formulario.Metodo);
+                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList(),this.Formulario.Metodo);
                     break;
 
                 /*/ case "I":
@@ -517,13 +519,28 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-        private double? MontaPrevisao(long? alvo, List<double?> x, List<double?> y)
+        private double? MontaPrevisao(long? alvo, List<double?> x, List<double?> y, int ind_metodo = -1)
         {
+            //########## ind_metodo ###########
+            // -1 Regressão linear
+            // 0 igual ao último ano
+            // ################################
+            
+            // ############
+            //x = ano
+            //y = percentual daquele ano
+            //#############
 
             // calcula a regressão linear pelo ano atual
             //a = avg(y) - (b * avg(x))
             //b = sum((x - avg(x))* (y - avg(y))) / sum((x - avg(y)^2))
             //alvo = a + b * x
+
+        double? res = 0;
+
+        if (ind_metodo == -1) 
+        {
+
             double? a = 0;
             double? b = 0;
             double? x_avg = x.Average();
@@ -532,13 +549,13 @@ namespace Censo.API.Controllers.Censo
             List<double?> y_dev = new List<double?>();
             double? b1 = 0;
             double? b2 = 0;
-            double? res = 0;
 
             foreach (var item in x)
             {
                 x_dev.Add((item - x_avg));
 
             }
+
             foreach (var item in y)
             {
                 y_dev.Add(item - y_avg);
@@ -558,6 +575,19 @@ namespace Censo.API.Controllers.Censo
             //res = (res > 1) ? 1 : res;
             //res = (res < 0) ? 0 : res;
 
+            return res;
+
+        } else if(ind_metodo == 0)
+        {
+            
+            res = y.Where(v => v != null).Max();
+
+            return res;
+
+        }
+
+
+            res = y.Where(v => v != null).Max();
             return res;
 
         }
@@ -760,6 +790,8 @@ namespace Censo.API.Controllers.Censo
         public async Task<IActionResult> Otimizar([FromBody] ParametrosCenso _formulario)
         {
 
+            this.Formulario = _formulario;
+
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
@@ -789,7 +821,8 @@ namespace Censo.API.Controllers.Censo
                 var query20p = this.Context.ProfessorCursoEmec20p.ToListAsync();
                 var ListaCursoArea = this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
-                var Cursoprofessor = MontaCursoProfessor(await query, await ListaCursoArea);
+                Task.WaitAll(query, ListaCursoArea);
+                var Cursoprofessor = MontaCursoProfessor(query.Result, ListaCursoArea.Result);
                 // var Cursoprofessor20p = MontaCursoProfessor(await query20p, await ListaCursoArea);;
 
                 // // Obtem lista dos professores escolhidos no filtro
@@ -802,18 +835,22 @@ namespace Censo.API.Controllers.Censo
                 }
                     );
 
-                var CursoNota = getNotaCursos(await query, await ListaCursoArea);
+                var CursoNota = getNotaCursos(query.Result, ListaCursoArea.Result);
 
-                if (_formulario.otimiza20p)
-                {
-                    Otm.AddProfessor20p(Cursoprofessor, await query20p, ListaPrevisaoSKU, _formulario);
-                }
 
                 var CursoEnade = TaskEnade.Where(x => x.IndEnade.Contains('S')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
 
                 List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual, CursoEnade);
 
-                List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, await query, Cursoprofessor, await ListaCursoArea, _formulario);
+                   // ######################## Alavanca 20% ######################## //
+                Task.WaitAll(query20p);
+                if (_formulario.otimiza20p)
+                {
+                    Otm.AddProfessor20p(Cursoprofessor, query20p.Result, ListaPrevisaoSKU, _formulario, CursoEnade);
+                }
+
+
+                List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query.Result, Cursoprofessor, ListaCursoArea.Result, _formulario);
                 
                 // ############## Monta resultados a partir do cenário otimizado ################# //
                

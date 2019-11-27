@@ -20,6 +20,7 @@ namespace Censo.API.Parametros
             public  double usoProfessor {get; set;}
             public  double usoProfessorGeral {get; set;}
             public  double PercReduProf {get; set;}
+            public int Metodo { get; set; }
 
             public List<string> MontaLista(){
                 

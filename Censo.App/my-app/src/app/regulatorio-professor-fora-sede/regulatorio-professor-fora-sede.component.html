@@ -12,8 +12,10 @@
             <button class="btn btn-outline-primary" (click)="resultadoProfessorForaSede(_codCampus.value)">Buscar</button>
           </div>
         
-          <button class="btn btn-sm btn-outline-success ml-4 " (click)="exportarResultadoExcel(_codIes.value)" *ngIf="_codCampus.value">
-              <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
+          <div class="input-group-append ">
+              <button class="btn btn-sm btn-outline-success " (click)="exportarResultadoExcel(_codCampus.value)" *ngIf="_codCampus.value">
+                  <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
+                </div>
   
         </div>
       </div>
