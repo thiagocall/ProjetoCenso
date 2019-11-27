@@ -4,7 +4,7 @@
   
         <label for="nomInstituicao"><b>Selecione o Campus </b></label>
         <div class="input-group">
-          <select #_codCampus class="form-control" id="ies">
+          <select #_codCampus class="form-control" id="codCampus">
             <option value="0" disabled>-- Selecione um Campus --</option>
             <option *ngFor="let item of ies" value="{{item.codIes}}">{{item.nomIes}}</option>
           </select>
