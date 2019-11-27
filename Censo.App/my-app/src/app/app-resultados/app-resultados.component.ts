@@ -3,6 +3,8 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TemplateRef } from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
 import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+import { collectExternalReferences } from '@angular/compiler';
 
 @Component({
   selector: 'app-app-resultados',
@@ -113,4 +115,18 @@ export class AppResultadosComponent implements OnInit {
   toggleCol(id: any) {
 
   }
+
+  exportarResultadoExcel(item: any) { 
+
+   // const id = item.substr(2, item.length);
+    console.log(item);
+
+    let thefile;
+    let blob;  
+    this.OtimizacaoService.exportarResultadoExcel(item).subscribe(response => { 
+      blob = new Blob([response], { type: 'application/octet-stream'});
+      saveAs(blob, `ResultadoCenso_${item}.xlsx`);
+    }
+    );
+    }
 }

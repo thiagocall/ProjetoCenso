@@ -27,3 +27,7 @@ thead {
     /* text-align: center; */
 
 }
+
+.btn-warning :hover {
+    background-color: white !important;
+}
