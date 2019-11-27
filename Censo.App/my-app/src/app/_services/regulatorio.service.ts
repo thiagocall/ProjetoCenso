@@ -17,10 +17,14 @@ export class RegulatorioService {
     return tokenHeader;
   }
 
+  // REGULATÓRIO CORPO DOCENTE 
+
   getRegulatorioCorpoDocenteExcel() {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'regulatorio/BuscaIes/excel', { responseType: 'blob', headers: tokenHeader });
   }
+
+  // REGULATÓRIO PROFESSOR IES
 
   getRegulatorioProfessorIesExcel(_ies: any) {
     const tokenHeader = this.getToken();
@@ -37,6 +41,7 @@ export class RegulatorioService {
     return this.http.get(this.baseUrl + 'v1/dados/geties/', { headers: tokenHeader });
   }
 
+  // REGULATÓRIO PROFESSOR CURSO
 
   getRegulatorioProfessorCurso(codigo: number) {
     const tokenHeader = this.getToken();
@@ -48,8 +53,22 @@ export class RegulatorioService {
     return this.http.get(this.baseUrl + 'v1/dados/getCampus/', { headers: tokenHeader });
   }
 
- 
+  // REGULATÓRIO PROFESSOR FORA DE SEDE
+
+  getRegulatorioProfessorForaSede(_campus: any) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'regulatorio/buscaiesID/excel/' + _campus, { responseType: 'blob', headers: tokenHeader });
+  }
 
 
+  getResultadoProfessorForaSede(codigo: string) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'regulatorio/buscaies/' + codigo, { headers: tokenHeader });
+  }
+
+  getCampusForaSede() {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'v1/dados/geties/', { headers: tokenHeader });
+  }
 
 }

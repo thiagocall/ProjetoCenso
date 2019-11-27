@@ -10,6 +10,8 @@ import { ProfessorService } from '../_services/professor.service';
   templateUrl: './app-corpo-docente.component.html',
   styleUrls: ['./app-corpo-docente.component.css']
 })
+
+
 export class AppCorpoDocenteComponent implements OnInit {
 
   constructor(private professorService: ProfessorService, private Loc: Location) { }

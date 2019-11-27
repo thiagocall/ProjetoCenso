@@ -1,102 +1,60 @@
-<div class="container mt-2 ml-4">
+<div class="container p-0">
     <div class="row">
-      <div class="col-md-6">
-        <div class="form">
-          <div>
-            <label><b>Campus</b></label>
-            <select class="form-control">
-              <option>Campus aqui</option>
-            </select>
+      <div class="col-md-6 mt-5">
+  
+        <label for="nomInstituicao"><b>Selecione o Campus </b></label>
+        <div class="input-group">
+          <select #_codCampus class="form-control" id="ies">
+            <option value="0" disabled>-- Selecione um Campus --</option>
+            <option *ngFor="let item of ies" value="{{item.codIes}}">{{item.nomIes}}</option>
+          </select>
+          <div class="input-group-append ">
+            <button class="btn btn-outline-primary" (click)="resultadoProfessorForaSede(_codCampus.value)">Buscar</button>
           </div>
-        </div>
-      </div>
-  
-      <div class="col-md-6">
-        <div class="col-md-6">
-          <div class="form">
-            <div>
-              <label><b>Campus</b></label>
-              <select class="form-control">
-                <option>Campus aqui</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-  
-      <div class="container mt-5">
-          <div class="d-flex align-items-start">
-            <h4>Professor curso</h4>
-            
-            <button class="btn btn-sm btn-outline-success ml-2" 
-              (click)="exportarResultadoExcel()">
+        
+          <button class="btn btn-sm btn-outline-success ml-4 " (click)="exportarResultadoExcel(_codIes.value)" *ngIf="_codCampus.value">
               <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
-          </div>
-         
-        </div>
-  
-  
-      <div class="container">
-        <!--spinner 
-        <div *ngIf="!listaCampus" class="container text-center mt-5">
-          <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
-        </div> -->
-  
-  
-        <div class="row">
-          <div class="col-md-7">
-            <!-- dados nao encontrados 
-            <div class="alert alert-warning mt-5 card1" *ngIf="errodados">Ops! Não localizamos esses dados.
-            </div> -->
-            <div class="container mt-3">
-              <table class="table">
-                <thead>
-                  <th>A</th>
-                  <th>B</th>
-                  <th>C</th>
-                  <th>D</th>
-                  <th>E</th>
-  
-  
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">U</th>
-                    <td>U</td>
-                    <td>U</td>
-                    <td>U</td>
-                    <td>U</td>
-  
-                  </tr>
-                  <tr>
-                    <th scope="row">M</th>
-                    <td>M</td>
-                    <td>M</td>
-                    <td>M</td>
-                    <td>M</td>
-  
-                  </tr>
-                  <tr>
-                    <th scope="row">P</th>
-                    <td>P</td>
-                    <td>P</td>
-                    <td>P</td>
-                    <td>P</td>
-  
-                  </tr>
-                </tbody>
-              </table>
-  
-  
-            </div>
-  
-          </div>
   
         </div>
-  
-  
       </div>
-  
     </div>
+  
+    <div class="container mt-4 p-0">
+      <div class="d-flex align-items-start mt-2">
+        <h4>Professor Fora de Sede</h4>
+      </div>
+      <div class="table-overflow">
+        <table class="table table-hover">
+          <thead class="titulo-tabela">
+            <tr>
+              <th>Professor</th>
+              <th>Cod Campus</th>
+              <th>Nome Professor</th>
+              <th>Ativo</th>
+              <th tooltip="Dentro de Sala">Hora DS</th>
+              <th tooltip="Fora de Sala">Hora FS</th>
+              <th>Regime</th>
+              <th>Titulação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resultadoCodCampus | paginate: { itemsPerPage: 8, currentPage: p }">
+              
+              <td>{{item?.numMatricula}}</td>
+              <td>{{item?.nomProfessor}}</td>
+              <td>{{item?.nomRegiao}}</td>
+              <td>{{item?.nomInstituicao}}</td>
+              <td>{{item?.titulacao}}</td>
+              <td>{{item?.cargaDS | number : '1.0-1'}}</td>
+              <td>{{item?.cargaFS | number : '1.0-1'}}</td>
+              <td>{{item?.regime}}</td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <pagination-controls *ngIf="resultadoCodCampus" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
+      </pagination-controls>
+    </div>
+  </div>

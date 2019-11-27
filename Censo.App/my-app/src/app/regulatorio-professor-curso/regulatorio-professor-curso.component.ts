@@ -15,8 +15,8 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   dados: any;
   cursoFiltrado:any;
   resultado:any;
-  errodados = false;
   p: any;
+  errodados = false;
 
   
   ngOnInit() {
@@ -27,7 +27,6 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   getCampus() {
     this.regulatorioService.getCampus().subscribe(
       response => {
-        this.errodados = false;
         this.dados = response;
         this.curso = this.dados.cursos;
         //console.log(this.curso);
@@ -48,8 +47,10 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   getResultado(valor: number){
     this.regulatorioService.getRegulatorioProfessorCurso(valor).subscribe(
       response => {
+        this.errodados = false;
         this.resultado = response;
-        console.log(this.resultado);
+        //console.log(this.resultado);
+        console.log(this.errodados);
       },
       error => {
         this.errodados = true;

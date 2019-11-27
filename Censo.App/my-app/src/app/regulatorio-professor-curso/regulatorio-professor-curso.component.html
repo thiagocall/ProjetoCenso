@@ -2,15 +2,13 @@
   <div class="row p-5">
     <div class="col-md-6">
       <div class="form">
-          <div *ngIf="campi">
-        <label for="campi"><b>Campus</b></label>
-        <select #_codCampus class="form-control" id="campi" (change)="getCurso(_codCampus.value)">
-          <option disabled value="0">-- Selecione o Campus --</option>
-          <option *ngFor="let item of campi" value="{{item.codCampus}}">{{item.nomCampus}}</option>
-        </select>
+        <div *ngIf="campi">
+          <label for="campi"><b>Campus</b></label>
+          <select #_codCampus class="form-control" id="campi" (change)="getCurso(_codCampus.value)">
+            <option disabled value="0">-- Selecione o Campus --</option>
+            <option *ngFor="let item of campi" value="{{item.codCampus}}">{{item.nomCampus}}</option>
+          </select>
         </div>
-
-
       </div>
     </div>
     <div class="col-md-6">
@@ -20,30 +18,22 @@
           <option disabled value="0">-- Selecione o Curso --</option>
           <option *ngFor="let item of cursoFiltrado" value="{{item.codEmec}}">{{item.nomCursoCenso}}</option>
         </select>
-
       </div>
     </div>
   </div>
-
   <div class="container">
-
-      <div class="d-flex align-items-start" style="margin-left: 38px;">
-          <h4 class="font-weight-light">Professor curso</h4>
-          <button class="btn btn-sm btn-outline-success ml-2" (click)="exportarResultadoExcel()">
-            <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
-        </div>
-
-
-      <div class="container">
-          <div *ngIf="!dados" class="container text-center mt-5">
-              <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
-          </div>
-
-
+    <div class="d-flex align-items-start" style="margin-left: 38px;">
+      <h4 class="font-weight-light">Professor curso</h4>
+      <button class="btn btn-sm btn-outline-success ml-2" (click)="exportarResultadoExcel()">
+        <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
+    </div>
+    <div class="container">
+      <div *ngIf="!dados" class="container text-center mt-5">
+        <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
+      </div>
       <div class="row">
         <div class="col-md-12">
-          <div class="alert alert-warning mt-5 card1" *ngIf="errodados">Ops! Não localizamos esses dados.
-          </div>
+          <div class="alert alert-warning mt-5 card1" *ngIf="errodados">Ops! Não localizamos esses dados.</div>
           <div class="container mt-3" *ngIf="resultado">
             <div class="table-overflow">
               <table class="table">
@@ -81,14 +71,8 @@
                 (pageChange)="p = $event">
               </pagination-controls>
             </div>
-
           </div>
-
         </div>
-
       </div>
-
-
-      
     </div>
   </div>

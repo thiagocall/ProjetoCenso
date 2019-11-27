@@ -12,25 +12,12 @@ export class RegulatorioProfessorIesComponent implements OnInit {
   constructor(private regulatorioService: RegulatorioService) { }
   resultado: any;
   resultadoId: any;
-  codigo: any;
   ies: any;
   p: any;
   
   ngOnInit() {
    this.getIes();
     //this.buscaId(this.codIes);
-  }
-
-   //codInstituicao
-   buscaId(codIes: string) {
-    this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
-      response => {
-        this.resultadoId = response;
-      },
-      error => {
-        console.log(error);
-      }
-    );
   }
 
   getIes() {
@@ -56,6 +43,19 @@ export class RegulatorioProfessorIesComponent implements OnInit {
       }
     );
   } 
+
+   //codInstituicao
+   buscaId(codIes: string) {
+    this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
+      response => {
+        this.resultadoId = response;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
 
   exportarResultadoExcel(codies: any) {
     let blob;

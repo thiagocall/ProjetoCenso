@@ -11,9 +11,7 @@
         <div class="input-group-append ">
           <button class="btn btn-outline-primary" (click)="buscaId(_codIes.value)">Buscar</button>
         </div>
-        <div class="input-group-append ">
-            <button class="btn btn-sm btn-outline-success" (click)="exportarResultadoExcel(_codIes.value)">Buscar</button>
-          </div>
+      
         <button class="btn btn-sm btn-outline-success ml-4 " (click)="exportarResultadoExcel(_codIes.value)" *ngIf="_codIes.value">
             <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
 
@@ -40,7 +38,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of resultadoId | paginate: { itemsPerPage: 7, currentPage: p }">
+          <tr *ngFor="let item of resultadoId | paginate: { itemsPerPage: 8, currentPage: p }">
             <td>{{item?.numMatricula}}</td>
             <td>{{item?.nomProfessor}}</td>
             <td>{{item?.nomRegiao}}</td>
