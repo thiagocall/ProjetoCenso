@@ -55,9 +55,9 @@ export class RegulatorioService {
 
   // REGULATÓRIO PROFESSOR FORA DE SEDE
 
-  getRegulatorioProfessorForaSede(_campus: any) {
+  getRegulatorioProfessorForaSedeExcel(_campus: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/buscaiesID/excel/' + _campus, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'regulatorio/foradesede/excel/' + _campus, { responseType: 'blob', headers: tokenHeader });
   }
 
 
