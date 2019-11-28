@@ -271,38 +271,36 @@ namespace Censo.API.Controllers
             
         }
        
-        /* fora de sede */
+        /* fora de sede pelo cod_campus */
         [AllowAnonymous]
         [HttpGet("foradesede/{id}")]
         public ActionResult foradesede(long? id)
         //public async Task<IActionResult> Get(long? id)
         {
             var dicRegime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-
-    
-
-            var campProfessor = CampusProfessor.getCampusProfessor(this.Configuration);
-
-            var results = ForaDeSedePr.OtimizaProfessorForaDeSede(Context.ProfessorIES, dicProfessorCampus)
-             .Select(p => new
+            var diccenso = CContext.ProfessorCursoEmec.Where(x =>x.CodCampus == id)
+                                                      .Select(x => x.CpfProfessor)
+                                                      .Distinct().ToDictionary(x => x);
+            var professores = Profcontext.Professores.Where(x => diccenso.ContainsKey(Convert.ToInt64(x.CpfProfessor)))
+                        
+             .Select(p => new 
                                            {
                                                CpfProfessor = p.CpfProfessor,
+                                               codCampus = id,
                                                NomProfessor = p.NomProfessor,
-                                               ativo = p.ativo,
+                                               ativo = p.Ativo,
                                                regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
-                                               titulacao = p.titulacao,
-                                               campi = campProfessor.FirstOrDefault(c => c.Key == p.CpfProfessor.ToString()).Value.ToList()
+                                               titulacao = p.Titulacao,
+                                               //campi = campProfessor.FirstOrDefault(c => c.Key == p.CpfProfessor.ToString()).Value.ToList()
                                                //}).Where(c => c.CodCampus == id).ToList();
                                             }
-                                        )
-                               .ToList();
-
-            return Ok(results);
+                                            ).ToList();
+            return Ok(professores);
 
         }
   
 
-        /* inicio */
+        /* Traz todos os campi fora de sede */
         [AllowAnonymous]
         [HttpGet("BuscaCampus")]
 
