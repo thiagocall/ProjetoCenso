@@ -12,8 +12,9 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
   constructor(private regulatorioService: RegulatorioService) { }
   input: any;
   ies: any;
+  codigoCampus: any;
   resultadoCodCampus: any;
-
+ 
   ngOnInit() {
     this.inputCampus();
   }
@@ -21,21 +22,10 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
   inputCampus() {
     this.regulatorioService.getCampusForaSede().subscribe(
       response => {
-        //ordenação
         this.input = response;
-        this.ies = this.input.ies;
-        this.ies.sort(function (a, b) {
-          if (a.nomIes > b.nomIes) {
-            return 1;
-          }
-          if (a.nomIes < b.nomIes) {
-            return -1;
-          }
-          return 0;
-        });
-
-        console.log(this.input.ies);
-      },
+        this.codigoCampus = this.input;
+        console.log(this.codigoCampus);
+      },   
       error => {
         console.log(error);
       });

@@ -63,12 +63,12 @@ export class RegulatorioService {
 
   getResultadoProfessorForaSede(codigo: string) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/buscaies/' + codigo, { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'regulatorio/foradesede/' + codigo, { headers: tokenHeader });
   }
 
   getCampusForaSede() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'v1/dados/geties/', { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'regulatorio/Buscacampus', { headers: tokenHeader });
   }
 
 }
