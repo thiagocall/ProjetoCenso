@@ -354,7 +354,7 @@ namespace Censo.API.Controllers
             var diccampus = CampusContext.TbSiaCampus.Find((decimal)id);
                                    
 
-            var professores = Profcontext.Professores.Where(x => diccenso.ContainsKey(Convert.ToInt64(x.CpfProfessor)))
+            var professores = Profcontext.Professores.Where(x => diccenso.ContainsKey(Convert.ToInt64(x.CpfProfessor)) && x.Ativo == "SIM")
                         
 
 
