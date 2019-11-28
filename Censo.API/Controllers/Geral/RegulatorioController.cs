@@ -274,31 +274,39 @@ namespace Censo.API.Controllers
         /* fora de sede pelo cod_campus */
         [AllowAnonymous]
         [HttpGet("foradesede/{id}")]
-        public ActionResult foradesede(long? id)
+        public ActionResult foradesede(long id)
         //public async Task<IActionResult> Get(long? id)
         {
-            var dicRegime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-            var diccenso = CContext.ProfessorCursoEmec.Where(x =>x.CodCampus == id)
-                                                      .Select(x => x.CpfProfessor)
-                                                      .Distinct().ToDictionary(x => x);
-            var professores = Profcontext.Professores.Where(x => diccenso.ContainsKey(Convert.ToInt64(x.CpfProfessor)))
-                        
-             .Select(p => new 
-                                           {
-                                               CpfProfessor = p.CpfProfessor,
-                                               codCampus = id,
-                                               NomProfessor = p.NomProfessor,
-                                               ativo = p.Ativo,
-                                               regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
-                                               titulacao = p.Titulacao,
-                                               //campi = campProfessor.FirstOrDefault(c => c.Key == p.CpfProfessor.ToString()).Value.ToList()
-                                               //}).Where(c => c.CodCampus == id).ToList();
-                                            }
-                                            ).ToList();
+            var professores = getforadesede(id);
             return Ok(professores);
 
+
         }
-  
+        [AllowAnonymous]
+        [HttpGet("foradesede/excel/{id}")]
+        public ActionResult DownloadExcel(long id)
+        //public async Task<IActionResult> Get(long? id)
+        {
+            var professores = getforadesede(id);
+            
+            
+            //  Monta arquivo para Download em Excel
+
+             var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("ProfessorForadeSede");
+                workSheet.Cells.LoadFromCollection(professores, true);
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "file.xlsx";
+
+                return File(stream, contentType, fileName);
+
+        }
 
         /* Traz todos os campi fora de sede */
         [AllowAnonymous]
@@ -334,6 +342,37 @@ namespace Censo.API.Controllers
             return Ok(results);
         }
         /* fim */
+
+        public dynamic getforadesede(long id) 
+        {
+            var dicRegime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+            var diccenso = CContext.ProfessorCursoEmec.Where(x =>x.CodCampus == id)
+                                                      .Select(x => x.CpfProfessor)
+                                                      .Distinct().ToDictionary(x => x);
+
+            //Trazendo o nome do campus
+            var diccampus = CampusContext.TbSiaCampus.Find((decimal)id);
+                                   
+
+            var professores = Profcontext.Professores.Where(x => diccenso.ContainsKey(Convert.ToInt64(x.CpfProfessor)))
+                        
+
+
+             .Select(p => new 
+                                           {
+                                               CpfProfessor = p.CpfProfessor,
+                                               codCampus = id,
+                                               NomProfessor = p.NomProfessor,
+                                               ativo = p.Ativo,
+                                               regime = dicRegime.ContainsKey(p.CpfProfessor.ToString()) ? dicRegime[p.CpfProfessor.ToString()].Regime : null ,
+                                               titulacao = p.Titulacao,
+                                               nomcampus = diccampus.NomCampus
+
+                                            }
+                                            ).ToList();
+
+                 return professores;
+        }
 
     }
 }
