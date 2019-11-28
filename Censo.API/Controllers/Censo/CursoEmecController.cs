@@ -476,21 +476,23 @@ namespace Censo.API.Controllers.Censo
 
             var anoAtual = _query.Max(x => x.Ano) + 3;
 
+            int metodo =  this.Formulario == null ? -1 : this.Formulario.Metodo;
+
             switch (_tipo.ToUpper())
             {
                 case "M":
-                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Mestre).ToList(),this.Formulario.Metodo);
-                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Mestre).ToList(),this.Formulario.Metodo);
+                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Mestre).ToList(),metodo);
+                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Mestre).ToList(),metodo);
                     break;
 
                 case "D":
-                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Doutor).ToList(),this.Formulario.Metodo);
-                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Doutor).ToList(),this.Formulario.Metodo);
+                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Doutor).ToList(),metodo);
+                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Doutor).ToList(),metodo);
                     break;
 
                 case "R":
-                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Regime).ToList(),this.Formulario.Metodo);
-                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList(),this.Formulario.Metodo);
+                    prev[0] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Min_Regime).ToList(),metodo);
+                    prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList(),metodo);
                     break;
 
                 /*/ case "I":
