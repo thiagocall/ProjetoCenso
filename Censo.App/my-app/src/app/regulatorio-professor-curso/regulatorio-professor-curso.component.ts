@@ -29,14 +29,54 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
       response => {
         this.dados = response;
         this.curso = this.dados.cursos;
-        //console.log(this.curso);
         this.campi = this.dados.campi;
+
+        //campus
+        this.campi.sort(function (a,b) {
+          if (a.nomCampus > b.nomCampus) {
+            return 1;
+          }
+          if (a.nomCampus < b.nomCampus) {
+            return -1;
+          }
+          return 0;
+        });
+        //console.log(this.dados.curso);
+        
+        //curso
+        this.curso.sort(function (a,b) {
+          if (a.nomCursoCenso > b.nomCursoCenso) {
+            return 1;
+          }
+          if (a.nomCursoCenso < b.nomCursoCenso) {
+            return -1;
+          }
+          return 0;
+        });
+        //console.log(this.dados.curso);
+        //console.log(this.curso);
       },
       error => {
-        console.log(error);
+        console.log('curso' + error);
       }
     );
   } 
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
  
   getCurso(valor: number){
