@@ -24,11 +24,17 @@
           <div class="col-md-4">
             <div class="card" style="width: 18rem">
               <div class="card-header">
-                <h5 class="card-title">Corpo Docente</h5>
+                <div class="icone">
+                  <span>
+                    <h5 class="card-title">Corpo Docente</h5>
+                  </span>
+                  <span>
+                    <i class="fas fa-cloud-download-alt fa-1x ml-2"></i>
+                  </span>
+                </div>
               </div>
               <div class="card-body">
                 <p class="card-text">Relatório com informações rápidas sobre o corpo docente da Estácio</p>
-                <!-- <a (click)="exportarResultadoExcel()" class="btn btn-primary"><i class="far fa-file-excel"></i> Exportar</a> -->
                 <button class="btn btn-sm btn-outline-success ml-4 ml-auto" (click)="exportarResultadoExcel()">
                   <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
               </div>
@@ -39,11 +45,21 @@
           <div class="col-md-4">
             <div class="card" style="width: 18rem">
               <div class="card-header">
-                <h5 class="card-title">Professor IES</h5>
+                <div class="icone">
+                  <span>
+                    <h5 class="card-title">Professor IES</h5>
+                  </span>
+                  <span>
+                    <i class="fas fa-address-card fa-1x ml-2"></i>
+                  </span>
+                </div>
               </div>
-              <div class="card-body">
-                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                <a [routerLink]="['/RegulatorioProfessorIes']" class="btn btn-primary">Ver</a>
+              <div class="card-body ">
+                <p class="card-text text-center font">Informações do Professor por <br>IES</p>
+                <div class="d-flex flex-row">
+                  <p></p>
+                  <a [routerLink]="['/RegulatorioProfessorIes']" class="btn btn-primary bt-5">Ver</a>
+                </div>
               </div>
             </div>
           </div>
@@ -52,11 +68,18 @@
           <div class="col-md-4">
             <div class="card" style="width: 18rem">
               <div class="card-header">
-                <h5 class="card-title">Professor Curso</h5>
+                <div class="icone">
+                  <span>
+                    <h5 class="card-title">Professor Curso</h5>
+                  </span>
+                  <span>
+                    <i class="fas fa-id-card-alt fa-1x ml-2"></i>
+                  </span>
+                </div>
               </div>
               <div class="card-body">
-                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                <a [routerLink]="['/RegulatorioProfessorCurso']" class="btn btn-primary">Ver</a>
+                <p class="card-text text-center">Informações do Professor por Curso</p>
+                <a [routerLink]="['/RegulatorioProfessorCurso']" class="btn btn-primary bt-5">Ver</a>
               </div>
             </div>
           </div>
@@ -73,10 +96,17 @@
           <div class="col-md-4">
             <div class="card" style="width: 18rem">
               <div class="card-header">
-                <h5 class="card-title">Professor Fora de Sede</h5>
+                <div class="icone">
+                  <span>
+                    <h5 class="card-title">Professor Fora de Sede</h5>
+                  </span>
+                  <span>
+                    <i class="fas fa-chalkboard-teacher fa-1x ml-2"></i>
+                  </span>
+                </div>
               </div>
               <div class="card-body">
-                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <p class="card-text">Informações do Professor Fora de Sede</p>
                 <a [routerLink]="['/RegulatorioProfessorForaDeSede']" class="btn btn-primary">Ver</a>
               </div>
             </div>
@@ -86,10 +116,18 @@
           <div class="col-md-4">
             <div class="card" style="width: 18rem">
               <div class="card-header">
-                <h5 class="card-title">Gap Carga Horária</h5>
+
+                <div class="icone">
+                  <span>
+                    <h5 class="card-title">Gap Carga Horária</h5>
+                  </span>
+                  <span>
+                    <i class="far fa-clock fa-1x ml-2"></i>
+                  </span>
+                </div>
               </div>
               <div class="card-body">
-                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <p class="card-text">Informações do GAP/Carga Horária</p>
                 <a [routerLink]="['/RegulatorioProfessorGapCargaHoraria']" class="btn btn-primary">Ver</a>
               </div>
             </div>
@@ -99,10 +137,17 @@
           <div class="col-md-4">
             <div class="card" style="width: 18rem">
               <div class="card-header">
-                <h5 class="card-title">Gera Termo TI / TP</h5>
+                <div class="icone">
+                  <span>
+                    <h5 class="card-title">Gera Termo TI / TP</h5>
+                  </span>
+                  <span>
+                    <i class="fas fa-users fa-1x ml-2"></i>
+                  </span>
+                </div>
               </div>
               <div class="card-body">
-                <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
+                <p class="card-text">Informações para geração de termos TI/TP</p>
                 <a [routerLink]="['/RegulatorioProfessorTermoTiTp']" class="btn btn-primary">Ver</a>
               </div>
             </div>
@@ -111,10 +156,6 @@
         </div>
       </div>
     </div>
-
-
-
-
 
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">

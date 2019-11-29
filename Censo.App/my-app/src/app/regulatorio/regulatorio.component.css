@@ -1,7 +1,7 @@
 /* alterar a cor das setinhas do carousel */
 .carousel-control-next,
 .carousel-control-prev {
-    filter: invert(100%);
+filter: invert(100%);
 padding: 5px;
 margin: 5px;
 min-width: 0px;
@@ -10,7 +10,6 @@ width: 10%;
  
 .card {
     /* box-shadow: 5px 5px 5px 2px rgb(235, 231, 231); */
-
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     margin: 20px;
 }
@@ -20,21 +19,24 @@ width: 10%;
     color: white;
 }
 
-
-
-
 /*cor do indicador carrousel*/
 .carousel-indicators li {
     /*indicador de bolinha
     width: 10px !important;
     height: 10px !important;
     border-radius: 100%; */
-
     margin-top: 10px !important;
     filter: invert(70%);
   }
 
   .btn-primary{
     background-color: #1eb8de;
-    border: #1EB8DE;
+    border: none;
+   
+}
+
+
+.icone{
+    display: flex;
+    margin-right:5px;
 }
