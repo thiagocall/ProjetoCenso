@@ -7,14 +7,13 @@
         <h2>Meus Resultados</h2>
       </div>
     </div>
-
-    <div class="col-md-4">
+    <div class="col d-flex flex-row-reverse mb-3">
+      <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
+            aria-hidden="true"></i></span> Incluir Resultado</button>
       <button [routerLink]="['/Resultados/Comparar/']" [queryParams]="{res: listaCompara}"
         class="btn btn-outline-primary mr-1" *ngIf="listaCompara?.length > 1"> <span><i class="fas fa-equals 2x"
             aria-hidden="true"></i></span> Comparar <span
           class="badge badge-info">{{listaCompara?.length}}</span></button>
-      <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
-            aria-hidden="true"></i></span> Incluir Resultado</button>
     </div>
   </div>
 
@@ -24,7 +23,7 @@
         <thead>
           <tr style="text-align: center">
             <th scope="col">Id Resultado</th>
-            <th scope="col">Tempo Execução</th>
+            <th scope="col">Hora Execução</th>
             <th scope="col">Data Otimização</th>
             <th scope="col"></th>
             <th scope="col">Comparar</th>
@@ -48,9 +47,9 @@
                   <i id="i_{{item.id}}" class="fas fa-plus"></i>
                 </button>
                 <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm"
-                (click)="exportarResultadoExcel(item.id)" tooltip="Download" >
-                <i id="i_{{item.id}}" class="fas fa-file-excel"></i>
-              </button>
+                  (click)="exportarResultadoExcel(item.id)" tooltip="Download">
+                  <i id="i_{{item.id}}" class="fas fa-file-excel"></i>
+                </button>
                 <!--Botão excluir-->
                 <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
                   (click)="excluir(item.id, template)">
@@ -69,75 +68,81 @@
           <tr>
             <td colspan="4" style="border: none;">
               <div class="container" id="linha_{{item.id}}" style="display: none;">
-                <div class="card" style="width: 100%;">
+                <div class="card">
                   <div class="card-body">
+                    <div class="container p-1">
 
-                    <div class="container p-4">
                       <!--tabela -->
-                      <table class="table  table-sm">
-                        <thead>
-                          <tr>
-                            <!-- <td class="table-secondary text-center" colspan="2">Detalhes</td> -->
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">Quantidade de Cursos (Enade)</th>
-                            <th></th>
-                            <td>{{getResumo(item?.resumo).QtdCursos_E}}</td>
+                      <table class="table table-sm">
+                        <div class="container">
+                          <div class="row">
 
-                          </tr>
-                          <tr>
-                            <th scope="row">Nota 1 a 2</th>
-                            <td>{{getResumo(item?.resumo).Nota1a2_E}}</td>
-                            <td>
-                              {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
-                            </td>
+                            <div class="col-md-3 col-sm-3">
+                              <div class="resource">
+                                <div class="row ">
+                                  <div class="right col-md-8">
+                                    <h6>Quantidade de Cursos (Enade)</h6>
+                                    <div>
+                                      <th></th>
+                                      <td class="text-center">{{getResumo(item?.resumo).QtdCursos_E}}</td>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
-                          </tr>
-                          <tr>
-                            <th scope="row">Nota 3</th>
-                            <td>{{getResumo(item?.resumo)?.Nota3_E}}</td>
-                            <td>
-                              {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
-                            </td>
+                            <div class="col-md-3 col-sm-3">
+                              <div class="resource">
+                                <div class="row no-gutters">
+                                  <div class="right col-md-8">
+                                    <h6>Nota 1 a 2 </h6>
+                                    <div>
+                                      <td>{{getResumo(item?.resumo).Nota1a2_E}}</td>
+                                      <td>
+                                        {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
+                                      </td>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
-                          </tr>
-                          <tr>
-                            <th scope="row">Nota 4 a 5</th>
-                            <td>{{getResumo(item?.resumo)?.Nota4a5_E}}</td>
-                            <td>
-                              {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
-                            </td>
-                          </tr>
+                            <div class="col-md-3 col-sm-3">
+                              <div class="resource">
+                                <div class="row no-gutters">
+                                  <div class="right col-md-8">
+                                    <h6>Nota 3 </h6>
+                                    <div>
+                                      <td>{{getResumo(item?.resumo)?.Nota3_E}}</td>
+                                      <td>
+                                        {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
+                                      </td>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
+                            <div class="col-md-3 col-sm-3">
+                              <div class="resource">
+                                <div class="row no-gutters">
+                                  <div class="right col-md-8">
+                                    <h6>Nota 4 a 5</h6>
+                                    <div>
+                                      <td>{{getResumo(item?.resumo)?.Nota4a5_E}}</td>
+                                      <td>
+                                        {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
+                                      </td>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
 
-                          <!-- <tr>
-                          <th scope="row">Quantidade de Doutor 1 a 2</th>
-                          <td>{{getResumo(item?.resumo)?.qtdD_1a2}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Quantidade de Doutor 3 a 5</th>
-                          <td>{{getResumo(item?.resumo)?.qtdD_3a5}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Quantidade de Mestre 1 a 2</th>
-                          <td>{{getResumo(item?.resumo)?.qtdM_1a2}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Quantidade de Mestre 3 a 5</th>
-                          <td>{{getResumo(item?.resumo)?.qtdM_3a5}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Quantidade de Regime 1 a 2</th>
-                          <td>{{getResumo(item?.resumo)?.qtdR_1a2}}</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Quantidade de Regime 3 a 5</th>
-                          <td>{{getResumo(item?.resumo)?.qtdR_3a5}}</td>
-                        </tr> -->
-                        </tbody>
+                          </div>
+                        </div>
                       </table>
+
                     </div>
                   </div>
                 </div>

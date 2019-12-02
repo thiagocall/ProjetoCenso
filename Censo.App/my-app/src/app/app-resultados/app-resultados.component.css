@@ -20,14 +20,40 @@ td {
   }
 
   tbody td, th {
-    /* text-align: center; */
+     text-align: center; 
 }
 
 thead {
-    /* text-align: center; */
+   /*  text-align: center; */
 
 }
 
 .btn-warning :hover {
     background-color: white !important;
 }
+
+/*card dentro da tabela*/
+.card-body {
+    width: 100%;
+}
+p {
+    font-size: 14px;
+    line-height: 1.57;
+}
+.resource {
+    text-align: center;
+    box-shadow:  2px 2px 6px 3px #E2E2E2;
+    border-radius: 5px;
+    padding: 15px;
+    max-width: 345px;
+}
+.resource .left {
+    width: 90px;
+    position: relative;
+    float: left;
+}
+.resource .right {
+    max-width: 345px;
+    text-align: left;
+}
+/*fim do card dentro da tabela*/
