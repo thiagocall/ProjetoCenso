@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app-censo',
@@ -7,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppCensoComponent implements OnInit {
 
-  constructor() { }
+  constructor( private router: Router) { }
+
+
+  AcessaCorpoDocente() {
+
+    this.router.navigate(['/CorpoDocente']);
+
+  }
+
 
   ngOnInit() {
   }

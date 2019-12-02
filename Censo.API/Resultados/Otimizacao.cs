@@ -48,7 +48,6 @@ namespace Censo.API.Resultados
                 return this.Context.CursoCenso.ToList();
 
             });
-            
 
                 // Monta Relação Professor Curso ####################
 
@@ -120,6 +119,22 @@ namespace Censo.API.Resultados
                         };
 
 
+                        
+
+
+                         // ######################## Alavanca Excluído Ofensor ######################## //
+
+
+                        foreach(var item in _listaProfessor)
+                            {
+                                    
+                                        item.Professores.RemoveAll(pe =>  (RemoveProfessorExcluido(_listaProfessor, item, _dicPrevisao, pe) &&
+                                                                pe.Ativo == "NÃO" 
+                                                    ));
+                                    
+                                };
+
+
                         // ######################## Limpeza força bruta ######################## //
 
                          foreach(var item in _listaProfessor)
@@ -170,24 +185,24 @@ namespace Censo.API.Resultados
                         
                         if (ListaPrevisaoSKU.ContainsKey(area))
                         {
-                        var prev = ListaPrevisaoSKU[area];
+                            var prev = ListaPrevisaoSKU[area];
 
-                        var prev_minM = prev.P_Min_Mestre;
-                        var prev_maxM= prev.P_Max_Mestre;
+                            var prev_minM = prev.P_Min_Mestre;
+                            var prev_maxM= prev.P_Max_Mestre;
 
-                        var prev_minD = prev.P_Min_Doutor;
-                        var prev_maxD= prev.P_Max_Doutor;
+                            var prev_minD = prev.P_Min_Doutor;
+                            var prev_maxD= prev.P_Max_Doutor;
 
-                        var prev_minR = prev.P_Min_Regime;
-                        var prev_maxR= prev.P_Max_Regime;
+                            var prev_minR = prev.P_Min_Regime;
+                            var prev_maxR= prev.P_Max_Regime;
 
-                        double notaM =  (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
-                        double notaD =  (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
-                        double notaR =  (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));
-                        
-                        item.Nota_Mestre = notaM;
-                        item.Nota_Doutor = notaD;
-                        item.Nota_Regime = notaR;
+                            double notaM =  (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
+                            double notaD =  (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
+                            double notaR =  (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));
+                            
+                            item.Nota_Mestre = notaM;
+                            item.Nota_Doutor = notaD;
+                            item.Nota_Regime = notaR;
                             
                         }
 
@@ -358,7 +373,11 @@ namespace Censo.API.Resultados
             catch (System.Exception)
             {
                 
-                return 0;
+                  if(lim_max == lim_min){
+                    return 5;
+                } else {
+                    return 0;
+                }
             }
 
         }
@@ -408,9 +427,13 @@ namespace Censo.API.Resultados
                         var prev_minR = prev.P_Min_Regime;
                         var prev_maxR= prev.P_Max_Regime;
 
-                        notaM =  (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
-                        notaD =  (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
-                        notaR =  (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));
+                        var M = N_Escala(prev_minM, prev_maxM, perc_M);
+                        var D = N_Escala(prev_minD, prev_maxD, perc_D);
+                        var R = N_Escala(prev_minR, prev_maxR, perc_R);
+
+                        notaM = (M == null) ? 0 : Convert.ToDouble(M);
+                        notaD = (D == null) ? 0 : Convert.ToDouble(D);
+                        notaR = (R == null) ? 0 : Convert.ToDouble(R);
                     }
 
             double resultado = notaM * 0.25 + notaR * 0.25 + notaD * 0.5;
@@ -433,6 +456,32 @@ namespace Censo.API.Resultados
             var qtdProf =  _cursoProfessor.Professores.Count();
 
             if (notaNova > notaAnt & (qtdCursos > 1 || _indNaoEnade == "S") & qtdProf > 2 )
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+
+        }
+
+
+        public bool RemoveProfessorExcluido(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof)
+        {
+
+            var qtdCursos = _ListaCursoProfessor.Where(
+                                            x => x.Professores.Where(
+                                                        c => c.cpfProfessor == _prof.cpfProfessor).Count() > 0).Count();
+
+            var notaAnt = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao);
+
+            var notaNova = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao, -1);
+
+            var qtdProf =  _cursoProfessor.Professores.Count();
+
+            if (notaNova > notaAnt )
             {
                 return true;
             }

@@ -340,10 +340,15 @@ namespace Censo.API.Controllers.Censo
                 // Filtra parâmtetro indGraduacao
                 if (!(res.Titulacao == null || res.Titulacao == "GRADUADO")) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
                 {
+                    if(res.CodEmec == 4959){
+                        
+                        var a = 1;
+                    }
 
                     if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
                     {
                         CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
+
                         prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].codArea : 9999;
 
                         if (prof.Professores.Where(x => x.cpfProfessor == res.CpfProfessor).Count() == 0)
@@ -363,6 +368,7 @@ namespace Censo.API.Controllers.Censo
                     else
                     {
                         CursoProfessor prof = new CursoProfessor();
+                        prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((res.CodEmec)))) ? CursoArea[(Int32)res.CodEmec].codArea : 9999;
                         prof.CodEmec = res.CodEmec;
                         prof.Professores = new List<ProfessorEmec>();
                         ProfessorEmec pr = new ProfessorEmec
@@ -382,7 +388,6 @@ namespace Censo.API.Controllers.Censo
             return cursoProfessor;
 
         }
-
 
         public List<CursoProfessor> MontaCursoProfessor20P([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
         {
@@ -540,7 +545,7 @@ namespace Censo.API.Controllers.Censo
 
         double? res = 0;
 
-        if (ind_metodo == -1) 
+        if (ind_metodo == -1 && (x.Count() > 1 && y.Count() > 1)) 
         {
 
             double? a = 0;
@@ -586,11 +591,17 @@ namespace Censo.API.Controllers.Censo
 
             return res;
 
+        }else{
+            
+            res = y.Where(v => v != null).Max();
+
+            return res;
+
         }
 
 
-            res = y.Where(v => v != null).Max();
-            return res;
+            // res = y.Where(v => v != null).Max();
+            // return res;
 
         }
 
@@ -713,9 +724,13 @@ namespace Censo.API.Controllers.Censo
                         var prev_minR = prev.P_Min_Regime;
                         var prev_maxR = prev.P_Max_Regime;
 
-                        double notaM = (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
-                        double notaD = (N_Escala(prev_minD, prev_maxD, perc_D)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minD, prev_maxD, perc_D));
-                        double notaR = (N_Escala(prev_minR, prev_maxR, perc_R)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minR, prev_maxR, perc_R));
+                        var M = Otm.N_Escala(prev_minM, prev_maxM, perc_M);
+                        var D = Otm.N_Escala(prev_minD, prev_maxD, perc_D);
+                        var R = Otm.N_Escala(prev_minR, prev_maxR, perc_R);
+
+                        double notaM = (M == null) ? 0 : Convert.ToDouble(M);
+                        double notaD = (D == null) ? 0 : Convert.ToDouble(D);
+                        double notaR = (R == null) ? 0 : Convert.ToDouble(R);
 
                         item.Nota_Mestre = notaM;
                         item.Nota_Doutor = notaD;
@@ -728,6 +743,8 @@ namespace Censo.API.Controllers.Censo
             }
 
             //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
+            
+            
             var result = cursoProfessor
                             .Select(x => new
                             {
@@ -775,11 +792,17 @@ namespace Censo.API.Controllers.Censo
                     return  n1;
                 }
 
+               
+               //N_escala da Curso Emec
+
             }
             catch (System.Exception)
             {
-
-                return 0;
+                if(lim_max == lim_min){
+                    return 5;
+                } else {
+                    return 0;
+                }
             }
 
         }
@@ -833,12 +856,11 @@ namespace Censo.API.Controllers.Censo
 
                 List<CursoProfessor> cursoProfessorAtual = new List<CursoProfessor>();
                 Cursoprofessor.ForEach( (item) => {
-                    cursoProfessorAtual.Add(item);
-                }
+                        cursoProfessorAtual.Add(item);
+                        }
                     );
 
                 var CursoNota = getNotaCursos(query.Result, ListaCursoArea.Result);
-
 
                 var CursoEnade = TaskEnade.Where(x => x.IndEnade.Contains('S')).Select(c => c.CodEmec.ToString()).Distinct().ToList();
 
@@ -939,7 +961,7 @@ namespace Censo.API.Controllers.Censo
                  objRes.Parametro = formJson.Result;
                  objRes.Resumo = resumoJson.Result;
                  objRes.Professores = professorJson.Result;
-                 objRes.TempoExecucao = sw.Elapsed.Duration().ToString(); // sw.Elapsed.Hours.ToString() + ":" + Math.Floor(sw.Elapsed.TotalMinutes) .ToString() + ":" + sw.Elapsed.Seconds.ToString();
+                 objRes.TempoExecucao = DateTime.Now.ToString("hh:mm:ss");//sw.Elapsed.Duration().ToString("hh:mm:ss"); // sw.Elapsed.Hours.ToString() + ":" + Math.Floor(sw.Elapsed.TotalMinutes) .ToString() + ":" + sw.Elapsed.Seconds.ToString();
 
                  objResAtual.Resultado = jsonAt.Result;
                  objResAtual.Parametro = formJsonAt.Result;

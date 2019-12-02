@@ -178,7 +178,7 @@ namespace Censo.API.Controllers
              var stream = new MemoryStream();
 
              using (var package = new ExcelPackage(stream)) {                
-                var workSheet = package.Workbook.Worksheets.Add("ProfessorIES");
+                var workSheet = package.Workbook.Worksheets.Add("Professores");
                 workSheet.Cells.LoadFromCollection(results.Select(x =>     new {CPF = x.CpfProfessor,
                                                               NOME = x.NomProfessor,
                                                               NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
