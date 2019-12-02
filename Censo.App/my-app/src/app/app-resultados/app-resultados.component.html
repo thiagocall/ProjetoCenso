@@ -80,11 +80,12 @@
                             <div class="col-md-3 col-sm-3">
                               <div class="resource">
                                 <div class="row ">
-                                  <div class="right col-md-8">
-                                    <h6>Quantidade de Cursos (Enade)</h6>
+                                  <div class="right col">
+                                    <h6> Quantidade de Cursos (Enade)</h6>
+                                    <hr>
                                     <div>
-                                      <th></th>
-                                      <td class="text-center">{{getResumo(item?.resumo).QtdCursos_E}}</td>
+                                      
+                                      <td class="text-center borda">{{getResumo(item?.resumo).QtdCursos_E}}</td>
                                     </div>
                                   </div>
                                 </div>
@@ -96,10 +97,9 @@
                                 <div class="row no-gutters">
                                   <div class="right col-md-8">
                                     <h6>Nota 1 a 2 </h6>
+                                    <hr>
                                     <div>
-                                      <td>{{getResumo(item?.resumo).Nota1a2_E}}</td>
-                                      <td>
-                                        {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
+                                      <td class="text-center borda">{{getResumo(item?.resumo).Nota1a2_E}} | {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
                                       </td>
                                     </div>
                                   </div>
@@ -112,10 +112,9 @@
                                 <div class="row no-gutters">
                                   <div class="right col-md-8">
                                     <h6>Nota 3 </h6>
+                                    <hr>
                                     <div>
-                                      <td>{{getResumo(item?.resumo)?.Nota3_E}}</td>
-                                      <td>
-                                        {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
+                                      <td class="text-center borda">{{getResumo(item?.resumo)?.Nota3_E}} | {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
                                       </td>
                                     </div>
                                   </div>
@@ -128,11 +127,9 @@
                                 <div class="row no-gutters">
                                   <div class="right col-md-8">
                                     <h6>Nota 4 a 5</h6>
+                                    <hr>
                                     <div>
-                                      <td>{{getResumo(item?.resumo)?.Nota4a5_E}}</td>
-                                      <td>
-                                        {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
-                                      </td>
+                                      <td class="text-center borda">{{getResumo(item?.resumo)?.Nota4a5_E}} | {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%</td>
                                     </div>
                                   </div>
                                 </div>
