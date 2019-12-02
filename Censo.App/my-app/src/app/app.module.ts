@@ -69,6 +69,7 @@ import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar
       RegulatorioTermoTiTpComponent,
       AppCompararComponent
    ],
+
    imports: [
       BrowserModule,
       AppRoutingModule,
@@ -88,4 +89,5 @@ import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar
       AppComponent
    ]
 })
+
 export class AppModule { }

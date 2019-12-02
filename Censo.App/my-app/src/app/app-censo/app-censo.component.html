@@ -6,46 +6,39 @@
     </div>
 </div>
 <div class="container">
+  
+  
     <div class="row">
-        <div class="col-md-4">
-            <div class="container">
-                <div class="card " style="width: 18rem">
-                    <div class="card-header">
-                        <h5 class="card-title">Corpo Docente</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Ver a Distribuição do Corpo Docento do curso</p>
-                        <a [routerLink]="['/CorpoDocente']" class="btn btn-primary">Ver</a>
-                    </div>
-                </div>
+      <div class="col-md-4">
+          <div class="card card-move" style="width: 18rem" [routerLink]="['/CorpoDocente']">
+              <div id ="cardhead" class="card-header "><h5 class="card-title">Corpo Docente</h5></div>
+              <div class="card-body" >
+                <i class="far fa-address-card fa-2x icon"></i>
+                <p>Acesse as informações dos professores</p>
+              </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="container">
-                <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                        <h5 class="card-title">Composição CPC</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Ver a Previsão da Nota do CPC por Curso</p>
-                        <a [routerLink]="['/ComposicaoProfessor']" class="btn btn-primary">Ver</a>
-                    </div>
-                </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card card-move" style="width: 18rem" [routerLink]="['/ComposicaoProfessor']">
+              <div id ="cardhead" class="card-header"><h5 class="card-title">Composição CPC</h5></div>
+              <div class="card-body">
+                  <i class="far fa-clipboard fa-2x icon"></i>
+                <p>Verifique a pontuação do seu curso</p>
+              </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="container">
-                <div class="card" style="width: 18rem">
-                    <div class="card-header">
-                        <h5 class="card-title">Resultados</h5>
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Configure e Crie Cenários para o Censo Docente</p>
-                        <a [routerLink]="['/Resultados']" routerLinkActive="router-link-active"
-                            class="btn btn-primary">Ver</a>
-                    </div>
-                </div>
+  
+      </div>
+      <div class="col-md-4">
+          <div  class="card card-move" style="width: 18rem" [routerLink]="['/Resultados']">
+              <div id ="cardhead" class="card-header"><h5 class="card-title">Resultados</h5></div>
+              <div class="card-body">
+                <i class="fas fa-poll fa-2x icon"></i>
+                <p>Crie cenários de otimização e aproveitamento docente</p>
+              </div>
             </div>
-        </div>
+  
+      </div>
     </div>
-</div>
+  </div>
+    
+    

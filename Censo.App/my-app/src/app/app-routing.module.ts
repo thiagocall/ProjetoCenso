@@ -37,22 +37,32 @@ const routes: Routes = [
   },
 
   {path: 'Professor', component: ProfessorComponent , canActivate: [AuthGuard]},
+
+  /* ABA CONSULTA*/
   {path: 'ProfessorConsulta', component: ProfessorConsultaComponent  ,canActivate: [AuthGuard]},
+  {path: 'ProfessorConsultaDetalhe/:id', component: ProfessorConsultaDetalheComponent ,canActivate: [AuthGuard]},
+
+
+  /* ABA CENSO */
   {path: 'Censo', component: AppCensoComponent  ,canActivate: [AuthGuard]},
-  {path: 'CorpoDocente', component: AppCorpoDocenteComponent  ,canActivate: [AuthGuard]},
   {path: 'DadosCenso', component: AppDadosCensoComponent  ,canActivate: [AuthGuard]},
+  {path: 'CorpoDocente', component: AppCorpoDocenteComponent  ,canActivate: [AuthGuard]},
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent  ,canActivate: [AuthGuard]},
   {path: 'Resultados/Comparar', component: AppCompararComponent ,pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'Resultados/:id', component: DetalheResultadoComponent ,pathMatch: 'full',canActivate: [AuthGuard]},
-  {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
+  {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]}, 
+
+  /* ABA REGULATORIO */
   {path: 'Regulatorio', component: RegulatorioComponent ,canActivate: [AuthGuard]},
-  {path: 'RegulatorioCorpoDocente', component: CorpoDocenteComponent ,canActivate: [AuthGuard]},
-  {path: 'ProfessorConsultaDetalhe/:id', component: ProfessorConsultaDetalheComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioProfessorIes', component: RegulatorioProfessorIesComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioProfessorCurso', component: RegulatorioProfessorCursoComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioProfessorForaDeSede', component: RegulatorioProfessorForaSedeComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioProfessorGapCargaHoraria', component: RegulatorioGapCargaHorariaComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioProfessorTermoTiTp', component: RegulatorioTermoTiTpComponent ,canActivate: [AuthGuard]},
+  {path: 'RegulatorioCorpoDocente', component: CorpoDocenteComponent ,canActivate: [AuthGuard]},
+
+  
+  /*INICIO*/
   {path: 'Inicio', component: AppHomeComponent ,canActivate: [AuthGuard]},
   {path: '', component: LoginComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
