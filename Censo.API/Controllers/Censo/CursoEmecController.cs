@@ -961,7 +961,7 @@ namespace Censo.API.Controllers.Censo
                  objRes.Parametro = formJson.Result;
                  objRes.Resumo = resumoJson.Result;
                  objRes.Professores = professorJson.Result;
-                 objRes.TempoExecucao = DateTime.Now.ToString("hh:mm:ss");//sw.Elapsed.Duration().ToString("hh:mm:ss"); // sw.Elapsed.Hours.ToString() + ":" + Math.Floor(sw.Elapsed.TotalMinutes) .ToString() + ":" + sw.Elapsed.Seconds.ToString();
+                 objRes.TempoExecucao = DateTime.Now.ToString("HH:mm:ss");//sw.Elapsed.Duration().ToString("hh:mm:ss"); // sw.Elapsed.Hours.ToString() + ":" + Math.Floor(sw.Elapsed.TotalMinutes) .ToString() + ":" + sw.Elapsed.Seconds.ToString();
 
                  objResAtual.Resultado = jsonAt.Result;
                  objResAtual.Parametro = formJsonAt.Result;

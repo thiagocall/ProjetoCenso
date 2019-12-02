@@ -47,7 +47,7 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
     console.log(codcampus)
     this.regulatorioService.getRegulatorioProfessorForaSedeExcel(codcampus).subscribe(response => {
       blob = new Blob([response], { type: 'application/octet-stream' });
-      saveAs(blob, `Professor_IES_${codcampus}.xlsx`);
+      saveAs(blob, `Professor_Fora_de_Sede_${codcampus}.xlsx`);
     });
   } 
 
