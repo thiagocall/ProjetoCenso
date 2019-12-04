@@ -866,6 +866,8 @@ namespace Censo.API.Controllers.Censo
 
                 List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual, CursoEnade);
 
+
+
                    // ######################## Alavanca 20% ######################## //
                 Task.WaitAll(query20p);
                 if (_formulario.otimiza20p)
