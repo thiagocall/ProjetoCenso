@@ -71,4 +71,19 @@ export class RegulatorioService {
     return this.http.get(this.baseUrl + 'regulatorio/Buscacampus', { headers: tokenHeader });
   }
 
+  // REGULATÓRIO GAP CARGA HORÁRIA
+
+  /*PesquisaProfessores(campo: string) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'Professor/Busca/' + campo, {headers: tokenHeader});
+  } */
+
+  PesquisaProfessores() {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'v1/dados/' ,{headers: tokenHeader});
+  }
+
+  
+  
+
 }
