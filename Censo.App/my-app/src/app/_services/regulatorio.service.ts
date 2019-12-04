@@ -59,7 +59,7 @@ export class RegulatorioService {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'regulatorio/foradesede/excel/' + _campus, { responseType: 'blob', headers: tokenHeader });
   }
-
+  
 
   getResultadoProfessorForaSede(codigo: string) {
     const tokenHeader = this.getToken();

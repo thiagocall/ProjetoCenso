@@ -255,7 +255,8 @@ namespace Censo.API.Controllers
                                                              NOME = x.NomProfessor,
                                                              NASCIMENTO = x.DtNascimentoProfessor.Value.ToString("dd/MM/yyyy"),
                                                              REGIME = x.regime,
-                                                             TITULACAO = x.Titulacao
+                                                             TITULACAO = x.Titulacao,
+                                                             ATIVO = x.Ativo
                                                        }), true);
                 // workSheet.Column(3).Style.Numberformat.Format = "dd/MM/yyyy";
                 package.Save();            
