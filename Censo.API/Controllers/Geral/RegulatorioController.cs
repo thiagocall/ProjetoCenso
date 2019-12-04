@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace Censo.API.Controllers
         public CensoContext CContext;
         public CargaContext CgContext;
         public CampusContext CampusContext;
+        public ProfessorMatriculaContext MatriculaContext;
         IConfiguration Configuration;
 
         List<string> listaForaSede;
@@ -42,6 +44,7 @@ namespace Censo.API.Controllers
                                     , CensoContext CContext
                                     , CargaContext cargaContext
                                     , CampusContext _campusContext
+                                    ,ProfessorMatriculaContext _matContext
                                     , IConfiguration _configuration)
         {
 
@@ -56,6 +59,7 @@ namespace Censo.API.Controllers
             this.CContext = CContext;
             this.CgContext = cargaContext;
             this.CampusContext = _campusContext;
+            this.MatriculaContext = _matContext;
 
             this.listaForaSede = new List<string>(){
                     "4"
@@ -372,6 +376,94 @@ namespace Censo.API.Controllers
                                             ).ToList();
 
                  return professores;
+        }
+
+
+        /* busca todos os professores  */
+
+      [AllowAnonymous]
+      [HttpGet("BuscaProfessor")]
+        public async Task<IActionResult> BuscaProfessor()
+        {
+            
+                try
+                {
+                     
+                      
+                      // pegar os contextos
+                      var ListaProfessores = Professores.getProfessores(Profcontext).ToListAsync();
+
+                      var regime = RegContext.ProfessorRegime.ToDictionary (x => x.CpfProfessor.ToString());
+                      List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
+
+                        foreach (var professor in await ListaProfessores)
+                        {
+                                ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
+
+                                //cpf/nomeprofessor//titulacao//regime
+                                professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
+                                professordetalhe.NomProfessor = professor.NomProfessor;
+                                professordetalhe.titulacao = professor.Titulacao;
+                                
+                                if (regime.ContainsKey(professordetalhe.CpfProfessor))
+                                {
+                                professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                                professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
+                                professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
+                                professordetalhe.QtdHorasFs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs) ,2);                                
+                                }
+                                else
+                                {
+                                    professordetalhe.regime = "CHZ/AFASTADO";
+                                    professordetalhe.CargaTotal = 0;
+                                    professordetalhe.QtdHorasDs = 0;
+                                    professordetalhe.QtdHorasFs = 0;
+                                 }
+
+
+                                ListaProfessorDetalhe.Add(professordetalhe);
+                        }
+
+                       
+                        
+                        return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
+                                                        , x.NomProfessor
+                                                        ,x.titulacao
+                                                        , x.regime
+                                                        , x.QtdHorasDs
+                                                        , x.QtdHorasFs}));
+                        
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+                // Termino da pesquisa detalhe professor
+                      
+        }
+        /* termino da busca dos professores */
+
+        [HttpPost("BuscaCPFProf")]
+        public async Task<IActionResult> getBuscaCPFProf( string[] _listaResultado) {
+
+
+            try 
+            {
+
+                    var res = await this.ProducaoContext.TbResultado
+                                        .Where(r => _listaResultado.Contains(r.Id.ToString()))
+                                        .OrderByDescending(r => r.Id)
+                                        .Select(r => new {r.Id, r.Resumo})
+                                        .ToArrayAsync();
+
+                    return Ok(res) ;
+
+            }
+            catch (Exception e) {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
+            }
+
         }
 
     }
