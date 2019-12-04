@@ -442,22 +442,21 @@ namespace Censo.API.Controllers
                       
         }
         /* termino da busca dos professores */
+        
+        [AllowAnonymous]
+        [HttpPost("CalculaGapProf")]
+        public async Task<IActionResult> getCalculaGapProf(List<ProfessorGap> ListaProfessorGap) {
 
-        [HttpPost("BuscaCPFProf")]
-        public async Task<IActionResult> getBuscaCPFProf( string[] _listaResultado) {
-
+        
 
             try 
             {
+                foreach (var item in ListaProfessorGap)
+                {
+                     item.Complemento = ComplementoCargaHoraria.CalculaGap(item.Target, item.Ds, item.Fs);  
+                }
 
-                    var res = await this.ProducaoContext.TbResultado
-                                        .Where(r => _listaResultado.Contains(r.Id.ToString()))
-                                        .OrderByDescending(r => r.Id)
-                                        .Select(r => new {r.Id, r.Resumo})
-                                        .ToArrayAsync();
-
-                    return Ok(res) ;
-
+                return Ok(ListaProfessorGap);
             }
             catch (Exception e) {
 
@@ -467,4 +466,18 @@ namespace Censo.API.Controllers
         }
 
     }
+
+    public class ProfessorGap
+            {
+                public string Cpf { get; set; }
+                public double Ds { get; set; }
+                public double Fs { get; set; }
+                public string Target { get; set; }
+
+                public double Complemento { get; set; }
+
+            }
+
+        
+  
 }
