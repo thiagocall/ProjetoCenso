@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RegulatorioService } from '../_services/regulatorio.service';
+
 
 @Component({
   selector: 'app-regulatorio-gap-carga-horaria',
@@ -7,17 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegulatorioGapCargaHorariaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private regulatorio: RegulatorioService) { }
 
   p: any;
-  campo: any;
-  professores: any;
 
-  buscarProfessores() {
+  resultado: any;
+  campus: any;
+  cursos: any;
 
-  }
+
+
+
+  getProfessores() {
+    this.regulatorio.PesquisaProfessores().subscribe(
+      response => {
+       this.resultado = response;
+       this.campus = this.resultado.campus;
+       this.cursos = this.resultado.cursos;
+        //console.log(this.cursos);
+      },
+      error => {
+      });
+  } 
+
+  
+
+
 
   ngOnInit() {
+    this.getProfessores();
   }
 
 }

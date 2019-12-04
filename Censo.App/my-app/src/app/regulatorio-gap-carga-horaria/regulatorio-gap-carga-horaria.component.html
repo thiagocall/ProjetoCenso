@@ -1,18 +1,17 @@
-<div class="container fundo-tabela mt-5">
-  <div class="p-3 "></div>
-  <div class="input-group mb-0 col-md-9 tabela-centralizada">
-    <input [(ngModel)]="campo" type="text" class="form-control " placeholder="Informe o professor"
-      aria-label="Recipient's username" aria-describedby="button-addon2">
-    <div class="input-group-append">
-      <button class="btn btn-outline-primary mr-5" type="button" id="button-addon2"
-        (click)='buscarProfessores()'>Pesquisar</button>
-    </div>
+<div class="input-group mb-0 col-md-6 tabela-centralizada">
+    <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
+      placeholder="Digite o tema, disciplina, etapa ou código da disciplina" aria-label="Recipient's username"
+      aria-describedby="basic-addon2">
   </div>
-  <div class="row tabela-centralizada">
-    <div class="col-md-8" style="margin-top: 2%">
-      <h3 class="titulo">
-        Pesquisa Professor
-      </h3>
+
+
+
+<section class="container">
+  <div class="my-5 text-center"></div>
+  <div class="row">
+    <div class="col-lg mb-5">
+
+      <!-- inicio tabela principal-->
       <table class="table table-hover titulo-tabela">
         <thead class="titulo">
           <tr>
@@ -25,37 +24,68 @@
           </tr>
         </thead>
         <tbody>
-          <td>A</td>
-          <td>A</td>
-          <td>A</td>
-          <td>A</td>
-          <td>A</td>
-          <td>
-            <button type="button" class="btn btn-outline-primary btn-sm" tooltip="Adicionar">
-              <i class="fas fa-user-plus 2x"></i>
-            </button>
-          </td>
-          <!--- <tr *ngFor="let item of professores | paginate: { itemsPerPage: 7, currentPage: p }">
-                         
-                         <td>{{item.nomProfessor}}</td>
-                          <td>{{item.cpfProfessor}}</td>
-                          <td>{{item.regime}}</td>
-                          <td>{{item.titulacao}}</td>
-                          <td> 
-                              <div class="btn-group">
-                                  Botão + 
-                                  <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
-                                      [routerLink]="['/ProfessorConsultaDetalhe',item.cpfProfessor]" tooltip="Detalhes">
-                                      <i id="i_{{item.cpfProfessor}}" class="fas fa-search 2x"></i>
-                                  </button>
-                              </div>
-                          </td>
-                      </tr> -->
+          <tr *ngFor="let item of professores | paginate: { itemsPerPage: 6, currentPage: p }">
+            <td>{{item.nomProfessor}}</td>
+            <td>{{item.cpfProfessor}}</td>
+            <td>{{item.regime}}</td>
+            <td>{{item.titulacao}}</td>
+            <td>
+              <div class="btn-group">
+                <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
+                  [routerLink]="['/ProfessorConsultaDetalhe',item.cpfProfessor]" tooltip="Detalhes">
+                  <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
-      <pagination-controls *ngIf="professores" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
-      </pagination-controls>
-      <hr style="width: 690px;">
+      <!-- fim inicio tabela principal-->
+
+    </div>
+    <div class="col-lg">
+      <div class="card text-center">
+        <div class="card-header">
+          <ul class="nav nav-pills card-header-pills">
+            <li class="nav-item">
+              <a class="nav-link">Nome</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">CPF</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">Regime</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">CHDS</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">CHTS</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link active" href="#algumacoisa">Enviar</a>
+            </li>
+          </ul>
+        </div>
+        <!--
+        <div class="card-body">
+          <h5 class="card-title">Título especial</h5>
+        </div> -->
+      </div>
+
+
     </div>
   </div>
-</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
