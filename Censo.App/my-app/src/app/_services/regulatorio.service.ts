@@ -80,7 +80,7 @@ export class RegulatorioService {
 
   PesquisaProfessores() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'v1/dados/' ,{headers: tokenHeader});
+    return this.http.get(this.baseUrl + 'regulatorio/BuscaProfessor' ,{headers: tokenHeader});
   }
 
   

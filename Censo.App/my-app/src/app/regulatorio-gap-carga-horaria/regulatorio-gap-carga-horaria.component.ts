@@ -12,32 +12,49 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
   constructor(private regulatorio: RegulatorioService) { }
 
   p: any;
-
   resultado: any;
-  campus: any;
-  cursos: any;
 
 
+  /*filtro lista*/
+  dadosFiltrados: any[];
+  filtroProfessor: []
+  
 
-
+  /*pesquisa com a lista completa ao recarregar a pagina */
   getProfessores() {
     this.regulatorio.PesquisaProfessores().subscribe(
       response => {
-       this.resultado = response;
-       this.campus = this.resultado.campus;
-       this.cursos = this.resultado.cursos;
-        //console.log(this.cursos);
+        this.resultado = response;
+        this.dadosFiltrados = this.resultado;
+        console.log(this.resultado);
       },
       error => {
       });
-  } 
-
-  
-
-
-
-  ngOnInit() {
-    this.getProfessores();
   }
+
+
+  /* funcionando */
+  filtrarItem(value: any) {
+    if(value.length > 4 ) {
+       this.dadosFiltrados = this.resultado;
+       this.dadosFiltrados = this.dadosFiltrados.filter( x => x.cpfProfessor.search(value.toLocaleUpperCase()) !== -1 ||
+                                                         x.titulacao.search(value.toLocaleUpperCase()) !== -1 ||
+                                                         x.nomProfessor.search(value.toLocaleUpperCase()) !== -1 ||
+                                                         x.regime.search(value.toLocaleUpperCase()) !== -1);
+    }
+
+    else {
+      this.dadosFiltrados = [];
+    }
+    
+  }
+
+
+
+ngOnInit() {
+  this.getProfessores();
+}
+
+
 
 }
