@@ -1,190 +1,190 @@
 <div class="container">
-  <div class=" p-4">
-  </div>
-  <div class="row container">
-    <div class="col-md-8">
-      <div class="mb-3">
-        <h2>Meus Resultados</h2>
+    <div class=" p-4">
+    </div>
+    <div class="row container">
+      <div class="col-md-8">
+        <div class="mb-3">
+          <h2>Meus Resultados</h2>
+        </div>
+      </div>
+      <div class="col d-flex flex-row-reverse mb-3">
+        <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
+              aria-hidden="true"></i></span> Incluir Resultado</button>
+        <button [routerLink]="['/Resultados/Comparar/']" [queryParams]="{res: listaCompara}"
+          class="btn btn-outline-primary mr-1" *ngIf="listaCompara?.length > 1"> <span><i class="fas fa-equals 2x"
+              aria-hidden="true"></i></span> Comparar <span
+            class="badge badge-info">{{listaCompara?.length}}</span></button>
       </div>
     </div>
-    <div class="col d-flex flex-row-reverse mb-3">
-      <button [routerLink]="['/DadosCenso']" class="btn btn-outline-primary"> <span><i class="fas fa-plus 2x"
-            aria-hidden="true"></i></span> Incluir Resultado</button>
-      <button [routerLink]="['/Resultados/Comparar/']" [queryParams]="{res: listaCompara}"
-        class="btn btn-outline-primary mr-1" *ngIf="listaCompara?.length > 1"> <span><i class="fas fa-equals 2x"
-            aria-hidden="true"></i></span> Comparar <span
-          class="badge badge-info">{{listaCompara?.length}}</span></button>
-    </div>
-  </div>
-
-  <div class="row container">
-    <div class="table-overflow">
-      <table class="table table-striped">
-        <thead>
-          <tr style="text-align: center">
-            <th scope="col">Id Resultado</th>
-            <th scope="col">Hora Execução</th>
-            <th scope="col">Data Otimização</th>
-            <th scope="col"></th>
-            <th scope="col">Comparar</th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let item of resultadoOtimizado">
-          <tr style="text-align: center">
-            <th scope="row">{{item.id}}</th>
-            <td>{{item.tempoExecucao}}</td>
-            <td>{{getData(item.id)}}</td>
-            <td>
-              <!-- Botão Visualizar-->
-              <div class="btn-group">
-                <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"
-                  tooltip="Visualizar">
-                  <i class="fas fa-binoculars"></i>
-                </button>
-                <!--Botão + -->
-                <button type="button" id="{{item.id}}" class="btn btn-outline-secondary btn-sm"
-                  onclick="ToggleDetalhe(this)" tooltip="Detalhes">
-                  <i id="i_{{item.id}}" class="fas fa-plus"></i>
-                </button>
-                <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm"
-                  (click)="exportarResultadoExcel(item.id)" tooltip="Download">
-                  <i id="i_{{item.id}}" class="fas fa-file-excel"></i>
-                </button>
-                <!--Botão excluir-->
-                <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
-                  (click)="excluir(item.id, template)">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
-            </td>
-            <td>
-              <div class="custom-control custom-checkbox mr-sm-2">
-                <input type="checkbox" class="custom-control-input" id="chk_{{item.id}}"
-                  (change)="addCompara(item.id, $event.target.checked)">
-                <label class="custom-control-label" for="chk_{{item.id}}"></label>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4" style="border: none;">
-              <div class="container" id="linha_{{item.id}}" style="display: none;">
-                <div class="card">
-                  <div class="card-body">
-                    <div class="container p-1">
-
-                      <!--tabela -->
-                      <table class="table table-sm">
-                        <div class="container">
-                          <div class="row">
-
-                            <div class="col-md-3 col-sm-3">
-                              <div class="resource">
-                                <div class="row ">
-                                  <div class="right col">
-                                    <h6> Quantidade de Cursos (Enade)</h6>
-                                    <hr>
-                                    <div>
-                                      
-                                      <td class="text-center borda">{{getResumo(item?.resumo).QtdCursos_E}}</td>
+  
+    <div class="row container">
+      <div class="table-overflow">
+        <table class="table table-striped">
+          <thead>
+            <tr style="text-align: center">
+              <th scope="col">Id Resultado</th>
+              <th scope="col">Hora Execução</th>
+              <th scope="col">Data Otimização</th>
+              <th scope="col"></th>
+              <th scope="col">Comparar</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let item of resultadoOtimizado">
+            <tr style="text-align: center">
+              <th scope="row">{{item.id}}</th>
+              <td>{{item.tempoExecucao}}</td>
+              <td>{{getData(item.id)}}</td>
+              <td>
+                <!-- Botão Visualizar-->
+                <div class="btn-group">
+                  <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"
+                    tooltip="Visualizar">
+                    <i class="fas fa-binoculars"></i>
+                  </button>
+                  <!--Botão + -->
+                  <button type="button" id="{{item.id}}" class="btn btn-outline-secondary btn-sm"
+                    onclick="ToggleDetalhe(this)" tooltip="Detalhes">
+                    <i id="i_{{item.id}}" class="fas fa-plus"></i>
+                  </button>
+                  <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm"
+                    (click)="exportarResultadoExcel(item.id)" tooltip="Download">
+                    <i id="i_{{item.id}}" class="fas fa-file-excel"></i>
+                  </button>
+                  <!--Botão excluir-->
+                  <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
+                    (click)="excluir(item.id, template)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div class="custom-control custom-checkbox mr-sm-2">
+                  <input type="checkbox" class="custom-control-input" id="chk_{{item.id}}"
+                    (change)="addCompara(item.id, $event.target.checked)">
+                  <label class="custom-control-label" for="chk_{{item.id}}"></label>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" style="border: none;">
+                <div class="container" id="linha_{{item.id}}" style="display: none;">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="container p-1">
+  
+                        <!--tabela -->
+                        <table class="table table-sm">
+                          <div class="container">
+                            <div class="row">
+  
+                              <div class="col-md-3 col-sm-3">
+                                <div class="resource">
+                                  <div class="row ">
+                                    <div class="right col">
+                                      <h6> Quantidade de Cursos (Enade)</h6>
+                                      <hr>
+                                      <div>
+                                        
+                                        <td class="text-center borda">{{getResumo(item?.resumo).QtdCursos_E}}</td>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3">
-                              <div class="resource">
-                                <div class="row no-gutters">
-                                  <div class="right col-md-8">
-                                    <h6>Nota 1 a 2 </h6>
-                                    <hr>
-                                    <div>
-                                      <td class="text-center borda">{{getResumo(item?.resumo).Nota1a2_E}} | {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
-                                      </td>
+  
+                              <div class="col-md-3 col-sm-3">
+                                <div class="resource">
+                                  <div class="row no-gutters">
+                                    <div class="right col-md-8">
+                                      <h6>Nota 1 a 2 </h6>
+                                      <hr>
+                                      <div>
+                                        <td class="text-center borda">{{getResumo(item?.resumo).Nota1a2_E}} | {{getResumo(item?.resumo)?.Nota1a2_E / getResumo(item?.resumo)?.QtdCursos_E * 100  | number : '1.0-1'}}%
+                                        </td>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3">
-                              <div class="resource">
-                                <div class="row no-gutters">
-                                  <div class="right col-md-8">
-                                    <h6>Nota 3 </h6>
-                                    <hr>
-                                    <div>
-                                      <td class="text-center borda">{{getResumo(item?.resumo)?.Nota3_E}} | {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
-                                      </td>
+  
+                              <div class="col-md-3 col-sm-3">
+                                <div class="resource">
+                                  <div class="row no-gutters">
+                                    <div class="right col-md-8">
+                                      <h6>Nota 3 </h6>
+                                      <hr>
+                                      <div>
+                                        <td class="text-center borda">{{getResumo(item?.resumo)?.Nota3_E}} | {{getResumo(item?.resumo)?.Nota3_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%
+                                        </td>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-
-                            <div class="col-md-3 col-sm-3">
-                              <div class="resource">
-                                <div class="row no-gutters">
-                                  <div class="right col-md-8">
-                                    <h6>Nota 4 a 5</h6>
-                                    <hr>
-                                    <div>
-                                      <td class="text-center borda">{{getResumo(item?.resumo)?.Nota4a5_E}} | {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%</td>
+  
+                              <div class="col-md-3 col-sm-3">
+                                <div class="resource">
+                                  <div class="row no-gutters">
+                                    <div class="right col-md-8">
+                                      <h6>Nota 4 a 5</h6>
+                                      <hr>
+                                      <div>
+                                        <td class="text-center borda">{{getResumo(item?.resumo)?.Nota4a5_E}} | {{getResumo(item?.resumo)?.Nota4a5_E / getResumo(item?.resumo)?.QtdCursos_E * 100 | number : '1.0-1'}}%</td>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
+  
                             </div>
-
                           </div>
-                        </div>
-                      </table>
-
+                        </table>
+  
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="container justify-content-center">
-        <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
-          <i class="fas fa-spinner fa-pulse fa-3x "></i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="container justify-content-center">
+          <div *ngIf="!resultadoOtimizado" class="container text-center mt-5">
+            <i class="fas fa-spinner fa-pulse fa-3x "></i>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="alert alert-warning mt-5 card1" *ngIf="dados < 1">Ops!
-    Não há resultados gerados.</div>
-
-
-  <!-- Modal Visualizar-->
-  <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
-          <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
+  
+    <div class="alert alert-warning mt-5 card1" *ngIf="dados < 1">Ops!
+      Não há resultados gerados.</div>
+  
+  
+    <!-- Modal Visualizar-->
+    <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- Modal Visualizar-->
-
-  <!-- Modal excluir-->
-  <ng-template #template>
-    <div class="modal-body text-center">
-      <p>Deseja excluir o Resultado?</p>
-      <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
-      <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
-    </div>
-  </ng-template>
-
-  <!-- Modal excluir-->
+    <!-- Modal Visualizar-->
+  
+    <!-- Modal excluir-->
+    <ng-template #template>
+      <div class="modal-body text-center">
+        <p>Deseja excluir o Resultado?</p>
+        <button type="button" class="btn btn-danger m-2" (click)="ConfirmaExclusao()">Sim</button>
+        <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
+      </div>
+    </ng-template>
+  
+    <!-- Modal excluir-->

@@ -1,91 +1,108 @@
-<div class="input-group mb-0 col-md-6 tabela-centralizada">
-    <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
-      placeholder="Digite o tema, disciplina, etapa ou código da disciplina" aria-label="Recipient's username"
-      aria-describedby="basic-addon2">
-  </div>
+<div class="p-4 w-100 bd-highlight">
+
+  <div class=" fundo-tabela mt-4">
+    <div class="p-3"></div>
 
 
-
-<section class="container">
-  <div class="my-5 text-center"></div>
-  <div class="row">
-    <div class="col-lg mb-5">
-
-      <!-- inicio tabela principal-->
-      <table class="table table-hover titulo-tabela">
-        <thead class="titulo">
-          <tr>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Regime</th>
-            <th>CHDS</th>
-            <th>CHTS</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of professores | paginate: { itemsPerPage: 6, currentPage: p }">
-            <td>{{item.nomProfessor}}</td>
-            <td>{{item.cpfProfessor}}</td>
-            <td>{{item.regime}}</td>
-            <td>{{item.titulacao}}</td>
-            <td>
-              <div class="btn-group">
-                <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
-                  [routerLink]="['/ProfessorConsultaDetalhe',item.cpfProfessor]" tooltip="Detalhes">
-                  <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- fim inicio tabela principal-->
-
+    <!-- menu pesquisar -->
+    <div class="input-group mb-0 col-md-6 tabela-centralizada" style="margin-left: 124px;">
+      <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
+        placeholder="Digite o tema, disciplina, etapa ou código da disciplina" aria-label="Recipient's username"
+        aria-describedby="basic-addon2">
     </div>
-    <div class="col-lg">
-      <div class="card text-center">
-        <div class="card-header">
-          <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-              <a class="nav-link">Nome</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">CPF</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">Regime</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">CHDS</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link">CHTS</a>
-            </li>
+    <!-- fim menu pesquisar -->
 
-            <li class="nav-item">
-              <a class="nav-link active" href="#algumacoisa">Enviar</a>
-            </li>
-          </ul>
+
+    <!-- titulo-->
+    <div class="d-flex align-items-start mt-4" style="margin-left: 140px;">
+      <h4>Carga Horária</h4>
+    </div>
+    <!-- fim titulo -->
+
+    <section class="container">
+      <div class="my-2 text-center"></div>
+      <div class="row">
+        <div class="col-lg">
+
+          <!-- inicio tabela principal-->
+          <table class="table table-hover titulo-tabela">
+            <thead class="titulo">
+              <tr>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Titulação</th>
+                <th>Regime</th>
+                <th tooltip="Carga Horária Dentro de Sala">CHDS</th>
+                <th tooltip="Carga Horária Fora de Sala">CHFS</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of dadosFiltrados | paginate: { itemsPerPage: 4, currentPage: p }">
+                <td>{{item.nomProfessor}}</td>
+                <td>{{item.cpfProfessor}}</td>
+                <td>{{item.titulacao}}</td>
+                <td>{{item.regime}}</td>
+                <td>{{item.qtdHorasDs}}</td>
+                <td>{{item.qtdHorasFs}}</td>
+                <td>
+                  <div class="btn-group">
+                    <!-- <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
+                      [routerLink]="['/ProfessorConsultaDetalhe',item.cpfProfessor]" tooltip="Adicionar">
+                      <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
+                    </button> -->
+
+                    <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
+                      tooltip="Adicionar">
+                      <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
+                    </button>
+
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- fim inicio tabela principal-->
+
+          <!-- inicio paginacao-->
+          <pagination-controls *ngIf="resultado" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
+          </pagination-controls>
+          <!-- fim paginacao-->
+
         </div>
-        <!--
-        <div class="card-body">
-          <h5 class="card-title">Título especial</h5>
-        </div> -->
+        <div class="col-lg">
+          <div class="card text-center">
+            <div class="card-header">
+
+              <!-- inicio titulo-->
+              <ul class="nav nav-pills card-header-pills">
+                <li class="nav-item">
+                  <a class="nav-link">Nome</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link">CPF</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link">Regime</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" tooltip="Carga Horária Dentro de Sala">CHDS</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" tooltip="Carga Horária Fora de Sala">CHFS</a>
+                </li>
+              </ul>
+              <!-- fim titulo-->
+            </div>
+
+            <!-- botão enviar-->
+            <div class="card-body">
+              <div class="d-flex flex-row-reverse bd-highlight">
+                <button type="button" class="btn btn-outline-primary btn-sm">Calcular </button>
+              </div>
+            </div>
+            <!-- fim botão enviar-->
+          </div>
+        </div>
       </div>
-
-
-    </div>
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
+    </section>

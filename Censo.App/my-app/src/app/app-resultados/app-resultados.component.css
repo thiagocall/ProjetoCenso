@@ -42,13 +42,12 @@ thead {
 }
 
 /*card dentro da tabela*/
-.card-body {
-    width: 100%;
-}
+
+
 
 p {
     font-size: 14px;
-    line-height: 1.57;
+   line-height: 1.57;
 }
 .resource {
     text-align: center;
@@ -66,4 +65,5 @@ p {
     max-width: 345px;
     text-align: left;
 }
+
 /*fim do card dentro da tabela*/
