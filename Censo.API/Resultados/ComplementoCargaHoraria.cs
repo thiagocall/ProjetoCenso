@@ -4,30 +4,25 @@ namespace Censo.API.Resultados
     {
         public static double CalculaGap(string _Target, double _Ds, double _Fs )
         {
+            string REGIME;
             double FS;
             double DS;
-            string REGIME;
-            
-
-            
-            REGIME = _Target;
                         
+            REGIME = _Target;                        
             DS = _Ds;
             FS = _Fs;
 
-            //double soma = f1.Faixa + f2.Faixa;
-            double soma = FS + DS;
+            //double soma = FORA DE SALA + DENTRO DE SALA;
+            //double soma = FS + DS;
            
-            if (REGIME.ToUpper() == "TP")    /* parcial */
+            if (REGIME.ToUpper() == "TP")    /* Tempo parcial */
             {
                 int Comple = 0;
                 int CT = 12;
                 double DFS = FS;
 
-
                 for (int i = 1; i <= CT; i++)
                 {
-                    
                     //if (DFS >= 0.25 * CT)
                     {
                         Comple++;
@@ -50,7 +45,7 @@ namespace Censo.API.Resultados
                     ;
                 int CT = 40;
                 double DFS = FS;
-                double soma1 = FS + DS;
+                //double soma1 = FS + DS;
 
                 for (int i = 0; i <= CT; i++)
                 {
@@ -65,9 +60,7 @@ namespace Censo.API.Resultados
                         {
                             break;
                         }
-                            
-
-                }
+                 }
                  return Comple;
 
             }

@@ -92,7 +92,7 @@ namespace Censo.API.Controllers
      
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
         // AJUSTE PARA CIRACAO DE DOWNLOAD EXCEL PASSANDO O ID - THIAGO CALDAS
-        [AllowAnonymous]
+        
         [HttpGet("BuscaIesID/Excel/{id}")]
         public async Task<IActionResult> BuscaIesDownload(long id)
         {
@@ -152,7 +152,7 @@ namespace Censo.API.Controllers
      
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
         // AJUSTE PARA CRIAÇÃO DE DOWNLOAD EXCEL POR IES PASSANDO ID THIAGO CALDAS
-        [AllowAnonymous]
+        
         [HttpGet("BuscaIes/Excel")]
         public async Task<IActionResult> IesDownload()
         {
@@ -207,7 +207,7 @@ namespace Censo.API.Controllers
         }
                 
         // INICIO PROFESSOR IES
-       [AllowAnonymous]
+       
        [HttpGet("BuscaIes/{id}")]
         public ActionResult<List<ProfessorIes>> BuscaIes(long? id)
         {
@@ -235,7 +235,7 @@ namespace Censo.API.Controllers
 
 
         //Curso Professor Emec
-        [AllowAnonymous]
+
         [HttpGet("Emec/{id}")]
         public async Task<IActionResult> Get(long? id)
         {
@@ -276,7 +276,7 @@ namespace Censo.API.Controllers
         }
        
         /* fora de sede pelo cod_campus */
-        [AllowAnonymous]
+        
         [HttpGet("foradesede/{id}")]
         public ActionResult foradesede(long id)
         //public async Task<IActionResult> Get(long? id)
@@ -286,7 +286,7 @@ namespace Censo.API.Controllers
 
 
         }
-        [AllowAnonymous]
+        
         [HttpGet("foradesede/excel/{id}")]
         public ActionResult DownloadExcel(long id)
         //public async Task<IActionResult> Get(long? id)
@@ -313,7 +313,7 @@ namespace Censo.API.Controllers
         }
 
         /* Traz todos os campi fora de sede */
-        [AllowAnonymous]
+        
         [HttpGet("BuscaCampus")]
 
         public ActionResult<List<CampusContext>> BuscaCampus()
@@ -331,8 +331,6 @@ namespace Censo.API.Controllers
 
 
         /* busca professor dentro dos campus */
-
-        [AllowAnonymous]
         [HttpGet("BuscaProfCampus")]
 
         public ActionResult<List<CampusContext>> BuscaProfCampus()
@@ -380,17 +378,14 @@ namespace Censo.API.Controllers
 
 
         /* busca todos os professores  */
-
-      [AllowAnonymous]
       [HttpGet("BuscaProfessor")]
         public async Task<IActionResult> BuscaProfessor()
         {
             
                 try
                 {
-                     
-                      
-                      // pegar os contextos
+                    
+                      // pegar os contextos professor e regime
                       var ListaProfessores = Professores.getProfessores(Profcontext).ToListAsync();
 
                       var regime = RegContext.ProfessorRegime.ToDictionary (x => x.CpfProfessor.ToString());
@@ -427,11 +422,11 @@ namespace Censo.API.Controllers
                        
                         
                         return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
-                                                        , x.NomProfessor
-                                                        ,x.titulacao
-                                                        , x.regime
-                                                        , x.QtdHorasDs
-                                                        , x.QtdHorasFs}));
+                                                                       , x.NomProfessor
+                                                                      ,x.titulacao
+                                                                      , x.regime
+                                                                      , x.QtdHorasDs
+                                                                      , x.QtdHorasFs}));
                         
                 }
                 catch (System.Exception ex)
@@ -443,11 +438,8 @@ namespace Censo.API.Controllers
         }
         /* termino da busca dos professores */
         
-        [AllowAnonymous]
         [HttpPost("CalculaGapProf")]
         public async Task<IActionResult> getCalculaGapProf(List<ProfessorGap> ListaProfessorGap) {
-
-        
 
             try 
             {
