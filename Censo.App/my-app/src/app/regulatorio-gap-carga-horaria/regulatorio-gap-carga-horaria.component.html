@@ -1,28 +1,25 @@
-<div class="p-4 w-100 bd-highlight">
+<div class="p-4 w-150 bd-highlight" >
 
-  <div class=" fundo-tabela mt-4">
-    <div class="p-3"></div>
-
+  <div class=" fundo-tabela mt-3" style="min-height: 600px;">
+      <div class="ml-4 mt-4">
+          <h4>Gap Carga Horária</h4>
+        </div>
 
     <!-- menu pesquisar -->
-    <div class="input-group mb-0 col-md-6 tabela-centralizada" style="margin-left: 124px;">
+    <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
       <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
-        placeholder="Digite o tema, disciplina, etapa ou código da disciplina" aria-label="Recipient's username"
+        placeholder="Digite alguma coisa.." aria-label="Recipient's username"
         aria-describedby="basic-addon2">
     </div>
     <!-- fim menu pesquisar -->
 
-
     <!-- titulo-->
-    <div class="d-flex align-items-start mt-4" style="margin-left: 140px;">
-      <h4>Carga Horária</h4>
-    </div>
+  
     <!-- fim titulo -->
 
-    <section class="container">
-      <div class="my-2 text-center"></div>
-      <div class="row">
-        <div class="col-lg">
+    <div class="container mt-5 ml-3 mr-0">
+      <div class="row m-0 p-0">
+        <div class="col-md-7">
 
           <!-- inicio tabela principal-->
           <table class="table table-hover titulo-tabela">
@@ -47,13 +44,14 @@
                 <td>{{item.qtdHorasFs}}</td>
                 <td>
                   <div class="btn-group">
+
                     <!-- <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
                       [routerLink]="['/ProfessorConsultaDetalhe',item.cpfProfessor]" tooltip="Adicionar">
                       <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
                     </button> -->
 
                     <button type="button" id="{{item.cpfProfessor}}" class="btn btn-outline-primary btn-sm"
-                      tooltip="Adicionar">
+                      tooltip="Adicionar" (click)="addProfessor(item)">
                       <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
                     </button>
 
@@ -70,12 +68,12 @@
           <!-- fim paginacao-->
 
         </div>
-        <div class="col-lg">
-          <div class="card text-center">
-            <div class="card-header">
+        <div class="col-md-5 pl-2 mr-0" >
+          <div class="card" style="width: 600px;">
+            <div class="card-header ">
 
               <!-- inicio titulo-->
-              <ul class="nav nav-pills card-header-pills">
+              <ul class="nav nav-pills card-header-pills d-flex justify-content-between">
                 <li class="nav-item">
                   <a class="nav-link">Nome</a>
                 </li>
@@ -83,26 +81,38 @@
                   <a class="nav-link">CPF</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link">Regime</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" tooltip="Carga Horária Dentro de Sala">CHDS</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" tooltip="Carga Horária Fora de Sala">CHFS</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link"></a>
+                  </li>
               </ul>
               <!-- fim titulo-->
             </div>
+            <table class="table" style="width: 550px;">
+              <tbody>
+                <tr *ngFor="let item of listaProfessorAdicionado">
+                    <td>{{item.nomProfessor}}</td>
+                    <td>{{item.cpfProfessor}}</td>
+                    <td>{{item.qtdHorasDs}}</td>
+                    <td>{{item.qtdHorasFs}}</td>
+                    <td><button class="btn btn-outline-danger btn-sm" (click)="removerProfessor(item)"><i class="fas fa-trash-alt"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
 
             <!-- botão enviar-->
             <div class="card-body">
-              <div class="d-flex flex-row-reverse bd-highlight">
-                <button type="button" class="btn btn-outline-primary btn-sm">Calcular </button>
-              </div>
+              
             </div>
             <!-- fim botão enviar-->
           </div>
+          <div style="width: 600px;">
+            <button type="button" class="btn btn-outline-primary btn-sm mt-2 d-flex ml-auto">Calcular </button>  
+          </div>
         </div>
       </div>
-    </section>
+    </div>
