@@ -544,10 +544,13 @@ namespace Censo.API.Resultados
                     {
 
                             var codEmec = emec.CodEmec;
-                            var qtd = _cursoProfessor
+                            var qtd = (_cursoProfessor.Find(x => x.CodEmec == codEmec) != null) ?
+                                            _cursoProfessor
                                             .Find(x => x.CodEmec == codEmec)
-                                            .Professores.Where(x => x.cpfProfessor == emec.CpfProfessor)
-                                            .Count();
+                                                .Professores
+                                                .Where(x => x.cpfProfessor == emec.CpfProfessor).Count() :
+                                                0
+                                            ;
                             
                             if (qtd < 1) {
                                 
