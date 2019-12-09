@@ -468,7 +468,11 @@ namespace Censo.API.Controllers
         [HttpGet("PesquisaProfessor")]
         public async Task<IActionResult> PesquisaProfessor()
         {
-            
+                 List<ProfessorMatricula> matricula;
+                 Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+                 //Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+                 var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+
                 try
                 {
                     
@@ -480,12 +484,19 @@ namespace Censo.API.Controllers
                       List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
 
                       // buscar admissao no contexto matricula
-                      
-                      List<ProfessorMatricula> matricula;
-                      Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
-                      var mat =  MatriculaContext.ProfessorMatricula.ToList();
-                      //Task.WaitAll(task1);
-                      //matricula = await mat;
+ 
+                    Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                       Dictionary<string, DateTime> ListaAdmissao1 = new Dictionary<string, DateTime>();
+                      //dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+
+                    Task.WaitAll(task1);
+
+                    matricula = await mat;
+
                       
                      // var matricula = MatriculaContext.ProfessorMatricula.ToDictionary(x => Convert.ToInt64(x.cpfProfessor));
                       
@@ -512,14 +523,12 @@ namespace Censo.API.Controllers
                                 
                                 //if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
                                 
-                                
-                                if (matricula.ContainsKey(Convert.ToInt64(professordetalhe.CpfProfessor)))
+                                if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
                                 {
-                                    professordetalhe.dtAdmissao = matricula[Convert.ToInt64(professordetalhe.CpfProfessor)].dtAdmissao;
+                                    //professordetalhe.dtAdmissao = matricula[professordetalhe.CpfProfessor].dtAdmissao;
                                     
                                     DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == professor.CpfProfessor).Min(d => d.dtAdmissao);
-                                    //DateTime? _data = matricula.Where(p => (Convert.ToInt64(p.cpfProfessor.ToString()) == professor.CpfProfessor).Min(d => d.dtAdmissao);
-
+                                    
                                     professor.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
 
                                 }
