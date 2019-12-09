@@ -378,7 +378,7 @@ namespace Censo.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("CalculaGapProf")]
-        public async Task<IActionResult> getCalculaGapProf(List<ProfessorGap> ListaProfessorGap) 
+        public async Task<IActionResult> getCalculaGapProf(ProfessorGap[] ListaProfessorGap) 
         {
 
             try 

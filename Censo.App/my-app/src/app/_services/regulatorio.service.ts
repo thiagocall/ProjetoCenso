@@ -73,16 +73,16 @@ export class RegulatorioService {
 
   // REGULATÓRIO GAP CARGA HORÁRIA
 
-  /*PesquisaProfessores(campo: string) {
-    const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'Professor/Busca/' + campo, {headers: tokenHeader});
-  } */
-
   PesquisaProfessores() {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'regulatorio/BuscaProfessor' ,{headers: tokenHeader});
   }
 
+  /*post */
+  postCalculaGapProf(professores: any[]) {
+    const tokenHeader = this.getToken();
+    return this.http.post(this.baseUrl + 'regulatorio/CalculaGapProf', professores, {headers: tokenHeader});
+  }
   
   
 

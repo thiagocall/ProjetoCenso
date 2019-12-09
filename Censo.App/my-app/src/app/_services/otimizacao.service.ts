@@ -48,4 +48,6 @@ export class OtimizacaoService {
     const tokenHeader = this.getToken();
     return this.http.post(this.baseURL + 'ComparaResultado', resultados, {headers: tokenHeader});
   }
+
+  
 }

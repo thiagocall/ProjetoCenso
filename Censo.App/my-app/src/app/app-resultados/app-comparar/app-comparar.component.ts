@@ -15,16 +15,11 @@ export class AppCompararComponent implements OnInit {
   resultados: any;
   resultadosJson: any;
 
-
-
   ngOnInit() {
-
     this.route.queryParams
       .subscribe(params =>
         this.comparar = params.res);
-
     this.Comparar();
-
   }
 
 
@@ -34,14 +29,12 @@ export class AppCompararComponent implements OnInit {
       .subscribe(
         response => {
           this.resultados = response;
-          
            console.log(this.resultados);
         },
         error => {
 
         }
       );
-
   }
 
   JSONParse_ (js: any) {

@@ -1,20 +1,19 @@
-<div class="p-4 w-150 bd-highlight" >
+<div class="p-4 w-150 bd-highlight">
 
   <div class=" fundo-tabela mt-3" style="min-height: 600px;">
-      <div class="ml-4 mt-4">
-          <h4>Gap Carga Horária</h4>
-        </div>
+    <div class="ml-4 mt-4">
+      <h4>Gap Carga Horária</h4>
+    </div>
 
     <!-- menu pesquisar -->
     <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
       <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
-        placeholder="Digite alguma coisa.." aria-label="Recipient's username"
-        aria-describedby="basic-addon2">
+        placeholder="Digite alguma coisa.." aria-label="Recipient's username" aria-describedby="basic-addon2">
     </div>
     <!-- fim menu pesquisar -->
 
     <!-- titulo-->
-  
+
     <!-- fim titulo -->
 
     <div class="container mt-5 ml-3 mr-0">
@@ -60,16 +59,19 @@
               </tr>
             </tbody>
           </table>
-          <!-- fim inicio tabela principal-->
-
           <!-- inicio paginacao-->
           <pagination-controls *ngIf="resultado" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
           </pagination-controls>
           <!-- fim paginacao-->
 
+          <!-- fim inicio tabela principal-->
+
+
         </div>
-        <div class="col-md-5 pl-2 mr-0" >
-          <div class="card" style="width: 600px;">
+
+        <!-- inicio card-->
+        <div class="col-md-5 pl-2 mr-0">
+          <div class="card" style="width: 650px;">
             <div class="card-header ">
 
               <!-- inicio titulo-->
@@ -87,32 +89,52 @@
                   <a class="nav-link" tooltip="Carga Horária Fora de Sala">CHFS</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"></a>
-                  </li>
+                  <a class="nav-link" tooltip="Carga Horária Fora de Sala">Target</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link"></a>
+                </li>
               </ul>
               <!-- fim titulo-->
+
             </div>
-            <table class="table" style="width: 550px;">
+            <table class="table" style="width: 650px;">
               <tbody>
-                <tr *ngFor="let item of listaProfessorAdicionado">
-                    <td>{{item.nomProfessor}}</td>
-                    <td>{{item.cpfProfessor}}</td>
-                    <td>{{item.qtdHorasDs}}</td>
-                    <td>{{item.qtdHorasFs}}</td>
-                    <td><button class="btn btn-outline-danger btn-sm" (click)="removerProfessor(item)"><i class="fas fa-trash-alt"></i></button></td>
+                <tr *ngFor="let item of listaProfessorAdicionado; let i = index">
+                  <td style="width: 140px;">{{item.nomProfessor}}</td>
+                  <td style="width: 120px;">{{item.cpfProfessor}}</td>
+                  <td style="width: 120px;">{{item.qtdHorasDs}}</td>
+                  <td>{{item.qtdHorasFs}}</td>
+
+                  <td class="form-group mt-2 md-4">
+                    <select class="form-control" [(ngModel)]="item.target">
+                      <option disabled="true">Selecione</option>
+                      <option value="TEMPO INTEGRAL"  >Integral</option>
+                      <option  value="TEMPO PARCIAL" >Parcial</option>
+                    </select>
+                  </td>
+
+                  <td><button class="btn btn-outline-danger btn-sm" (click)="removerProfessor(item)">
+                      <i class="fas fa-trash-alt"></i></button></td>
                 </tr>
               </tbody>
             </table>
+            <!-- fim card-->
 
             <!-- botão enviar-->
             <div class="card-body">
-              
+
             </div>
             <!-- fim botão enviar-->
           </div>
-          <div style="width: 600px;">
-            <button type="button" class="btn btn-outline-primary btn-sm mt-2 d-flex ml-auto">Calcular </button>  
+          <div style="width: 650px;">
+            <button type="button" class="btn btn-outline-primary btn-sm mt-2 d-flex ml-auto"
+              (click)="CalculaCargaHoraria()">Calcular </button>
           </div>
         </div>
       </div>
     </div>
+
+
+
+   
