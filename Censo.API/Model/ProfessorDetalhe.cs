@@ -15,6 +15,7 @@ namespace Censo.API.Model
         public double? QtdHorasDs { get; set; }
         public double? QtdHorasFs { get; set; }
         public double? CargaTotal { get; set; }
+        public DateTime dtAdmissao { get; set; }
         public List<Curso> Cursos = new List<Curso>();
 
         public List<string> Regioes = new List<string>();

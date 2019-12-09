@@ -20,6 +20,8 @@ using Newtonsoft.Json;
 using OfficeOpenXml;
 using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
+
+
 namespace Censo.API.Controllers
 {
     [Route("api/[controller]")]
@@ -85,9 +87,7 @@ namespace Censo.API.Controllers
             };
 
         }
-        
-
-
+  
         // POST api/values
      
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
@@ -412,7 +412,6 @@ namespace Censo.API.Controllers
                       var regime  = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
                       //var ListaRegime = regime.Keys.ToList();
                       List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
-
                         
                         foreach (var professor in await ListaProfessores)
                         {
@@ -464,9 +463,10 @@ namespace Censo.API.Controllers
 
         
         /* busca todos os professores  */
-        /*
-        [HttpGet("PormenorProfessor")]
-        public async Task<IActionResult> PormenorProfessor()
+        
+        [AllowAnonymous]
+        [HttpGet("PesquisaProfessor")]
+        public async Task<IActionResult> PesquisaProfessor()
         {
             
                 try
@@ -479,6 +479,17 @@ namespace Censo.API.Controllers
                       //var ListaRegime = regime.Keys.ToList();
                       List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
 
+                      // buscar admissao no contexto matricula
+                      
+                      List<ProfessorMatricula> matricula;
+                      Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+                      var mat =  MatriculaContext.ProfessorMatricula.ToList();
+                      //Task.WaitAll(task1);
+                      //matricula = await mat;
+                      
+                     // var matricula = MatriculaContext.ProfessorMatricula.ToDictionary(x => Convert.ToInt64(x.cpfProfessor));
+                      
+                      //List<ProfessorMatricula> matricula = new List<ProfessorMatricula>();
                         
                         foreach (var professor in await ListaProfessores)
                         {
@@ -497,16 +508,32 @@ namespace Censo.API.Controllers
                                 {
                                     professordetalhe.regime = "CHZ/AFASTADO";
                                  }
+                                //inicio
+                                
+                                //if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
+                                
+                                
+                                if (matricula.ContainsKey(Convert.ToInt64(professordetalhe.CpfProfessor)))
+                                {
+                                    professordetalhe.dtAdmissao = matricula[Convert.ToInt64(professordetalhe.CpfProfessor)].dtAdmissao;
+                                    
+                                    DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == professor.CpfProfessor).Min(d => d.dtAdmissao);
+                                    //DateTime? _data = matricula.Where(p => (Convert.ToInt64(p.cpfProfessor.ToString()) == professor.CpfProfessor).Min(d => d.dtAdmissao);
 
+                                    professor.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
+
+                                }
+                                
+                                
+                                // termino
 
                                 ListaProfessorDetalhe.Add(professordetalhe);
                         }
-
-                       
                         
                         return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
                                                                        , x.NomProfessor
-                                                                      ,x.titulacao
+                                                                      , x.dtAdmissao
+                                                                       , x.titulacao
                                                                       , x.regime}));
                         
                 }
@@ -517,63 +544,7 @@ namespace Censo.API.Controllers
                 // Termino da pesquisa detalhe professor
                       
         }
-         termino da busca dos professores */
-
-        /*
-        [HttpGet("GeraPDFProfessor")]
-        public async Task<IActionResult> GeraPDFProfessor();
-        {
-            
-                try
-                {
-                 var ListaProfessores1 = Professores.getProfessores(ProfessorContext).ToListAsync();
-                 
-                 var regime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
-                 
-                 // Criar uma lista InfoProf
-                List<ProfessorDetalhe> InfoProfessor = new List<ProfessorDetalhe>();
-                
-                List<ProfessorMatricula> matricula;
-                Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
-                
-                var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
-                
-                        foreach (var detalhes in await ListaProfessores1)
-                        {
-                            
-                        }
-                        {
-                                ProfessorDetalhe Descprofessor = new ProfessorDetalhe():
-
-                                Descprofessor.CpfProfessor = detalhes.CpfProfessor;
-                                Descprofessor.nome = detalhes.nome;
-                                Descprofessor.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
-
-                                if (matricula.Where(x => x.cpfProfessor.ToString() == item.CpfProfessor).Count() > 0)
-                                {
-                                DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == detalhes.CpfProfessor).Min(d => d.dtAdmissao);
-
-                                item.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
-                                }
-
-
-                                ListaProfessorDetalhe.Add(Descprofessor);
-                         }
-                        return Ok(InfoProfessor.Select(x=> new {x.CpfProfessor
-                                                                       , x.NomProfessor
-                                                                      ,x.titulacao
-                                                                      , x.regime}));
-
-                }
-                catch (System.Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
-                }
-                // Termino da pesquisa detalhe professor
-                      
-        }
-        */
-
+        /* termino da busca dos professores */
 
     public class ProfessorGap
             {

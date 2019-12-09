@@ -15,7 +15,7 @@ namespace Censo.API.Resultados
             //double soma = FORA DE SALA + DENTRO DE SALA;
             //double soma = FS + DS;
            
-            if (REGIME.ToUpper() == "TP")    /* Tempo parcial */
+            if (REGIME.ToUpper() == "TEMPO PARCIAL")    /* Tempo parcial */
             {
                 int Comple = 0;
                 int CT = 12;
