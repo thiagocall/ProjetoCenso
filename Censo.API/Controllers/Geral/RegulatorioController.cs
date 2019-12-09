@@ -376,9 +376,30 @@ namespace Censo.API.Controllers
                  return professores;
         }
 
+        [AllowAnonymous]
+        [HttpPost("CalculaGapProf")]
+        public async Task<IActionResult> getCalculaGapProf(List<ProfessorGap> ListaProfessorGap) 
+        {
+
+            try 
+            {
+                foreach (var item in ListaProfessorGap)
+                {
+                     item.Complemento = ComplementoCargaHoraria.CalculaGap(item.Target, item.Ds, item.Fs);  
+                }
+
+                return Ok(ListaProfessorGap);
+            }
+            catch (Exception e) {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
+            }
+
+        }
+
 
         /* busca todos os professores  */
-      [HttpGet("BuscaProfessor")]
+        [HttpGet("BuscaProfessor")]
         public async Task<IActionResult> BuscaProfessor()
         {
             
@@ -388,9 +409,11 @@ namespace Censo.API.Controllers
                       // pegar os contextos professor e regime
                       var ListaProfessores = Professores.getProfessores(Profcontext).ToListAsync();
 
-                      var regime = RegContext.ProfessorRegime.ToDictionary (x => x.CpfProfessor.ToString());
+                      var regime  = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
+                      //var ListaRegime = regime.Keys.ToList();
                       List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
 
+                        
                         foreach (var professor in await ListaProfessores)
                         {
                                 ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
@@ -436,28 +459,121 @@ namespace Censo.API.Controllers
                 // Termino da pesquisa detalhe professor
                       
         }
+
         /* termino da busca dos professores */
+
         
-        [HttpPost("CalculaGapProf")]
-        public async Task<IActionResult> getCalculaGapProf(List<ProfessorGap> ListaProfessorGap) {
-
-            try 
-            {
-                foreach (var item in ListaProfessorGap)
+        /* busca todos os professores  */
+        /*
+        [HttpGet("PormenorProfessor")]
+        public async Task<IActionResult> PormenorProfessor()
+        {
+            
+                try
                 {
-                     item.Complemento = ComplementoCargaHoraria.CalculaGap(item.Target, item.Ds, item.Fs);  
+                    
+                      // pegar os contextos professor e regime
+                      var ListaProfessores = Professores.getProfessores(Profcontext).ToListAsync();
+
+                      var regime  = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
+                      //var ListaRegime = regime.Keys.ToList();
+                      List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
+
+                        
+                        foreach (var professor in await ListaProfessores)
+                        {
+                                ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
+
+                                //cpf/nomeprofessor//titulacao//regime
+                                professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
+                                professordetalhe.NomProfessor = professor.NomProfessor;
+                                professordetalhe.titulacao = professor.Titulacao;
+                                
+                                if (regime.ContainsKey(professordetalhe.CpfProfessor))
+                                {
+                                professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                                }
+                                else
+                                {
+                                    professordetalhe.regime = "CHZ/AFASTADO";
+                                 }
+
+
+                                ListaProfessorDetalhe.Add(professordetalhe);
+                        }
+
+                       
+                        
+                        return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
+                                                                       , x.NomProfessor
+                                                                      ,x.titulacao
+                                                                      , x.regime}));
+                        
                 }
-
-                return Ok(ListaProfessorGap);
-            }
-            catch (Exception e) {
-
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
-            }
-
+                catch (System.Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+                // Termino da pesquisa detalhe professor
+                      
         }
+         termino da busca dos professores */
 
-    }
+        /*
+        [HttpGet("GeraPDFProfessor")]
+        public async Task<IActionResult> GeraPDFProfessor();
+        {
+            
+                try
+                {
+                 var ListaProfessores1 = Professores.getProfessores(ProfessorContext).ToListAsync();
+                 
+                 var regime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
+                 
+                 // Criar uma lista InfoProf
+                List<ProfessorDetalhe> InfoProfessor = new List<ProfessorDetalhe>();
+                
+                List<ProfessorMatricula> matricula;
+                Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+                
+                var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+                
+                        foreach (var detalhes in await ListaProfessores1)
+                        {
+                            
+                        }
+                        {
+                                ProfessorDetalhe Descprofessor = new ProfessorDetalhe():
+
+                                Descprofessor.CpfProfessor = detalhes.CpfProfessor;
+                                Descprofessor.nome = detalhes.nome;
+                                Descprofessor.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+
+                                if (matricula.Where(x => x.cpfProfessor.ToString() == item.CpfProfessor).Count() > 0)
+                                {
+                                DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == detalhes.CpfProfessor).Min(d => d.dtAdmissao);
+
+                                item.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
+                                }
+
+
+                                ListaProfessorDetalhe.Add(Descprofessor);
+                         }
+                        return Ok(InfoProfessor.Select(x=> new {x.CpfProfessor
+                                                                       , x.NomProfessor
+                                                                      ,x.titulacao
+                                                                      , x.regime}));
+
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+                // Termino da pesquisa detalhe professor
+                      
+        }
+        */
+
 
     public class ProfessorGap
             {
@@ -469,7 +585,8 @@ namespace Censo.API.Controllers
                 public double Complemento { get; set; }
 
             }
+            
 
-        
-  
+
+    }
 }
