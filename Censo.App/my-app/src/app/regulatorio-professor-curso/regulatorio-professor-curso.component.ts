@@ -80,7 +80,7 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
 
  
   getCurso(valor: number){
-    console.log(this.curso);
+   // console.log(this.curso);
     this.cursoFiltrado = this.curso.filter(c => c.codCampus == valor);
   }
 
