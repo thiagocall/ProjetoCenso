@@ -21,6 +21,7 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
   /*filtro lista*/
   dadosFiltrados: any[];
   filtroProfessor: [];
+  resposta: any;
 
   /*selecao tabela */
   listaProfessorAdicionado: Array<any> = new Array<any>();
@@ -62,26 +63,26 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
   /*adicionar professores na tabela */
   addProfessor(professor: any) {
 
-    let prof = {cpfProfessor: professor.cpfProfessor,
-                nomProfessor: professor.nomProfessor,
-                qtdHorasDs: professor.qtdHorasDs,
-                qtdHorasFs: professor.qtdHorasFs,
-                regime: professor.regime,
-                titulacao: professor.titulacao,
-                target: ""}
+    let prof = {
+      cpfProfessor: professor.cpfProfessor,
+      nomProfessor: professor.nomProfessor,
+      qtdHorasDs: professor.qtdHorasDs,
+      qtdHorasFs: professor.qtdHorasFs,
+      regime: professor.regime,
+      titulacao: professor.titulacao,
+      target: ""
+    }
 
     //if (this.listaProfessorAdicionado.filter(x => x.cpf == professor.cpfProfessor).length == 0) {
     if (this.listaProfessorAdicionado
-            .filter(x => x.cpfProfessor == prof.cpfProfessor)
-            .length == 0) {
-
-                  this.listaProfessorAdicionado.push(prof);
-                  console.log(prof);
-
-                  //console.log(this.listaProfessorAdicionado);
-                } else {
-                  return;
-                }
+      .filter(x => x.cpfProfessor == prof.cpfProfessor)
+      .length == 0) {
+      this.listaProfessorAdicionado.push(prof);
+      //console.log(prof);
+      //console.log(this.listaProfessorAdicionado);
+    } else {
+      return;
+    }
   }
 
   /*remover professores na tabela */
@@ -103,16 +104,16 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
         fs: x.qtdHorasFs,
         target: x.target,
       }))
-
-   // console.log(listaProfessor); // sem complemento
+    // console.log(listaProfessor); // sem complemento
 
     this.regulatorio.postCalculaGapProf(listaProfessor).subscribe(
       response => {
         // console.log(response); //complemento
 
         listaProfessorResposta = response;
-        var resposta = listaProfessorResposta.map(x => 
-          ({cpfProfessor: x.cpf,
+        var resposta = listaProfessorResposta.map(x =>
+          ({
+            cpfProfessor: x.cpf,
             nomProfessor: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).nomProfessor,
             qtdHorasDs: x.ds,
             qtdHorasFs: x.fs,
@@ -120,66 +121,39 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
             titulacao: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).titulacao,
             complemento: x.complemento,
             target: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).target
-            }))
-        console.log(resposta); //complemento
+          }));
+
+        console.log(resposta);
+        this.resposta = resposta; //com todos os dados + complemento
+        //console.log(listaProfessorResposta) //não tem nome do prof e tem complemento
       },
       error => {
         console.log(error);
       });
   }
 
-
-  
+  /* selecao input */
   selecaoPadrao(value: string, professor: any): boolean {
      console.log(value);
      let indicacao = (professor.regime == "TEMPO INTEGRAL") ? "TEMPO INTEGRAL" : 
      (professor.regime == "TEMPO PARCIAL") ? "TEMPO INTEGRAL" : "TEMPO PARCIAL";
 
-      if ( indicacao == value) {
-          return true;
-      } else {
-        return false;
-      }
-
+    if (indicacao == value) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-
-
-  /** INICIO TESTE 
-  calcularTabela() {
-
-    var listaProfessorTabela: any;
-    let listaProfessorRespostaTabela: any;
-
-    this.regulatorio.postCalculaGapProf(listaProfessorTabela).subscribe(
-      response => {
-        // console.log(response); //complemento
-
-        listaProfessorRespostaTabela = response;
-        var resposta = listaProfessorRespostaTabela.map(x => 
-          ({cpfProfessor: x.cpf,
-            nomProfessor: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).nomProfessor,
-            qtdHorasDs: x.ds,
-            qtdHorasFs: x.fs,
-            regime: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).regime,
-            titulacao: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).titulacao,
-            complemento: x.complemento,
-            target: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).target
-            }))
-        console.log(resposta); //complemento
-      },
-      error => {
-        console.log(error);
-      });
+  limparLista() {
+    this.listaProfessorAdicionado = [];
+    this.resposta = [];
   }
-
-  /** FIM TESTE */
 
 
   ngOnInit() {
     this.getProfessores();
   }
-
 }
 
 class professor {

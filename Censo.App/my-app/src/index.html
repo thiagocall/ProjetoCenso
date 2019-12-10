@@ -26,6 +26,22 @@
       ($("#i_" + obj.id).hasClass("fa-plus")) ? $("#i_" + obj.id).removeClass("fa-plus").addClass("fa-minus") : $("#i_" + obj.id).removeClass("fa-minus").addClass("fa-plus");
       $(id).slideToggle("slow");
     };
+
+       
+function zoom(){
+
+ 
+    targetOffset = $('#tabela').offset().top;
+        
+    $('html, body').animate({ 
+      scrollTop: targetOffset - 100
+    }, 500);
+    console.log(targetOffset);
+
+  }
+
+    
+   
 </script>
 </body>
 </html>
