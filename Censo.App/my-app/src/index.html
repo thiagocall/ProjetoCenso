@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Estratégia Acadêmica</title>
@@ -9,39 +10,52 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
+
 <body>
-    
-<app-root></app-root>
+
+  <app-root></app-root>
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<!-- <script src="../node_modules/chart.js/src/chart.js"></script> -->
-<script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <!-- <script src="../node_modules/chart.js/src/chart.js"></script> -->
+  <script>
     function ToggleDetalhe(obj) {
-      var id  = "#linha_" + obj.id;
+      var id = "#linha_" + obj.id;
       //var img = $("#i_" + obj.id)
-       //console.log(id);
+      //console.log(id);
       ($("#i_" + obj.id).hasClass("fa-plus")) ? $("#i_" + obj.id).removeClass("fa-plus").addClass("fa-minus") : $("#i_" + obj.id).removeClass("fa-minus").addClass("fa-plus");
       $(id).slideToggle("slow");
     };
 
-       
-function zoom(){
 
- 
-    targetOffset = $('#tabela').offset().top;
-        
-    $('html, body').animate({ 
-      scrollTop: targetOffset - 100
-    }, 500);
-    console.log(targetOffset);
+    /*efeito zoom tela gap carga horaria*/
+    function zoom() {
+      targetOffset = $('#tabela').offset().top;
+      $('html, body').animate({
+        scrollTop: targetOffset - 100
+      }, 500);
+      console.log(targetOffset);
+    }
 
-  }
+    /*efeito zoom tela gap carga horaria*/
+    function tirarZoom() {
+      targetOffset = $('#tabela').offset().top;
+      $('html, body').animate({
+        scrollTop: targetOffset - 3000
+      }, 100);
+      console.log(targetOffset);
+    }
 
-    
-   
-</script>
+
+
+
+  </script>
 </body>
+
 </html>
