@@ -380,26 +380,45 @@ namespace Censo.API.Controllers
         [HttpPost("CalculaGapProf")]
         public async Task<IActionResult> getCalculaGapProf(ProfessorGap[] ListaProfessorGap) 
         {
+               // x.CpfProfessor
+            // , x.NomProfessor
+            // ,x.titulacao
+            // ,x.dtAdmissao
+            // ,x.regime
+
+            var admissao = await this.BuscaDataAdmissao(ListaProfessorGap.Select(x => x.Cpf.ToString()).ToList());
+
+            // Erro no dicionario dicDemissao
+         
+
 
             try 
             {
+                var dicDemissao = admissao.ToDictionary(x => x.CpfProfessor);
+                
                 foreach (var item in ListaProfessorGap)
                 {
                      item.Complemento = ComplementoCargaHoraria.CalculaGap(item.Target, item.Ds, item.Fs);  
                 }
 
-                return Ok(ListaProfessorGap);
+                var ListaFinal = ListaProfessorGap.Select(x => new {x.Cpf,
+                                                                    x.Target,
+                                                                    x.Ds, x.Fs,
+                                                                    x.Complemento,
+                                                                    dtAdmissao = dicDemissao[x.Cpf].dtAdmissao}).ToList();
+
+                return Ok(ListaFinal);
             }
             catch (Exception e) {
 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
             }
 
-
         }
 
 
         /* busca todos os professores  */
+        [AllowAnonymous]
         [HttpGet("BuscaProfessor")]
         public async Task<IActionResult> BuscaProfessor()
         {
@@ -556,13 +575,88 @@ namespace Censo.API.Controllers
         }
         /* termino da busca dos professores */
 
+        /* busca todos os professores  */
+        //[AllowAnonymous]
+        //[HttpGet("MostraProfessor")]
+        //public async Task<IActionResult> MostraProfessor()
+        public async Task<IEnumerable<dynamic>> BuscaDataAdmissao(List<string> _listaProf)
+        {
+            
+                try
+                {
+                    
+                      // pegar os contextos professor e regime TRAZER POR CPF
+                      var ListaProfessores = Professores.getProfessores(Profcontext)
+                                                           .Where(x => _listaProf
+                                                                           .Contains(x.CpfProfessor))
+                                                            .ToListAsync();
+
+                      var regime  = RegContext.ProfessorRegime
+                                                                 .Where(x => _listaProf
+                                                                           .Contains(x.CpfProfessor))
+                                                              .ToDictionary(x => x.CpfProfessor);
+                      //var ListaRegime = regime.Keys.ToList();
+                     var admissao = MatriculaContext.ProfessorMatricula
+                                                                                .Where(x => _listaProf
+                                                                                   .Contains(x.cpfProfessor.ToString()))
+                                                                       .ToList();
+
+                      List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
+                        
+                        foreach (var professor in await ListaProfessores)
+                        {
+                                ProfessorDetalhe profdet = new ProfessorDetalhe();
+
+                                //cpf/nomeprofessor//titulacao//regime
+                                profdet.CpfProfessor = professor.CpfProfessor.ToString();
+                                profdet.NomProfessor = professor.NomProfessor;
+                                profdet.titulacao = professor.Titulacao;
+                                
+                                if (regime.ContainsKey(profdet.CpfProfessor))
+                                {
+                                profdet.regime = regime[profdet.CpfProfessor.ToString()].Regime;
+                                }
+                                else
+                                {
+                                    profdet.regime = "CHZ/AFASTADO";
+                                 }
+                                
+                                
+                                profdet.dtAdmissao = (admissao.Find(x => x.cpfProfessor.ToString() == profdet.CpfProfessor) == null) ?
+                                                        Convert.ToDateTime("1900/01/01") :
+                                                        admissao.Where(x => x.cpfProfessor.ToString() == profdet.CpfProfessor)
+                                                        .Min(x => x.dtAdmissao);
+                                
+
+
+                                ListaProfessorDetalhe.Add(profdet);
+                        }
+
+                       
+                        
+                        return ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
+                                                                      , x.NomProfessor
+                                                                      ,x.titulacao
+                                                                      ,x.dtAdmissao
+                                                                      ,x.regime}).ToList();
+                        
+                }
+                catch (System.Exception ex)
+                {
+                    return null;
+                }
+        // Termino da pesquisa detalhe professor
+                      
+        }
+
+
     public class ProfessorGap
             {
                 public string Cpf { get; set; }
                 public double Ds { get; set; }
                 public double Fs { get; set; }
                 public string Target { get; set; }
-
+                
                 public double Complemento { get; set; }
 
             }
