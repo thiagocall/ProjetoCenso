@@ -24,42 +24,43 @@ namespace Censo.API.Resultados
                 for (int i = 1; i <= CT; i++)
                 {
                     //if (DFS >= 0.25 * CT)
-                    {
-                        Comple++;
-                        FS = FS + 1;
-                      }
-                    if (DS + FS >= CT && (FS >= 0.25 * (FS+DS) || FS >= 0.25 * 40))
+                      
+                    if (DS + FS >= CT && (FS >= 0.25 * (FS + DS) || FS >= 0.25 * 40))
                     {
                         break;
                     }
+
+                        // Alterado ordem para pré teste // Thiago Caldas
+                        Comple++;
+                        FS = FS + 1;
                 }
                 if (CT == FS + DS)
                     if (Comple == 0)
-                    { FS = 0; }
+                    { 
+                        FS = 0; 
+                    }
                 return Comple;
                 
             }
             else  /* integral */
             {
-                int Comple = 0
-                    ;
+                int Comple = 0;
                 int CT = 40;
                 double DFS = FS;
                 //double soma1 = FS + DS;
 
                 for (int i = 0; i <= CT; i++)
-                {
-                     
-                        {
-                            Comple++;
-                            FS = FS + 1;
-                            DFS = FS;
-                            
-                        }
+                {  
+                        
                         if (DS + FS >= CT && (DFS >= 20))
                         {
                             break;
                         }
+
+                        // Alterado ordem para pré teste // Thiago Caldas
+                        Comple++;
+                        FS = FS + 1;
+                        DFS = FS;
                  }
                  return Comple;
 
