@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfessorService } from '../_services/professor.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-calculadora-resultados',
@@ -8,7 +9,7 @@ import { ProfessorService } from '../_services/professor.service';
 })
 export class CalculadoraResultadosComponent implements OnInit {
 
-  constructor(private professorService: ProfessorService) { }
+  constructor(private professorService: ProfessorService , private route: ActivatedRoute) { }
   resultado: any;
   listaCampus: any;
   listaCursos: any;
@@ -17,6 +18,30 @@ export class CalculadoraResultadosComponent implements OnInit {
   professores: any;
   infoCurso: any;
   resultados: any;
+  cod:any;
+  codcurso: any;
+
+  notaContinua: any;
+
+
+
+  /* biding com tela da calculadora*/
+  // qtdDR: any;
+  // qtdDH: any;
+  // qtdMR: any;
+  // qtdMH: any;
+  // qtdER: any;
+  // qtdEH: any;
+  // qtd: any;
+  // nota_Doutor: any;
+  // nota_Mestre: any;
+  // nota_Regime: any;
+
+
+  dados = new dados();
+
+  calcula = new calcula();
+  calculaAnt = new calcula();
 
   ngOnInit() {
     this.professorService.getDados().subscribe(
@@ -62,20 +87,81 @@ export class CalculadoraResultadosComponent implements OnInit {
     //document.getElementById('doutorUm').value;
   }
 
-  getCalcularResultado() {
-    this.professorService.getCalculadoraResultado().subscribe(
+  CalcularResultado() {
+
+    this.dados._idEmec = this.codcurso;
+    this.dados._idResultado = this.route.snapshot.paramMap.get('id');
+    // console.log(this.dados);
+    this.professorService.postCalculadoraResultado(this.dados).subscribe(
       response => {
-        this.resultados = response;
+        this.calcula = Object.assign(response);
+        // this.resultados = response;
+        console.log(this.calcula);
       },
       error => {
         console.log(error);
       });
   }
 
+  Recalcula(valor:number){
+    console.log(this.calcula);
+    this.calculaAnt = Object.assign(this.calcula);
+    this.calcula.qtdDR = valor;
+    this.calculaNotaContinua();
+
+  }
 
 
+  calculaNotaContinua() {
+
+    let percDoutorAnt = (this.calculaAnt.qtdDH + this.calculaAnt.qtdDR) / this.calculaAnt.qtd;
+    let percDoutorNovo = (this.calcula.qtdDH + this.calcula.qtdDR) / this.calcula.qtd;
+    let notaDoutorNova = this.calculaAnt.nota_Doutor * percDoutorNovo / percDoutorAnt;
+
+    let percMestreAnt = (this.calculaAnt.qtdMH + this.calculaAnt.qtdMR + this.calculaAnt.qtdDH + this.calculaAnt.qtdDR) / this.calculaAnt.qtd;
+    let percMestreNovo = (this.calcula.qtdMH + this.calcula.qtdMR + this.calcula.qtdDH + this.calcula.qtdDR) / this.calcula.qtd;
+    let notaMestreNova = this.calculaAnt.nota_Mestre * percMestreNovo / percMestreAnt;
+
+    let percRegimeAnt = (this.calculaAnt.qtdMR + this.calculaAnt.qtdDR + this.calculaAnt.qtdER) / this.calculaAnt.qtd;
+    let percRegimeNovo = (this.calcula.qtdMR + this.calcula.qtdDR + this.calcula.qtdER) / this.calcula.qtd;
+    let notaRegimeNova = this.calculaAnt.nota_Regime * percRegimeNovo / percRegimeAnt;
+
+    //console.log(this.calculaAnt);
 
 
+    this.notaContinua = notaDoutorNova * 0.5 + notaMestreNova * 0.25 + notaRegimeNova * 0.25;
+
+  }
+
+  
 
 
 }
+
+class dados {
+  constructor() { }
+  _idEmec: number;
+  _idResultado: string;
+}
+
+class calcula {
+
+  constructor() {}
+
+  qtdDR: any;
+  qtdDH: any;
+  qtdMR: any;
+  qtdMH: any;
+  qtdER: any;
+  qtdEH: any;
+  qtd: any;
+  nota_Doutor: any;
+  nota_Mestre: any;
+  nota_Regime: any;
+
+}
+
+
+
+
+

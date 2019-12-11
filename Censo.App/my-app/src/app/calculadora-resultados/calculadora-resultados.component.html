@@ -36,13 +36,16 @@
     <div class="col-md-6">
       <div class="form" *ngIf="curso">
         <label for="curso"><b>Curso</b></label>
-        <select class="form-control ml-2" id="curso" [(ngModel)]="codcurso" (change)="getInfoCurso(codcurso)">
+        <select class="form-control ml-2" id="curso" [(ngModel)]="codcurso">
           <option *ngFor="let item of curso" [value]="item.codEmec">
             {{item.nomCursoCenso  + " - " + item.codEmec}}</option>
         </select>
       </div>
     </div>
   </div>
+
+
+  <button class="btn btn-primary" (click)="CalcularResultado()">Buscar </button>
   <!-- input campus e curso-->
 
 
@@ -77,28 +80,28 @@
                   <tr>
                     <td>Doutor</td>
                     <td>
-                      <input type="text" class="form-control" id="doutorUm">
+                      <input type="text" [value]="calcula?.qtdDR" class="form-control" id="doutorUm" (change)="Recalcula(calcula?.qtdDR)">
                     </td>
                     <td>
-                      <input type="text" class="form-control" id="doutorDois">
+                      <input type="text" class="form-control" id="doutorDois"   [(ngModel)]="calcula.qtdDH">
                     </td>
                   </tr>
                   <tr>
                     <td>Mestre</td>
                     <td>
-                      <input type="text" class="form-control" id="mestreUm">
+                      <input type="text" class="form-control" id="mestreUm"  [(ngModel)]="calcula.qtdMR">
                     </td>
                     <td>
-                      <input type="text" class="form-control" id="mestreDois">
+                      <input type="text" class="form-control" id="mestreDois"  [(ngModel)]="calcula.qtdMH">
                     </td>
                   </tr>
                   <tr>
                     <td>Especialista</td>
                     <td>
-                      <input type="text" class="form-control" id="especialistaUm">
+                      <input type="text" class="form-control" id="especialistaUm"  [(ngModel)]="calcula.qtdER">
                     </td>
                     <td>
-                      <input type="text" class="form-control" id="especialistaDois">
+                      <input type="text" class="form-control" id="especialistaDois"  [(ngModel)]="calcula.qtdEH">
                     </td>
                   </tr>
                 </tbody>
@@ -110,7 +113,7 @@
 
             <div class="col-sm-6">
               <div class="card-body">
-                <h5 class="card-title text-left">Nota Contínua : 8</h5>
+                <h5 class="card-title text-left">Nota Contínua : {{notaContinua}}</h5>
                 <h5 class="card-title text-left">Nota Faixa: 9</h5>
 
                 <!--Botão resetar-->

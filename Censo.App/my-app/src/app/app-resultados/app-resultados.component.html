@@ -52,7 +52,7 @@
                     <i id="i_{{item.id}}" class="fas fa-file-excel"></i>
                   </button>
                   <!--Botão calculadora-->
-                  <button type="button" class="btn btn-outline-info btn-sm" tooltip="Calculadora" [routerLink]="['/CalculadoraResultado']" routerLinkActive="router-link-active" >
+                  <button type="button" class="btn btn-outline-info btn-sm" tooltip="Calculadora" [routerLink]="['/CalculadoraResultado' , item.id]" routerLinkActive="router-link-active" >
                     <i class="fas fa-calculator"></i>
                   </button>
                   <!--Botão excluir-->

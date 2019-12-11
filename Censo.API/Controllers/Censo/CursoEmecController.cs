@@ -1017,7 +1017,10 @@ namespace Censo.API.Controllers.Censo
          [HttpPost("GetDadosCalculadora")]
         public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) {
     
-            var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
+
+    try
+    {
+        var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
             var professores = JsonConvert.DeserializeObject<IEnumerable<CursoProfessor>>(Strprof).ToList();
             var dados = professores.Find(x => x.CodEmec == _dados._idEmec);
             var QtdDR = dados.Professores.Where(x => x.Titulacao == "DOUTOR" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
@@ -1031,10 +1034,15 @@ namespace Censo.API.Controllers.Censo
             var Nota_Mestre = dados.Nota_Mestre;
             var Nota_Regime = dados.Nota_Regime;
 
-
-
              return Ok(new {QtdDR, QtdDH, QtdMR, QtdMH, QtdER, QtdEH, Qtd, 
                             Nota_Doutor, Nota_Mestre, Nota_Regime} );
+    }
+    catch (System.Exception ex)
+    {
+        
+        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+    }
+            
             // return Ok(dados);
 
 

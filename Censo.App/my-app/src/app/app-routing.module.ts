@@ -65,7 +65,7 @@ const routes: Routes = [
   {path: 'Resultados/Comparar', component: AppCompararComponent ,pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'Resultados/:id', component: DetalheResultadoComponent ,pathMatch: 'full',canActivate: [AuthGuard]},
   {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
-  {path: 'CalculadoraResultado',   component:  CalculadoraResultadosComponent,canActivate: [AuthGuard]}, 
+  {path: 'CalculadoraResultado/:id',   component:  CalculadoraResultadosComponent,canActivate: [AuthGuard]}, 
 
   /* ABA REGULATORIO */
   {path: 'Regulatorio', component: RegulatorioComponent ,canActivate: [AuthGuard]},
