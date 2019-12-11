@@ -5,16 +5,19 @@
       <label for="nomInstituicao"><b>Selecione a Instituição </b></label>
       <div class="input-group">
         <select #_codIes class="form-control" id="ies">
-          <option value="0" disabled>-- Selecione uma Instituição --</option>
+          <option value="-1" disabled>-- Selecione uma Instituição --</option>
+          <option value="0">Selecionar Todas</option>
           <option *ngFor="let item of ies" value="{{item.codIes}}">{{item.nomIes}}</option>
         </select>
         <div class="input-group-append ">
-          <button class="btn btn-outline-primary" (click)="buscaId(_codIes.value)">Buscar</button>
+          <button class="btn btn-outline-primary" (click)="buscaId(_codIes.value)">Buscar
+            
+          </button>
         </div>
         
         <div class="input-group-append ">
         <button class="btn btn-sm btn-outline-success " (click)="exportarResultadoExcel(_codIes.value)" *ngIf="_codIes.value">
-            <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
+            <i class="fas fa-file-excel fa-1x"></i> Exportar <i *ngIf="mostrarExcel" class="text-center" class ="fas fa-spinner fa-pulse"></i></button>
           </div>
           
       </div>
@@ -40,6 +43,15 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="mostrarBusca" class="text-center">
+              <td colspan="8">
+              <div class="contanier content-center">
+              <i class ="fas fa-spinner fa-5x fa-pulse"></i>
+              </div>
+              </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="resultadoId && resultadoId?.length">
           <tr *ngFor="let item of resultadoId | paginate: { itemsPerPage: 8, currentPage: p }">
             <td>{{item?.numMatricula}}</td>
             <td>{{item?.nomProfessor}}</td>

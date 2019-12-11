@@ -101,9 +101,13 @@ namespace Censo.API.Controllers
             try
             {
 
-                var results = Professores.getProfessoresIES(Context).Where(p => p.CodInstituicao == id).ToList();
+                 List<ProfessorIes> results;
 
-                    //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
+            if (id != 0) {
+                results = await Professores.getProfessoresIES(Context).Where(p => p.CodInstituicao == id).ToListAsync();
+            } else {
+                results = await Professores.getProfessoresIES(Context).ToListAsync();
+            }
 
                 var dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
 
@@ -209,10 +213,16 @@ namespace Censo.API.Controllers
         // INICIO PROFESSOR IES
        
        [HttpGet("BuscaIes/{id}")]
-        public ActionResult<List<ProfessorIes>> BuscaIes(long? id)
+        public async Task<IActionResult> BuscaIes(long? id)
         {
 
-            var results = Professores.getProfessoresIES(Context).Where(p => p.CodInstituicao == id).ToList();
+            List<ProfessorIes> results;
+
+            if (id != 0) {
+                results = await Professores.getProfessoresIES(this.Context).Where(p => p.CodInstituicao == id).ToListAsync();
+            } else {
+                results = await Professores.getProfessoresIES(this.Context).ToListAsync();
+            }
 
             //var results = regContext.ProfessorRegime.Where(p => p.NumMatricula == id).ToList();
 
@@ -222,7 +232,7 @@ namespace Censo.API.Controllers
                 {
                     if (dic.ContainsKey(item.CpfProfessor.ToString()))
                             {
-                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
+                                item.regime = item.regime = dic.TryGetValue(item.CpfProfessor.ToString(), out var db) ? db.Regime : "";;
                             }
                 }
         

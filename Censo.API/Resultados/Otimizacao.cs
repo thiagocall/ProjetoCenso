@@ -117,8 +117,6 @@ namespace Censo.API.Resultados
                                              ));
                             
                         };
-
-
                     
 
                          // ######################## Alavanca Excluído Ofensor ######################## //

@@ -24,7 +24,7 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
       response => {
         this.input = response;
         this.codigoCampus = this.input;
-        console.log(this.codigoCampus);
+        // console.log(this.codigoCampus);
       },   
       error => {
         console.log(error);
@@ -36,6 +36,16 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
       this.regulatorioService.getResultadoProfessorForaSede(codCampus).subscribe(
         response => {
           this.resultadoCodCampus = response;
+          console.log(response);
+          this.resultadoCodCampus.sort((a, b) => {
+            if (a.nomProfessor > b.nomProfessor) {
+              return 1;
+            }
+            if (a.nomProfessor < b.nomProfessor) {
+              return -1;
+            }
+            return 0;
+          });
         },
         error => {
           console.log(error);

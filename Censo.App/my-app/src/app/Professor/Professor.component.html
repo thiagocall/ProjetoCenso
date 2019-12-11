@@ -8,7 +8,7 @@
         <div class="card-body text-center" style="background-color:white;">
           <h4 class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
-            {{professores.qtdProfessores}}
+            {{professores?.qtdProfessores}}
           </h4>
           <small id="cardtail">Quantidade professores ativos</small>
         </div>
@@ -25,7 +25,7 @@
         <div class="card-body text-center" style="background-color:white">
           <h4 id="ctest" class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
-            {{professores.qtdDoutor}}
+            {{professores?.qtdDoutor}}
           </h4>
           <small id="cardtail">Professores titulados doutores </small>
         </div>
@@ -42,7 +42,7 @@
         <div class="card-body text-center" style="background-color:white">
           <h4 id="ctest" class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
-            {{professores.qtdMestre}}
+            {{professores?.qtdMestre}}
           </h4>
           <small id="cardtail">Professores titulados mestres</small>
         </div>
@@ -60,7 +60,7 @@
         <div class="card-body text-center" style="background-color:white">
           <h4 class="card-text" style="color: #040972">
             <i *ngIf="!professores" class="fas fa-spinner fa-pulse"></i>
-            {{professores.qtdEspecialista}}
+            {{professores?.qtdEspecialista}}
           </h4>
           <small id="cardtail">Professores com especialização</small>
         </div>
