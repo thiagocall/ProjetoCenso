@@ -1,0 +1,134 @@
+<div class="container">
+  <div class=" p-4">
+  </div>
+
+  <!-- titulo-->
+  <div class="row container">
+    <div class="form-group col-md-8">
+      <div class="input-group">
+        <h2 class="font-weight-light">Calculadora</h2>
+      </div>
+    </div>
+    <!-- botao voltar-->
+    <div class="col-md-1 offset-1">
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary"
+        style="padding-left: 20px;  padding-right: 20px;"> Voltar</button>
+    </div>
+  </div>
+
+  <!-- input campus e curso-->
+  <div class="row mt-2">
+    <div class="col-md-4">
+      <div class="form">
+        <div *ngIf="!listaCampus" class="container text-center mt-5">
+          <i class="fas fa-spinner fa-pulse fa-2x"></i>
+        </div>
+        <div *ngIf="listaCampus">
+          <label for="campus"><b>Campus</b></label>
+          <select class="form-control ml-4" id="campus" [(ngModel)]="cod" (change)="getCampus(cod)">
+            <option *ngFor="let item of listaCampus" [value]="item.codCampus">
+              {{item.nomCampus + " - " + item.codCampus}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form" *ngIf="curso">
+        <label for="curso"><b>Curso</b></label>
+        <select class="form-control ml-2" id="curso" [(ngModel)]="codcurso" (change)="getInfoCurso(codcurso)">
+          <option *ngFor="let item of curso" [value]="item.codEmec">
+            {{item.nomCursoCenso  + " - " + item.codEmec}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <!-- input campus e curso-->
+
+
+
+
+  <!-- card calculadora-->
+  <div class="card w-65 card-move ">
+    <div class="card-body">
+
+      <!-- conteudo do card-->
+      <div class="row mt-2">
+        <div class="ml-3">
+
+          <!-- divisao tela-->
+          <div class="row">
+            <div class="col-sm-6">
+              <!-- divisao tela-->
+
+              <!-- titulo tabela-->
+
+
+              <!-- inicio tabela-->
+              <table class=" table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Regime</th>
+                    <th scope="col">Horista</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Doutor</td>
+                    <td>
+                      <input type="text" class="form-control" id="doutorUm">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="doutorDois">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Mestre</td>
+                    <td>
+                      <input type="text" class="form-control" id="mestreUm">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="mestreDois">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Especialista</td>
+                    <td>
+                      <input type="text" class="form-control" id="especialistaUm">
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" id="especialistaDois">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+
+              <!-- divisao tela-->
+            </div>
+
+            <div class="col-sm-6">
+              <div class="card-body">
+                <h5 class="card-title text-left">Nota Contínua : 8</h5>
+                <h5 class="card-title text-left">Nota Faixa: 9</h5>
+
+                <!--Botão resetar-->
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-outline-primary btn-sm" (click)="resetar()">
+                    Resetar Calculadora
+                  </button>
+                </div>
+                <!--Botão resetar-->
+              </div>
+            </div>
+
+            <!-- fim tabela-->
+          </div>
+          <!-- fim do conteudo do card-->
+        </div>
+      </div>
+      <!-- fim do conteudo do card-->
+    </div>
+  </div>
+</div>

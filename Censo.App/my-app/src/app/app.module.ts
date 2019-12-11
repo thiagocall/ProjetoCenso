@@ -11,6 +11,11 @@ import { AccordionModule } from 'ngx-bootstrap';
 
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
+/*teste*/
+import { TesteGraficoComponent } from './teste/teste-grafico/teste-grafico.component';
+import { TesteTelaComponent } from "./teste/teste-tela/teste-tela.component";
+/*fim teste */ 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { InicioComponent } from './nav/nav.component';
@@ -25,7 +30,6 @@ import { AppFooterComponent } from './app-footer/app-footer.component';
 import { AppComposicaoComponent } from './app-composicao/app-composicao.component';
 import { AppResultadosComponent } from './app-resultados/app-resultados.component';
 import { DetalheResultadoComponent } from './detalhe-resultado/detalhe-resultado.component';
-import { TesteGraficoComponent } from './teste-grafico/teste-grafico.component';
 import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
@@ -39,11 +43,14 @@ import { RegulatorioProfessorForaSedeComponent } from './regulatorio-professor-f
 import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-horaria/regulatorio-gap-carga-horaria.component';
 import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulatorio-termo-ti-tp.component';
 import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
+import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
 
 @NgModule({
    declarations: [
       AppComponent,
-      InicioComponent,
+      TesteGraficoComponent,
+      /*teste*/TesteTelaComponent,
+      /*teste*/InicioComponent,
       ProfessorComponent,
       ProfessorConsultaComponent,
       AppCensoComponent,
@@ -55,7 +62,6 @@ import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar
       AppComposicaoComponent,
       AppResultadosComponent,
       DetalheResultadoComponent,
-      TesteGraficoComponent,
       UserComponent,
       LoginComponent,
       RegistrationComponent,
@@ -67,9 +73,9 @@ import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar
       RegulatorioProfessorForaSedeComponent,
       RegulatorioGapCargaHorariaComponent,
       RegulatorioTermoTiTpComponent,
-      AppCompararComponent
+      AppCompararComponent,
+      CalculadoraResultadosComponent
    ],
-
    imports: [
       BrowserModule,
       AppRoutingModule,
@@ -82,7 +88,7 @@ import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
       AccordionModule.forRoot(),
-      NgxPaginationModule,
+      NgxPaginationModule
    ],
    providers: [],
    bootstrap: [

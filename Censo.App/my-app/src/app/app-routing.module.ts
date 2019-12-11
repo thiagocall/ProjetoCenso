@@ -1,6 +1,13 @@
+
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
+
+/*teste*/
+import { TesteGraficoComponent } from './teste/teste-grafico/teste-grafico.component';
+import { TesteTelaComponent } from './teste/teste-tela/teste-tela.component';
+/* fim teste */
+
 import { ProfessorComponent } from './Professor/Professor.component';
 import { ProfessorConsultaComponent } from './professor-consulta/professor-consulta.component';
 import { AppCensoComponent } from './app-censo/app-censo.component';
@@ -24,6 +31,8 @@ import { RegulatorioProfessorForaSedeComponent } from './regulatorio-professor-f
 import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-horaria/regulatorio-gap-carga-horaria.component';
 import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulatorio-termo-ti-tp.component';
 import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
+import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
+
 
 
 const routes: Routes = [
@@ -38,6 +47,11 @@ const routes: Routes = [
 
   {path: 'Professor', component: ProfessorComponent , canActivate: [AuthGuard]},
 
+  /* TESTE */
+  {path: 'TesteGrafico', component: TesteGraficoComponent  ,canActivate: [AuthGuard]},
+  {path: 'TelaTeste', component: TesteTelaComponent  ,canActivate: [AuthGuard]},
+
+
   /* ABA CONSULTA*/
   {path: 'ProfessorConsulta', component: ProfessorConsultaComponent  ,canActivate: [AuthGuard]},
   {path: 'ProfessorConsultaDetalhe/:id', component: ProfessorConsultaDetalheComponent ,canActivate: [AuthGuard]},
@@ -50,7 +64,8 @@ const routes: Routes = [
   {path: 'ComposicaoProfessor', component: AppComposicaoComponent  ,canActivate: [AuthGuard]},
   {path: 'Resultados/Comparar', component: AppCompararComponent ,pathMatch: 'full', canActivate: [AuthGuard]},
   {path: 'Resultados/:id', component: DetalheResultadoComponent ,pathMatch: 'full',canActivate: [AuthGuard]},
-  {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]}, 
+  {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
+  {path: 'CalculadoraResultado',   component:  CalculadoraResultadosComponent,canActivate: [AuthGuard]}, 
 
   /* ABA REGULATORIO */
   {path: 'Regulatorio', component: RegulatorioComponent ,canActivate: [AuthGuard]},

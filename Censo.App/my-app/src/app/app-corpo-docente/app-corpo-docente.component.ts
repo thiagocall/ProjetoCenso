@@ -104,4 +104,5 @@ export class AppCorpoDocenteComponent implements OnInit {
   onChangePage(pageOfItems: Array<any>) {
     this.pageOfItems = pageOfItems;
   }
+  
 }

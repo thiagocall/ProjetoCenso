@@ -47,5 +47,13 @@ getProfessorExcel() {
   return this.http.get(this.baseUrl + 'Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
 }
 
+getCalculadoraResultado(){
+const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
+}
+
+
+
+
 
 }

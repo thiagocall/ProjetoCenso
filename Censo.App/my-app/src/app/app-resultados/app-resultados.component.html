@@ -46,9 +46,14 @@
                     onclick="ToggleDetalhe(this)" tooltip="Detalhes">
                     <i id="i_{{item.id}}" class="fas fa-plus"></i>
                   </button>
+                  <!--Botão Download -->
                   <button type="button" id="{{item.id}}" class="btn btn-outline-success btn-sm"
                     (click)="exportarResultadoExcel(item.id)" tooltip="Download">
                     <i id="i_{{item.id}}" class="fas fa-file-excel"></i>
+                  </button>
+                  <!--Botão calculadora-->
+                  <button type="button" class="btn btn-outline-info btn-sm" tooltip="Calculadora" [routerLink]="['/CalculadoraResultado']" routerLinkActive="router-link-active" >
+                    <i class="fas fa-calculator"></i>
                   </button>
                   <!--Botão excluir-->
                   <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Excluir"
