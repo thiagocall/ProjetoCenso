@@ -364,7 +364,7 @@ namespace Censo.API.Controllers
         }
 
         // nova pesquisa detalhe professor
-
+        [AllowAnonymous]
         [HttpGet("BuscaDetalhe/{id}")]
         public async Task<IActionResult> BuscaDetalhe(string id)
         {

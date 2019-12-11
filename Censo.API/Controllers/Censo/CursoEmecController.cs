@@ -123,7 +123,7 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-
+        [AllowAnonymous]
         [HttpGet("ObterResultados")]
         public async Task<IActionResult> obterResultados()
         {
@@ -165,6 +165,7 @@ namespace Censo.API.Controllers.Censo
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet("obterInfoCurso/{codCurso}")]
         public async Task<IActionResult> getDadosCursoEmec(long codCurso)
         {
@@ -236,7 +237,7 @@ namespace Censo.API.Controllers.Censo
         }
 
 
-        
+        [AllowAnonymous]
         [HttpGet("Resultado/Excel/{id}")]
         public async Task<IActionResult> ExportaResultado(long id) {
 
@@ -1005,9 +1006,6 @@ namespace Censo.API.Controllers.Censo
             }
 
         }
-
-
-
         // PUT api/values/5
         // [HttpPut("{id}")]
         // public void Put(int id, [FromBody] string value)
@@ -1016,8 +1014,42 @@ namespace Censo.API.Controllers.Censo
 
 
         #endregion
+         [HttpPost("GetDadosCalculadora")]
+        public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) {
+    
+            var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
+            var professores = JsonConvert.DeserializeObject<IEnumerable<CursoProfessor>>(Strprof).ToList();
+            var dados = professores.Find(x => x.CodEmec == _dados._idEmec);
+            var QtdDR = dados.Professores.Where(x => x.Titulacao == "DOUTOR" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
+            var QtdDH = dados.Professores.Where(x => x.Titulacao == "DOUTOR" && !(x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
+            var QtdMR = dados.Professores.Where(x => x.Titulacao == "MESTRE" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
+            var QtdMH = dados.Professores.Where(x => x.Titulacao == "MESTRE" && !(x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
+            var QtdER = dados.Professores.Where(x => x.Titulacao == "ESPECIALISTA" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
+            var QtdEH = dados.Professores.Where(x => x.Titulacao == "ESPECIALISTA" && !(x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
+            var Qtd = dados.Professores.Count();
+            var Nota_Doutor = dados.Nota_Doutor;
+            var Nota_Mestre = dados.Nota_Mestre;
+            var Nota_Regime = dados.Nota_Regime;
+
+
+
+             return Ok(new {QtdDR, QtdDH, QtdMR, QtdMH, QtdER, QtdEH, Qtd, 
+                            Nota_Doutor, Nota_Mestre, Nota_Regime} );
+            // return Ok(dados);
+
+
+        }
+        
 
     }
+
+    public class dados{
+    
+        public int _idEmec { get; set; }
+        public long _idResultado { get; set; }
+
+}
+
 
     public class ProfessorComparer : IEqualityComparer<ProfessorCursoEmec>
     {
@@ -1037,6 +1069,7 @@ namespace Censo.API.Controllers.Censo
         {
             return obj.CpfProfessor.GetHashCode();
         }
+
     }
 
 
