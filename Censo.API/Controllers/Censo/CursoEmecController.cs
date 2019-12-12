@@ -1023,6 +1023,7 @@ namespace Censo.API.Controllers.Censo
         var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
             var professores = JsonConvert.DeserializeObject<IEnumerable<CursoProfessor>>(Strprof).ToList();
             var dados = professores.Find(x => x.CodEmec == _dados._idEmec);
+            var area = professores.Find(x => x.CodEmec == _dados._idEmec).CodArea;
             var QtdDR = dados.Professores.Where(x => x.Titulacao == "DOUTOR" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
             var QtdDH = dados.Professores.Where(x => x.Titulacao == "DOUTOR" && !(x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
             var QtdMR = dados.Professores.Where(x => x.Titulacao == "MESTRE" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
@@ -1034,8 +1035,10 @@ namespace Censo.API.Controllers.Censo
             var Nota_Mestre = dados.Nota_Mestre;
             var Nota_Regime = dados.Nota_Regime;
 
+            var ListaPrevisaoSKU = GeraListaPrevisaoSKU().Where(x => x.Value.CodArea == area).First().Value;
+
              return Ok(new {QtdDR, QtdDH, QtdMR, QtdMH, QtdER, QtdEH, Qtd, 
-                            Nota_Doutor, Nota_Mestre, Nota_Regime} );
+                            Nota_Doutor, Nota_Mestre, Nota_Regime, ListaPrevisaoSKU} );
     }
     catch (System.Exception ex)
     {

@@ -10,14 +10,14 @@
       </div>
     </div>
     <!-- botao voltar-->
-    <div class="col-md-1 offset-1">
+    <div class="col-md-1 offset-2">
       <button [routerLink]="['/Resultados']" class="btn btn-outline-primary"
         style="padding-left: 20px;  padding-right: 20px;"> Voltar</button>
     </div>
   </div>
 
-  <!-- input campus e curso-->
-  <div class="row mt-2">
+
+  <div class="d-flex align-items-start">
     <div class="col-md-4">
       <div class="form">
         <div *ngIf="!listaCampus" class="container text-center mt-5">
@@ -42,18 +42,16 @@
         </select>
       </div>
     </div>
+    <div class="form" *ngIf="curso" style="margin-top: 30px;">
+      <button class="btn btn-primary" (click)="CalcularResultado()">Buscar </button>
+    </div>
   </div>
 
-
-  <button class="btn btn-primary" (click)="CalcularResultado()">Buscar </button>
   <!-- input campus e curso-->
 
-
-
-
   <!-- card calculadora-->
-  <div class="card w-65 card-move ">
-    <div class="card-body">
+  <div class="card w-65 card-move">
+    <div class="card-body" *ngIf="calcula">
 
       <!-- conteudo do card-->
       <div class="row mt-2">
@@ -64,9 +62,6 @@
             <div class="col-sm-6">
               <!-- divisao tela-->
 
-              <!-- titulo tabela-->
-
-
               <!-- inicio tabela-->
               <table class=" table">
                 <thead>
@@ -76,45 +71,49 @@
                     <th scope="col">Horista</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody *ngIf="calcula">
                   <tr>
                     <td>Doutor</td>
                     <td>
-                      <input type="text" [value]="calcula?.qtdDR" class="form-control" id="doutorUm" (change)="Recalcula(calcula?.qtdDR)">
+                      <input type="text" #DR [value]="calcula?.qtdDR" class="form-control" id="doutorUm"
+                        (change)="Recalcula(DR.value, 'DR')">
                     </td>
                     <td>
-                      <input type="text" class="form-control" id="doutorDois"   [(ngModel)]="calcula.qtdDH">
+                      <input type="text" #DH [value]="calcula?.qtdDH" class="form-control" id="doutorDois"
+                        (change)="Recalcula(DH.value, 'DH')">
                     </td>
                   </tr>
                   <tr>
                     <td>Mestre</td>
                     <td>
-                      <input type="text" class="form-control" id="mestreUm"  [(ngModel)]="calcula.qtdMR">
+                      <input type="text" #MR [value]="calcula?.qtdMR" class="form-control" id="mestreUm"
+                        (change)="Recalcula(MR.value, 'MR')">
                     </td>
                     <td>
-                      <input type="text" class="form-control" id="mestreDois"  [(ngModel)]="calcula.qtdMH">
+                      <input type="text" #MH [value]="calcula?.qtdMH" class="form-control" id="mestreDois"
+                        (change)="Recalcula(MH.value, 'MH')">
                     </td>
                   </tr>
                   <tr>
                     <td>Especialista</td>
                     <td>
-                      <input type="text" class="form-control" id="especialistaUm"  [(ngModel)]="calcula.qtdER">
+                      <input type="text" #ER [value]="calcula?.qtdER" class="form-control" id="especialistaUm"
+                        (change)="Recalcula(ER.value, 'ER')">
                     </td>
                     <td>
-                      <input type="text" class="form-control" id="especialistaDois"  [(ngModel)]="calcula.qtdEH">
+                      <input type="text" #EH [value]="calcula?.qtdEH" class="form-control" id="especialistaDois"
+                        (change)="Recalcula(EH.value, 'EH')">
                     </td>
                   </tr>
                 </tbody>
               </table>
-
-
               <!-- divisao tela-->
             </div>
 
             <div class="col-sm-6">
               <div class="card-body">
-                <h5 class="card-title text-left">Nota Contínua : {{notaContinua}}</h5>
-                <h5 class="card-title text-left">Nota Faixa: 9</h5>
+                <h5 class="card-title text-left">Nota Contínua : {{notaContinua | number: '1.0-3'}}</h5>
+                <h5 class="card-title text-left">Nota Faixa: {{notaFaixa | number: '1.0-3'}}</h5>
 
                 <!--Botão resetar-->
                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -127,6 +126,7 @@
             </div>
 
             <!-- fim tabela-->
+
           </div>
           <!-- fim do conteudo do card-->
         </div>
