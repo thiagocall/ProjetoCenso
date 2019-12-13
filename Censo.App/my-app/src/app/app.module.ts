@@ -7,6 +7,7 @@ import { ModalModule, TooltipModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'ngx-bootstrap';
+import { ExportAsModule } from 'ngx-export-as';
 
 
 // import {JwPaginationComponent} from 'jw-angular-pagination';
@@ -44,6 +45,7 @@ import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-hor
 import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulatorio-termo-ti-tp.component';
 import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
 import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
+import { QuadroDoceComponent } from './quadro-doce/quadro-doce.component';
 
 @NgModule({
    declarations: [
@@ -74,7 +76,8 @@ import { CalculadoraResultadosComponent } from './calculadora-resultados/calcula
       RegulatorioGapCargaHorariaComponent,
       RegulatorioTermoTiTpComponent,
       AppCompararComponent,
-      CalculadoraResultadosComponent
+      CalculadoraResultadosComponent,
+      QuadroDoceComponent
    ],
    imports: [
       BrowserModule,
@@ -88,7 +91,8 @@ import { CalculadoraResultadosComponent } from './calculadora-resultados/calcula
       BrowserAnimationsModule,
       ToastrModule.forRoot(),
       AccordionModule.forRoot(),
-      NgxPaginationModule
+      NgxPaginationModule,
+      ExportAsModule
    ],
    providers: [],
    bootstrap: [

@@ -32,6 +32,7 @@ import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-hor
 import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulatorio-termo-ti-tp.component';
 import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
 import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
+import { QuadroDoceComponent } from './quadro-doce/quadro-doce.component';
 
 
 
@@ -50,6 +51,8 @@ const routes: Routes = [
   /* TESTE */
   {path: 'TesteGrafico', component: TesteGraficoComponent  ,canActivate: [AuthGuard]},
   {path: 'TelaTeste', component: TesteTelaComponent  ,canActivate: [AuthGuard]},
+  {path: 'MQD', component: QuadroDoceComponent  ,canActivate: [AuthGuard]},
+  
 
 
   /* ABA CONSULTA*/
