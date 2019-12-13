@@ -17,6 +17,7 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   resultado:any;
   p: any;
   errodados = false;
+  selecione: any;
 
   
   ngOnInit() {
@@ -68,7 +69,9 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
 
 
 
-
+  exportarResultadoExcel(){
+    
+  }
 
 
 

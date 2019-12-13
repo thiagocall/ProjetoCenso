@@ -14,6 +14,7 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
   ies: any;
   codigoCampus: any;
   resultadoCodCampus: any;
+  p: any;
  
   ngOnInit() {
     this.inputCampus();
