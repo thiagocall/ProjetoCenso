@@ -548,7 +548,7 @@ namespace Censo.API.Controllers
                                 else
                                 {
                                     professordetalhe.regime = "CHZ/AFASTADO";
-                                 }
+                                }
                                 //inicio
                                 
                                 //if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
@@ -585,13 +585,11 @@ namespace Censo.API.Controllers
         }
         /* termino da busca dos professores */
 
-        /* busca todos os professores  */
+        /* busca todos os professores no detalhe */
         //[AllowAnonymous]
         //[HttpGet("MostraProfessor")]
-        //public async Task<IActionResult> MostraProfessor()
         public async Task<IEnumerable<dynamic>> BuscaDataAdmissao(List<string> _listaProf)
         {
-            
                 try
                 {
                     
