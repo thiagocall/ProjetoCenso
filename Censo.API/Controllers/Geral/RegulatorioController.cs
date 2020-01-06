@@ -605,7 +605,7 @@ namespace Censo.API.Controllers
                                                               .ToDictionary(x => x.CpfProfessor);
                       //var ListaRegime = regime.Keys.ToList();
                      var admissao = MatriculaContext.ProfessorMatricula
-                                                                                .Where(x => _listaProf
+                                                                        .Where(x => _listaProf
                                                                                    .Contains(x.cpfProfessor.ToString()))
                                                                        .ToList();
 

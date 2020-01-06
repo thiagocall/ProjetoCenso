@@ -442,8 +442,103 @@ namespace Censo.API.Controllers
                       
         }
 
+        /* inicio MQD */
+
+        [AllowAnonymous]
+        [HttpGet("PesquisaCPFDOCENTE")]
+        public async Task<IActionResult> PesquisaProfessor()
+        {
+                 List<ProfessorMatricula> matricula;
+                 Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+                 //Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+                 var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+
+                try
+                {
+                    
+                      // pegar os contextos professor e regime
+                      var ListaProfessores = Professores.getProfessores(context).ToListAsync();
+
+                      var regime  = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
+                      //var ListaRegime = regime.Keys.ToList();
+                      List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
+
+                      // buscar admissao no contexto matricula
+ 
+                    Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                       Dictionary<string, DateTime> ListaAdmissao1 = new Dictionary<string, DateTime>();
+                      //dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+
+                    Task.WaitAll(task1);
+
+                    matricula = await mat;
+
+                      
+                     // var matricula = MatriculaContext.ProfessorMatricula.ToDictionary(x => Convert.ToInt64(x.cpfProfessor));
+                      
+                      //List<ProfessorMatricula> matricula = new List<ProfessorMatricula>();
+                        
+                        foreach (var professor in await ListaProfessores)
+                        {
+                                ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
+
+                                //cpf/nomeprofessor//titulacao//regime
+                                professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
+                                professordetalhe.NomProfessor = professor.NomProfessor;
+                                professordetalhe.titulacao = professor.Titulacao;
+                                
+                                if (regime.ContainsKey(professordetalhe.CpfProfessor))
+                                {
+                                professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                                }
+                                else
+                                {
+                                    professordetalhe.regime = "CHZ/AFASTADO";
+                                }
+                                //inicio
+                                
+                                //if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
+                                
+                                if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
+                                {
+                                    //professordetalhe.dtAdmissao = matricula[professordetalhe.CpfProfessor].dtAdmissao;
+                                    
+                                    DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == professor.CpfProfessor).Min(d => d.dtAdmissao);
+                                    
+                                    professor.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
+
+                                }
+                                
+                                
+                                // termino
+
+                                ListaProfessorDetalhe.Add(professordetalhe);
+                        }
+                        
+                        return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
+                                                                       , x.NomProfessor}));
+                                                                       /*
+                                                                      , x.dtAdmissao
+                                                                       , x.titulacao
+                                                                      , x.regime}));
+                                                                      */
+                        
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+                // Termino da pesquisa detalhe professor
+                      
+        }
+        /* termino da busca dos professores */
 
 
+        /* termino MQD */
 
 
         public async Task<dynamic> getProfessores() {
