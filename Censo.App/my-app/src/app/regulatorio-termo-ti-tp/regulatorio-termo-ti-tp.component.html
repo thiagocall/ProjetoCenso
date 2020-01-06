@@ -1,3 +1,173 @@
-<p>
-  regulatorio-termo-ti-tp works!
-</p>
+<div class="container m-5">
+  <h5>MQD 2 – Movimentação de Quadro Docente – Atividades Fora de Sala de Aula</h5>
+</div>
+
+<div id="pdf_View">
+<table class="table table-bordered container">
+  <thead>
+    <tr>
+      <td colspan="5">MQD 2 – Movimentação de Quadro Docente – Atividades Fora de Sala de Aula</td>
+    </tr>
+  </thead>
+  <tbody>
+
+    <!-- part 1 -->
+    <tr style="background-color: #E8E8E8;">
+      <th>Nome do Docente</th>
+      <th>Matrícula(s)</th>
+      <th>Data de Admissão </th>
+      <th>Última Avaliação</th>
+      <th>E-mail </th>
+    </tr>
+    <tr>
+      <td>
+        <select class="form-control">
+          <option value="-1" disabled>-- Selecione --</option>
+          <option value="1">A</option>
+          <option value="2">B</option>
+        </select>
+      </td>
+      <td>B</td>
+      <td>C</td>
+      <td>D</td>
+      <td>E</td>
+    </tr>
+    <!-- fim part 1 -->
+
+    <!-- part 2 -->
+    <tr style="background-color: #E8E8E8;">
+      <th colspan="2">Qualificação Acadêmica</th>
+      <th>Telefone residencial</th>
+      <th>Telefone celular </th>
+      <th>Carga Horária Atual em Sala </th>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <select class="form-control">
+          <option value="-1" disabled>-- Selecione uma Qualificação --</option>
+          <option value="1">Graduação</option>
+          <option value="2">Especialização</option>
+          <option value="2">Mestrado</option>
+          <option value="2">Doutorado</option>
+          <option value="2">Outros</option>
+        </select>
+      </td>
+      <td> <input type="text" class="form-control" placeholder="0000-0000"> </td>
+      <td> <input type="text" class="form-control" placeholder="0000-0000"> </td>
+      <td> <input type="text" class="form-control" placeholder="48h H/Sem"> </td>
+    </tr>
+    <!-- fim part 2 -->
+
+    <!-- part 3 -->
+    <tr style="background-color: #D3D3D3;">
+      <th colspan="5">Situação Proposta na Instituição (Selecionar a opção TI ou TP e informe no quadro ao lado a
+        C/Hor/Sem em sala de aula e fora de sala de aula)</th>
+    </tr>
+    <tr style="background-color: #E8E8E8;">
+      <th colspan="2">TI/TP</th>
+      <th colspan="2">Carga Semanal em Sala</th>
+      <th colspan="1">Carga Semanal Fora de Sala</th>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <select class="form-control">
+          <option value="-1" disabled>-- Selecione uma Qualificação --</option>
+          <option value="1">Professor Tempo Integral</option>
+          <option value="2">Professor Tempo Parcial</option>
+        </select>
+      </td>
+      <td colspan="2"> <input type="text" class="form-control" placeholder="0000-0000"> </td>
+      <td> <input type="text" class="form-control" placeholder="48h H/Sem"> </td>
+    </tr>
+    <!-- fim part 3 -->
+
+    <!-- part 4 -->
+    <tr style="background-color: #D3D3D3;">
+      <th colspan="5">Atividades Fora de Sala (Informar o nome da(s) Atividade(s) conforme legenda, preencher ao lado as
+        informações complementares e indicar se é Inclusão ou Retirada)</th>
+    </tr>
+    <!-- fim part 4 -->
+  </tbody>
+</table>
+
+<!-- part 5 -->
+<table class="table table-sm container">
+  <tbody>
+    <tr>
+      <td>Atividades</td>
+      <td>Campus</td>
+      <td>Curso</td>
+      <td>C/Hor/Sem</td>
+      <td>Período</td>
+      <td>Incluir/Retirar</td>
+      <td>De Acordo Ger. Acadêmico Núcleo</td>
+      <td>De Acordo Coordenador de Área</td>
+    </tr>
+    <tr>
+      <td><input type="text" class="form-control"> </td>
+      <td><input type="text" class="form-control"> </td>
+      <td><input type="text" class="form-control"> </td>
+      <td><input type="text" class="form-control"> </td>
+      <td><input class="form-control" placeholder="dd/mm/aaaa" bsDatepicker placement="top"></td>
+      <td><input type="text" class="form-control"> </td>
+      <td><input type="text" class="form-control"> </td>
+      <td><input type="text" class="form-control"> </td>
+    </tr>
+    <!-- fim part 5-->
+
+    <!-- part 6 -->
+    <tr style="background-color: #D3D3D3;">
+      <th colspan="8">Substituição?</th>
+    </tr>
+
+    <tr>
+      <td colspan="8">
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" value="option1">
+          <label class="form-check-label" for="inlineCheckbox1">Sim</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" value="option2">
+          <label class="form-check-label" for="inlineCheckbox2">Não</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+          <div>Se afirmativo, preencher a(s) MQD(s) para retirada do(s) professor(es) substituído(s)</div>
+        </div>
+
+      </td>
+    </tr>
+    <!-- fim part 6 -->
+
+    <!-- part 7 -->
+    <tr>
+      <td colspan="6">Observações Gerais:</td>
+      <td colspan="2">Aprovação da Pró-Reitoria de Graduação</td>
+    </tr>
+
+    <tr>
+      <td colspan="6"><textarea class="form-control" rows="4"></textarea></td>
+      <td colspan="2">
+        <div class="text-left">
+          ____/____/____
+        </div>
+
+        <br>
+        _______________________________________________________________________ <p></p>
+        _______________________________________________________________________
+      </td>
+    </tr>
+
+    <!-- fim part 7 -->
+
+  </tbody>
+</table>
+</div>
+
+
+<div class="container">
+  <button class="btn btn-primary" (click)="export('MQD 2')"><i class="fas fa-file-pdf"></i> PDF</button>
+</div>
+

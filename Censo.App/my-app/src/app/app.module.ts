@@ -46,6 +46,7 @@ import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulat
 import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
 import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
 import { QuadroDoceComponent } from './quadro-doce/quadro-doce.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @NgModule({
    declarations: [
@@ -92,7 +93,8 @@ import { QuadroDoceComponent } from './quadro-doce/quadro-doce.component';
       ToastrModule.forRoot(),
       AccordionModule.forRoot(),
       NgxPaginationModule,
-      ExportAsModule
+      ExportAsModule,
+      BsDatepickerModule.forRoot()
    ],
    providers: [],
    bootstrap: [

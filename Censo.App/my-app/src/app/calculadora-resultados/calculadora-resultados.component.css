@@ -19,11 +19,12 @@
     transition: box-shadow 0.4s ease-in-out;
 }
 
+/*
 .card-move:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     cursor: pointer;
 
-}
+} */
 
 #cardhead {
     background-color: #39496c;
