@@ -66,7 +66,7 @@ namespace Censo.API.Controllers.Geral
             var campus = task2.Result.Where(c => curso1.Contains((long)c.CodCampus))
                                      .OrderBy(x => x.NomCampus)
                                      .ToList();
-            
+             
             var cursos = task1.Result.Where(x => x.CodIes != null).ToList();
 
             return Ok(new {campus, cursos});
