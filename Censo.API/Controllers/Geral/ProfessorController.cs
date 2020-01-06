@@ -489,7 +489,6 @@ namespace Censo.API.Controllers
                                 //cpf/nomeprofessor//titulacao//regime
                                 professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
                                 professordetalhe.NomProfessor = professor.NomProfessor;
-                                professordetalhe.titulacao = professor.Titulacao;
                                 
                                 if (regime.ContainsKey(professordetalhe.CpfProfessor))
                                 {
@@ -500,17 +499,11 @@ namespace Censo.API.Controllers
                                     professordetalhe.regime = "CHZ/AFASTADO";
                                 }
                                 //inicio
-                                
-                                //if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
-                                
+                               
                                 if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
                                 {
-                                    //professordetalhe.dtAdmissao = matricula[professordetalhe.CpfProfessor].dtAdmissao;
-                                    
                                     DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == professor.CpfProfessor).Min(d => d.dtAdmissao);
                                     
-                                    professor.dtAdmissao = (_data != null) ? _data.Value.ToString("MM/dd/yyyy") : null;
-
                                 }
                                 
                                 
@@ -521,11 +514,6 @@ namespace Censo.API.Controllers
                         
                         return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
                                                                        , x.NomProfessor}));
-                                                                       /*
-                                                                      , x.dtAdmissao
-                                                                       , x.titulacao
-                                                                      , x.regime}));
-                                                                      */
                         
                 }
                 catch (System.Exception ex)
