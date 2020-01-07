@@ -43,6 +43,9 @@ namespace Censo.API.Model
                 entity.Property(e => e.dtAdmissao)
                     .HasColumnName("DT_ADMISSAO_PROFESSOR");
 
+                entity.Property(e => e.dtDemissao)
+                    .HasColumnName("DT_DEMISSAO_PROFESSOR");
+
                 entity.Property(e => e.codRegiao)
                     .HasColumnName("COD_REGIAO")
                     .HasMaxLength(255);

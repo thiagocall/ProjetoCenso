@@ -442,6 +442,87 @@ namespace Censo.API.Controllers
                       
         }
 
+        /* inicio busca-varias-matriculas */
+
+        [AllowAnonymous]
+        [HttpGet("Buscavariasmatriculas/{id}")]
+        public async Task<IActionResult> Buscavariasmatriculas(string id)
+        {
+            
+                try
+                {
+
+                     var diccampus = this.CampusContext.TbSiaCampus.ToDictionary(x => x.CodCampus);
+                     var dic = this.censocontext.ProfessorCursoCenso
+                                                        .Where(x => x.CpfProfessor.ToString() == id )
+                                                        .ToList();
+                      var dic1 = this.censocontext.CursoCenso.Select(x => 
+                                            new CursoDetalhe {CodCurso = x.CodCurso,
+                                                             NomCurso = x.NomCursoCenso,
+                                                             CodCampus = x.CodCampus })
+                                        .ToList();
+
+                      var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCampus.ToString() + "_" + x.CodCurso.ToString());
+
+                      //  defuinindo a LISTA de matricula
+                      List<ProfessorMatricula> matricula;
+                      var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
+                      matricula = await mat;
+                      //var mat = this.MatriculaContext.ProfessorMatricula.ToDictionary(x => x.cpfProfessor.ToString());
+
+                      // pegar os contextos
+                      var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
+                      var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                      ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
+
+                        //cpf/nomeprofessor//titulacao//regime
+                        professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
+                        professordetalhe.NomProfessor = professor.NomProfessor;
+                        professordetalhe.titulacao = professor.Titulacao;
+                        professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                        
+                        // RECEBENDO O CODIGO DA REGIAO E O NOME
+                        professordetalhe.Regioes = matricula.Where(x => x.cpfProfessor.ToString() == id)
+                                                                        .Select(x => x.nomeRegiao)
+                                                                        .Distinct()
+                                                                        .ToList();
+                                                
+                        //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
+                        professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
+                        professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
+                        professordetalhe.QtdHorasFs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs) ,2);
+
+                        foreach (var item in dic)
+                        {
+
+                           //if (listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString()) == null)
+                           if (dic.Count > 0)
+                           {
+                                                                                
+                                professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
+                                                                        nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
+                                                                        nomcurso = dicCurso.TryGetValue(item.CodCampus.ToString() + "_" + item.CodCurso.ToString(), out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
+                                                                        });
+                                
+                               
+                           }     
+                          
+
+                        }
+
+                        //return Ok(results2);
+                        return Ok(professordetalhe);
+                    
+                }
+                catch (System.Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
+                }
+                // Termino da pesquisa detalhe professor
+                      
+        }
+        /* termino busca-varias-matriculas */
+
         /* inicio MQD */
 
         [AllowAnonymous]
@@ -457,64 +538,21 @@ namespace Censo.API.Controllers
                 {
                     
                       // pegar os contextos professor e regime
-                      var ListaProfessores = Professores.getProfessores(context).ToListAsync();
-
-                      var regime  = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
-                      //var ListaRegime = regime.Keys.ToList();
-                      List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
-
+                    var ListaProfessores = await Professores.getProfessores(context).ToListAsync();
+                    
                       // buscar admissao no contexto matricula
- 
-                    Task task1 = Task.Factory.StartNew (
-                    () => 
-                    {
-                       Dictionary<string, DateTime> ListaAdmissao1 = new Dictionary<string, DateTime>();
-                      //dic = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-                    }
-                    );
 
-                    Task.WaitAll(task1);
-
+                    
                     matricula = await mat;
 
-                      
-                     // var matricula = MatriculaContext.ProfessorMatricula.ToDictionary(x => Convert.ToInt64(x.cpfProfessor));
-                      
-                      //List<ProfessorMatricula> matricula = new List<ProfessorMatricula>();
-                        
-                        foreach (var professor in await ListaProfessores)
-                        {
-                                ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
+                    var ListaMatricula = matricula.Where(x => x.dtDemissao == null)
+                                                                .Select(x => new {x.cpfProfessor, x.numMatricula, x.dtAdmissao})
+                                                                .ToList();    
 
-                                //cpf/nomeprofessor//titulacao//regime
-                                professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
-                                professordetalhe.NomProfessor = professor.NomProfessor;
-                                
-                                if (regime.ContainsKey(professordetalhe.CpfProfessor))
-                                {
-                                professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
-                                }
-                                else
-                                {
-                                    professordetalhe.regime = "CHZ/AFASTADO";
-                                }
-                                //inicio
-                               
-                                if (matricula.Where(x => x.cpfProfessor.ToString() == professor.CpfProfessor).Count() > 0)
-                                {
-                                    DateTime? _data = matricula.Where(p => p.cpfProfessor.ToString() == professor.CpfProfessor).Min(d => d.dtAdmissao);
-                                    
-                                }
-                                
-                                
-                                // termino
+                    var ListaDocente = ListaProfessores.Select(x => new {x.CpfProfessor, x.NomProfessor}).ToList();
 
-                                ListaProfessorDetalhe.Add(professordetalhe);
-                        }
-                        
-                        return Ok(ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
-                                                                       , x.NomProfessor}));
-                        
+                    var Resultado = new {ListaMatricula, ListaDocente};
+                    return Ok(Resultado);
                 }
                 catch (System.Exception ex)
                 {
