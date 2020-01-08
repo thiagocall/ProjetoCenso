@@ -52,8 +52,11 @@ const tokenHeader = this.getToken();
   return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosCalculadora', dados, {headers: tokenHeader});
 }
 
-
-
+/*MQD*/
+pesquisaDocente() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'Professor/PesquisaCPFDOCENTE/', {headers: tokenHeader});
+}
 
 
 }
