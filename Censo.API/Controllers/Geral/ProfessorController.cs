@@ -14,7 +14,7 @@ using Censo.API.Model.Censo;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using OfficeOpenXml;
-
+using Censo.API.CargaHoraria;
 
 namespace Censo.API.Controllers
 {
@@ -524,7 +524,6 @@ namespace Censo.API.Controllers
         /* termino busca-varias-matriculas */
 
         /* inicio MQD */
-
         [AllowAnonymous]
         [HttpGet("PesquisaCPFDOCENTE")]
         public async Task<IActionResult> PesquisaProfessor()
@@ -551,7 +550,24 @@ namespace Censo.API.Controllers
 
                     var ListaDocente = ListaProfessores.Select(x => new {x.CpfProfessor, x.NomProfessor}).ToList();
 
-                    var Resultado = new {ListaMatricula, ListaDocente};
+                    var ListaCargaDS = CargaProfessor.getCargaDS();
+                    var ListaCargaFS = CargaProfessor.getCargaFS();
+                    
+                    List<EstruturaCarga> ListaCarga = new List<EstruturaCarga>();
+
+                    EstruturaCarga CargaGeral;
+
+                    foreach (var item in ListaDocente)
+                    {
+                        CargaGeral = new EstruturaCarga();
+                        CargaGeral.CPFCarga = item.CpfProfessor;
+                        CargaGeral.CargaDs = ListaCargaDS.TryGetValue(item.CpfProfessor, out var c)? c.Value: 0;
+                        CargaGeral.CargaFs = ListaCargaFS.TryGetValue(item.CpfProfessor, out var d)? d.Value: 0;
+                        ListaCarga.Add(CargaGeral);
+                    }
+                    
+
+                    var Resultado = new {ListaMatricula, ListaDocente, ListaCarga};
                     return Ok(Resultado);
                 }
                 catch (System.Exception ex)
@@ -562,9 +578,8 @@ namespace Censo.API.Controllers
                       
         }
         /* termino da busca dos professores */
-
-
         /* termino MQD */
+
 
 
         public async Task<dynamic> getProfessores() {
@@ -623,7 +638,22 @@ namespace Censo.API.Controllers
 
     }
 
-
+    class EstruturaCarga
+    {
+        public string CPFCarga { get; set; }
+        public double CargaDs { get; set; }
+        public double CargaFs { get; set; }
+        public double CargaTotal 
+        { 
+            
+            get 
+            {
+                return this.CargaDs + this.CargaFs;
+            }
+            
+         }
+    }
+        
 
      public class CursoComparer : IEqualityComparer<CursoDetalhe>
     {
@@ -643,6 +673,12 @@ namespace Censo.API.Controllers
         {
             return obj.CodCurso.GetHashCode();
         }
+
+        /* inicio buscaadmissao */
+                      
+        
+
+        /* termino */
     }
 
 

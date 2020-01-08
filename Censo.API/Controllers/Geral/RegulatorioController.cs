@@ -41,7 +41,8 @@ namespace Censo.API.Controllers
         
         public Dictionary<string, List<string>> dicProfessorCampus;
 
-        public RegulatorioController(ProfessorIESContext Context, ProfessorContext ProfContext
+        public RegulatorioController(ProfessorIESContext Context
+                                    , ProfessorContext ProfContext
                                     , RegimeContext regimeContext
                                     , CensoContext CContext
                                     , CargaContext cargaContext
@@ -390,18 +391,12 @@ namespace Censo.API.Controllers
         [HttpPost("CalculaGapProf")]
         public async Task<IActionResult> getCalculaGapProf(ProfessorGap[] ListaProfessorGap) 
         {
-               // x.CpfProfessor
-            // , x.NomProfessor
-            // ,x.titulacao
-            // ,x.dtAdmissao
-            // ,x.regime
+
 
             var admissao = await this.BuscaDataAdmissao(ListaProfessorGap.Select(x => x.Cpf.ToString()).ToList());
 
             // Erro no dicionario dicDemissao
          
-
-
             try 
             {
                 var dicDemissao = admissao.ToDictionary(x => x.CpfProfessor);
@@ -658,7 +653,7 @@ namespace Censo.API.Controllers
         }
 
 
-    public class ProfessorGap
+            public class ProfessorGap
             {
                 public string Cpf { get; set; }
                 public double Ds { get; set; }
