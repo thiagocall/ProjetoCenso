@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.IO;
 using OfficeOpenXml;
 using Censo.API.CargaHoraria;
+using System.Globalization;
 
 namespace Censo.API.Controllers
 {
@@ -543,9 +544,17 @@ namespace Censo.API.Controllers
 
                     
                     matricula = await mat;
+                    // x.dtAdmissao.ToString("dd/MM/yyyy")
+                    // Datetime.ParseExact(x.dtAdmissao,"dd/MM/yyyy", CultureInfo.InvariantCulture)
+                    // var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
+                    //var Admin = Convert.ToInt64(DateTime.x.dtAdmissao.ToString("yyyyMMddHHmmss"));
+                    // .Select(x => new {x.cpfProfessor, x.numMatricula,x.dtAdmissao})
+                    var Admin = Convert.ToDateTime("27/11/2007");
+                    //var ADMISSION = Datetime.ParseExact(matricula.dtAdmissao,"dd/MM/yyyy", CultureInfo.InvariantCulture)
+                    //x.dtAdmissao.ToString("dd/MM/yyyy HH:mm:ss")
 
                     var ListaMatricula = matricula.Where(x => x.dtDemissao == null)
-                                                                .Select(x => new {x.cpfProfessor, x.numMatricula, x.dtAdmissao})
+                                                                .Select(x => new {x.cpfProfessor, x.numMatricula, dtAdmissao = x.dtAdmissao.ToString("dd/MM/yyyy")})
                                                                 .ToList();    
 
                     var ListaDocente = ListaProfessores.Select(x => new {x.CpfProfessor, x.NomProfessor}).ToList();
