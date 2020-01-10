@@ -17,32 +17,49 @@ defineLocale('pt-br', ptBrLocale);
 
 export class RegulatorioTermoTiTpComponent implements OnInit {
 
-
   constructor(private exportAsService: ExportAsService, private localeService: BsLocaleService, private professorService: ProfessorService) {
     localeService.use('pt-br');
   }
 
+  /*
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
     elementId: 'pdf_View', // the id of html/table element
+    options: { // html-docx-js document options
+      top: 40,
+      bottom: 60,
+      left: 40,
+      width: 1000,
+    }
+  }; */
 
-  };
+
+ 
+exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    //elementId: 'balance-sheet-preview', // the id of html/table element
+    elementId: 'pdf_View', // the id of html/table element
+    options: { // html-docx-js document options
+      margins: {
+        top: '170',
+        bottom: '5',
+      },
+      orientation: 'landscape',
+      unit: 'in',
+      format: [4, 2]
+    }
+  } 
 
   export(nome: string) {
-    // download the file using old school javascript method
     this.exportAsService.save(this.exportAsConfig, 'MQD - ' + nome).subscribe(() => {
-      // save started
-    });
-    // get the data as base64 or json object for json type - this will be helpful in ionic or SSR
-    // this.exportAsService.get(this.config).subscribe(content => {
-    //   console.log(content);
-    // });
-  }
+    }); 
+    
+  } 
 
   ngOnInit() {
     this.pesquisaDocentesMqd();
   }
-
+  
   p: any;
   campo: any;
   resultado: any;
@@ -130,8 +147,6 @@ export class RegulatorioTermoTiTpComponent implements OnInit {
     this.cargaTotal = this.cargaDs + this.cargaFs;
     // this.dadosFiltrados = [];
   }
-
-
 
 
 

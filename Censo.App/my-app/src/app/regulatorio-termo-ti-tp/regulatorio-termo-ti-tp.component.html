@@ -2,6 +2,15 @@
   <h5>MQD 2 – Movimentação de Quadro Docente – Atividades Fora de Sala de Aula</h5>
 </div>
 
+<!--------------------->
+<div class="mb-3" style="margin-left: 146px;">
+  <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalExemplo">
+    Pesquisar Docente
+  </button>
+</div>
+<!--------------------->
+
+
 <div id="pdf_View">
   <table class="table table-bordered container">
     <thead>
@@ -22,9 +31,6 @@
       <tr>
         <td>
           <!-- Botão para adicionar modal -->
-          <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalExemplo">
-            Pesquisar Docente
-          </button>
           {{ProfessorAdicionado?.nomProfessor}}
         </td>
         <td>
@@ -81,8 +87,8 @@
             <option value="2">Tempo Parcial</option>
           </select>
         </td>
-        <td>{{cargaDs}}</td> <!-- DS -->
-        <td>{{cargaFs}}</td> <!-- FS -->
+        <td>{{cargaDs  | number : '1.0-1'}}</td> <!-- DS -->
+        <td>{{cargaFs  | number : '1.0-1'}}</td> <!-- FS -->
       </tr>
       <!-- fim part 3 -->
 
