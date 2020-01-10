@@ -89,6 +89,10 @@ exportAsConfig: ExportAsConfig = {
   dataAdmissao: any;
   listaCargaHoraria: any;
 
+  /*checkbox */
+  sim: any;
+  nao: any;
+
 
   /*pesquisa com a lista completa ao recarregar a pagina */
   pesquisaDocentesMqd() {
@@ -147,7 +151,6 @@ exportAsConfig: ExportAsConfig = {
     this.cargaTotal = this.cargaDs + this.cargaFs;
     // this.dadosFiltrados = [];
   }
-
 
 
 }
