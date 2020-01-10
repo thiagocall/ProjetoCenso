@@ -130,6 +130,10 @@ exportAsConfig: ExportAsConfig = {
     }
   }
 
+  print(){
+    window.print();
+  }
+
 
 
   /* adiciono o professor no formulario */
