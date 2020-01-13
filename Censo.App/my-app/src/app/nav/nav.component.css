@@ -3,9 +3,10 @@
 }
 
 .router-link-active {
-    background-color: #1eb8de; 
-    border-radius: 30px;   
+    background-color: #566482;  /*4A5786*/
+    border-radius: 4px;   
 }
+
 
 .router-link {
     background-color: #1eb8de; 
