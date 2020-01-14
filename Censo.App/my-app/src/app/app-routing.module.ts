@@ -33,6 +33,12 @@ import { RegulatorioTermoTiTpComponent } from './regulatorio-termo-ti-tp/regulat
 import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar.component';
 import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
 import { QuadroDoceComponent } from './quadro-doce/quadro-doce.component';
+import {ExportacaoComponent  } from './exportacao/exportacao.component';
+import { ExpProfessorComponent } from './exp-professor/exp-professor.component';
+import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.component';
+import { ExpProfessorCursoComponent } from './exp-professor-curso/exp-professor-curso.component';
+import { ExpProfessorTitulacaoComponent } from './exp-professor-titulacao/exp-professor-titulacao.component';
+
 
 
 
@@ -52,7 +58,6 @@ const routes: Routes = [
   {path: 'TesteGrafico', component: TesteGraficoComponent  ,canActivate: [AuthGuard]},
   {path: 'TelaTeste', component: TesteTelaComponent  ,canActivate: [AuthGuard]},
   {path: 'MQD', component: QuadroDoceComponent  ,canActivate: [AuthGuard]},
-  
 
 
   /* ABA CONSULTA*/
@@ -70,6 +75,7 @@ const routes: Routes = [
   {path: 'Resultados',   component: AppResultadosComponent ,canActivate: [AuthGuard]},
   {path: 'CalculadoraResultado/:id',   component:  CalculadoraResultadosComponent,canActivate: [AuthGuard]}, 
 
+
   /* ABA REGULATORIO */
   {path: 'Regulatorio', component: RegulatorioComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioProfessorIes', component: RegulatorioProfessorIesComponent ,canActivate: [AuthGuard]},
@@ -79,9 +85,18 @@ const routes: Routes = [
   {path: 'RegulatorioProfessorTermoTiTp', component: RegulatorioTermoTiTpComponent ,canActivate: [AuthGuard]},
   {path: 'RegulatorioCorpoDocente', component: CorpoDocenteComponent ,canActivate: [AuthGuard]},
 
-  
+  /* ABA EXPORTAÇÃO*/
+  {path: 'Exportacao', component: ExportacaoComponent , canActivate: [AuthGuard]},
+
+    /* SUB DIVISAO */
+    {path: 'Exportacao/professores', component: ExpProfessorComponent , canActivate: [AuthGuard]},
+    {path: 'Exportacao/professores/add', component: ExpProfessorAddComponent , canActivate: [AuthGuard]},
+    {path: 'Exportacao/professores/professor-curso', component: ExpProfessorCursoComponent , canActivate: [AuthGuard]},
+    {path: 'Exportacao/professores/professor-titulacao', component: ExpProfessorTitulacaoComponent , canActivate: [AuthGuard]},
+
+
   /*INICIO*/
-  {path: 'Inicio', component: AppHomeComponent ,canActivate: [AuthGuard]},
+  {path: 'Inicio', component: AppHomeComponent , canActivate: [AuthGuard]},
   {path: '', component: LoginComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
 

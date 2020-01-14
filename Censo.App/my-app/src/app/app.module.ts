@@ -47,6 +47,11 @@ import { AppCompararComponent } from './app-resultados/app-comparar/app-comparar
 import { CalculadoraResultadosComponent } from './calculadora-resultados/calculadora-resultados.component';
 import { QuadroDoceComponent } from './quadro-doce/quadro-doce.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ExportacaoComponent } from './exportacao/exportacao.component';
+import { ExpProfessorComponent } from './exp-professor/exp-professor.component';
+import { ExpProfessorCursoComponent } from './exp-professor-curso/exp-professor-curso.component';
+import { ExpProfessorTitulacaoComponent } from './exp-professor-titulacao/exp-professor-titulacao.component';
+import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.component';
 
 @NgModule({
    declarations: [
@@ -78,7 +83,12 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
       RegulatorioTermoTiTpComponent,
       AppCompararComponent,
       CalculadoraResultadosComponent,
-      QuadroDoceComponent
+      QuadroDoceComponent,
+      ExportacaoComponent,
+      ExpProfessorComponent,
+      ExpProfessorCursoComponent,
+      ExpProfessorTitulacaoComponent,
+      ExpProfessorAddComponent
    ],
    imports: [
       BrowserModule,

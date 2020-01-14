@@ -1,0 +1,47 @@
+<div class="container mb-5 ml-2 mt-4">
+    <div class="row mx-auto mt-5" style="width: 760px;">
+        <h2 class="font-weight-light" style="color:black;">
+            Ajustar Professores
+          </h2>
+         
+        </div>
+      </div>
+<div class="container">
+  
+  
+    <div class="row">
+      <div class="col-md-4">
+          <div class="card card-move" style="width: 18rem" [routerLink]="['/Exportacao/professores/add']">
+              <div id ="cardhead" class="card-header "><h5 class="card-title">Adicionar Professor</h5></div>
+              <div class="card-body" >
+                <i class="far fa-address-card fa-2x icon"></i>
+                <p>Adicione os professores não relacionados</p>
+              </div>
+            </div>
+      </div>
+      <div class="col-md-4">
+          <div class="card card-move" style="width: 18rem" [routerLink]="['/Exportacao/professores/professor-curso']">
+              <div id ="cardhead" class="card-header"><h5 class="card-title">Curso X Professor</h5></div>
+              <div class="card-body">
+                  <i class="fas fa-clipboard-check fa-2x icon"></i>
+                <p>Vincule cursos aos professores informados no Censo</p>
+              </div>
+            </div>
+  
+      </div>
+      <div class="col-md-4">
+          <div  class="card card-move" style="width: 18rem" [routerLink]="['/Exportacao/professores/professor-titulacao']">
+              <div id ="cardhead" class="card-header"><h5 class="card-title">Titulaçao Docente</h5></div>
+              <div class="card-body">
+                <i class="fas fa-graduation-cap fa-2x icon"></i>
+                <p>Redefina a titulação do professor para o Censo Docente</p>
+              </div>
+            </div>
+  
+      </div>
+    </div>
+  </div>
+  <div class="container flex">
+    <button class="btn btn-outline-primary ml-auto mt-3 mb-3" [routerLink]="['/Exportacao']">
+      <i class="fas fa-arrow-left fa-1x"></i> Voltar</button>
+  </div>

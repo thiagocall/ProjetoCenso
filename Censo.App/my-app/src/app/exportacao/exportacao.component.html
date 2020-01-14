@@ -1,0 +1,66 @@
+<div class="container mb-5 ml-2 mt-4">
+    <div class="mx-auto mt-5" style="width: 790px;">
+      <h2 class="font-weight-light" style="color:black;">
+        Exportação
+      </h2>
+    </div>
+  </div>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 300px;">
+  <!-- <div class="ml-5">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    </ol>
+  </div> -->
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <div class="container">
+        <div class="row">
+          
+          <!--card 1-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/Exportacao/professores']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Ajustar Professores</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-clipboard-check fa-2x icon"></i>
+                <p class="icone">Faça os ajustes manuais necessários para o Censo</p>
+              </div>
+            </div>
+          </div>
+          <!--card 2-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Professor IES</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-address-card fa-2x icon"></i>
+                <p>Informações do Professor por IES</p>
+                <br>
+              </div>
+            </div>
+          </div>
+          <!--card 3-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Professor Curso</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-id-card-alt fa-2x icon"></i>
+                <p>Informações do Professor por Curso</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+</div>
