@@ -59,7 +59,7 @@ export class RegulatorioService {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'regulatorio/foradesede/excel/' + _campus, { responseType: 'blob', headers: tokenHeader });
   }
-  
+
 
   getResultadoProfessorForaSede(codigo: string) {
     const tokenHeader = this.getToken();
@@ -75,15 +75,24 @@ export class RegulatorioService {
 
   PesquisaProfessores() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/BuscaProfessor' ,{headers: tokenHeader});
+    return this.http.get(this.baseUrl + 'regulatorio/BuscaProfessor', { headers: tokenHeader });
   }
 
   /*post */
   postCalculaGapProf(professores: any[]) {
     const tokenHeader = this.getToken();
-    return this.http.post(this.baseUrl + 'regulatorio/CalculaGapProf', professores, {headers: tokenHeader});
+    return this.http.post(this.baseUrl + 'regulatorio/CalculaGapProf', professores, { headers: tokenHeader });
   }
-  
-  
+
+
+  // EXPORTAÇÃO 
+
+  /*Exportação*/ /* */
+  exportacaoProfessor(professores: any) {
+    const tokenHeader = this.getToken();
+    return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosExportacaoProfessor', professores, { headers: tokenHeader });
+  }
+
+
 
 }

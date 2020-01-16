@@ -121,9 +121,11 @@
         <td><input type="text" class="form-control" style="width: 120px;"> </td>
         <td><input type="text" class="form-control"> </td>
         <td><input class="form-control col-md-12" placeholder="dd/mm/aaaa" bsDatepicker placement="top"
-            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }" style="width: 120px;"></td>
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }" style="width: 120px;">
+        </td>
         <td><input class="form-control " placeholder="dd/mm/aaaa" bsDatepicker placement="top"
-            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }" style="width: 120px;"></td>
+            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY', containerClass: 'theme-dark-blue' }" style="width: 120px;">
+        </td>
         <td>
           <select class="form-control col-md-8">
             <option value="-1" disabled>Selecione</option>
@@ -195,7 +197,7 @@
   </table>
 </div>
 <div class="container">
-  <button class="btn btn-primary" (click)="print()" ><i class="fas fa-file-pdf"></i> PDF</button>
+  <button class="btn btn-primary" (click)="print()"><i class="fas fa-file-pdf"></i> PDF</button>
 </div>
 
 
