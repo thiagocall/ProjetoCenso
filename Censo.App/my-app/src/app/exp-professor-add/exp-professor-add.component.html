@@ -1,1 +1,165 @@
-<p>exp-professor-add works!</p>
+<div class="p-4 w-150 bd-highlight">
+
+    <div class=" fundo-tabela mt-4" style="min-height: 600px;">
+        <div class="ml-4 mt-4">
+            <h4>Adicionar Professor</h4>
+        </div>
+
+        <!-- menu pesquisar -->
+        <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
+            <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
+                placeholder="Digite alguma coisa.." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <button [routerLink]="['/Regulatorio']" class="btn btn-outline-primary ml-3"> Voltar</button>
+        </div>
+        <!-- fim menu pesquisar -->
+
+
+        <div class="container mt-2 ml-3 mr-0">
+            <div class="row m-0 p-0">
+                <div class="col-md-7">
+                    <div class="p-4"></div>
+                    <!-- inicio tabela principal-->
+                    <table class="table table-hover titulo-tabela">
+                        <thead class="titulo">
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Titulação</th>
+                                <th>Regime</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of dadosFiltrados">
+                                <td>{{item.nomProfessor}}</td>
+                                <td>{{item.cpfProfessor}}</td>
+                                <td>{{item.titulacao}}</td>
+                                <td>{{item.regime}}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" id="{{item.cpfProfessor}}"
+                                            class="btn btn-outline-primary btn-sm" tooltip="Adicionar"
+                                            (click)="addProfessor(item)">
+                                            <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- fim tabela principal-->
+                </div>
+
+                <!-- inicio card-->
+                <div class="col-md-5 pl-2 mr-0">
+
+                    <div style="width: 650px;">
+                        <div class="d-flex flex-row-reverse bd-highlight p-2">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button class="btn btn-danger btn-sm mt-2" (click)="limparLista()"
+                                    tooltip="limpar tudo">Limpar</button>
+                                <button *ngIf="listaProfessorAdicionado?.length" type="button"
+                                    class="btn btn-primary btn-sm mt-2" (click)="dadosProfessor()"
+                                    onClick="zoom()">Salvar </button>   
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card mb-5" style="width: 650px;">
+                        <div class="card-header ">
+                            <!-- inicio titulo-->
+                            <ul class="nav nav-pills card-header-pills d-flex justify-content-between">
+                                <li class="nav-item">
+                                    <a class="nav-link">Nome</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link">CPF</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" tooltip="Carga Horária Dentro de Sala">Titulação</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" tooltip="Carga Horária Fora de Sala">Regime</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"></a>
+                                </li>
+                                <div class="row">
+                                </div>
+                            </ul>
+                            <!-- fim titulo-->
+                        </div>
+
+                        <!-- inicio tabela-->
+                        <table class="table" style="width: 650px;">
+                            <tbody>
+                                <tr *ngFor="let item of listaProfessorAdicionado; let i = index">
+                                    <td style="width: 140px;">{{item.nomProfessor}}</td>
+                                    <td style="width: 120px;">{{item.cpfProfessor}}</td>
+
+                                    <td class="form-group mt-2 md-4">
+                                        <select class="form-control" [(ngModel)]="item.titulacao"> <!--two-way data binding-->
+                                            <option disabled="true">Selecione</option>
+                                            <option value="MESTRE">Mestre</option>
+                                            <option value="ESPECIALISTA">Especialista</option>
+                                            <option value="DOUTOR">Doutor</option>
+                                        </select>
+                                    </td>
+
+                                    <td class="form-group mt-2 md-4">
+                                        <select class="form-control" [(ngModel)]="item.regime"> <!--two-way data binding-->
+                                            <option disabled="true">Selecione</option>
+                                            <option value="TEMPO INTEGRAL">Integral</option>
+                                            <option value="TEMPO PARCIAL">Parcial</option>
+                                            <option value="HORISTA">Horista</option>
+                                            <option value="CHZ/AFASTADO">Chz/Afastado</option>
+                                        </select>
+                                    </td>
+
+                                    <td><button class="btn btn-outline-danger btn-sm" (click)="removerProfessor(item)">
+                                            <i class="fas fa-trash-alt"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- fim tabela-->
+
+                        <!-- inicio espaço card-->
+                        <div class="card-body"></div>
+                        <!-- fim espaço card-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="container p-5">
+            <div class="row">
+                <div class="col-md-12" id="tabela">
+                    <div *ngIf="resposta && resposta?.length" style="min-height: 700px;">
+                        <table class="table">
+                            <thead>
+                                <th>CPF</th>
+                                <th>Nome</th>
+                                <th>Titulação</th>
+                                <th>Regime</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of resposta">
+                                    <td>{{item?.cpfProfessor}}</td>
+                                    <td>{{item?.nomProfessor}}</td>
+                                    <td>{{item?.titulacao}}</td>
+                                    <td>{{item?.regime}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <td><button class="btn btn-outline-primary btn-sm" onClick="tirarZoom()">
+                                <i class="fas fa-arrow-up"></i> Voltar ao Topo</button></td>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+      

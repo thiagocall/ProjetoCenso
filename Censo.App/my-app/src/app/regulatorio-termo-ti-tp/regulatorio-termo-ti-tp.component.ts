@@ -149,7 +149,7 @@ exportAsConfig: ExportAsConfig = {
     this.ProfessorAdicionado = prof; // {{ProfessorAdicionado.nomProfessor}} "mostro" o prof no front
     this.matriculasFiltradas = this.listaMatricula.filter(x => x.cpfProfessor == prof.cpfProfessor);
     this.listaCargaHoraria = this.listaCarga.filter(x => x.cpfCarga == prof.cpfProfessor)[0];
-    console.log(this.listaCargaHoraria);
+    //console.log(this.listaCargaHoraria);
     this.cargaDs = this.listaCargaHoraria.cargaDs;
     this.cargaFs = this.listaCargaHoraria.cargaFs;
     this.cargaTotal = this.cargaDs + this.cargaFs;
