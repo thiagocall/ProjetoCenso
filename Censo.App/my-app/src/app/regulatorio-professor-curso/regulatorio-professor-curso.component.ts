@@ -101,10 +101,6 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   }
 
 
-
-
-
-
  
   getCurso(valor: any){
    // console.log(valor);
