@@ -114,7 +114,7 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
       response => {
         this.errodados = false;
         this.resultado = response;
-        //console.log(this.resultado);
+        // console.log(this.resultado);
         console.log(this.errodados);
       },
       error => {
