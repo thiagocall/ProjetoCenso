@@ -4,8 +4,8 @@
       <div class="form">
         <div *ngIf="campi">
           <label for="campi"><b>Campus</b></label>
-          <select #_codCampus class="form-control" id="campi" (change)="getCurso(_codCampus.value)">
-            <option disabled value="0">-- Selecione o Campus --</option>
+          <select #_codCampus class="form-control" (change)="getCurso(_codCampus.value)">
+            <option value="0">-- Selecione o Campus --</option>
             <option *ngFor="let item of campi" value="{{item.codCampus}}">{{item.nomCampus}}</option>
           </select>
         </div>
@@ -15,7 +15,7 @@
       <div class="form" *ngIf="cursoFiltrado">
         <label for="curso"><b>Curso</b></label>
         <select class="form-control" [(ngModel)]="selecione" (change)="getResultado(selecione)">
-          <option disabled value="0">-- Selecione o Curso --</option>
+          <option value="0">-- Todos --</option>
           <option *ngFor="let item of cursoFiltrado" value="{{item.codEmec}}">{{item.nomCursoCenso}}</option>
         </select>
       </div>
