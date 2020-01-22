@@ -356,6 +356,33 @@ namespace Censo.API.Controllers
         {
             Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             Dictionary<string, Professor> dicprof = new Dictionary<string, Professor>();
+            Dictionary<string, DateTime> dicProfMat = new Dictionary<string, DateTime>();
+
+
+            await Task.Run(() =>
+            {
+                var dicMat = MatriculaContext.ProfessorMatricula.ToList();
+
+                foreach (var item in dicMat)
+                {
+                    if (!dicProfMat.ContainsKey(item.cpfProfessor.ToString()))
+                    {
+
+                        dicProfMat.Add(item.cpfProfessor.ToString(), item.dtAdmissao);
+
+                    } else {
+                        var d = dicProfMat[item.cpfProfessor.ToString()];
+                        d = item.dtAdmissao < d ? item.dtAdmissao : d;
+
+                    }
+                }
+
+            }
+
+            );
+
+            
+
             
             Task task1 = Task.Factory.StartNew (
                     () => 
@@ -380,12 +407,17 @@ namespace Censo.API.Controllers
                                         CodIes = x.CodIes,
                                         CodCampus = x.CodCampus,
                                         CodCurso = x.CodCurso,
+                                        NomCurso = x.NomCursoCenso,
+                                        CodEmec = x.CodEmec,
                                         NumHabilitacao = (long?)x.NumHabilitacao == -1 ? null : (long?)x.NumHabilitacao,
                                         regime = dic.TryGetValue(x.CpfProfessor.ToString(),out ProfessorRegime pp) ? pp.Regime:"CHZ/AFASTADO",
                                         Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? Math.Round((decimal)ps.QtdHorasDs, 2) : 0,
                                         Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? Math.Round((decimal)pf.QtdHorasFs, 2) : 0,
                                         nomprofessor = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor pr) ? pr.NomProfessor : "",
-                                        Titulacao = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor tit) ? tit.Titulacao : ""
+                                        Titulacao = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor tit) ? tit.Titulacao : "",
+                                        dtAdmissao = dicProfMat.TryGetValue(x.CpfProfessor.ToString(), out var m) ? m.ToString("dd/MM/yyyy") : DateTime
+                                                                                                                                                .Parse("01/01/1900")
+                                                                                                                                                .ToString("dd/MM/yyyy")
                                         }).ToList();
 
 
