@@ -331,6 +331,11 @@ namespace Censo.API.Controllers.Censo
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
+            
+            // ProfessorCursoComparer pcc = new ProfessorCursoComparer();
+
+            // HashSet<CursoProfessor> hsCursoProfessor = new HashSet<CursoProfessor>(pcc);
+
 
             var query = _profs;
 
