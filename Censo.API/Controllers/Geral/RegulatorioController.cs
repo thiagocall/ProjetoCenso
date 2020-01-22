@@ -427,7 +427,6 @@ namespace Censo.API.Controllers
         [HttpGet("BuscaProfessor")]
         public async Task<IActionResult> BuscaProfessor()
         {
-            
                 try
                 {
                     
