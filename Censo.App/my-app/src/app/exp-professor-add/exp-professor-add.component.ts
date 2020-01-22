@@ -79,11 +79,12 @@ export class ExpProfessorAddComponent implements OnInit {
   /*remover professores na tabela */
   removerProfessor(professor: any) {
     this.listaProfessorAdicionado.splice(this.listaProfessorAdicionado.indexOf(professor), 1);
-    // console.log(this.listaProfessorAdicionado);
+    console.log(this.listaProfessorAdicionado);
   }
 
   dadosProfessor() {
     this.resposta = this.listaProfessorAdicionado;
+    console.log(this.resposta);
   }
 
 

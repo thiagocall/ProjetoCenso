@@ -400,7 +400,7 @@ namespace Censo.API.Controllers
                         professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
                         professordetalhe.NomProfessor = professor.NomProfessor;
                         professordetalhe.titulacao = professor.Titulacao;
-                        professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                        
                         
                         // RECEBENDO O CODIGO DA REGIAO E O NOME
                         professordetalhe.Regioes = matricula.Where(x => x.cpfProfessor.ToString() == id)
@@ -409,9 +409,23 @@ namespace Censo.API.Controllers
                                                                         .ToList();
                                                 
                         //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
-                        professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
-                        professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
-                        professordetalhe.QtdHorasFs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs) ,2);
+                        if (regime.ContainsKey(professordetalhe.CpfProfessor.ToString()))
+                        {
+                            professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
+                            
+                            professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
+                            professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
+                            professordetalhe.QtdHorasFs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs) ,2);    
+                        
+                        }
+                        else
+                        {
+                            professordetalhe.regime = "Não encontrado";
+                            professordetalhe.CargaTotal = 0;
+                            professordetalhe.QtdHorasDs = 0;
+                            professordetalhe.QtdHorasFs = 0;    
+                        }
+                        
 
                         foreach (var item in dic)
                         {
@@ -530,7 +544,7 @@ namespace Censo.API.Controllers
         public async Task<IActionResult> PesquisaProfessor()
         {
                  List<ProfessorMatricula> matricula;
-                 Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
+                 //Dictionary<string, DateTime> ListaAdmissao = new Dictionary<string, DateTime>();
                  //Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
                  var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
 
@@ -544,14 +558,6 @@ namespace Censo.API.Controllers
 
                     
                     matricula = await mat;
-                    // x.dtAdmissao.ToString("dd/MM/yyyy")
-                    // Datetime.ParseExact(x.dtAdmissao,"dd/MM/yyyy", CultureInfo.InvariantCulture)
-                    // var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
-                    //var Admin = Convert.ToInt64(DateTime.x.dtAdmissao.ToString("yyyyMMddHHmmss"));
-                    // .Select(x => new {x.cpfProfessor, x.numMatricula,x.dtAdmissao})
-                    var Admin = Convert.ToDateTime("27/11/2007");
-                    //var ADMISSION = Datetime.ParseExact(matricula.dtAdmissao,"dd/MM/yyyy", CultureInfo.InvariantCulture)
-                    //x.dtAdmissao.ToString("dd/MM/yyyy HH:mm:ss")
 
                     var ListaMatricula = matricula.Where(x => x.dtDemissao == null)
                                                                 .Select(x => new {x.cpfProfessor, x.numMatricula, dtAdmissao = x.dtAdmissao.ToString("dd/MM/yyyy")})
@@ -588,8 +594,6 @@ namespace Censo.API.Controllers
         }
         /* termino da busca dos professores */
         /* termino MQD */
-
-
 
         public async Task<dynamic> getProfessores() {
 
