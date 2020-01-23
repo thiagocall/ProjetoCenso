@@ -115,8 +115,6 @@ namespace Censo.API.Controllers.Geral
         [HttpPost("DevolveProf")]
         public ActionResult putDevolveProf(List<ProfessorAdicionado> ListaProfessorDevolve) 
         {
-
- 
             ListaProfessorDevolve.ForEach(x => this.ExpContext.Add(x));
             this.ExpContext.SaveChanges();
 
@@ -137,75 +135,6 @@ namespace Censo.API.Controllers.Geral
             }
 
         }
-
-        //} FINAL USADO
-
-        
-        public async Task<IEnumerable<dynamic>> BuscaDadosAdicionados(List<string> _listaProf)
-        {
-                try
-                {
-                         // pegar os contextos professor e regime TRAZER POR CPF
-                      var ListaProfessores = Professores.getProfessores(Profcontext)
-                                                           .Where(x => _listaProf
-                                                           .Contains(x.CpfProfessor))
-                                                            .ToListAsync();
-
-                      var regime  = RegContext.ProfessorRegime
-                                                              .Where(x => _listaProf
-                                                              .Contains(x.CpfProfessor))
-                                                              .ToDictionary(x => x.CpfProfessor);
-                
-                      List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
-                        
-                        foreach (var professor in await ListaProfessores)
-                        {
-                                ProfessorDetalhe profdet = new ProfessorDetalhe();
-
-                                //cpf/nomeprofessor//titulacao//regime
-                                profdet.CpfProfessor = professor.CpfProfessor.ToString();
-                                profdet.NomProfessor = professor.NomProfessor;
-                                profdet.titulacao = professor.Titulacao;
-                                
-                                if (regime.ContainsKey(profdet.CpfProfessor))
-                                {
-                                profdet.regime = regime[profdet.CpfProfessor.ToString()].Regime;
-                                }
-                                else
-                                {
-                                    profdet.regime = "CHZ/AFASTADO";
-                                }
-                
-                                ListaProfessorDetalhe.Add(profdet);
-                        }
-
-                        return ListaProfessorDetalhe.Select(x=> new {x.CpfProfessor
-                                                                      ,x.regime                                                                      
-                                                                      ,x.titulacao
-                                                                      ,x.NomProfessor}).ToList();
-                        
-                }
-                catch (System.Exception ex)
-                {
-                    return null;
-                }
-        // Termino da pesquisa detalhe professor
-
-        //} //FINAL USADO
-        
-        }
-            public class ProfessorAdic
-            {
-                public string Cpf { get; set; }
-                public string Regime { get; set; }
-                public double qtdHorasDs { get; set; }
-                public double qtdHorasFs { get; set; }
-                public string Titulacao { get; set; }
-                public string NomeProfessor { get; set; }
-                public string Complemento { get; set; }
-
-            }
-
 
     }
 }

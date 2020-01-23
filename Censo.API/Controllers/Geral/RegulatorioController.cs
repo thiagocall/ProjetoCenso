@@ -811,7 +811,6 @@ namespace Censo.API.Controllers
                 public double Ds { get; set; }
                 public double Fs { get; set; }
                 public string Target { get; set; }
-                
                 public double Complemento { get; set; }
 
             }
