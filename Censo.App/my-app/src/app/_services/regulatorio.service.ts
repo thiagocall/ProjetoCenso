@@ -43,9 +43,19 @@ export class RegulatorioService {
 
   // REGULATÓRIO PROFESSOR CURSO
 
-  getRegulatorioProfessorCurso(codigo: number) {
+  getRegulatorioProfessorCurso(codigo: any) {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'regulatorio/Emec/' + codigo, { headers: tokenHeader });
+  }
+
+  getRegulatorioProfessorCursoExcel(codigo: any) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'regulatorio/Emec/Excel/' + codigo, { responseType: 'blob', headers: tokenHeader });
+  }
+
+  getRegulatorioProfessorCampusExcel(codigo: any) {
+    const tokenHeader = this.getToken();
+    return this.http.get(this.baseUrl + 'regulatorio/Emec/ExcelCampus/' + codigo, { responseType: 'blob', headers: tokenHeader });
   }
 
   getCampus() {

@@ -262,7 +262,10 @@ namespace Censo.API.Controllers
                     );
             
       
-            var query = await this.CContext.ProfessorCursoEmec
+            var query = (id != null) ? await this.CContext.ProfessorCursoEmec
+                            .Where(p => p.CodEmec == id)
+                                    .ToListAsync() :
+                        await this.CContext.ProfessorCursoEmec
                             .Where(p => p.CodEmec == id)
                                     .ToListAsync();
 
@@ -285,6 +288,156 @@ namespace Censo.API.Controllers
             return Ok(results);
             
         }
+
+        //Exporta em Excel
+
+        [HttpGet("Emec/Excel/{id}")]
+        public async Task<IActionResult> ProfessorCursoExcel(long? id)
+        {
+            Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            Dictionary<string, Professor> dicprof = new Dictionary<string, Professor>();
+            
+            Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = CgContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());                      
+                      dicprof = this.Profcontext.Professores.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+            
+      
+            var query = await this.CContext.ProfessorCursoEmec
+                            .Where(p => p.CodEmec == id)
+                                    .ToListAsync();
+            
+
+
+            Task.WaitAll(task1);
+         
+                var results = query.Select(x => new 
+                                    {   
+                                        CpfProfessor = x.CpfProfessor, 
+                                        CodIes = x.CodIes,
+                                        CodCampus = x.CodCampus,
+                                        CodCurso = x.CodCurso,
+                                        NumHabilitacao = (long?)x.NumHabilitacao == -1 ? null : (long?)x.NumHabilitacao,
+                                        regime = dic.TryGetValue(x.CpfProfessor.ToString(),out ProfessorRegime pp) ? pp.Regime:"CHZ/AFASTADO",
+                                        Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? Math.Round((decimal)ps.QtdHorasDs, 2) : 0,
+                                        Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? Math.Round((decimal)pf.QtdHorasFs, 2) : 0,
+                                        nomprofessor = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor pr) ? pr.NomProfessor : "",
+                                        Titulacao = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor tit) ? tit.Titulacao : ""
+                                        }).ToList();
+
+
+             var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("ProfessorCurso");
+                workSheet.Cells.LoadFromCollection(results, true);
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "file.xlsx";
+
+                return File(stream, contentType, fileName);
+
+
+
+            // return Ok(results);
+            
+        }
+
+        //// regulatorio/Emec/ExcelCampus/
+
+         [HttpGet("Emec/ExcelCampus/{id}")]
+        public async Task<IActionResult> ProfessorCursoExcelCampus(long? id)
+        {
+            Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
+            Dictionary<string, Professor> dicprof = new Dictionary<string, Professor>();
+            Dictionary<string, DateTime> dicProfMat = new Dictionary<string, DateTime>();
+
+
+            await Task.Run(() =>
+            {
+                var dicMat = MatriculaContext.ProfessorMatricula.ToList();
+
+                foreach (var item in dicMat)
+                {
+                    if (!dicProfMat.ContainsKey(item.cpfProfessor.ToString()))
+                    {
+
+                        dicProfMat.Add(item.cpfProfessor.ToString(), item.dtAdmissao);
+
+                    } else {
+                        var d = dicProfMat[item.cpfProfessor.ToString()];
+                        d = item.dtAdmissao < d ? item.dtAdmissao : d;
+
+                    }
+                }
+
+            }
+
+            );
+
+            
+
+            
+            Task task1 = Task.Factory.StartNew (
+                    () => 
+                    {
+                      dic = CgContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());                      
+                      dicprof = this.Profcontext.Professores.ToDictionary(x => x.CpfProfessor.ToString());
+                    }
+                    );
+            
+      
+            var query = await this.CContext.ProfessorCursoEmec
+                            .Where(p => p.CodCampus == id)
+                                    .ToListAsync();
+            
+
+
+            Task.WaitAll(task1);
+         
+                var results = query.Select(x => new 
+                                    {   
+                                        CpfProfessor = x.CpfProfessor, 
+                                        CodIes = x.CodIes,
+                                        CodCampus = x.CodCampus,
+                                        CodCurso = x.CodCurso,
+                                        NomCurso = x.NomCursoCenso,
+                                        CodEmec = x.CodEmec,
+                                        NumHabilitacao = (long?)x.NumHabilitacao == -1 ? null : (long?)x.NumHabilitacao,
+                                        regime = dic.TryGetValue(x.CpfProfessor.ToString(),out ProfessorRegime pp) ? pp.Regime:"CHZ/AFASTADO",
+                                        Qtd_Horas_DS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime ps ) ? Math.Round((decimal)ps.QtdHorasDs, 2) : 0,
+                                        Qtd_Horas_FS = dic.TryGetValue(x.CpfProfessor.ToString(), out ProfessorRegime pf ) ? Math.Round((decimal)pf.QtdHorasFs, 2) : 0,
+                                        nomprofessor = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor pr) ? pr.NomProfessor : "",
+                                        Titulacao = dicprof.TryGetValue(x.CpfProfessor.ToString(), out Professor tit) ? tit.Titulacao : "",
+                                        dtAdmissao = dicProfMat.TryGetValue(x.CpfProfessor.ToString(), out var m) ? m.ToString("dd/MM/yyyy") : DateTime
+                                                                                                                                                .Parse("01/01/1900")
+                                                                                                                                                .ToString("dd/MM/yyyy")
+                                        }).ToList();
+
+
+             var stream = new MemoryStream();
+
+             using (var package = new ExcelPackage(stream)) {                
+                var workSheet = package.Workbook.Worksheets.Add("ProfessorCurso");
+                workSheet.Cells.LoadFromCollection(results, true);
+                package.Save();            
+            };  
+
+                stream.Position = 0;
+                var contentType = "application/octet-stream";
+                var fileName = "file.xlsx";
+
+                return File(stream, contentType, fileName);
+
+        }
+
+
        
         /* fora de sede pelo cod_campus */
         
@@ -427,7 +580,6 @@ namespace Censo.API.Controllers
         [HttpGet("BuscaProfessor")]
         public async Task<IActionResult> BuscaProfessor()
         {
-            
                 try
                 {
                     
@@ -659,7 +811,6 @@ namespace Censo.API.Controllers
                 public double Ds { get; set; }
                 public double Fs { get; set; }
                 public string Target { get; set; }
-                
                 public double Complemento { get; set; }
 
             }
