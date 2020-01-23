@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace Censo.API.Controllers.Geral
 {
@@ -115,24 +116,20 @@ namespace Censo.API.Controllers.Geral
         [HttpPost("DevolveProf")]
         public ActionResult putDevolveProf(List<ProfessorAdicionado> ListaProfessorDevolve) 
         {
-            ListaProfessorDevolve.ForEach(x => this.ExpContext.Add(x));
-            this.ExpContext.SaveChanges();
-
+   
             try 
             {
- 
-                /* var ListaFinal = ListaProfessorDevolve.Select(x => new {x.Cpf,
-                                                                    x.Regime,
-                                                                    x.Titulacao,
-                                                                    x.NomeProfessor}).ToList();
-                */
+                ListaProfessorDevolve.ForEach(x => this.ExpContext.Add(x));
+                this.ExpContext.SaveChanges();
 
-                return Ok(ListaProfessorDevolve);
+                return StatusCode(StatusCodes.Status201Created, "Incluído com sucesso.");
             }
             catch (Exception e) {
-
+                
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
             }
+
+            
 
         }
 

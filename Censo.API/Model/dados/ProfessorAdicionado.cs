@@ -5,7 +5,7 @@ namespace Censo.API.Model.dados
 {
     public partial class ProfessorAdicionado
     {
-        public long Cpf { get; set; }
+        public long CpfProfessor { get; set; }
         public string Regime { get; set; }
         public string Titulacao { get; set; }
         public double qtdHorasDs { get; set; }

@@ -24,10 +24,10 @@ namespace Censo.API.Model.dados
             {
                 entity.ToTable("TbAux_Professor_Adicionado");
                 
-                entity.HasKey(e => e.Cpf)
+                entity.HasKey(e => e.CpfProfessor)
                      .HasName("PK_CPF_PROFESSOR");
 
-                entity.Property(e => e.Cpf)
+                entity.Property(e => e.CpfProfessor)
                     .HasColumnName("CPF_PROFESSOR");
 
                 entity.Property(e => e.Regime)
