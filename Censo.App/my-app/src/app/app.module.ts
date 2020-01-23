@@ -52,6 +52,7 @@ import { ExpProfessorComponent } from './exp-professor/exp-professor.component';
 import { ExpProfessorCursoComponent } from './exp-professor-curso/exp-professor-curso.component';
 import { ExpProfessorTitulacaoComponent } from './exp-professor-titulacao/exp-professor-titulacao.component';
 import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.component';
+import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/exp-professor-dadosSalvos.component';
 
 @NgModule({
    declarations: [
@@ -88,7 +89,8 @@ import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.
       ExpProfessorComponent,
       ExpProfessorCursoComponent,
       ExpProfessorTitulacaoComponent,
-      ExpProfessorAddComponent
+      ExpProfessorAddComponent,
+      ExpProfessorDadosSalvosComponent
    ],
    imports: [
       BrowserModule,

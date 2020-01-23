@@ -38,6 +38,7 @@ import { ExpProfessorComponent } from './exp-professor/exp-professor.component';
 import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.component';
 import { ExpProfessorCursoComponent } from './exp-professor-curso/exp-professor-curso.component';
 import { ExpProfessorTitulacaoComponent } from './exp-professor-titulacao/exp-professor-titulacao.component';
+import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/exp-professor-dadosSalvos.component';
 
 
 
@@ -91,6 +92,7 @@ const routes: Routes = [
     /* SUB DIVISAO */
     {path: 'Exportacao/professores', component: ExpProfessorComponent , canActivate: [AuthGuard]},
     {path: 'Exportacao/professores/add', component: ExpProfessorAddComponent , canActivate: [AuthGuard]},
+    {path: 'Exportacao/professores/add/exp-professor-dadosSalvos', component: ExpProfessorDadosSalvosComponent , canActivate: [AuthGuard]},
     {path: 'Exportacao/professores/professor-curso', component: ExpProfessorCursoComponent , canActivate: [AuthGuard]},
     {path: 'Exportacao/professores/professor-titulacao', component: ExpProfessorTitulacaoComponent , canActivate: [AuthGuard]},
 

@@ -28,18 +28,18 @@ export class LoginComponent implements OnInit {
       .subscribe(
         () => {
           this.router.navigate(['Inicio']);
-          this.toastr.success('Logado com Sucesso',null, {
+          this.toastr.success('Logado com Sucesso', null, {
             timeOut: 2000
           });
         },
         error => {
-          this.toastr.error('Falha ao tentar Logar',null, {
+          this.toastr.error('Falha ao tentar Logar', null, {
             timeOut: 2000
           });
         }
       );
 
-      console.log(this.authService.decodedToken);
+    console.log(this.authService.decodedToken);
   }
 
 }

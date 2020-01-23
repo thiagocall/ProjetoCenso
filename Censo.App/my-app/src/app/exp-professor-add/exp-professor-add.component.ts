@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RegulatorioService } from '../_services/regulatorio.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-exp-professor-add',
@@ -9,7 +10,7 @@ import { RegulatorioService } from '../_services/regulatorio.service';
 
 export class ExpProfessorAddComponent implements OnInit {
 
-  constructor(private regulatorio: RegulatorioService) { }
+  constructor(private regulatorio: RegulatorioService,  private toast: ToastrService) { }
 
   p: any;
   resultado: any;
@@ -36,7 +37,7 @@ export class ExpProfessorAddComponent implements OnInit {
       this.dadosFiltrados = this.dadosFiltrados.filter(x => x.cpfProfessor.search(value.toLocaleUpperCase()) !== -1 ||
         x.titulacao.search(value.toLocaleUpperCase()) !== -1 ||
         x.nomProfessor.search(value.toLocaleUpperCase()) !== -1 ||
-        x.regime.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 10 primeiros da lista;
+        x.regime.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 5 primeiros da lista;
     }
     else {
       this.dadosFiltrados = [];
@@ -79,18 +80,22 @@ export class ExpProfessorAddComponent implements OnInit {
   /*remover professores na tabela */
   removerProfessor(professor: any) {
     this.listaProfessorAdicionado.splice(this.listaProfessorAdicionado.indexOf(professor), 1);
-    // console.log(this.listaProfessorAdicionado);
+     //console.log(this.listaProfessorAdicionado);
   }
 
+  /*dados salvos na tabela "DOM" */
   dadosProfessor() {
     this.resposta = this.listaProfessorAdicionado;
+    //console.log(this.resposta); 
   }
 
 
+  //SALVO DADOS AQUI "POST"
   salvarDadosofessor() {
     this.regulatorio.exportacaoProfessor(this.resposta).subscribe(
       response => {
-       console.log(this.resposta);
+       console.log(this.resposta); //log salvo
+       this.toast.success("Professor Adicionado com Sucesso!");
       },
       error => {
         console.log(error);
@@ -98,12 +103,10 @@ export class ExpProfessorAddComponent implements OnInit {
   }
 
 
-
   limparLista() {
     this.listaProfessorAdicionado = [];
     this.resposta = [];
   }
-
 
   ngOnInit() {
     this.getProfessores();
