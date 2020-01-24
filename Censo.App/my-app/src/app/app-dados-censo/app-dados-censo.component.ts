@@ -28,29 +28,20 @@ export class AppDadosCensoComponent implements OnInit {
   }
 
   Restaurar() {
-
     this.parametro = new Parametro();
     this.selecionado = 'true';
-
   }
 
-
   Otimizar() {
-
     this.otmService.Otimizar(this.parametro).subscribe(
       response => {
         // alert("Ok");
-          this.app.ShowToast();
+        this.app.ShowToast();
       },
-      error => {(error);
-      }
-    );
-
-    
+      error => {
+        (error);
+      });
   }
-
-  
-
 
 }
 

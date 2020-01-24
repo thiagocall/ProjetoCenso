@@ -100,9 +100,7 @@ export class RegulatorioService {
   /*Exportação*/ /* */
   exportacaoProfessor(professores: any) {
     const tokenHeader = this.getToken();
-    return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosExportacaoProfessor', professores, { headers: tokenHeader });
+    return this.http.post(this.baseUrl + 'Exportacao/DevolveProf', professores, { headers: tokenHeader });
   }
-
-
 
 }
