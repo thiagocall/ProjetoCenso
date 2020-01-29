@@ -42,11 +42,13 @@ getInfoCurso(codigo: string) {
   return this.http.get(this.baseUrl + 'v1/censo/cursoEmec/obterInfoCurso/' + codigo, {headers: tokenHeader});
 }
 
+/*EXCEL */
 getProfessorExcel() {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
 }
 
+/*CENSO - RESULTADOS  */
 postCalculadoraResultado(dados:any){
 const tokenHeader = this.getToken();
   return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosCalculadora', dados, {headers: tokenHeader});

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RegulatorioService } from '../_services/regulatorio.service';
+import { ExportacaoService } from "../_services/exportacao.service";
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -10,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class ExpProfessorAddComponent implements OnInit {
 
-  constructor(private regulatorio: RegulatorioService, private toast: ToastrService) { }
+  constructor(private regulatorio: RegulatorioService, private exportacao: ExportacaoService, private toast: ToastrService) { }
 
   p: any;
   resultado: any;
@@ -83,35 +84,31 @@ export class ExpProfessorAddComponent implements OnInit {
   }
 
 
-   /*dados salvos na tabela "DOM" 
-   dadosProfessor() {
+   //dados salvos na tabela "DOM" 
+   /*dadosProfessor() {
     this.resposta = this.listaProfessorAdicionado;
     //console.log(this.resposta); 
   } */
 
 
-  //"POST"
+  
+
+  //"POST -- TESTE"
   salvarDadosprofessor() {
-    this.regulatorio.exportacaoProfessor(this.listaProfessorAdicionado).subscribe(
-      () => { //post response ok ou error
-        /*this.toast.success('Professor Adicionado com Sucesso!', null, {
-          timeOut: 1000
-        });*/
+    this.exportacao.exportacaoProfessor(this.listaProfessorAdicionado).subscribe(
+      response => { //post response ok ou error
+        console.log(this.listaProfessorAdicionado)
         this.toast.warning('Não foi possível salvar ou o professor já foi adicionado!', null, {
           timeOut: 1000
         });
-
       },
       error => {
-        //console.log(this.listaProfessorAdicionado)
-        /*this.toast.warning('Não foi possível salvar ou o professor já foi adicionado!', null, {
-          timeOut: 1000
-        });*/
+        console.log(this.listaProfessorAdicionado)
         this.toast.success('Professor Adicionado com Sucesso!', null, {
           timeOut: 1000
         });
       })
-  } 
+  }     
 
 
   limparLista() {
