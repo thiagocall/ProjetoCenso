@@ -42,3 +42,8 @@
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+
+  .mostrarSpinner {
+   color: aliceblue;
+   border-color: aliceblue;
+  }

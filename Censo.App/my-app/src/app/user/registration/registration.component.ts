@@ -19,7 +19,7 @@ export class RegistrationComponent implements OnInit {
     , public router: Router
     , public fb: FormBuilder
     , private toastr: ToastrService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -28,9 +28,9 @@ export class RegistrationComponent implements OnInit {
 
   validation() {
     this.registerForm = this.fb.group({
-     
+
       email: ['', [Validators.required, Validators.email]],
-      
+
       passwords: this.fb.group({
         password: ['', [Validators.required, Validators.minLength(4)]],
         confirmPassword: ['', Validators.required]
@@ -54,13 +54,13 @@ export class RegistrationComponent implements OnInit {
       this.user = Object.assign(
         { email: this.registerForm.get('email').value },
         { password: this.registerForm.get('passwords.password').value },
-        ); this.registerForm.value
+      ); this.registerForm.value
 
-        
+
       this.authService.register(this.user).subscribe(
         () => {
           this.router.navigate(['/user/login']);
-          this.toastr.success('Cadastro Realizado',null, {
+          this.toastr.success('Cadastro Realizado', null, {
             timeOut: 2000
           });
         }, error => {
@@ -69,18 +69,16 @@ export class RegistrationComponent implements OnInit {
           erro.forEach(element => {
             switch (element.code) {
               case 'DuplicateUserName':
-                this.toastr.error('Cadastro Duplicado!',null, {
+                this.toastr.error('Cadastro Duplicado!', null, {
                   timeOut: 2000
                 });
                 break;
               default:
-               this.toastr.error(`Erro no Cadatro! CODE: ${element.code}`);
+                this.toastr.error(`Erro no Cadatro! CODE: ${element.code}`);
                 break;
             }
           });
-        }
-
-      );
+        });
     }
   }
 
