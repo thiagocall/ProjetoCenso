@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Censo.API.Data;
 using Censo.API.Data.Censo;
 using Censo.API.Model.Censo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -51,7 +52,7 @@ namespace Censo.API.Controllers.Censo
             return Ok(results);
             
         }
-        
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(long id)
         {

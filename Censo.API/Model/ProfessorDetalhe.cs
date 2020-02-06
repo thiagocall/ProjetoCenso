@@ -20,6 +20,10 @@ namespace Censo.API.Model
 
         public List<string> Regioes = new List<string>();
         
+        public string codSexo { get; set; }
+        public string Nomraca { get; set; }
+        public string NomMae { get; set; }
+        public string NacioProfessor  { get; set; }
     }
 
         public class Curso{

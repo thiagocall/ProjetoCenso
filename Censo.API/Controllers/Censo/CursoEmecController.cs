@@ -135,7 +135,7 @@ namespace Censo.API.Controllers.Censo
             return Ok(query);
         }
 
-
+        [AllowAnonymous]
         [HttpGet("ObterResultados/{_id}")]
         public ActionResult obterResultadosporId(long _id)
         {
@@ -249,13 +249,13 @@ namespace Censo.API.Controllers.Censo
                 // Tratando dados para Excel
 
                 var parametros =  new List<ParametrosCenso>();
-                //var resultados = new List<Resultado>();
+                var resultados = new List<Resultado>();
 
                 var ListaCurso = await this.Context.CursoCenso.ToListAsync();
 
                 parametros.Add(JsonConvert.DeserializeObject<ParametrosCenso>(resultadoOTM.Parametro));
 
-                var resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
+                var resultado = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
 
                 var professores = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);
 
@@ -1019,13 +1019,13 @@ namespace Censo.API.Controllers.Censo
 
 
         #endregion
-         [HttpPost("GetDadosCalculadora")]
-        public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) {
+    [HttpPost("GetDadosCalculadora")]
+    public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) {
     
 
-    try
-    {
-        var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
+        try
+        {
+            var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
             var professores = JsonConvert.DeserializeObject<IEnumerable<CursoProfessor>>(Strprof).ToList();
             var dados = professores.Find(x => x.CodEmec == _dados._idEmec);
             var area = professores.Find(x => x.CodEmec == _dados._idEmec).CodArea;
@@ -1044,17 +1044,17 @@ namespace Censo.API.Controllers.Censo
 
              return Ok(new {QtdDR, QtdDH, QtdMR, QtdMH, QtdER, QtdEH, Qtd, 
                             Nota_Doutor, Nota_Mestre, Nota_Regime, ListaPrevisaoSKU} );
-    }
-    catch (System.Exception ex)
-    {
-        
-        return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-    }
+        }
+        catch (System.Exception ex)
+        {
             
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        }
+                
             // return Ok(dados);
 
 
-        }
+    }
         
 
     }

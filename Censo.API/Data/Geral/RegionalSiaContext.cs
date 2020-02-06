@@ -13,6 +13,7 @@ namespace Censo.API.Model
         }
 
         public virtual DbSet<RegionalSia> RegionalSia { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

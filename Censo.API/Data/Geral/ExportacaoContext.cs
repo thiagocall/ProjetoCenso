@@ -15,6 +15,8 @@ namespace Censo.API.Model.dados
 
         public virtual DbSet<ProfessorAdicionado> ProfessorAdicionado { get; set; }
 
+        public virtual DbSet<CursoEmecIes> CursoEmecIes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -43,7 +45,38 @@ namespace Censo.API.Model.dados
                     .HasColumnName("qtdHorasFs");        
 
             });
-            
+
+            modelBuilder.Entity<CursoEmecIes>(entity =>
+            {
+                entity.ToTable("Rel_Curso_Emec_IES");
+                
+               entity.HasKey(e => e.CodCursoEmec)
+                     .HasName("PK_COD_CURSO_EMEC");
+
+                entity.Property(e => e.CodCursoEmec)
+                    .HasColumnName("COD_CURSO_EMEC");
+
+                entity.Property(e => e.CodCurso)
+                    .HasColumnName("COD_CURSO");
+
+                entity.Property(e => e.CodCampus)
+                    .HasColumnName("COD_CAMPUS");
+
+                entity.Property(e => e.NumHabilitacao)
+                    .HasColumnName("NUM_HABILITACAO");    
+
+                entity.Property(e => e.Regional)
+                    .HasColumnName("REGIONAL");        
+                
+                entity.Property(e => e.CodIes)
+                    .HasColumnName("COD_IES");        
+
+                entity.Property(e => e.NomIes)
+                    .HasColumnName("NOM_IES");        
+
+            });
+       
+
         }
     }
 }
