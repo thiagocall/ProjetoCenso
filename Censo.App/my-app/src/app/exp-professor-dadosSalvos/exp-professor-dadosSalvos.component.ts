@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ExpProfessorDadosSalvosComponent implements OnInit {
 
+  item: any;
+  cpfProfessor: any;
+  nomProfessor: any;
+  regime: any;
+  titulacao: any;
+
   constructor() { }
 
   ngOnInit() {

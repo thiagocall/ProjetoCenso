@@ -44,7 +44,7 @@
             </div>
           </div>
           <!--card 3-->
-          <div class="col-md-4">
+        <!--  <div class="col-md-4">
             <div class="card card-move" style="width: 18rem" [routerLink]="['/']">
               <div id="cardhead" class="card-header">
                 <h5 class="card-title">Exportar Censo</h5>
@@ -52,6 +52,21 @@
               <div class="card-body">
                 <i class="fas fa-id-card-alt fa-2x icon"></i>
                 <p>Exporta arquivo para o Censo Docente</p>
+              </div>
+            </div>
+          </div> -->
+
+
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Exportar Censo</h5>
+              </div>
+              <div class="card-body">
+
+                <p class="icone">Exporta arquivo para o Censo Docente</p>
+                <button class="btn btn-sm btn-outline-success" (click)="exportacaoCensoExcel()">
+                  <i class="fas fa-file-excel"></i> Exportar</button>
               </div>
             </div>
           </div>

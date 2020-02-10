@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegulatorioService } from '../_services/regulatorio.service';
-import {ToastrService} from 'ngx-toastr';
+import { ExportacaoService } from "../_services/exportacao.service";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-exp-professor-add',
@@ -10,7 +11,7 @@ import {ToastrService} from 'ngx-toastr';
 
 export class ExpProfessorAddComponent implements OnInit {
 
-  constructor(private regulatorio: RegulatorioService,  private toast: ToastrService) { }
+  constructor(private regulatorio: RegulatorioService, private exportacao: ExportacaoService, private toast: ToastrService) { }
 
   p: any;
   resultado: any;
@@ -57,7 +58,6 @@ export class ExpProfessorAddComponent implements OnInit {
 
   /*adicionar professores na tabela */
   addProfessor(professor: any) {
-
     let prof = {
       cpfProfessor: professor.cpfProfessor,
       nomProfessor: professor.nomProfessor,
@@ -80,27 +80,35 @@ export class ExpProfessorAddComponent implements OnInit {
   /*remover professores na tabela */
   removerProfessor(professor: any) {
     this.listaProfessorAdicionado.splice(this.listaProfessorAdicionado.indexOf(professor), 1);
-     //console.log(this.listaProfessorAdicionado);
+    //console.log(this.listaProfessorAdicionado);
   }
 
-  /*dados salvos na tabela "DOM" */
-  dadosProfessor() {
+
+   //dados salvos na tabela "DOM" 
+   /*dadosProfessor() {
     this.resposta = this.listaProfessorAdicionado;
     //console.log(this.resposta); 
-  }
+  } */
 
 
-  //SALVO DADOS AQUI "POST"
-  salvarDadosofessor() {
-    this.regulatorio.exportacaoProfessor(this.resposta).subscribe(
-      response => {
-       console.log(this.resposta); //log salvo
-       this.toast.success("Professor Adicionado com Sucesso!");
+  
+
+  //"POST -- TESTE"
+  salvarDadosprofessor() {
+    this.exportacao.exportacaoProfessor(this.listaProfessorAdicionado).subscribe(
+      response => { //post response ok ou error
+        console.log(this.listaProfessorAdicionado)
+        this.toast.warning('Não foi possível salvar ou o professor já foi adicionado!', null, {
+          timeOut: 1000
+        });
       },
       error => {
-        console.log(error);
+        console.log(this.listaProfessorAdicionado)
+        this.toast.success('Professor Adicionado com Sucesso!', null, {
+          timeOut: 1000
+        });
       })
-  }
+  }     
 
 
   limparLista() {

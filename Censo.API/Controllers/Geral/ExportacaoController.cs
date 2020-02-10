@@ -135,7 +135,7 @@ namespace Censo.API.Controllers.Geral
                 ListaProfessorDevolve.ForEach(x => this.ExpContext.Add(x));
                 this.ExpContext.SaveChanges();
 
-                return StatusCode(StatusCodes.Status201Created, "Incluído com sucesso.");
+                return Ok("Incluído com sucesso.");
             }
             catch (Exception e) {
                 

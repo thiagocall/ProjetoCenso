@@ -95,14 +95,4 @@ export class RegulatorioService {
   }
 
 
-  // EXPORTAÇÃO 
-
-  /*Exportação*/ /* */
-  exportacaoProfessor(professores: any) {
-    const tokenHeader = this.getToken();
-    return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosExportacaoProfessor', professores, { headers: tokenHeader });
-  }
-
-
-
 }
