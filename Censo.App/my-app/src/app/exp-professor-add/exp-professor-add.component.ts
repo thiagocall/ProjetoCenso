@@ -35,8 +35,9 @@ export class ExpProfessorAddComponent implements OnInit {
   filtrarItem(value: any) {
     if (value.length > 4) {
       this.dadosFiltrados = this.resultado;
-      this.dadosFiltrados = this.dadosFiltrados.filter(x => x.cpfProfessor.search(value.toLocaleUpperCase()) !== -1 ||
-        x.titulacao.search(value.toLocaleUpperCase()) !== -1 ||
+      this.dadosFiltrados = this.dadosFiltrados.filter( x => 
+        x.cpfProfessor.search(value.toLocaleUpperCase()) !== -1 ||
+        x.titulacao.search(value.toLocaleUpperCase()) !== -1    ||
         x.nomProfessor.search(value.toLocaleUpperCase()) !== -1 ||
         x.regime.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 5 primeiros da lista;
     }
@@ -47,7 +48,7 @@ export class ExpProfessorAddComponent implements OnInit {
 
   /*pesquisa com a lista completa ao recarregar a pagina */
   getProfessores() {
-    this.regulatorio.PesquisaProfessores().subscribe(
+    this.regulatorio.PesquisaProfessores().subscribe( // chamando meu servico
       response => {
         this.resultado = response;
         //console.log(this.resultado);
@@ -91,13 +92,11 @@ export class ExpProfessorAddComponent implements OnInit {
   } */
 
 
-  
-
   //"POST -- TESTE"
   salvarDadosprofessor() {
     this.exportacao.exportacaoProfessor(this.listaProfessorAdicionado).subscribe(
       response => { //post response ok ou error
-        console.log(this.listaProfessorAdicionado)
+       // console.log(this.listaProfessorAdicionado)
         this.toast.warning('Não foi possível salvar ou o professor já foi adicionado!', null, {
           timeOut: 1000
         });
@@ -112,12 +111,12 @@ export class ExpProfessorAddComponent implements OnInit {
 
 
   limparLista() {
-    this.listaProfessorAdicionado = [];
-    this.resposta = [];
+    this.listaProfessorAdicionado = []; //"apaga" os professores adicionados - retorna vazio
+    this.resposta = []; // "apaga" os itens pesquisados - retorna vazio
   }
 
   ngOnInit() {
-    this.getProfessores();
+    this.getProfessores(); 
   }
 }
 

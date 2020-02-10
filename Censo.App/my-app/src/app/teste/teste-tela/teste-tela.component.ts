@@ -5,11 +5,25 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './teste-tela.component.html',
   styleUrls: ['./teste-tela.component.css']
 })
-export class TesteTelaComponent implements OnInit {
 
+export class TesteTelaComponent implements OnInit {
+  
   constructor() { }
+  
+ 
 
   ngOnInit() {
+  
   }
 
 }
+
+
+ 
+  
+
+  
+
+
+
+

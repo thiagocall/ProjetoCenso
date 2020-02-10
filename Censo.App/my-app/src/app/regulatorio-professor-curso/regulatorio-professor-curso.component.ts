@@ -10,31 +10,31 @@ import { saveAs } from 'file-saver';
 export class RegulatorioProfessorCursoComponent implements OnInit {
 
   constructor(private regulatorioService: RegulatorioService) { }
-  campi:any;
-  curso:any[];
+  campi: any;
+  curso: any[];
   dados: any;
-  cursoFiltrado:any;
-  resultado:any;
+  cursoFiltrado: any;
+  resultado: any;
   p: any;
   errodados = false;
   selecione: any;
   campoSelecionado: any;
 
-  
+
   ngOnInit() {
-  this.getCampus();
+    this.getCampus();
   }
 
-  
+
   getCampus() {
-    this.regulatorioService.getCampus().subscribe(
+    this.regulatorioService.getCampus().subscribe(   // http://localhost:5000/api/v1/dados/getCampus/
       response => {
         this.dados = response;
         this.curso = this.dados.cursos;
         this.campi = this.dados.campi;
 
         //campus
-        this.campi.sort(function (a,b) {
+        this.campi.sort(function (a, b) {
           if (a.nomCampus > b.nomCampus) {
             return 1;
           }
@@ -44,9 +44,9 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
           return 0;
         });
         //console.log(this.dados.curso);
-        
+
         //curso
-        this.curso.sort(function (a,b) {
+        this.curso.sort(function (a, b) {
           if (a.nomCursoCenso > b.nomCursoCenso) {
             return 1;
           }
@@ -62,14 +62,10 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
         console.log('curso' + error);
       }
     );
-  } 
-
-
+  }
 
 
   exportarResultadoExcel() {
-
-    
     let blob;
     let id;
     console.log(this.selecione);
@@ -79,37 +75,37 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
       id = this.campoSelecionado;
       // console.log(this.selecione);
       this.regulatorioService.getRegulatorioProfessorCampusExcel(id)
-      .subscribe(
-        response => {
-          blob = new Blob([response], { type: 'application/octet-stream' });
-          saveAs(blob, `Professor_Curso_${id}.xlsx`);
-        }
-      )
-      
+        .subscribe(
+          response => {
+            blob = new Blob([response], { type: 'application/octet-stream' });
+            saveAs(blob, `Professor_Curso_${id}.xlsx`);
+          }
+        )
+
     } else {
       id = this.selecione;
 
       this.regulatorioService.getRegulatorioProfessorCursoExcel(id)
-          .subscribe(
-            response => {
-              blob = new Blob([response], { type: 'application/octet-stream' });
-              saveAs(blob, `Professor_Curso_${id}.xlsx`);
-            }
-          )
+        .subscribe(
+          response => {
+            blob = new Blob([response], { type: 'application/octet-stream' });
+            saveAs(blob, `Professor_Curso_${id}.xlsx`);
+          }
+        )
     }
 
   }
 
 
- 
-  getCurso(valor: any){
-   // console.log(valor);
-   this.campoSelecionado = valor;
-   console.log(this.campoSelecionado);
-   this.cursoFiltrado = this.curso.filter(c => c.codCampus == valor);
+
+  getCurso(valor: any) {
+    // console.log(valor);
+    this.campoSelecionado = valor;
+    console.log(this.campoSelecionado);
+    this.cursoFiltrado = this.curso.filter(c => c.codCampus == valor);
   }
 
-  getResultado(valor: number){
+  getResultado(valor: number) {
     this.regulatorioService.getRegulatorioProfessorCurso(valor).subscribe(
       response => {
         this.errodados = false;
@@ -123,6 +119,6 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
       }
     );
   }
- 
+
 
 }

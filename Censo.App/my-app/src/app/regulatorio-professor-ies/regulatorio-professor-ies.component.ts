@@ -43,6 +43,8 @@ export class RegulatorioProfessorIesComponent implements OnInit {
         // console.log(error);
       }
     );
+
+
   } 
 
    // codInstituicao
@@ -52,6 +54,7 @@ export class RegulatorioProfessorIesComponent implements OnInit {
     }
     this.mostrarBusca = true;
     this.resultadoId = [];
+    //console.log(this.resultadoId); //dados professor e dados instituição
     this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
       response => {
         console.log(response);
@@ -74,7 +77,7 @@ export class RegulatorioProfessorIesComponent implements OnInit {
     );
   }
 
-
+  /** exporta excel */
   exportarResultadoExcel(codies: any) {
     if (codies == '-1') {
       return null;

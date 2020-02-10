@@ -26,11 +26,10 @@ export class LoginComponent implements OnInit {
     , public router: Router
     , private toastr: ToastrService) { }
 
-  ngOnInit()
-   {
+  ngOnInit() {
 
     this.validation();
-    
+
     if (this.authService.loggedIn()) {
       this.router.navigate(['Inicio']);
     }
@@ -38,7 +37,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.mostrarSpinner = true;
-    
+
     // document.getElementById('btnLog').classList.replace("","");
     this.authService.login(this.model)
       .subscribe(
@@ -55,22 +54,14 @@ export class LoginComponent implements OnInit {
           this.mostrarSpinner = false;
         }
       );
-      
-      
-
     console.log(this.authService.decodedToken);
   }
 
 
-
-
-
-
-validation() {
-  this.registerForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-  });
-}
-
+  validation() {
+    this.registerForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
 
 }
