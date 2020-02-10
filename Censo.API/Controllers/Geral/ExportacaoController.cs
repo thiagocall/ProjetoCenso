@@ -210,10 +210,11 @@ namespace Censo.API.Controllers.Geral
         // INICIO 
        [AllowAnonymous]
         [HttpGet("Geracao/Excel/{id}")]
-        public async Task<IActionResult> Geracao(long id) {
+        public async Task<IActionResult> Geracao(long id) 
+        {  //inicio requisicao
 
              try
-            {
+            {   // inicio try catch
                 var resultadoOTM = await this.ProducaoContext.TbResultado
                         .FirstOrDefaultAsync(r => r.Id == id);
                 
@@ -224,6 +225,8 @@ namespace Censo.API.Controllers.Geral
 
                 var ListaEmecIES = await this.ExpContext.CursoEmecIes.ToListAsync();
                 var ListaCurso = await this.CContext.CursoCenso.ToListAsync();
+                //List<object> Listatotalprof = new List<object>();
+                List<ProfessorEscrita> Listatotalprof = new List<ProfessorEscrita>();
                 
                 //Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
                 Dictionary<string, Professor> dic = new Dictionary<string, Professor>();
@@ -237,7 +240,8 @@ namespace Censo.API.Controllers.Geral
 
                 XCursoEmecIes.ForEach( p =>
                 {
-                    if (!DicEmecIes.TryGetValue(p.CodCursoEmec, out string cr)) {
+                    if (!DicEmecIes.TryGetValue(p.CodCursoEmec, out string cr)) 
+                    {
                         
                         DicEmecIes.Add(p.CodCursoEmec, Convert.ToString(p.CodIes));
                     }
@@ -251,7 +255,8 @@ namespace Censo.API.Controllers.Geral
 
                 cursoCenso.ForEach( p =>
                 {
-                    if (!EmecIes.TryGetValue(p.CodEmec, out string cr)) {
+                    if (!EmecIes.TryGetValue(p.CodEmec, out string cr)) 
+                    {
                         
                         EmecIes.Add(p.CodEmec, Convert.ToString(p.CodIes));
                     }
@@ -263,7 +268,8 @@ namespace Censo.API.Controllers.Geral
 
                 cursoCenso.ForEach( p =>
                 {
-                    if (!CursoEmec.TryGetValue(p.CodEmec, out string cr)) {
+                    if (!CursoEmec.TryGetValue(p.CodEmec, out string cr)) 
+                    {
                         
                         CursoEmec.Add(p.CodEmec, p.NomCursoCenso);
                     }
@@ -271,47 +277,48 @@ namespace Censo.API.Controllers.Geral
                 });
 
                 List<ProfessorGeracao> listaProfessor = new List<ProfessorGeracao>();
-                //String.Join(";", listaProfessor);
 
                 var dicProfessor = Profcontext.Professores.ToDictionary(x => x.CpfProfessor.ToString());
 
 
                 foreach (var item in professores)
-                {
+                {  // inicio foreach
                     item.Professores.ForEach( (p) =>
-                            {
+                            {  // inicio foreach
                                       
                                if (dicProfessor.ContainsKey(p.cpfProfessor.ToString()))
                                 {
                                     var prof =  dicProfessor[p.cpfProfessor.ToString()];
                                    // NomeCompleto = dic[p.cpfProfessor].CpfProfessor
 
-                               listaProfessor.Add( new ProfessorGeracao { 
-                                   cpfProfessor = p.cpfProfessor,
-                                   Codies = EmecIes[item.CodEmec],             
-                                   CodEmec = item.CodEmec,    
-                                   NomeCompleto =  prof.NomProfessor,
-                                   Dtnascimento = prof.DtNascimentoProfessor.ToString(),
-                                   NomRaca = prof.NomRaca,
-                                   NomMae = prof.NomMae,
-                                   NacioProfessor = prof.NacionalidadeProfessor,
-                                   Pais = prof.NomPais,
-                                   UF = prof.UfNascimento,
-                                   Municipio = prof.MunicipioNascimento,
-                                   Escolaridade = prof.Escolaridade,
-                                   Titulacao = p.Titulacao,
-                                   NomeCurso = CursoEmec[item.CodEmec],
-                                   
-                               });
-                               }  ;
-                            });
-                }
+                                    listaProfessor.Add( new ProfessorGeracao 
+                                    { 
+                                        cpfProfessor = p.cpfProfessor,
+                                        Codies = EmecIes[item.CodEmec],             
+                                        CodEmec = item.CodEmec,    
+                                        NomeCompleto =  prof.NomProfessor,
+                                        Dtnascimento = prof.DtNascimentoProfessor.ToString(),
+                                        //NomSexo = prof.CodSexo,
+                                        NomRaca = prof.NomRaca,
+                                        NomMae = prof.NomMae,
+                                        NacioProfessor = prof.NacionalidadeProfessor,
+                                        Pais = prof.NomPais,
+                                        UF = prof.UfNascimento,
+                                        Municipio = prof.MunicipioNascimento,
+                                        Escolaridade = prof.Escolaridade,
+                                        Titulacao = p.Titulacao,
+                                        NomeCurso = CursoEmec[item.CodEmec],
+
+                                    });  // termino do add listaprofessor
+                               };  // termino do if
+                            });   // termino do for each
+                } // termino do for each
 
                 // inicio FOR EACH PARA SEPARA POR IES
                 
                 Dictionary<string, ProfessorGeracao> DicProfessor2 = new Dictionary<string, ProfessorGeracao>();
 
-                  foreach (var item in professores)
+                foreach (var item in professores)
                 {
                     item.Professores.ForEach( (p) =>
                             {
@@ -350,11 +357,12 @@ namespace Censo.API.Controllers.Geral
                                         //IES ies = prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec]); 
                                         //ies.codies = EmecIes[item.CodEmec];  //erro aqui
                                         IES ies = prof.Listaies.Find(x => x.codies == DicEmecIes[item.CodEmec]); 
-                                        ies.codies = DicEmecIes[item.CodEmec]; //erro verificar
+                                        //ies.codies = DicEmecIes[item.CodEmec]; //erro verificar
                                         CursoProf curso = new CursoProf();
                                         curso.codcursoEmec = item.CodEmec;
                                         curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso;
                                         ies.Cursos.Add(curso);
+                                        //prof.Listaies.Add(ies);
                                         //String.Join(";", cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso);
                                         //DicProfessor2.Add(p.cpfProfessor.ToString(), prof);  // CRIEI2 UM NOVO ITEM NO OBJETO 
                                         
@@ -382,35 +390,65 @@ namespace Censo.API.Controllers.Geral
                             }  // final do for each  
       
                     );   // final(p)
-                }
-                // FINAL DO FOR EACH
+                
+                } // FINAL DO FOR EACH
 
+                // NOVO NOVO NOVO
                 // inicio da pesquisa e ordenação
-                Dictionary<string, ProfessorGeracao> DicProfessor3 = new Dictionary<string, ProfessorGeracao>();
-                foreach (var item in professores)
-                {
-                    item.Professores.ForEach( (p) =>
-                    {
-                    //ProfessorGeracao profi = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   
-                    var prof = DicProfessor3[p.cpfProfessor.ToString()];
-                    IES ies = prof.Listaies.Find(x => x.codies == DicEmecIes[item.CodEmec]); 
-                    if (ies.codies == EmecIes[item.CodEmec] && prof.cpfProfessor == p.cpfProfessor);
-                        {
-                            prof.NomeCurso  = String.Join(";", cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso);
-                        }
-                    
-                    }
-                    );
-                }
-                // termino da pesquisa e ordenacao
+                
+                
+                var listaprofselecionado = listaProfessor;
+
+                ProfessorEscrita profesc;
+
+                foreach (var pro in DicProfessor2.Values)
+                {  // inicio foreach
+                        profesc = new ProfessorEscrita();                        
+                        
+                        //profesc.cpfProfessor = pro.cpfProfessor;
+
+                        // profesc.Listaies = item.Listaies.ToList();
+                        //profesc.Listaies TodasIes;
+                        foreach (var Umaies in pro.Listaies )
+                            {
+                            //profesc.Cursos = String.Join(";", cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso);
+                            //CursoProf curso = new CursoProf();
+                            //cursoprof.nomcursoEmec = item.NomeCurso;
+                            
+                            profesc.Codies = Umaies.codies;
+                            profesc.CodEmec = Umaies.CodiesEmec;
+                            profesc.NomeCurso = pro.NomeCompleto;
+                            profesc.cpfProfessor = pro.cpfProfessor;
+                            profesc.NomeCompleto = pro.NomeCompleto;
+                            profesc.Dtnascimento = System.DateTime.Parse(pro.Dtnascimento).ToString("dd/mm/yyyy");
+                            profesc.NomSexo = 
+                            profesc.NomRaca = pro.NomRaca;
+                            //pro.codSexo
+                            profesc.NomMae = pro.NomMae;
+                            profesc.NacioProfessor = pro.NacioProfessor;
+                            profesc.Pais = pro.Pais;
+                            profesc.UF = pro.UF;
+                            profesc.Municipio = pro.Municipio;
+                            profesc.Escolaridade = pro.Escolaridade;
+                            profesc.primeiraatuacao = "primeiraatuacao";
+                            profesc.segundaatuacao = "segundaatuacao";
+                            profesc.terceiraatuacao = "terceiraatuacao";
+                            profesc.quartaatuacao = "quartaatuacao";
+                            profesc.Cursos = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+                            Listatotalprof.Add(profesc);
+                            }
+                            //);
+                }  // termino for each
+            // }  //final comentado                
 
                 //  Monta arquivo para Download em Excel
 
                 var stream = new MemoryStream();
 
-                using (var package = new ExcelPackage(stream)) {                
+                using (var package = new ExcelPackage(stream)) 
+                {                
                     var shProfessores = package.Workbook.Worksheets.Add("Professores");
-                    shProfessores.Cells.LoadFromCollection(listaProfessor, true);
+                    shProfessores.Cells.LoadFromCollection(Listatotalprof, true);
                     package.Save();            
                 };  
 
@@ -420,14 +458,44 @@ namespace Censo.API.Controllers.Geral
                     var fileName = "Geracao-" + id + "-" + (DateTime.Now.ToString("dd-MM-yyyy")) + ".xlsx";
 
                 return File(stream, contentType, fileName);
-            }
+            } // termino try catch
             catch (System.Exception ex)
             {
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
             }        
 
-        }
+        }    // termino da requisicao
+        
+        //}
 
+                public class ProfessorEscrita 
+            { 
+                        
+                        public string Codies { get; set; }  
+                        public long CodEmec { get; set; }
+                        public long cpfProfessor { get; set; }
+                        public string NomeCompleto { get; set; }
+                        public string Dtnascimento { get; set; }
+                        public string NomSexo {get; set;}
+                        public string NomRaca { get; set; }
+                        public string NomMae { get; set; }
+                        public string NacioProfessor { get; set; }
+                        public string Pais { get; set; }
+                        public string UF { get; set; }
+                        public string Municipio { get; set; }
+                        public string Escolaridade { get; set; }    
+                        public string NomeCurso { get; set; }    
+                        //public string Titulacao { get; set; } 
+
+                        public string primeiraatuacao { get; set; }
+                        public string segundaatuacao { get; set; }
+                        public string terceiraatuacao { get; set; }
+                        public string quartaatuacao { get; set; }
+                        public string Bolsapesquisa { get; set; }
+
+                        public string Cursos { get; set; }
+
+            }
 
         // TERMINO
     }
