@@ -9,6 +9,7 @@ namespace Censo.API.Model
         public long CodEmec { get; set; }
         public string NomeCompleto { get; set; }
         public string Dtnascimento { get; set; }
+        public string NomSexo { get; set; }
         public string NomRaca { get; set; }
         public string NomMae { get; set; }
         public string NacioProfessor { get; set; }
@@ -16,7 +17,16 @@ namespace Censo.API.Model
         public string UF { get; set; }
         public string Municipio { get; set; }
         public string NomeCurso { get; set; }    
-        public string Escolaridade { get; set; }    
+        public string Escolaridade { get; set; } 
+        public string DocentecomDeficiencia { get; set; }   
+        public string def1 { get; set; }    
+        public string def2 { get; set; }    
+        public string def3 { get; set; }    
+        public string Situacaodocente { get; set; }    
+        public string Perfil { get; set; }    
+        public string Regime { get; set; }    
+        public string DocenteSubstituto { get; set; }
+        public string DocenteAtivo3112 { get; set; }
         public string Titulacao { get; set; } 
         public List<IES> Listaies = new List<IES>();
         
@@ -38,7 +48,7 @@ namespace Censo.API.Model
     public class IES
     {
             public string codies { get; set; }
-            public long Nomies { get; set; }
+            public string Nomies { get; set; }
             public long CodiesEmec { get; set; }  
             public long NomiesEmec { get; set; }  
             public List<CursoProf> Cursos = new List<CursoProf>();

@@ -17,6 +17,8 @@ namespace Censo.API.Model.dados
 
         public virtual DbSet<CursoEmecIes> CursoEmecIes { get; set; }
 
+        public virtual DbSet<IesSiaEmec> IesSiaEmec { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -76,6 +78,23 @@ namespace Censo.API.Model.dados
 
             });
        
+            modelBuilder.Entity<IesSiaEmec>(entity =>
+            {
+                entity.ToTable("Rel_IES_SIA_EMEC");
+                
+               entity.HasKey(e => e.Cod_Ies)
+                     .HasName("PK_COD_IES");
+                
+                entity.Property(e => e.Cod_Ies)
+                    .HasColumnName("COD_IES");        
+
+                entity.Property(e => e.Cod_Ies_Emec)
+                    .HasColumnName("COD_IES_EMEC");  
+
+                entity.Property(e => e.Nom_Ies)
+                    .HasColumnName("NOM_IES");        
+
+            });
 
         }
     }

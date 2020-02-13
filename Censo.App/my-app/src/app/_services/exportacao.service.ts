@@ -25,7 +25,7 @@ export class ExportacaoService {
     return this.http.post(this.baseUrl + 'Exportacao/DevolveProf', professores, { headers: tokenHeader });
   }
 
-  /* EXPORTAR CENSO */
+  /* GERAR EXPORTAÇÃO CENSO */
   getExportarCensoExcel() {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'Exportacao/Geracao/Excel/20191202113440', { responseType: 'blob', headers: tokenHeader });

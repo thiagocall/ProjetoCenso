@@ -18,6 +18,9 @@ using Newtonsoft.Json;
 using Censo.API.Model.Censo;
 using Censo.API.Parametros;
 using OfficeOpenXml;
+using System.Globalization;
+using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace Censo.API.Controllers.Geral
 {
@@ -225,6 +228,10 @@ namespace Censo.API.Controllers.Geral
 
                 var ListaEmecIES = await this.ExpContext.CursoEmecIes.ToListAsync();
                 var ListaCurso = await this.CContext.CursoCenso.ToListAsync();
+
+                //Erro ocorre AQUI
+                var ListaIesSiaEmec = await this.ExpContext.IesSiaEmec.ToListAsync();
+
                 //List<object> Listatotalprof = new List<object>();
                 List<ProfessorEscrita> Listatotalprof = new List<ProfessorEscrita>();
                 
@@ -247,7 +254,6 @@ namespace Censo.API.Controllers.Geral
                     }
                      
                 });
-                //fim
 
                 var cursoCenso = ListaCurso;
 
@@ -257,8 +263,11 @@ namespace Censo.API.Controllers.Geral
                 {
                     if (!EmecIes.TryGetValue(p.CodEmec, out string cr)) 
                     {
-                        
-                        EmecIes.Add(p.CodEmec, Convert.ToString(p.CodIes));
+                        if (p.CodIes != null)
+                        {
+                            EmecIes.Add(p.CodEmec, Convert.ToString(p.CodIes));
+                        }
+                            
                     }
                      
                 });
@@ -278,6 +287,7 @@ namespace Censo.API.Controllers.Geral
 
                 List<ProfessorGeracao> listaProfessor = new List<ProfessorGeracao>();
 
+                // Dicionario do professor com seus dados pessoais
                 var dicProfessor = Profcontext.Professores.ToDictionary(x => x.CpfProfessor.ToString());
 
 
@@ -289,7 +299,6 @@ namespace Censo.API.Controllers.Geral
                                if (dicProfessor.ContainsKey(p.cpfProfessor.ToString()))
                                 {
                                     var prof =  dicProfessor[p.cpfProfessor.ToString()];
-                                   // NomeCompleto = dic[p.cpfProfessor].CpfProfessor
 
                                     listaProfessor.Add( new ProfessorGeracao 
                                     { 
@@ -298,7 +307,7 @@ namespace Censo.API.Controllers.Geral
                                         CodEmec = item.CodEmec,    
                                         NomeCompleto =  prof.NomProfessor,
                                         Dtnascimento = prof.DtNascimentoProfessor.ToString(),
-                                        //NomSexo = prof.CodSexo,
+                                        NomSexo = prof.CodSexo,
                                         NomRaca = prof.NomRaca,
                                         NomMae = prof.NomMae,
                                         NacioProfessor = prof.NacionalidadeProfessor,
@@ -306,6 +315,15 @@ namespace Censo.API.Controllers.Geral
                                         UF = prof.UfNascimento,
                                         Municipio = prof.MunicipioNascimento,
                                         Escolaridade = prof.Escolaridade,
+                                        DocentecomDeficiencia = prof.DocenteDeficiencia,
+                                        def1 = prof.Def1,
+                                        def2 = prof.Def2,
+                                        def3 = prof.Def3,
+                                        Situacaodocente = prof.DocenteDeficiencia,
+                                        Perfil = prof.Perfil,
+                                        Regime = p.Regime,
+                                        DocenteSubstituto = prof.DocenteSubstituto,
+                                        DocenteAtivo3112 = prof.Ativo,
                                         Titulacao = p.Titulacao,
                                         NomeCurso = CursoEmec[item.CodEmec],
 
@@ -314,8 +332,7 @@ namespace Censo.API.Controllers.Geral
                             });   // termino do for each
                 } // termino do for each
 
-                // inicio FOR EACH PARA SEPARA POR IES
-                
+                // inicio FOR EACH PARA SEPARA POR IES = DicProfessor2 organiza por IES os professores
                 Dictionary<string, ProfessorGeracao> DicProfessor2 = new Dictionary<string, ProfessorGeracao>();
 
                 foreach (var item in professores)
@@ -324,11 +341,12 @@ namespace Censo.API.Controllers.Geral
                             {
                                 var varcpf = p.cpfProfessor;
                                 var varcpf2 = p.cpfProfessor;
-                                if (p.cpfProfessor.ToString() == "4243979782")
+                                /*
+                                if (p.cpfProfessor.ToString() == "5809478409")
                                 {
                                     varcpf2 = p.cpfProfessor;
-                                }
-                                    
+                                } */
+
                                 // Se não existe o professor , Criacao de um dicionario novo para incluir os professores
                                if (!DicProfessor2.ContainsKey(p.cpfProfessor.ToString()))   
                                 {
@@ -337,6 +355,8 @@ namespace Censo.API.Controllers.Geral
                                    prof.cpfProfessor = p.cpfProfessor;  // adicionei um cpf que nao existia dentro da classe
                                    IES ies = new IES();                 // instanciei uma IES dentro professorgeracao
                                    ies.codies = EmecIes[item.CodEmec];  // adicinei uma IES nova
+                                   //ies.Nomies = DicEmecIes[item.CodEmec].Nomies;
+                                   ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
                                    CursoProf curso = new CursoProf();   // instanciei um novo curso
                                    curso.codcursoEmec = item.CodEmec;   // adicinei um codemec no curso
                                    curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; // procurei o curso
@@ -346,32 +366,28 @@ namespace Censo.API.Controllers.Geral
                                 }
                                else  // else(1) caso exista o professor
                                 {
-                                    //var prof =  DicProfessor2[p.cpfProfessor.ToString()];
                                     var prof = DicProfessor2[p.cpfProfessor.ToString()];
-                                    //if (String.IsNullOrEmpty(EmecIes[item.CodEmec]))
                                     //if (!(prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec].ToString()) == null))
-                                    if (!(prof.Listaies.Find(x => x.codies == DicEmecIes[item.CodEmec].ToString()) == null))
+                                    if (!(prof.Listaies.Find(x => x.codies == DicEmecIes[item.CodEmec]) == null))
                                     //nova verificacao
-                                    // if (EmecIes[item.CodEmec] != null)
-                                    {
+                                     {
                                         //IES ies = prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec]); 
                                         //ies.codies = EmecIes[item.CodEmec];  //erro aqui
                                         IES ies = prof.Listaies.Find(x => x.codies == DicEmecIes[item.CodEmec]); 
+                                        //ies.Nomies = prof.Listaies.Find(x => x.codies == DicEmecIes[item.CodEmec]).Nomies; // novidade
                                         //ies.codies = DicEmecIes[item.CodEmec]; //erro verificar
                                         CursoProf curso = new CursoProf();
                                         curso.codcursoEmec = item.CodEmec;
                                         curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso;
                                         ies.Cursos.Add(curso);
                                         //prof.Listaies.Add(ies);
-                                        //String.Join(";", cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso);
-                                        //DicProfessor2.Add(p.cpfProfessor.ToString(), prof);  // CRIEI2 UM NOVO ITEM NO OBJETO 
                                         
                                     }
                                     else // else(2)
                                     {
                                         IES ies = new IES();
                                         ies.codies = EmecIes[item.CodEmec];
-                                        //if (String.IsNullOrEmpty(item.CodEmec))  
+                                        ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
                                         CursoProf curso = new CursoProf();
                                         curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; // procurei o curso
                                         //if (cursoCenso.nomcursoEmec != null)
@@ -407,29 +423,43 @@ namespace Censo.API.Controllers.Geral
                         
                         //profesc.cpfProfessor = pro.cpfProfessor;
 
-                        // profesc.Listaies = item.Listaies.ToList();
-                        //profesc.Listaies TodasIes;
+                        /* if (pro.Listaies.Count() == 0)
+                            {
+                                pro.cpfProfessor = pro.cpfProfessor;
+                            } */
                         foreach (var Umaies in pro.Listaies )
                             {
-                            //profesc.Cursos = String.Join(";", cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso);
-                            //CursoProf curso = new CursoProf();
-                            //cursoprof.nomcursoEmec = item.NomeCurso;
-                            
                             profesc.Codies = Umaies.codies;
-                            profesc.CodEmec = Umaies.CodiesEmec;
-                            profesc.NomeCurso = pro.NomeCompleto;
+                            var IesEmec = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies);
+                            profesc.Codies = IesEmec.Cod_Ies_Emec.ToString();
+                            string Carregaies = (IesEmec.Nom_Ies) ?? "SEM IES";
+                            if (Carregaies != null)
+                            {
+                                profesc.NomIes = Carregaies;
+                            }
+                            //profesc.NomIes =  ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies.ToString()).Nom_Ies;
+                            profesc.NomeCompleto = pro.NomeCompleto;
                             profesc.cpfProfessor = pro.cpfProfessor;
                             profesc.NomeCompleto = pro.NomeCompleto;
-                            profesc.Dtnascimento = System.DateTime.Parse(pro.Dtnascimento).ToString("dd/mm/yyyy");
-                            profesc.NomSexo = 
-                            profesc.NomRaca = pro.NomRaca;
-                            //pro.codSexo
+                            profesc.Dtnascimento = System.DateTime.Parse(pro.Dtnascimento).ToString("dd/MM/yyyy");
+                            profesc.NomSexo = pro.NomSexo; 
+                            profesc.NomRaca = (pro.NomRaca == "Nao declarada" ? "Branca" : pro.NomRaca);
                             profesc.NomMae = pro.NomMae;
                             profesc.NacioProfessor = pro.NacioProfessor;
                             profesc.Pais = pro.Pais;
                             profesc.UF = pro.UF;
                             profesc.Municipio = pro.Municipio;
                             profesc.Escolaridade = pro.Escolaridade;
+                            profesc.Posgraduacao = pro.Titulacao;
+                            profesc.Docentecomdeficiencia = pro.DocentecomDeficiencia;
+                            profesc.Def1 = pro.def1;
+                            profesc.Def2 = pro.def2;
+                            profesc.Def3 = pro.def3;
+                            profesc.Situacaodocente = (pro.Situacaodocente == "NÃO" ? "Esteve em Exercicio" : pro.Situacaodocente);
+                            profesc.Perfil = pro.Perfil;
+                            profesc.Regime = pro.Regime;
+                            profesc.DocenteSubstituto = pro.DocenteSubstituto;
+                            profesc.DocenteAtivo3112 = pro.DocenteAtivo3112;
                             profesc.primeiraatuacao = "primeiraatuacao";
                             profesc.segundaatuacao = "segundaatuacao";
                             profesc.terceiraatuacao = "terceiraatuacao";
@@ -448,14 +478,30 @@ namespace Censo.API.Controllers.Geral
                 using (var package = new ExcelPackage(stream)) 
                 {                
                     var shProfessores = package.Workbook.Worksheets.Add("Professores");
+                    
                     shProfessores.Cells.LoadFromCollection(Listatotalprof, true);
+
+
+                    using (var range = shProfessores.Cells[1, 1, 1, 30]) 
+                    {
+                        range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                        range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+                    }
+
+
+                    
+                    for (int i = 1;i < 30; i++)
+                        {
+                            //count ++;
+                            shProfessores.Cells[1, i].Style.Font.Bold = true;
+                        }
+                    
                     package.Save();            
                 };  
 
                     stream.Position = 0;
                     var contentType = "application/octet-stream";
-                    //var fileName = "Geracao-" + id + "-" + (DateTime.Now.ToShortDateString()) + ".xlsx";
-                    var fileName = "Geracao-" + id + "-" + (DateTime.Now.ToString("dd-MM-yyyy")) + ".xlsx";
+                     var fileName = "Geracao-" + id + "-" + (DateTime.Now.ToString("dd-MM-yyyy")) + ".xlsx";
 
                 return File(stream, contentType, fileName);
             } // termino try catch
@@ -471,8 +517,9 @@ namespace Censo.API.Controllers.Geral
                 public class ProfessorEscrita 
             { 
                         
-                        public string Codies { get; set; }  
-                        public long CodEmec { get; set; }
+                        public string Codies { get; set; }
+                        public string NomIes { get; set; }    
+                        //public long CodEmec { get; set; }
                         public long cpfProfessor { get; set; }
                         public string NomeCompleto { get; set; }
                         public string Dtnascimento { get; set; }
@@ -484,9 +531,17 @@ namespace Censo.API.Controllers.Geral
                         public string UF { get; set; }
                         public string Municipio { get; set; }
                         public string Escolaridade { get; set; }    
-                        public string NomeCurso { get; set; }    
-                        //public string Titulacao { get; set; } 
-
+                        //public string NomeCurso { get; set; }    
+                        public string Posgraduacao { get; set; } 
+                        public string Docentecomdeficiencia { get; set; } 
+                        public string Def1 {get; set;}
+                        public string Def2 {get; set;}
+                        public string Def3 {get; set;}
+                        public string Situacaodocente {get; set;}
+                        public string Perfil {get; set;}
+                        public string Regime {get; set;}
+                        public string DocenteSubstituto {get; set;}
+                        public string DocenteAtivo3112 {get; set;}
                         public string primeiraatuacao { get; set; }
                         public string segundaatuacao { get; set; }
                         public string terceiraatuacao { get; set; }
