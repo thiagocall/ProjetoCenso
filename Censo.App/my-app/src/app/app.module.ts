@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ExportAsModule } from 'ngx-export-as';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
@@ -106,7 +106,8 @@ import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/ex
       AccordionModule.forRoot(),
       NgxPaginationModule,
       ExportAsModule,
-      BsDatepickerModule.forRoot()
+      BsDatepickerModule.forRoot(),
+      NgxChartsModule
    ],
    providers: [],
    bootstrap: [
