@@ -28,7 +28,7 @@ export class ExportacaoService {
   /* GERAR EXPORTAÇÃO CENSO */
   getExportarCensoExcel() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'Exportacao/Geracao/Excel/20191202113440', { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'Exportacao/Geracao/Excel', { responseType: 'blob', headers: tokenHeader });
   }
 
 }
