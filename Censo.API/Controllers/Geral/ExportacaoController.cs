@@ -516,8 +516,32 @@ namespace Censo.API.Controllers.Geral
                     for (int i = 1;i < 30; i++)
                         {
                             //count ++;
-                            shProfessores.Cells[1, i].Style.Font.Bold = true;
+                        shProfessores.Cells[1, i].Style.Font.Bold = true;
+                        
                         }
+
+                    // int lin = 2;
+                    int col = 29;
+
+                     
+                        for (int i = 2; i < 1000000; i++)
+                        {
+                            if (shProfessores.Cells[i, 1].Value.ToString() == "")
+                                break;
+                                  
+                            var cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+
+                            foreach (var item in cursos)
+                            {
+                                shProfessores.Cells[i, col++].Value = item.ToString();
+
+                            }
+
+                            col = 29;
+                            
+                        }             
+                      
+              
                     
                     package.Save();            
                 };  

@@ -130,7 +130,7 @@ namespace Censo.API.Controllers.Censo
             var query = await this.ProducaoContext.TbResultado
                              .Select(x => new {x.Id, x.Resumo, x.TempoExecucao})
                              .OrderByDescending(x => x.Id)
-                            .ToArrayAsync();
+                             .ToArrayAsync();
     
             return Ok(query);
         }

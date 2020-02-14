@@ -6,6 +6,8 @@ using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Parametros;
 using Censo.API.Data.Censo;
+using Microsoft.Extensions.Configuration;
+using Censo.API.blacklist;
 
 namespace Censo.API.Resultados
 {
@@ -15,13 +17,16 @@ namespace Censo.API.Resultados
         TempProducaoContext ResultContext;
         CensoContext Context;
 
+        IConfiguration Configuration;
+
         CargaContext CargaContext;
 
-        public Otimizacao (TempProducaoContext _resultContext, CensoContext _context, CargaContext _cargaContext)
+        public Otimizacao (TempProducaoContext _resultContext, CensoContext _context, CargaContext _cargaContext, IConfiguration _configuration)
         {
             this.ResultContext = _resultContext;
             this.Context = _context;
             this.CargaContext = _cargaContext;
+            this.Configuration = _configuration;
         }
 
         private ProfessorCurso professorCurso;
@@ -141,7 +146,19 @@ namespace Censo.API.Resultados
                                              ));
                             
                          };
+                         
 
+                        // ##################### Black List ############################### //
+
+                        // ProfessorBlaklist
+
+                        foreach(var item in _listaProfessor)
+                        {
+                            
+                                item.Professores.RemoveAll(pe =>  (RemoveProfessorBlackList(pe, this.Configuration, item.CodEmec)
+                                             ));
+                            
+                         };
 
                         var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
 
@@ -488,6 +505,25 @@ namespace Censo.API.Resultados
                 return false;
             }
  
+        }
+
+
+        public bool RemoveProfessorBlackList(ProfessorEmec _prof, IConfiguration _Iconfiguration, long _codEmec)
+        {
+            
+                var dic = ProfessorBlaklist.GetBlackList(_Iconfiguration);
+
+                if (dic.ContainsKey(_prof.cpfProfessor.ToString()))
+                {
+                    if (dic[_prof.cpfProfessor.ToString()].ListaCodEmec.Contains(_codEmec))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+
+
         }
 
 
