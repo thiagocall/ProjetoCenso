@@ -217,14 +217,14 @@ namespace Censo.API.Controllers.Geral
 
         // INICIO 
        [AllowAnonymous]
-        [HttpGet("Geracao/Excel/{id}")]
-        public async Task<IActionResult> Geracao(long id) 
+        [HttpGet("Geracao/Excel")]
+        public async Task<IActionResult> Geracao()
         {  //inicio requisicao
 
              try
             {   // inicio try catch
                 var resultadoOTM = await this.ProducaoContext.TbResultado
-                        .FirstOrDefaultAsync(r => r.Id == id);
+                        .FirstOrDefaultAsync(r => r.indOficial == 1);
                 
                 // Tratando dados para Excel
 
@@ -480,7 +480,12 @@ namespace Censo.API.Controllers.Geral
                                 profesc.quartaatuacao =  at.Atividades.ToArray().ElementAtOrDefault(3);
                             }
                             
-                            profesc.Cursos = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+                            profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+                            var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+                            //profesc.Cursos1 = tudocurso.Split(new string[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToString();
+                            // valores.Split(new string[] {"#"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
+
+
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
                             Listatotalprof.Add(profesc);
@@ -519,7 +524,7 @@ namespace Censo.API.Controllers.Geral
 
                     stream.Position = 0;
                     var contentType = "application/octet-stream";
-                     var fileName = "Geracao-" + id + "-" + (DateTime.Now.ToString("dd-MM-yyyy")) + ".xlsx";
+                     var fileName = "Geracao-" + resultadoOTM.Id + "-" + (DateTime.Now.ToString("dd-MM-yyyy")) + ".xlsx";
 
                 return File(stream, contentType, fileName);
             } // termino try catch
@@ -565,10 +570,9 @@ namespace Censo.API.Controllers.Geral
                         public string terceiraatuacao { get; set; }
                         public string quartaatuacao { get; set; }
                         public string Bolsapesquisa { get; set; }
-                        public string Atividades { get; set; }
-
-                        public string Cursos { get; set; }
-
+                        public string Cursos1 { get; set; }
+                        public string Cursos2 { get; set; }
+                        public string Cursos3 { get; set; }
             }
 
         // TERMINO

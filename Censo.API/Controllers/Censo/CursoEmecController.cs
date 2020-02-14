@@ -146,7 +146,7 @@ namespace Censo.API.Controllers.Censo
             return Ok(resultadoCompleto);
         }
 
-           [HttpGet("ObterResultadosCompleto")]
+        [HttpGet("ObterResultadosCompleto")]
         public async Task<ActionResult> obterResultadosCompleto()
         {
             var query = await this.ProducaoContext.TbResultado.ToListAsync();
@@ -249,13 +249,13 @@ namespace Censo.API.Controllers.Censo
                 // Tratando dados para Excel
 
                 var parametros =  new List<ParametrosCenso>();
-                var resultados = new List<Resultado>();
+                //var resultados = new List<Resultado>();
 
                 var ListaCurso = await this.Context.CursoCenso.ToListAsync();
 
                 parametros.Add(JsonConvert.DeserializeObject<ParametrosCenso>(resultadoOTM.Parametro));
 
-                var resultado = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
+                var resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
 
                 var professores = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);
 
