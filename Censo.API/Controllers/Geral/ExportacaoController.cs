@@ -484,7 +484,9 @@ namespace Censo.API.Controllers.Geral
                             var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
                             //profesc.Cursos1 = tudocurso.Split(new string[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToString();
                             // valores.Split(new string[] {"#"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-
+                            
+                            tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
+                            result = s1.Split(charSeparators, 2, StringSplitOptions.None);
 
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
