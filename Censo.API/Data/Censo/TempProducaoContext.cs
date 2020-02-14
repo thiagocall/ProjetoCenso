@@ -51,6 +51,9 @@ namespace Censo.API.Model.Censo
 
                 entity.Property(e => e.TempoExecucao)
                     .HasColumnName("tempo_execucao");
+
+                entity.Property(e => e.indOficial)
+                    .HasColumnName("ind_oficial");
             });
 
             modelBuilder.Entity<TbResultadoAtual>(entity =>

@@ -11,5 +11,6 @@ namespace Censo.API.Model.Censo
         public string Resumo { get; set; }
         public string Professores { get; set; }
         public string TempoExecucao { get; set; }
+        public int indOficial { get; set; }
     }
 }
