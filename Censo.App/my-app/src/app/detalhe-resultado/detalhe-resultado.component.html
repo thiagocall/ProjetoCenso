@@ -3,7 +3,22 @@
     <h3 class="mr-auto">Cursos Enade</h3>
 
     <div class="p-2">
-      <button  class="btn btn-outline-success ml-auto" download="Resultado.xlsx" tooltip="Exportar excel" (click)="exportarResultadoExcel()"> 
+
+      <!-- ind oficial-->
+      <button class="btn btn-outline-info btn-sm mr-2">
+        <div class="col-auto my-1">
+          <div class="custom-control custom-checkbox mr-sm-2">
+            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+            <label class="custom-control-label" for="customControlAutosizing">Índice oficial <i
+                class="fas fa-trophy"></i></label>
+          </div>
+        </div>
+      </button>
+      <!-- ind oficial-->
+
+
+      <button class="btn btn-outline-success ml-auto" download="Resultado.xlsx" tooltip="Exportar excel"
+        (click)="exportarResultadoExcel()">
         <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
       <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2">Voltar</button>
     </div>
