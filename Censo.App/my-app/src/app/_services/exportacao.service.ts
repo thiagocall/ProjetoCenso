@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +11,7 @@ export class ExportacaoService {
 
   constructor(private http: HttpClient) { }
 
-  //apiUrl: 'http://localhost:5000/api/'
+  // apiUrl: 'http://localhost:5000/api/'
   baseUrl = environment.apiUrl;
   getToken() {
     const tokenHeader = new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('token')}` });
@@ -28,7 +29,7 @@ export class ExportacaoService {
   /* GERAR EXPORTAÇÃO CENSO */
   getExportarCensoExcel() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'Exportacao/Geracao/Excel/20191202113440', { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'Exportacao/Geracao/Excel/', { responseType: 'blob', headers: tokenHeader });
   }
 
 }
