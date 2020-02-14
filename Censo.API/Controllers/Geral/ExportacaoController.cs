@@ -21,6 +21,8 @@ using OfficeOpenXml;
 using System.Globalization;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using Microsoft.Extensions.Configuration;
+using at = Censo.API.Atividade;
 
 namespace Censo.API.Controllers.Geral
 {
@@ -39,12 +41,14 @@ namespace Censo.API.Controllers.Geral
         public RegimeContext RegContext;
 
         public CensoContext CContext { get; }
+        public IConfiguration Configuration { get; set; }    
 
         public TempProducaoContext ProducaoContext { get; set; }
 
         public ExportacaoController(ProfessorContext _context, ExportacaoContext  _expContext, ProfessorContext _profContext
                                     , RegimeContext _regContext, CensoContext _ccontext
-                                    , TempProducaoContext _producaoContext)
+                                    , TempProducaoContext _producaoContext
+                                    , IConfiguration _configuration)
         {
             this.Context = _context;
             this.ExpContext = _expContext;
@@ -53,6 +57,7 @@ namespace Censo.API.Controllers.Geral
             this.RegContext = _regContext;
             this.CContext = _ccontext;
             this.ProducaoContext = _producaoContext;
+            this.Configuration = _configuration;
         }
         
 
@@ -171,9 +176,9 @@ namespace Censo.API.Controllers.Geral
                                         }).Where(c => c.CodCampus == c.CodCampus).ToList();
 
 
-                return Ok(results);
+        //        return Ok(results);
             
-
+        
             
             List<ProfessorDetalhe> ListaProfessorDetalhe = new List<ProfessorDetalhe>();
                         
@@ -222,6 +227,10 @@ namespace Censo.API.Controllers.Geral
                         .FirstOrDefaultAsync(r => r.Id == id);
                 
                 // Tratando dados para Excel
+
+
+                var dicProfessorAtividade = at.ProfessorAtividade.GerarLista(this.Configuration);
+
 
                 var parametros =  new List<ParametrosCenso>();
                 var resultados = new List<Resultado>();
@@ -460,11 +469,20 @@ namespace Censo.API.Controllers.Geral
                             profesc.Regime = pro.Regime;
                             profesc.DocenteSubstituto = pro.DocenteSubstituto;
                             profesc.DocenteAtivo3112 = pro.DocenteAtivo3112;
-                            profesc.primeiraatuacao = "primeiraatuacao";
-                            profesc.segundaatuacao = "segundaatuacao";
-                            profesc.terceiraatuacao = "terceiraatuacao";
-                            profesc.quartaatuacao = "quartaatuacao";
+                            // Ajustado Thiago ///
+                            profesc.primeiraatuacao = "Curso de graduação presencial";
+                            if (dicProfessorAtividade.ContainsKey(profesc.cpfProfessor.ToString()))
+                            {
+                                var at = dicProfessorAtividade[profesc.cpfProfessor.ToString()];
+
+                                profesc.segundaatuacao = at.Atividades.ToArray().ElementAtOrDefault(1);
+                                profesc.terceiraatuacao =  at.Atividades.ToArray().ElementAtOrDefault(2);
+                                profesc.quartaatuacao =  at.Atividades.ToArray().ElementAtOrDefault(3);
+                            }
+                            
                             profesc.Cursos = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+                            //Ajustado Thiago //
+                            //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
                             Listatotalprof.Add(profesc);
                             }
                             //);
@@ -547,6 +565,7 @@ namespace Censo.API.Controllers.Geral
                         public string terceiraatuacao { get; set; }
                         public string quartaatuacao { get; set; }
                         public string Bolsapesquisa { get; set; }
+                        public string Atividades { get; set; }
 
                         public string Cursos { get; set; }
 
