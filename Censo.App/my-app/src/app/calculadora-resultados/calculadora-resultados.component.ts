@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ComponentFactoryResolver } from '@angular/core';
 import { ProfessorService } from '../_services/professor.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -34,6 +34,7 @@ export class CalculadoraResultadosComponent implements OnInit {
 
 
   ngOnInit() {
+    this.CalcularResultado(); //teste
     this.professorService.getDados().subscribe(
       response => {
         this.resultado = response;
@@ -49,6 +50,7 @@ export class CalculadoraResultadosComponent implements OnInit {
     this.curso = this.listaCursos.filter(x => x.codCampus.toString() === codigo.toString());
     // this.curso = this.listaCursos;
   }
+
 
   getInfoCurso(codigo: any) {
     this.professores = null;
@@ -121,11 +123,11 @@ export class CalculadoraResultadosComponent implements OnInit {
     let QEH = (tipo == 'EH') ? Number(valor) : this.calcula.qtdEH;
     
     this.calcula.qtd += QDR - this.calcula.qtdDR + 
-                       QDH - this.calcula.qtdDH +
-                       QMR - this.calcula.qtdMR + 
-                       QMH - this.calcula.qtdMH + 
-                       QER - this.calcula.qtdER + 
-                       QEH - this.calcula.qtdEH;
+                        QDH - this.calcula.qtdDH +
+                        QMR - this.calcula.qtdMR + 
+                        QMH - this.calcula.qtdMH + 
+                        QER - this.calcula.qtdER + 
+                        QEH - this.calcula.qtdEH;
 
     this.calcula.qtdDR = QDR;
     this.calcula.qtdDH = QDH;
@@ -166,6 +168,8 @@ export class CalculadoraResultadosComponent implements OnInit {
     this.calcula.nota_Mestre = this.calculaOriginal.nota_Mestre;
     this.calcula.nota_Regime = this.calculaOriginal.nota_Regime;
 
+    console.log(this.calcula.nota_Doutor)
+
     this.calculaNotaContinua();
 
   }
@@ -173,21 +177,26 @@ export class CalculadoraResultadosComponent implements OnInit {
 
   calculaNotaContinua() {
 
-
     let percDoutor = (this.calcula.qtdDH + this.calcula.qtdDR) / this.calcula.qtd;
     let notaDoutor = this.N_Escala(this.regua.p_Min_Doutor, this.regua.p_Max_Doutor, percDoutor);
+
+    console.log(this.regua.p_Max_Doutor)
 
     let percMestre = (this.calcula.qtdMH + this.calcula.qtdMR + this.calcula.qtdDH + this.calcula.qtdDR) / this.calcula.qtd;
     let notaMestre = this.N_Escala(this.regua.p_Min_Mestre, this.regua.p_Max_Mestre, percMestre);
 
+    // console.log(notaMestre)
+
     let percRegime = (this.calcula.qtdMR + this.calcula.qtdDR + this.calcula.qtdER) / this.calcula.qtd;
     let notaRegime = this.N_Escala(this.regua.p_Min_Regime, this.regua.p_Max_Regime, percRegime);
 
+    
+    // console.log(percRegime)
     this.notaContinua = notaDoutor * 0.5 + notaMestre * 0.25 + notaRegime * 0.25;
 
+    console.log([percDoutor, percRegime, percMestre])
+
     this.notaFaixa = this.MontaFaixa(this.notaContinua);
-
-
 
   }
 
@@ -214,7 +223,6 @@ export class CalculadoraResultadosComponent implements OnInit {
                     return  n1;
                 }
            
-
         }
       
   MontaFaixa(nota: number) {
