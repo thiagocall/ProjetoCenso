@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //  import { timingSafeEqual } from 'crypto';
 
 @Component({
@@ -11,9 +12,14 @@ import { saveAs } from 'file-saver';
 })
 export class DetalheResultadoComponent implements OnInit {
 
+  title = 'checkbox';
+
+  form: FormGroup;
+
   constructor(private otimizacaoService: OtimizacaoService,
-              private router: Router,
-              private thisRoute: ActivatedRoute) { }
+    private router: Router,
+    private thisRoute: ActivatedRoute,
+    private formBuilder: FormBuilder,) { }
 
   dados: any;
   dadosJsonAtual: any;
@@ -22,6 +28,8 @@ export class DetalheResultadoComponent implements OnInit {
   resultadoOtimizado: any;
   fileUrl;
   id: any;
+  indOficial: any;
+  pacote:any;
 
   getDados() {
 
@@ -29,11 +37,22 @@ export class DetalheResultadoComponent implements OnInit {
     this.otimizacaoService.obterDetalheResultado(this.id).subscribe(
 
       response => {
-          this.dados = response;
-          this.resultadoAtual = this.dados.resultadoAtual;
-          this.resultadoOtimizado = this.dados.resultado;
-          this.dadosJsonAtual = JSON.parse(this.resultadoAtual.resumo);
-          this.dadosJsonOtm = JSON.parse(this.resultadoOtimizado.resumo);
+        this.dados = response;
+        this.resultadoAtual = this.dados.resultadoAtual;
+        this.resultadoOtimizado = this.dados.resultado;
+        this.dadosJsonAtual = JSON.parse(this.resultadoAtual.resumo);
+        this.dadosJsonOtm = JSON.parse(this.resultadoOtimizado.resumo);
+        this.indOficial = this.dados.resultado.indOficial;
+        //console.log(this.dados);
+        console.log(this.indOficial);
+
+        console.log(this.id);
+
+        if(this.indOficial == 0){
+          this.form.get('indOficial').patchValue(false);
+        }else{
+          this.form.get('indOficial').patchValue(true);
+        }
 
       },
       error => {
@@ -43,22 +62,28 @@ export class DetalheResultadoComponent implements OnInit {
 
   }
 
-  exportarResultadoExcel(){ 
+  exportarResultadoExcel() {
     let thefile;
     let blob;
-    
-    this.otimizacaoService.exportarResultadoExcel(this.id).subscribe(response => { 
-      blob = new Blob([response], { type: 'application/octet-stream'});
+
+    this.otimizacaoService.exportarResultadoExcel(this.id).subscribe(response => {
+      blob = new Blob([response], { type: 'application/octet-stream' });
       saveAs(blob, `ResultadoCenso_${this.id}.xlsx`);
     }
     );
-    
-        // window.open(window.URL.createObjectURL(thefile));
-    };
+
+    // window.open(window.URL.createObjectURL(thefile));
+  };
+
+  check(){
+    console.log(this.form.value)
+  }
 
   ngOnInit() {
-
     this.getDados();
+    this.form = this.formBuilder.group({
+      indOficial: [false, Validators.nullValidator]
+    })
 
   }
 
