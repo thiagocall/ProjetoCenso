@@ -481,12 +481,17 @@ namespace Censo.API.Controllers.Geral
                             }
                             
                             profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+<<<<<<< HEAD
                             var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
                             //profesc.Cursos1 = tudocurso.Split(new string[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToString();
                             // valores.Split(new string[] {"#"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
                             
                             //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
                             //result = s1.Split(charSeparators, 2, StringSplitOptions.None);
+=======
+                         
+                            //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
+>>>>>>> d2debd2530c7b995a0154b3ae49ead40cd9788bc
 
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
@@ -507,19 +512,57 @@ namespace Censo.API.Controllers.Geral
                     shProfessores.Cells.LoadFromCollection(Listatotalprof, true);
 
 
-                    using (var range = shProfessores.Cells[1, 1, 1, 30]) 
+                    using (var range = shProfessores.Cells[1, 1, 1, 29]) 
                     {
                         range.Style.Fill.PatternType = ExcelFillStyle.Solid;
                         range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                     }
-
-
                     
                     for (int i = 1;i < 30; i++)
                         {
                             //count ++;
-                            shProfessores.Cells[1, i].Style.Font.Bold = true;
+                        shProfessores.Cells[1, i].Style.Font.Bold = true;
+                        
                         }
+
+                    
+                    // int lin = 2;
+                    int col = 29;
+
+                     
+                        
+                        
+                        for (int i = 2; i < 1000000; i++)
+                        {
+
+                            if (shProfessores.Cells[i, 1].Value == null)
+                            {
+                                break;
+                            }
+
+                                
+                                  
+                            //var cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+
+                            var cursos = new [] {"SEM CURSOS"};
+                            if (shProfessores.Cells[i, col].Value != null)
+                            {
+                                cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+                            }
+
+                            col = 29;
+
+                            foreach (var item in cursos)
+                            {
+                                shProfessores.Cells[i, col++].Value = item.ToString();
+
+                            }
+
+                            col = 29;
+                            
+                        }             
+                      
+              
                     
                     package.Save();            
                 };  
@@ -532,6 +575,7 @@ namespace Censo.API.Controllers.Geral
             } // termino try catch
             catch (System.Exception ex)
             {
+                
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
             }        
 
@@ -573,8 +617,8 @@ namespace Censo.API.Controllers.Geral
                         public string quartaatuacao { get; set; }
                         public string Bolsapesquisa { get; set; }
                         public string Cursos1 { get; set; }
-                        public string Cursos2 { get; set; }
-                        public string Cursos3 { get; set; }
+                        //public string Cursos2 { get; set; }
+                        //public string Cursos3 { get; set; }
             }
 
         // TERMINO
