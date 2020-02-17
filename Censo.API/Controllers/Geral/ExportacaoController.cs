@@ -483,17 +483,6 @@ namespace Censo.API.Controllers.Geral
                             profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
                          
                             //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
-                            /*
-                             for (int i = 0; i < 10;i++)
-                             {
-                                    Juntos = tudocurso.Split(";", 3).ToList();
-                             }
-                            //profesc.Cursos1 = Juntos[1].ToString();
-                            profesc.Cursos1 = Juntos[0];
-                            profesc.Cursos2 = Juntos[1];
-                            profesc.Cursos3 = Juntos[2];
-                            */
-
 
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
@@ -514,13 +503,11 @@ namespace Censo.API.Controllers.Geral
                     shProfessores.Cells.LoadFromCollection(Listatotalprof, true);
 
 
-                    using (var range = shProfessores.Cells[1, 1, 1, 30]) 
+                    using (var range = shProfessores.Cells[1, 1, 1, 29]) 
                     {
                         range.Style.Fill.PatternType = ExcelFillStyle.Solid;
                         range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                     }
-
-
                     
                     for (int i = 1;i < 30; i++)
                         {
@@ -529,16 +516,32 @@ namespace Censo.API.Controllers.Geral
                         
                         }
 
+                    
                     // int lin = 2;
                     int col = 29;
 
                      
+                        
+                        
                         for (int i = 2; i < 1000000; i++)
                         {
-                            if (shProfessores.Cells[i, 1].Value.ToString() == "")
+
+                            if (shProfessores.Cells[i, 1].Value == null)
+                            {
                                 break;
+                            }
+
+                                
                                   
-                            var cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+                            //var cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+
+                            var cursos = new [] {"SEM CURSOS"};
+                            if (shProfessores.Cells[i, col].Value != null)
+                            {
+                                cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+                            }
+
+                            col = 29;
 
                             foreach (var item in cursos)
                             {
@@ -563,6 +566,7 @@ namespace Censo.API.Controllers.Geral
             } // termino try catch
             catch (System.Exception ex)
             {
+                
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
             }        
 
@@ -604,8 +608,8 @@ namespace Censo.API.Controllers.Geral
                         public string quartaatuacao { get; set; }
                         public string Bolsapesquisa { get; set; }
                         public string Cursos1 { get; set; }
-                        public string Cursos2 { get; set; }
-                        public string Cursos3 { get; set; }
+                        //public string Cursos2 { get; set; }
+                        //public string Cursos3 { get; set; }
             }
 
         // TERMINO
