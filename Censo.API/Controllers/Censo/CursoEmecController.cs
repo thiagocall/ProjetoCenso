@@ -123,21 +123,10 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        
         [AllowAnonymous]
         [HttpGet("ObterResultados")]
         public async Task<IActionResult> obterResultados()
-        {
-            var query = await this.ProducaoContext.TbResultado
-                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao})
-                             .OrderByDescending(x => x.Id)
-                             .ToArrayAsync();
-    
-            return Ok(query);
-        }
-
-        [AllowAnonymous]
-        [HttpGet("ResponderResultados/{_id}")]
-        public async Task<IActionResult> ResponderResultados(long _id)
         {
             var query = await this.ProducaoContext.TbResultado
                              .Select(x => new {x.Id, x.Resumo, x.TempoExecucao, x.indOficial})
@@ -146,6 +135,8 @@ namespace Censo.API.Controllers.Censo
     
             return Ok(query);
         }
+        
+
         [AllowAnonymous]
         [HttpGet("ObterResultados/{_id}")]
         public ActionResult obterResultadosporId(long _id)
