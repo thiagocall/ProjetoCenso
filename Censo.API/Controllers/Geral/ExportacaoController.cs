@@ -481,12 +481,22 @@ namespace Censo.API.Controllers.Geral
                             }
                             
                             profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
-                            var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+                            //var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
                             //profesc.Cursos1 = tudocurso.Split(new string[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToString();
                             // valores.Split(new string[] {"#"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
                             
-                            tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
-                            result = s1.Split(charSeparators, 2, StringSplitOptions.None);
+                            //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
+                            /*
+                             for (int i = 0; i < 10;i++)
+                             {
+                                    Juntos = tudocurso.Split(";", 3).ToList();
+                             }
+                            //profesc.Cursos1 = Juntos[1].ToString();
+                            profesc.Cursos1 = Juntos[0];
+                            profesc.Cursos2 = Juntos[1];
+                            profesc.Cursos3 = Juntos[2];
+                            */
+
 
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
