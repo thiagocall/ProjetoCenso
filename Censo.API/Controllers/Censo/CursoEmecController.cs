@@ -136,6 +136,17 @@ namespace Censo.API.Controllers.Censo
         }
 
         [AllowAnonymous]
+        [HttpGet("ResponderResultados/{_id}")]
+        public async Task<IActionResult> ResponderResultados(long _id)
+        {
+            var query = await this.ProducaoContext.TbResultado
+                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao, x.indOficial})
+                             .OrderByDescending(x => x.Id)
+                             .ToArrayAsync();
+    
+            return Ok(query);
+        }
+        [AllowAnonymous]
         [HttpGet("ObterResultados/{_id}")]
         public ActionResult obterResultadosporId(long _id)
         {
