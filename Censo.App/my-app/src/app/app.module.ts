@@ -9,7 +9,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { AccordionModule } from 'ngx-bootstrap';
 import { ExportAsModule } from 'ngx-export-as';
 import { DatePipe } from '@angular/common';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
@@ -108,7 +107,7 @@ import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/ex
       NgxPaginationModule,
       ExportAsModule,
       BsDatepickerModule.forRoot(),
-      NgxChartsModule
+    
    ],
    providers: [DatePipe],
    bootstrap: [
