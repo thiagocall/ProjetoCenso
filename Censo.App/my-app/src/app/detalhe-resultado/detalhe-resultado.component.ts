@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   templateUrl: './detalhe-resultado.component.html',
   styleUrls: ['./detalhe-resultado.component.css']
 })
+
 export class DetalheResultadoComponent implements OnInit {
 
   title = 'checkbox';
@@ -64,9 +65,7 @@ export class DetalheResultadoComponent implements OnInit {
     this.otimizacaoService.exportarResultadoExcel(this.id).subscribe(response => {
       blob = new Blob([response], { type: 'application/octet-stream' });
       saveAs(blob, `ResultadoCenso_${this.id}.xlsx`);
-    }
-    );
-
+    });
     // window.open(window.URL.createObjectURL(thefile));
   };
 
