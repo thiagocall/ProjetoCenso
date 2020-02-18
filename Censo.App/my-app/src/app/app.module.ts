@@ -10,7 +10,6 @@ import { AccordionModule } from 'ngx-bootstrap';
 import { ExportAsModule } from 'ngx-export-as';
 import { DatePipe } from '@angular/common';
 
-
 // import {JwPaginationComponent} from 'jw-angular-pagination';
 
 /*teste*/

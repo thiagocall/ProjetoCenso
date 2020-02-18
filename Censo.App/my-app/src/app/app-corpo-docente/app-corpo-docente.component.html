@@ -28,6 +28,7 @@
             <div class="form" *ngIf="curso">
                 <label for="curso"><b>Curso</b></label>
                 <select class="form-control ml-2" id="curso" [(ngModel)]="codcurso" (change)="getInfoCurso(codcurso)">
+                    <option value="-1" selected= "true">Selecione o Curso</option>
                     <option *ngFor="let item of curso" [value]="item.codEmec">
                         {{item.nomCursoCenso  + " - " + item.codEmec}}</option>
                 </select>

@@ -85,6 +85,20 @@ namespace Censo.API.Resultados
                     }
                 }
 
+
+                        // ##################### Black List ############################### //
+
+                        // ProfessorBlaklist
+
+                        foreach(var item in _listaProfessor)
+                        {
+                            
+                                item.Professores.RemoveAll(pe =>  (RemoveProfessorBlackList(pe, this.Configuration, item.CodEmec) 
+                                             ));
+                            
+                         };
+
+
                     // ############## Alavanca Curso não Enade ############
                     // ####################################################
 
@@ -110,6 +124,9 @@ namespace Censo.API.Resultados
                                                     
                                 };
 
+
+                    
+
                     // ######################## Alavanca Colaborador ######################## //
 
                            foreach(var item in _listaProfessor)
@@ -122,7 +139,6 @@ namespace Censo.API.Resultados
                                              ));
                             
                         };
-                    
 
                          // ######################## Alavanca Excluído Ofensor ######################## //
 
@@ -141,24 +157,13 @@ namespace Censo.API.Resultados
 
                          foreach(var item in _listaProfessor)
                         {
-                            
-                                item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe, "N")
+                                // var nota = 
+                                item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe, "N") &&
+                                                                (CalculaNota(item, _dicPrevisao, pe.Regime, pe.Titulacao) ?? 0) < 1.945
                                              ));
                             
                          };
                          
-
-                        // ##################### Black List ############################### //
-
-                        // ProfessorBlaklist
-
-                        foreach(var item in _listaProfessor)
-                        {
-                            
-                                item.Professores.RemoveAll(pe =>  (RemoveProfessorBlackList(pe, this.Configuration, item.CodEmec)
-                                             ));
-                            
-                         };
 
                         var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
 
@@ -201,13 +206,13 @@ namespace Censo.API.Resultados
                         {
                             var prev = ListaPrevisaoSKU[area];
 
-                            var prev_minM = prev.P_Min_Mestre;
+                            var prev_minM = prev.P_Min_Mestre == 1 ? 0.90 : prev.P_Min_Mestre;
                             var prev_maxM= prev.P_Max_Mestre;
 
-                            var prev_minD = prev.P_Min_Doutor;
+                            var prev_minD = prev.P_Min_Doutor == 1 ? 0.90 : prev.P_Min_Doutor;
                             var prev_maxD= prev.P_Max_Doutor;
 
-                            var prev_minR = prev.P_Min_Regime;
+                            var prev_minR = prev.P_Min_Regime == 1 ? 0.90 : prev.P_Min_Regime;
                             var prev_maxR= prev.P_Max_Regime;
 
                             double notaM =  (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
@@ -522,7 +527,6 @@ namespace Censo.API.Resultados
                 }
 
                 return false;
-
 
         }
 

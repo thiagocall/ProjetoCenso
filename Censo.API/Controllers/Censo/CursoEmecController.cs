@@ -223,10 +223,10 @@ namespace Censo.API.Controllers.Censo
                 var prev_minM = previsao.P_Min_Mestre;
                 var prev_maxM = previsao.P_Max_Mestre;
 
-                var prev_minD = previsao.P_Min_Doutor;
+                var prev_minD = previsao.P_Min_Doutor ;
                 var prev_maxD = previsao.P_Max_Doutor;
 
-                var prev_minR = previsao.P_Min_Regime;
+                var prev_minR = previsao.P_Min_Regime ;
                 var prev_maxR = previsao.P_Max_Regime;
 
                 notaM = (N_Escala(prev_minM, prev_maxM, perc_M)) == null ? 0 : Convert.ToDouble(N_Escala(prev_minM, prev_maxM, perc_M));
@@ -668,11 +668,11 @@ namespace Censo.API.Controllers.Censo
 
                 prev = new PrevisaoSKU();
                 prev.CodArea = item;
-                prev.P_Min_Mestre = resM[0];
+                prev.P_Min_Mestre = resM[0] == 1 ? 0.95 : resM[0];
                 prev.P_Max_Mestre = resM[1];
-                prev.P_Min_Doutor = resD[0];
+                prev.P_Min_Doutor = resD[0] == 1 ? 0.95 : resD[0];
                 prev.P_Max_Doutor = resD[1];
-                prev.P_Min_Regime = resR[0];
+                prev.P_Min_Regime = resR[0] == 1 ? 0.95 : resR[0];
                 prev.P_Max_Regime = resR[1];
 
                 ListaPrevisaoSKU.Add(prev.CodArea, prev);
