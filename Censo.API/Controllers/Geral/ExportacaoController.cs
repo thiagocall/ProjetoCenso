@@ -548,13 +548,13 @@ namespace Censo.API.Controllers.Geral
                                             {
                                                 shProfessores.Cells[1, vcol].Value = (vcont) + "º" + " CURSO (NOME)";
                                                 vcont = vcont + 1;
-                                                using (var range = shProfessores.Cells[1, 1, 1, vcol]) 
+                                                using (var range = shProfessores.Cells[1, 1, 1, vcol + 1]) 
                                                 {
                                                     range.Style.Fill.PatternType = ExcelFillStyle.Solid;
                                                     range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                                                 }
 
-                                                for (int j = 1;j < vcol; j++)
+                                                for (int j = 1;j < vcol + 1; j++)
                                                     {
                                                         //count ++;
                                                     shProfessores.Cells[1, j].Style.Font.Bold = true;
