@@ -42,6 +42,7 @@ export class DetalheResultadoComponent implements OnInit {
         this.resultadoOtimizado = this.dados.resultado;
         this.dadosJsonAtual = JSON.parse(this.resultadoAtual.resumo);
         this.dadosJsonOtm = JSON.parse(this.resultadoOtimizado.resumo);
+        this.indOficial = this.dados.resultado.indOficial;
         if (this.indOficial == 0) {
           this.form.get('indOficial').patchValue(false);
         } else {
