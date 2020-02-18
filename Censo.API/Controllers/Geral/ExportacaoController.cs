@@ -299,7 +299,7 @@ namespace Censo.API.Controllers.Geral
                 // Dicionario do professor com seus dados pessoais
                 var dicProfessor = Profcontext.Professores.ToDictionary(x => x.CpfProfessor.ToString());
 
-
+                // Primeiro for each
                 foreach (var item in professores)
                 {  // inicio foreach
                     item.Professores.ForEach( (p) =>
@@ -344,6 +344,7 @@ namespace Censo.API.Controllers.Geral
                 // inicio FOR EACH PARA SEPARA POR IES = DicProfessor2 organiza por IES os professores
                 Dictionary<string, ProfessorGeracao> DicProfessor2 = new Dictionary<string, ProfessorGeracao>();
 
+                // Segundo foreach
                 foreach (var item in professores)
                 {
                     item.Professores.ForEach( (p) =>
@@ -425,7 +426,7 @@ namespace Censo.API.Controllers.Geral
                 var listaprofselecionado = listaProfessor;
 
                 ProfessorEscrita profesc;
-
+                // teceiro foreach
                 foreach (var pro in DicProfessor2.Values)
                 {  // inicio foreach
                         profesc = new ProfessorEscrita();                        
@@ -481,18 +482,6 @@ namespace Censo.API.Controllers.Geral
                             }
                             
                             profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
-                            // var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
-                            //profesc.Cursos1 = tudocurso.Split(new string[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToString();
-                            // valores.Split(new string[] {"#"}, StringSplitOptions.RemoveEmptyEntries).Select(Int32.Parse).ToArray();
-                            
-                            //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
-                            //result = s1.Split(charSeparators, 2, StringSplitOptions.None);
-                         
-                            //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
-
-                         
-                            //tudocurso = tudocurso.Split(";",2,NonSerializedAttribute)
-
 
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
@@ -519,7 +508,7 @@ namespace Censo.API.Controllers.Geral
                         range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
                     }
                     
-                    for (int i = 1;i < 30; i++)
+                    for (int i = 1;i < 29; i++)
                         {
                             //count ++;
                         shProfessores.Cells[1, i].Style.Font.Bold = true;
@@ -529,9 +518,6 @@ namespace Censo.API.Controllers.Geral
                     
                     // int lin = 2;
                     int col = 29;
-
-                     
-                        
                         
                         for (int i = 2; i < 1000000; i++)
                         {
@@ -549,19 +535,49 @@ namespace Censo.API.Controllers.Geral
                             if (shProfessores.Cells[i, col].Value != null)
                             {
                                 cursos = ((string)shProfessores.Cells[i, col].Value).Split(";");
+                                int vnum = 1;
+                                int vcont = 1;
+                                int vcol = 29;
+                                foreach(string parte in cursos) 
+                                        {
+                                            if (vnum % 2 == 0)
+                                            {
+                                                shProfessores.Cells[1, vcol].Value = "CÓDIGO NO CURSO e-MEC";
+                                            }
+                                            else
+                                            {
+                                                shProfessores.Cells[1, vcol].Value = (vcont) + "º" + " CURSO (NOME)";
+                                                vcont = vcont + 1;
+                                                using (var range = shProfessores.Cells[1, 1, 1, vcol]) 
+                                                {
+                                                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                    range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+                                                }
+
+                                                for (int j = 1;j < vcol; j++)
+                                                    {
+                                                        //count ++;
+                                                    shProfessores.Cells[1, j].Style.Font.Bold = true;
+                                                    
+                                                    }
+
+                                            }
+                                            vnum = vnum + 1;
+                                            vcol = vcol + 1;
+                                        }
+                                
+                                col = 29;
+
+                                foreach (var item in cursos)
+                                {
+                                    shProfessores.Cells[i, col++].Value = item.ToString();
+                                }
+                                col = 29;
                             }
-
-                            col = 29;
-
-                            foreach (var item in cursos)
-                            {
-                                shProfessores.Cells[i, col++].Value = item.ToString();
-
-                            }
-
-                            col = 29;
                             
-                        }             
+                        }
+
+                        // colocar aqui             
                       
               
                     
