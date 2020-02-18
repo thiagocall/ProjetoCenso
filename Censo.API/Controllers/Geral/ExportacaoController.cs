@@ -482,6 +482,12 @@ namespace Censo.API.Controllers.Geral
                             }
                             
                             profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+<<<<<<< HEAD
+=======
+
+                            var tudocurso = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
+    
+>>>>>>> 460a73c15ab5554deef17ede6d5ed387a7745018
 
                             //Ajustado Thiago //
                             //profesc.Atividades = dicProfessorAtividade.TryGetValue(profesc.cpfProfessor.ToString(), out var p) ? String.Join(";", p.getSorted()) : "" ;
