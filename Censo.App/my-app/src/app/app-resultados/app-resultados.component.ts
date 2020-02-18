@@ -49,7 +49,7 @@ export class AppResultadosComponent implements OnInit {
       response => {
         this.resultadoOtimizado = response;
         this.dados = this.resultadoOtimizado.length;
-        console.log(this.resultadoOtimizado.length);
+        //console.log(this.resultadoOtimizado.length);
         var a: any = this.resultadoOtimizado;
 
         //console.log(typeof a[0].id);
