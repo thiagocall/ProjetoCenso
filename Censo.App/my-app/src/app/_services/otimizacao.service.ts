@@ -50,9 +50,9 @@ export class OtimizacaoService {
   }
 
   /** CENSO - RESULTADOS */
-  salvarOficial(id: any) {
+  salvarOficial(obj: any) {
     const tokenHeader = this.getToken();
-    return this.http.post(this.baseURL + 'ComparaResultado', id, {headers: tokenHeader});
+    return this.http.post(this.baseURL + 'MarcaResultadoOficial/', obj, {headers: tokenHeader});
   }
 
 

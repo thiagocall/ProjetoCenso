@@ -8,7 +8,7 @@
         <div class="form-row align-items-center">
           <div class="col-auto my-1">
             <div class="custom-control custom-checkbox mr-sm-2">
-              <input type="checkbox" (change)="check()" formControlName="indOficial" name="" id=""
+              <input type="checkbox" (change)="salvarOficial($event.target.checked)" formControlName="indOficial" name="" id=""
                 class="custom-control-input" id="customControlAutosizing">
               <label class="custom-control-label" for="customControlAutosizing">Resultado Oficial</label>
             </div>

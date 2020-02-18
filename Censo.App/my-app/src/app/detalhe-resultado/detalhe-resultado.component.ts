@@ -28,13 +28,14 @@ export class DetalheResultadoComponent implements OnInit {
   resultadoAtual: any;
   resultadoOtimizado: any;
   fileUrl;
-  id: any;
+  resultadoOficial: any;
+  id: number;
   indOficial: any;
   pacote: any;
 
   getDados() {
 
-    this.id = this.thisRoute.snapshot.paramMap.get('id');
+    this.id = Number(this.thisRoute.snapshot.paramMap.get('id'));
     this.otimizacaoService.obterDetalheResultado(this.id).subscribe(
 
       response => {
@@ -69,62 +70,31 @@ export class DetalheResultadoComponent implements OnInit {
     // window.open(window.URL.createObjectURL(thefile));
   };
 
-  check() {
-    console.log(this.form.value)
-    //enviar para o back
-
-    if (this.form.get('indOficial').value) {
-      this.form.get('indOficial').patchValue(1);
-
-    } else {
-      this.form.get('indOficial').patchValue(0);
-    }
-
-    console.log("isso foi enviado", this.form.value)
-  }
-
-  /** TESTE */
-  /*salvarOficial() {
-    this.OtimizacaoService.obterResultadosOtimizados().subscribe(
+  
+  salvarOficial(value:any) {
+    this.otimizacaoService.salvarOficial(Object.assign({ "id": this.id, valor: value })).subscribe(
       response => {
-        this.resultadoOtimizado = response;
+        this.resultadoOficial = response;
+        if (this.form.get('indOficial').value) {
+          this.form.get('indOficial').patchValue(1);
+          // console.log(Object.assign({ "id": this.id }));
+
+        } else {
+          this.form.get('indOficial').patchValue(0);
+          // console.log(Object.assign({ "id": this.id }));
+        }
+
+        console.log("isso foi enviado", this.form.value)
 
       }, error => {
-        console.log(error);
-      });
+        console.log(error)
+      }
+    )
+
+    console.log(Object.assign({ "id": this.id, valor: value}));
   }
 
-  /** teste */
-
   
-  /*Comparar() {
-    console.log(this.comparar);
-    this.OtimizacaoService.getComparaResultado(this.comparar)
-      .subscribe(
-        response => {
-          this.resultados = response;
-           console.log(this.resultados);
-        },
-        error => {
-
-        }
-      );
-  } */
-
-  /*
-  sendToBackEnd() {
-    if (this.form.get('indOficial').value) {
-      this.form.get('indOficial').patchValue(1);
-
-    } else {
-      this.form.get('indOficial').patchValue(0);
-    }
-
-    console.log("isso foi enviado", this.form.value)
-
-  } */
-
-
   ngOnInit() {
     this.getDados();
     this.form = this.formBuilder.group({
