@@ -25,6 +25,7 @@
             <th scope="col">Id Resultado</th>
             <th scope="col">Hora Execução</th>
             <th scope="col">Data Otimização</th>
+            <th>Resultado Oficial</th>
             <th scope="col"></th>
             <th scope="col">Comparar</th>
           </tr>
@@ -34,8 +35,16 @@
             <th scope="row">{{item.id}}</th>
             <td>{{item.tempoExecucao}}</td>
             <td>{{getData(item.id)}}</td>
+
+            <!-- badge  oficial-->
             <td>
-              
+              <div *ngIf="item.indOficial == 1">
+                <h6><span class="badge badge-primary">OFICIAL</span></h6>
+              </div>
+            </td>
+            <!-- badge  oficial-->
+            
+            <td>
               <!-- Botão Visualizar-->
               <div class="btn-group">
                 <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"

@@ -19,7 +19,7 @@ export class DetalheResultadoComponent implements OnInit {
   constructor(private otimizacaoService: OtimizacaoService,
     private router: Router,
     private thisRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,) { }
+    private formBuilder: FormBuilder ) { }
 
   dados: any;
   dadosJsonAtual: any;
@@ -29,7 +29,7 @@ export class DetalheResultadoComponent implements OnInit {
   fileUrl;
   id: any;
   indOficial: any;
-  pacote:any;
+  pacote: any;
 
   getDados() {
 
@@ -42,15 +42,9 @@ export class DetalheResultadoComponent implements OnInit {
         this.resultadoOtimizado = this.dados.resultado;
         this.dadosJsonAtual = JSON.parse(this.resultadoAtual.resumo);
         this.dadosJsonOtm = JSON.parse(this.resultadoOtimizado.resumo);
-        this.indOficial = this.dados.resultado.indOficial;
-        //console.log(this.dados);
-        console.log(this.indOficial);
-
-        console.log(this.id);
-
-        if(this.indOficial == 0){
+        if (this.indOficial == 0) {
           this.form.get('indOficial').patchValue(false);
-        }else{
+        } else {
           this.form.get('indOficial').patchValue(true);
         }
 
@@ -75,7 +69,7 @@ export class DetalheResultadoComponent implements OnInit {
     // window.open(window.URL.createObjectURL(thefile));
   };
 
-  check(){
+  check() {
     console.log(this.form.value)
   }
 

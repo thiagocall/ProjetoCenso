@@ -108,11 +108,7 @@ import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/ex
       NgxPaginationModule,
       ExportAsModule,
       BsDatepickerModule.forRoot(),
-<<<<<<< HEAD
       //NgxChartsModule
-=======
-    
->>>>>>> d2debd2530c7b995a0154b3ae49ead40cd9788bc
    ],
    providers: [DatePipe],
    bootstrap: [

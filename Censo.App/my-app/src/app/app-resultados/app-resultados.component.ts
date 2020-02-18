@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { collectExternalReferences } from '@angular/compiler';
 
+
 @Component({
   selector: 'app-app-resultados',
   templateUrl: './app-resultados.component.html',
@@ -13,19 +14,20 @@ import { collectExternalReferences } from '@angular/compiler';
 })
 export class AppResultadosComponent implements OnInit {
 
+ 
   modalRef: BsModalRef;
   message: string;
   resultadoOtimizado: any; //resultado da tabela TbResultado
   isCollapsed = true;
   dados: number;
 
-  constructor(private modalService: BsModalService, private OtimizacaoService: OtimizacaoService, private router: Router) { }
+  constructor(private modalService: BsModalService, 
+    private OtimizacaoService: OtimizacaoService, 
+    private router: Router) { }
 
   confirma: boolean;
   idSelecionado: number;
   listaCompara: Array<any> = new Array<any>();
-
-
 
 
   ngOnInit() {
@@ -47,17 +49,21 @@ export class AppResultadosComponent implements OnInit {
       response => {
         this.resultadoOtimizado = response;
         this.dados = this.resultadoOtimizado.length;
-        // console.log(this.resultadoOtimizado.length);
+        console.log(this.resultadoOtimizado.length);
         var a: any = this.resultadoOtimizado;
+
         //console.log(typeof a[0].id);
+       
+
       }, error => {
         console.log(error);
       });
   }
 
+
+
   //formatar data dia/mes/ano
   getData(id: number) {
-
     var dia = (String(id)).substr(-8, 2)
     var mes = (String(id)).substr(4, 2)
     var ano = (String(id)).substr(0, 4)
@@ -69,8 +75,6 @@ export class AppResultadosComponent implements OnInit {
     const resumo = JSON.parse(res);
     // console.log(resumo);
     return resumo;
-  
-
   }
 
   modalExcluir(template: TemplateRef<any>) {
@@ -78,18 +82,14 @@ export class AppResultadosComponent implements OnInit {
   }
 
   excluir(idResultado: number, template: TemplateRef<any>): void {
-
     //fecha o modal
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
     this.idSelecionado = idResultado;
     console.log(this.confirma);
-
-
   }
 
 
   ConfirmaExclusao() {
-
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate(['/Resultados']);
     // Atualiza a tela da tabela
@@ -102,31 +102,25 @@ export class AppResultadosComponent implements OnInit {
       error => {
         console.log(error);
       });
-
   }
 
   cancelar(): void {
     this.modalRef.hide(); // fecha o modal
   }
 
-
-
-
   toggleCol(id: any) {
-
+    
   }
 
-  exportarResultadoExcel(item: any) { 
-
-   // const id = item.substr(2, item.length);
+  exportarResultadoExcel(item: any) {
+    // const id = item.substr(2, item.length);
     console.log(item);
-
     let thefile;
-    let blob;  
-    this.OtimizacaoService.exportarResultadoExcel(item).subscribe(response => { 
-      blob = new Blob([response], { type: 'application/octet-stream'});
+    let blob;
+    this.OtimizacaoService.exportarResultadoExcel(item).subscribe(response => {
+      blob = new Blob([response], { type: 'application/octet-stream' });
       saveAs(blob, `ResultadoCenso_${item}.xlsx`);
     }
     );
-    }
+  }
 }
