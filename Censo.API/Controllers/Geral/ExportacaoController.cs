@@ -155,7 +155,6 @@ namespace Censo.API.Controllers.Geral
         }
 
         [AllowAnonymous]
-        //[HttpGet("Buscaies/{id}")]
         [HttpGet("Buscaies")]
         //public async Task<IActionResult> Get(long id)
         public async Task<IActionResult> Buscaies()
@@ -543,6 +542,20 @@ namespace Censo.API.Controllers.Geral
                                             if (vnum % 2 == 0)
                                             {
                                                 shProfessores.Cells[1, vcol].Value = "CÓDIGO NO CURSO e-MEC";
+
+                                                using (var range = shProfessores.Cells[1, 1, 1, vcol + 1]) 
+                                                {
+                                                    range.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                                                    range.Style.Fill.BackgroundColor.SetColor(Color.Yellow);
+                                                }
+
+                                                for (int j = 1;j < vcol + 1; j++)
+                                                    {
+                                                        //count ++;
+                                                    shProfessores.Cells[1, j].Style.Font.Bold = true;
+                                                    
+                                                    }
+
                                             }
                                             else
                                             {

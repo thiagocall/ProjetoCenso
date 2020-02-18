@@ -136,6 +136,27 @@ namespace Censo.API.Controllers.Censo
             return Ok(query);
         }
         
+        [AllowAnonymous]
+        [HttpPost("MarcaResultadoOficial")]
+        public ActionResult MarcaResultadoOficial([FromBody] dynamic obj)
+        {
+            try 
+            {
+                    var resultadoantigo = this.ProducaoContext.TbResultado.FirstOrDefault(x => x.indOficial == 1);
+                    resultadoantigo.indOficial = 0;
+                    
+                    var resultado = this.ProducaoContext.TbResultado.Find((long)obj.id);
+                    resultado.indOficial = 1;
+                    ProducaoContext.SaveChanges();                    
+                    return Ok() ;
+
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + ex.Message);
+            }
+
+        }
 
         [AllowAnonymous]
         [HttpGet("ObterResultados/{_id}")]
@@ -467,7 +488,6 @@ namespace Censo.API.Controllers.Censo
 
         [HttpPost("ComparaResultado")]
         public async Task<IActionResult> getComparaResultado( string[] _listaResultado) {
-
 
             try 
             {
