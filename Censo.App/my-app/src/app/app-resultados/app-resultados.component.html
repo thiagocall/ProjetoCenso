@@ -25,7 +25,7 @@
             <th scope="col">Id Resultado</th>
             <th scope="col">Hora Execução</th>
             <th scope="col">Data Otimização</th>
-            <th>Resultado Oficial</th>
+            <th></th>
             <th scope="col"></th>
             <th scope="col">Comparar</th>
           </tr>
@@ -33,17 +33,17 @@
         <tbody *ngFor="let item of resultadoOtimizado">
           <tr style="text-align: center">
             <th scope="row">{{item.id}}</th>
-            <td>{{item.tempoExecucao}}</td>
-            <td>{{getData(item.id)}}</td>
+            <td style=" padding-top: 10px;">{{item.tempoExecucao}}</td>
+            <td style=" padding-top: 10px;">{{getData(item.id)}}</td>
 
             <!-- badge  oficial-->
-            <td>
+            <th scope="row">
               <div *ngIf="item.indOficial == 1">
                 <h6><span class="badge badge-primary">OFICIAL</span></h6>
               </div>
-            </td>
+            </th>
             <!-- badge  oficial-->
-            
+
             <td>
               <!-- Botão Visualizar-->
               <div class="btn-group">
@@ -208,5 +208,4 @@
       <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
     </div>
   </ng-template>
-
   <!-- Modal excluir-->

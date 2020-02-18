@@ -62,6 +62,7 @@ export class AppResultadosComponent implements OnInit {
 
 
 
+
   //formatar data dia/mes/ano
   getData(id: number) {
     var dia = (String(id)).substr(-8, 2)

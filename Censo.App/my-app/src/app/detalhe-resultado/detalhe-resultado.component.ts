@@ -20,7 +20,7 @@ export class DetalheResultadoComponent implements OnInit {
   constructor(private otimizacaoService: OtimizacaoService,
     private router: Router,
     private thisRoute: ActivatedRoute,
-    private formBuilder: FormBuilder ) { }
+    private formBuilder: FormBuilder) { }
 
   dados: any;
   dadosJsonAtual: any;
@@ -71,7 +71,59 @@ export class DetalheResultadoComponent implements OnInit {
 
   check() {
     console.log(this.form.value)
+    //enviar para o back
+
+    if (this.form.get('indOficial').value) {
+      this.form.get('indOficial').patchValue(1);
+
+    } else {
+      this.form.get('indOficial').patchValue(0);
+    }
+
+    console.log("isso foi enviado", this.form.value)
   }
+
+  /** TESTE */
+  /*salvarOficial() {
+    this.OtimizacaoService.obterResultadosOtimizados().subscribe(
+      response => {
+        this.resultadoOtimizado = response;
+
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  /** teste */
+
+  
+  /*Comparar() {
+    console.log(this.comparar);
+    this.OtimizacaoService.getComparaResultado(this.comparar)
+      .subscribe(
+        response => {
+          this.resultados = response;
+           console.log(this.resultados);
+        },
+        error => {
+
+        }
+      );
+  } */
+
+  /*
+  sendToBackEnd() {
+    if (this.form.get('indOficial').value) {
+      this.form.get('indOficial').patchValue(1);
+
+    } else {
+      this.form.get('indOficial').patchValue(0);
+    }
+
+    console.log("isso foi enviado", this.form.value)
+
+  } */
+
 
   ngOnInit() {
     this.getDados();
