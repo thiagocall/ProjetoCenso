@@ -142,11 +142,25 @@ namespace Censo.API.Controllers.Censo
         {
             try 
             {
-                    var resultadoantigo = this.ProducaoContext.TbResultado.FirstOrDefault(x => x.indOficial == 1);
-                    resultadoantigo.indOficial = 0;
+                    if (obj.valor == true)
+                    {
+                         var resultadoantigo = this.ProducaoContext.TbResultado.FirstOrDefault(x => x.indOficial == 1);
+                        //this.ProducaoContext.TbResultado.FirstOrDefault(x => x.indOficial == 1).indOficial = 0;
+                         if (resultadoantigo != null)
+                         {
+                            resultadoantigo.indOficial = 0; 
+                         }
                     
-                    var resultado = this.ProducaoContext.TbResultado.Find((long)obj.id);
-                    resultado.indOficial = 1;
+                         var resultado = this.ProducaoContext.TbResultado.Find((long)obj.id);
+                        //this.ProducaoContext.TbResultado.Find((long)obj.id).indOficial = 1;
+                         resultado.indOficial = 1;
+                        
+                    }
+                    else
+                    {
+                        var resultado = this.ProducaoContext.TbResultado.Find((long)obj.id);
+                        resultado.indOficial = 0;
+                    }
                     ProducaoContext.SaveChanges();                    
                     return Ok() ;
 

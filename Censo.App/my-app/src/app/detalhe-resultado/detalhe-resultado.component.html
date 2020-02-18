@@ -19,10 +19,10 @@
     </div>
 
     <div class="p-2">
-      <button class="btn btn-outline-success ml-auto" download="Resultado.xlsx" tooltip="Exportar excel"
-        (click)="exportarResultadoExcel()">
+      <button class="btn btn-outline-success ml-auto" [disabled]="disableBotao" download="Resultado.xlsx" tooltip="Exportar excel"
+        (click)="exportarResultadoExcel()" id="btn_exp">
         <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
-      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2">Voltar</button>
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2" [disabled]="disableBotao" id="btn_voltar">Voltar</button>
     </div>
 
   </div>
