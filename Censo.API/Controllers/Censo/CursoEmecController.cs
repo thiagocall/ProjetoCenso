@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using System.IO;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Authorization;
+using System.Data.SqlClient;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -53,6 +54,7 @@ namespace Censo.API.Controllers.Censo
             this.Context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.ProfContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.CursoEnquadramentoContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.ProducaoContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         [HttpGet("geraPrevisao/{id}/{tipo}")]
@@ -142,13 +144,29 @@ namespace Censo.API.Controllers.Censo
         {
             try 
             {
-                    var resultadoantigo = this.ProducaoContext.TbResultado.FirstOrDefault(x => x.indOficial == 1);
-                    resultadoantigo.indOficial = 0;
+                    if (obj.valor == true)
+                    {
+                        
+                        var commandAntigo = "UPDATE TbResultado set ind_oficial = 0 where ind_oficial = 1";
+                        this.ProducaoContext.Database.ExecuteSqlCommand(commandAntigo);
+
+                        var commandNovo = "UPDATE TbResultado set ind_oficial = 1 where num_ordem = @num_ordem";
+                        var nameAntigo = new SqlParameter( "@num_ordem", (long)obj.id);
+                        this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo, nameAntigo);
+
+                        
+                    }
+                    else
+                    { 
+
+                        var nameNovo = new SqlParameter( "@num_ordem", (long)obj.id);
+                        var commandNovo = "UPDATE TbResultado set ind_oficial = 0 where num_ordem = @num_ordem";
+                        this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo, nameNovo);
+                        
+                    }
+
+                     return Ok();
                     
-                    var resultado = this.ProducaoContext.TbResultado.Find((long)obj.id);
-                    resultado.indOficial = 1;
-                    ProducaoContext.SaveChanges();                    
-                    return Ok() ;
 
             }
             catch (Exception ex) 

@@ -8,7 +8,7 @@
         <div class="form-row align-items-center">
           <div class="col-auto my-1">
             <div class="custom-control custom-checkbox mr-sm-2">
-              <input type="checkbox" (change)="check()" formControlName="indOficial" name="" id=""
+              <input type="checkbox" (change)="salvarOficial($event.target.checked)" formControlName="indOficial" name="" id=""
                 class="custom-control-input" id="customControlAutosizing">
               <label class="custom-control-label" for="customControlAutosizing">Resultado Oficial</label>
             </div>
@@ -19,10 +19,10 @@
     </div>
 
     <div class="p-2">
-      <button class="btn btn-outline-success ml-auto" download="Resultado.xlsx" tooltip="Exportar excel"
-        (click)="exportarResultadoExcel()">
+      <button class="btn btn-outline-success ml-auto" [disabled]="disableBotao" download="Resultado.xlsx" tooltip="Exportar excel"
+        (click)="exportarResultadoExcel()" id="btn_exp">
         <i class="fas fa-file-excel fa-1x"></i> Exportar</button>
-      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2">Voltar</button>
+      <button [routerLink]="['/Resultados']" class="btn btn-outline-primary ml-2" [disabled]="disableBotao" id="btn_voltar">Voltar</button>
     </div>
 
   </div>
