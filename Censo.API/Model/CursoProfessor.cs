@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Censo.API.Model.Censo;
 
 namespace Censo.API.Model
 {
-    public class CursoProfessor
+    public class CursoProfessor: ICloneable
     {
         public long CodEmec { get; set; }
         public int CodArea { get; set; }
@@ -18,9 +19,17 @@ namespace Censo.API.Model
         public double Nota_AF { get; set; }
         public double Nota_CE { get; set; }
 
+        public object Clone()
+        {
+            CursoProfessor cursoProfessor = (CursoProfessor)this.MemberwiseClone();
+            cursoProfessor.Professores = new List<ProfessorEmec>();
+            this.Professores.ForEach(
+                p => {
+                    cursoProfessor.Professores.Add((ProfessorEmec)p.Clone());
+                }
+            );
 
-
-
-
+            return cursoProfessor;
+        }
     }
 }

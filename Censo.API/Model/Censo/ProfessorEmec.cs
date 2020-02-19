@@ -1,6 +1,8 @@
+using System;
+
 namespace Censo.API.Model.Censo
 {
-    public class ProfessorEmec
+    public class ProfessorEmec : ICloneable
     {
         public long cpfProfessor { get; set; }
         public string Regime { get; set; }
@@ -9,5 +11,10 @@ namespace Censo.API.Model.Censo
         public string Pais { get; set; }
         public string UF { get; set; }
         public string Municipio { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

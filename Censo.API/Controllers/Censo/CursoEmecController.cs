@@ -922,7 +922,7 @@ namespace Censo.API.Controllers.Censo
 
                 List<CursoProfessor> cursoProfessorAtual = new List<CursoProfessor>();
                 Cursoprofessor.ForEach( (item) => {
-                        cursoProfessorAtual.Add(item);
+                        cursoProfessorAtual.Add((CursoProfessor)item.Clone());
                         }
                     );
 
