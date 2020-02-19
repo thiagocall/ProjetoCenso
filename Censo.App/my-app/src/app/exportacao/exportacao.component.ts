@@ -21,6 +21,7 @@ export class ExportacaoComponent implements OnInit {
     let blob;
     const data = this.datePipe.transform(Date(), 'yyyy-MM-dd');
     this.exportacaoService.getExportarCensoExcel().subscribe(response => {
+      this.mostrarSpinner = false;
       blob = new Blob([response], { type: 'application/octet-stream' });
       saveAs(blob, `Arquivo_Censo_Oficial_${data}.xlsx`);
     });

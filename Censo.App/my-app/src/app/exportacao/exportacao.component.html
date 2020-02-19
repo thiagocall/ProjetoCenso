@@ -65,9 +65,9 @@
               <div class="card-body">
 
                 <p class="icone">Exporta arquivo para o Censo Docente</p>
-                <button [disabled]=" mostrarSpinner"  class="btn btn-sm btn-outline-success "
+                <button  [disabled]=" mostrarSpinner"  class="btn btn-sm btn-outline-success "
                   (click)="exportacaoCensoExcel()">
-                  <i *ngIf="mostrarSpinner" class="fas fa-file-excel  mostrarSpinner"></i> Exportar</button>
+                  <i *ngIf="mostrarSpinner" class="fas fa-file-excel  fas fa-spinner fa-pulse mostrarSpinner"></i> Exportar</button>
               </div>
             
 
