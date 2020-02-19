@@ -11,9 +11,13 @@ import { DatePipe } from '@angular/common';
 
 export class ExportacaoComponent implements OnInit {
 
+  titulo = 'Longin'
+  mostrarSpinner = false;
+
   constructor(private exportacaoService: ExportacaoService, private datePipe: DatePipe) { }
 
   exportacaoCensoExcel() {
+    this.mostrarSpinner = true;
     let blob;
     const data = this.datePipe.transform(Date(), 'yyyy-MM-dd');
     this.exportacaoService.getExportarCensoExcel().subscribe(response => {

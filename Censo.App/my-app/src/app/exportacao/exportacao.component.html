@@ -1,10 +1,10 @@
 <div class="container mb-5 ml-2 mt-4">
-    <div class="mx-auto mt-5" style="width: 790px;">
-      <h2 class="font-weight-light" style="color:black;">
-        Exportação
-      </h2>
-    </div>
+  <div class="mx-auto mt-5" style="width: 790px;">
+    <h2 class="font-weight-light" style="color:black;">
+      Exportação
+    </h2>
   </div>
+</div>
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 300px;">
   <!-- <div class="ml-5">
@@ -18,7 +18,7 @@
     <div class="carousel-item active">
       <div class="container">
         <div class="row">
-          
+
           <!--card 1-->
           <div class="col-md-4">
             <div class="card card-move" style="width: 18rem" [routerLink]="['/Exportacao/professores']">
@@ -44,7 +44,7 @@
             </div>
           </div>
           <!--card 3-->
-        <!--  <div class="col-md-4">
+          <!--  <div class="col-md-4">
             <div class="card card-move" style="width: 18rem" [routerLink]="['/']">
               <div id="cardhead" class="card-header">
                 <h5 class="card-title">Exportar Censo</h5>
@@ -65,9 +65,19 @@
               <div class="card-body">
 
                 <p class="icone">Exporta arquivo para o Censo Docente</p>
-                <button class="btn btn-sm btn-outline-success" (click)="exportacaoCensoExcel()">
-                  <i class="fas fa-file-excel"></i> Exportar</button>
+                <button [disabled]=" mostrarSpinner"  class="btn btn-sm btn-outline-success "
+                  (click)="exportacaoCensoExcel()">
+                  <i *ngIf="mostrarSpinner" class="fas fa-file-excel  mostrarSpinner"></i> Exportar</button>
               </div>
+            
+
+
+
+
+
+
+
+
             </div>
           </div>
 
@@ -76,5 +86,5 @@
     </div>
 
   </div>
-  
+
 </div>
