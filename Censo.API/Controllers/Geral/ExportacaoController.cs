@@ -267,13 +267,13 @@ namespace Censo.API.Controllers.Geral
 
                 Dictionary<long?, string> EmecIes = new Dictionary<long?, string>();
 
-                cursoCenso.ForEach( p =>
+                ListaEmecIES.ForEach( p =>
                 {
-                    if (!EmecIes.TryGetValue(p.CodEmec, out string cr)) 
+                    if (!EmecIes.TryGetValue(p.CodCursoEmec, out string cr)) 
                     {
                         if (p.CodIes != null)
                         {
-                            EmecIes.Add(p.CodEmec, Convert.ToString(p.CodIes));
+                            EmecIes.Add(p.CodCursoEmec, Convert.ToString(p.CodIes));
                         }
                             
                     }
@@ -605,9 +605,12 @@ namespace Censo.API.Controllers.Geral
             } // termino try catch
             catch (System.Exception ex)
             {
-                
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
-            }        
+            }
+            finally{
+                   
+
+            }    
 
         }    // termino da requisicao
         
