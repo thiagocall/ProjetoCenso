@@ -29,7 +29,7 @@ export class AppCompararComponent implements OnInit {
       .subscribe(
         response => {
           this.resultados = response;
-           console.log(this.resultados);
+          //console.log(this.resultados);
         },
         error => {
 

@@ -57,7 +57,7 @@ export class RegulatorioProfessorIesComponent implements OnInit {
     //console.log(this.resultadoId); //dados professor e dados instituição
     this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
       response => {
-        console.log(response);
+       // console.log(response);
         this.resultadoId = response;
         this.resultadoId.sort((a, b) => {
           if(a.nomProfessor > b.nomProfessor) {

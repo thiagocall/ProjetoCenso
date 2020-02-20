@@ -17,7 +17,38 @@ export class ProfessorComponent implements OnInit {
   professores;
   integral: number;
 
-  dados: Dados;
+  //dados: Dados;
+
+  /** variaveis gerais*/
+  doutor: any;
+  dados: any;
+  dadosGrafico: any[];
+  dadosGraficoBarra: any [];
+
+  /** ----------GRAFICO-------------- */
+  //multi: any[];
+  view: any[] = [960, 200];
+  view2: any[] = [400,400];
+
+  // options
+  showXAxis: boolean = true;
+  showYAxis: boolean = true;
+  gradient: boolean = false;
+  showLegend: boolean = false;
+  showXAxisLabel: boolean = true;
+  yAxisLabel: string = 'Titulação';
+  showYAxisLabel: boolean = true;
+  xAxisLabel: string = 'Titulação de Profesores';
+
+  // options grafico redondo
+  showLabels: boolean = true;
+
+  colorScheme = {
+    domain: ['#00BFFF', '#1E90FF', '#00BFFF', '#1E90FF']
+  };
+
+  /** ----------GRAFICO-------------- */
+
 
   constructor(private professorService: ProfessorService) { }
 
@@ -31,7 +62,7 @@ export class ProfessorComponent implements OnInit {
   };
 
   public barChartColors: Color[] = [{
-    backgroundColor: 'rgba(23,58,86,1)'
+    backgroundColor: ['#4682B4', '#1E90FF', '#4682B4']//'rgba(23,58,86,1)' //
   }];
 
   public barChartLabels = ['Tempo Integral', 'Tempo Parcial', 'Horista'];
@@ -72,7 +103,6 @@ export class ProfessorComponent implements OnInit {
   public radarChartColor = [{ backgroundColor: 'rgba(30,184,222,0.4)', borderColor: 'rgba(30,184,222,0.9)' }];
 
   ngOnInit() {
-
     this.getProfessores();
   }
 
@@ -81,6 +111,9 @@ export class ProfessorComponent implements OnInit {
       .subscribe(
         response => {
           this.professores = response;
+          this.dados = response;
+         // console.log(this.dados);
+          this.getDadosGrafico();
         },
         error => {
           console.log(error);
@@ -125,4 +158,45 @@ export class ProfessorComponent implements OnInit {
     );
   }
 
+  
+ 
+
+  getDadosGrafico(): any {
+    var novaLista = new Set<SingleData>(); // criei um novo objeto em set chamando a classe que criei SingleData
+    var value: SingleData; // value que passo é o SingleData que criei
+
+    value = new SingleData() // novo objeto
+
+    value.name = "Qtd Professores"
+    value.value = this.dados.qtdProfessores;
+    novaLista.add(value)
+
+    value = new SingleData()
+
+
+    value.name = "Qtd Doutor" // setei o valor na "mão"
+    value.value = this.dados.qtdDoutor; // chamo o value da api
+    novaLista.add(value)
+
+    value = new SingleData() // novo objeto
+
+    value.name = "Qtd Mestre"
+    value.value = this.dados.qtdMestre;
+    novaLista.add(value)
+
+    value = new SingleData() // novo objeto
+
+    value.name = "Qtd Especialista"
+    value.value = this.dados.qtdEspecialista;
+    novaLista.add(value)
+
+    this.dadosGrafico = [...novaLista] // covertei no array e atribui na variavel dadosGrafico que criei
+    //console.log(this.dadosGrafico)
+
+  }
+}
+
+class SingleData {  //criei uma classe 
+  name: String;
+  value: Number;
 }

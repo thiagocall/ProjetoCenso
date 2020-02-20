@@ -168,7 +168,7 @@ export class CalculadoraResultadosComponent implements OnInit {
     this.calcula.nota_Mestre = this.calculaOriginal.nota_Mestre;
     this.calcula.nota_Regime = this.calculaOriginal.nota_Regime;
 
-    console.log(this.calcula.nota_Doutor)
+    //console.log(this.calcula.nota_Doutor)
 
     this.calculaNotaContinua();
 
@@ -180,7 +180,7 @@ export class CalculadoraResultadosComponent implements OnInit {
     let percDoutor = (this.calcula.qtdDH + this.calcula.qtdDR) / this.calcula.qtd;
     let notaDoutor = this.N_Escala(this.regua.p_Min_Doutor, this.regua.p_Max_Doutor, percDoutor);
 
-    console.log(this.regua.p_Max_Doutor)
+    //console.log(this.regua.p_Max_Doutor)
 
     let percMestre = (this.calcula.qtdMH + this.calcula.qtdMR + this.calcula.qtdDH + this.calcula.qtdDR) / this.calcula.qtd;
     let notaMestre = this.N_Escala(this.regua.p_Min_Mestre, this.regua.p_Max_Mestre, percMestre);
@@ -194,7 +194,7 @@ export class CalculadoraResultadosComponent implements OnInit {
     // console.log(percRegime)
     this.notaContinua = notaDoutor * 0.5 + notaMestre * 0.25 + notaRegime * 0.25;
 
-    console.log([percDoutor, percRegime, percMestre])
+    //console.log([percDoutor, percRegime, percMestre])
 
     this.notaFaixa = this.MontaFaixa(this.notaContinua);
 

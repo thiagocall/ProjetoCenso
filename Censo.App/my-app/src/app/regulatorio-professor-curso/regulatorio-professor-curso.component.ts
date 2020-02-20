@@ -68,7 +68,7 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   exportarResultadoExcel() {
     let blob;
     let id;
-    console.log(this.selecione);
+    //console.log(this.selecione);
 
     if (this.selecione == 0) {
 
@@ -101,7 +101,7 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
   getCurso(valor: any) {
     // console.log(valor);
     this.campoSelecionado = valor;
-    console.log(this.campoSelecionado);
+    //console.log(this.campoSelecionado);
     this.cursoFiltrado = this.curso.filter(c => c.codCampus == valor);
   }
 
@@ -111,7 +111,7 @@ export class RegulatorioProfessorCursoComponent implements OnInit {
         this.errodados = false;
         this.resultado = response;
         // console.log(this.resultado);
-        console.log(this.errodados);
+       // console.log(this.errodados);
       },
       error => {
         this.errodados = true;
