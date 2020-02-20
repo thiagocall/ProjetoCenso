@@ -628,7 +628,7 @@ namespace Censo.API.Controllers.Geral
                         
                         public string Codies { get; set; }
                         public string NomIes { get; set; }    
-                         public long cpfProfessor { get; set; }
+                        public long cpfProfessor { get; set; }
                         public string NomeCompleto { get; set; }
                         public string Dtnascimento { get; set; }
                         public string NomSexo {get; set;}
