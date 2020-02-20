@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common/';
+import { Location } from '@angular/common/';
 import { HttpClientModule, HttpClient, HttpResponse } from '@angular/common/http';
 import { resolveSanitizationFn } from '@angular/compiler/src/render3/view/template';
 import { ProfessorService } from '../_services/professor.service';
@@ -37,13 +37,13 @@ export class AppCorpoDocenteComponent implements OnInit {
   ngOnInit() {
     this.professorService.getDados().subscribe(
       response => {
-      this.resultado = response;
-      this.listaCampus = this.resultado.campus;
-      this.listaCursos = this.resultado.cursos;
-    },
-    error => {
-      console.log(error);
-    }
+        this.resultado = response;
+        this.listaCampus = this.resultado.campus;
+        this.listaCursos = this.resultado.cursos;
+      },
+      error => {
+        console.log(error);
+      }
     );
   }
 
@@ -60,26 +60,24 @@ export class AppCorpoDocenteComponent implements OnInit {
     this.notaFaixa = null;
 
     this.professorService.getInfoCurso(codigo).subscribe(
-    response => {
-      this.errodados = false;
-      this.infoCurso = response;
-      this.professores = this.infoCurso.cursoProfessor;
-      this.notaM = this.infoCurso.notaM;
-      this.notaD = this.infoCurso.notaD;
-      this.notaR = this.infoCurso.notaR;
-      this.qtdM = this.infoCurso.qtdM;
-      this.qtdD = this.infoCurso.qtdD;
-      this.qtdR = this.infoCurso.qtdR;
-
-      this.notaFaixa = this.faixa();
-      //console.log(response);
-
-    },
-    error => {
-      this.errodados = true;
-      this.infoCurso = null;
-      console.log(error);
-    }
+      response => {
+        this.errodados = false;
+        this.infoCurso = response;
+        this.professores = this.infoCurso.cursoProfessor;
+        this.notaM = this.infoCurso.notaM;
+        this.notaD = this.infoCurso.notaD;
+        this.notaR = this.infoCurso.notaR;
+        this.qtdM = this.infoCurso.qtdM;
+        this.qtdD = this.infoCurso.qtdD;
+        this.qtdR = this.infoCurso.qtdR;
+        this.notaFaixa = this.faixa();
+        //console.log(response);
+      },
+      error => {
+        this.errodados = true;
+        this.infoCurso = null;
+        console.log(error);
+      }
     );
 
   }
@@ -88,21 +86,21 @@ export class AppCorpoDocenteComponent implements OnInit {
     const nota = (this.notaD * 2 + this.notaM + this.notaR) / 4;
     switch (true) {
       case nota < 0.945:
-      return 1;
+        return 1;
       case nota < 1.945:
-      return 2;
+        return 2;
       case nota < 2.945:
-      return 3;
+        return 3;
       case nota < 3.945:
-      return 4;
+        return 4;
       default:
-      return 5;
-      break;
+        return 5;
+        break;
     }
   }
 
   onChangePage(pageOfItems: Array<any>) {
     this.pageOfItems = pageOfItems;
   }
-  
+
 }

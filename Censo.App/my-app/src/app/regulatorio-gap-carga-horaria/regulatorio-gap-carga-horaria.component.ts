@@ -123,7 +123,7 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
             target: this.listaProfessorAdicionado.find(p => p.cpfProfessor == x.cpf).target
           }));
 
-        console.log(resposta);
+        //console.log(resposta);
         this.resposta = resposta; //com todos os dados + complemento
         //console.log(listaProfessorResposta) //não tem nome do prof e tem complemento
       },

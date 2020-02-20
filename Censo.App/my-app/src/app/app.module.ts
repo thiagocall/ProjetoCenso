@@ -54,6 +54,8 @@ import { ExpProfessorTitulacaoComponent } from './exp-professor-titulacao/exp-pr
 import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.component';
 import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/exp-professor-dadosSalvos.component';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 @NgModule({
    declarations: [
       AppComponent,
@@ -107,7 +109,7 @@ import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/ex
       NgxPaginationModule,
       ExportAsModule,
       BsDatepickerModule.forRoot(),
-      //NgxChartsModule
+      NgxChartsModule
    ],
    providers: [DatePipe],
    bootstrap: [

@@ -390,11 +390,7 @@ namespace Censo.API.Controllers.Censo
                     // Filtra parâmtetro indGraduacao
                     if (!(res.Titulacao == null || res.Titulacao == "GRADUADO")) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
                     {
-                        if (res.CodEmec == 4959)
-                        {
-
-                            var a = 1;
-                        }
+                        
 
                         if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
                         {

@@ -251,20 +251,20 @@ namespace Censo.API.Controllers.Geral
 
                 var cursoCenso = ListaCurso;
 
-                Dictionary<long?, string> EmecIes = new Dictionary<long?, string>();
+                Dictionary<long, CursoEmecIes> EmecIes = ListaEmecIES.ToDictionary(x => x.CodCursoEmec);
 
-                cursoCenso.ForEach( p =>
-                {
-                    if (!EmecIes.TryGetValue(p.CodEmec, out string cr)) 
-                    {
-                        if (p.CodIes != null)
-                        {
-                            EmecIes.Add(p.CodEmec, Convert.ToString(p.CodIes));
-                        }
+                // ListaEmecIES.ForEach( p =>
+                // {
+                //     if (!EmecIes.TryGetValue(p.CodCursoEmec, out string cr)) 
+                //     {
+                //         if (p.CodIes != null)
+                //         {
+                //             EmecIes.Add(p.CodCursoEmec, Convert.ToString(p.CodIes));
+                //         }
                             
-                    }
+                //     }
                      
-                });
+                // });
 
                 // Dicionario CursoEmec
                 Dictionary<long?, string> CursoEmec = new Dictionary<long?, string>();
@@ -326,7 +326,7 @@ namespace Censo.API.Controllers.Geral
                                     listaProfessor.Add( new ProfessorGeracao 
                                     { 
                                         cpfProfessor = p.cpfProfessor,
-                                        Codies = EmecIes[item.CodEmec],             
+                                        Codies = EmecIes[item.CodEmec].CodIes.ToString(),             
                                         CodEmec = item.CodEmec,    
                                         NomeCompleto =  prof.NomProfessor,
                                         Dtnascimento = prof.DtNascimentoProfessor.ToString(),
@@ -378,13 +378,16 @@ namespace Censo.API.Controllers.Geral
                                 // Se não existe o professor , Criacao de um dicionario novo para incluir os professores
                                if (!DicProfessor2.ContainsKey(p.cpfProfessor.ToString()))   
                                 {
-                                    ProfessorGeracao prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   
-                                   prof.cpfProfessor = p.cpfProfessor;  
-                                   IES ies = new IES();                 
-                                   ies.codies = EmecIes[item.CodEmec];  
-                                   CursoProf curso = new CursoProf();   
-                                   curso.codcursoEmec = item.CodEmec;   
-                                   curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; 
+                                   //ProfessorGeracao prof = new ProfessorGeracao();   // instanciei um classe professorgeracao
+                                   ProfessorGeracao prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   // instanciei um classe professorgeracao
+                                   prof.cpfProfessor = p.cpfProfessor;  // adicionei um cpf que nao existia dentro da classe
+                                   IES ies = new IES();                 // instanciei uma IES dentro professorgeracao
+                                   ies.codies = EmecIes[item.CodEmec].CodIes.ToString();  // adicinei uma IES nova
+                                   //ies.Nomies = DicEmecIes[item.CodEmec].Nomies;
+                                   ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
+                                   CursoProf curso = new CursoProf();   // instanciei um novo curso
+                                   curso.codcursoEmec = item.CodEmec;   // adicinei um codemec no curso
+                                   curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; // procurei o curso
                                    ies.Cursos.Add(curso);               // adicionei o curso seguindo HIERARQUIA CURSO / IES / PROF - OBJETO
                                    prof.Listaies.Add(ies);              
                                    DicProfessor2.Add(prof.cpfProfessor.ToString(), prof);  
@@ -392,9 +395,9 @@ namespace Censo.API.Controllers.Geral
                                else  // else(1) caso exista o professor
                                 {
                                     var prof = DicProfessor2[p.cpfProfessor.ToString()];
-                                    if (!(prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec]) == null))
+                                    if (!(prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec].CodIes.ToString()) == null))
                                     {
-                                        IES ies = prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec]); 
+                                        IES ies = prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec].CodIes.ToString()); 
                                         CursoProf curso = new CursoProf();
                                         curso.codcursoEmec = item.CodEmec;
                                         if ((cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso) == null)
@@ -408,7 +411,8 @@ namespace Censo.API.Controllers.Geral
                                     else // else(2)
                                     {
                                         IES ies = new IES();
-                                        ies.codies = EmecIes[item.CodEmec];
+                                        ies.codies = EmecIes[item.CodEmec].CodIes.ToString();
+                                        ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
                                         CursoProf curso = new CursoProf();
                                         curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; 
                                         //if (cursoCenso.nomcursoEmec != null)
@@ -428,9 +432,8 @@ namespace Censo.API.Controllers.Geral
       
                     );   
                 
-                } // FINAL DO FOR EACH
+                } 
 
-                // NOVO NOVO NOVO
                 // inicio da pesquisa e ordenação
                 
                 var listaprofselecionado = listaProfessor;
@@ -609,9 +612,12 @@ namespace Censo.API.Controllers.Geral
             } // termino try catch
             catch (System.Exception ex)
             {
-                
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
-            }        
+            }
+            finally{
+                   
+
+            }    
 
         }    // termino da requisicao
         
