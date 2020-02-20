@@ -265,20 +265,20 @@ namespace Censo.API.Controllers.Geral
 
                 var cursoCenso = ListaCurso;
 
-                Dictionary<long?, string> EmecIes = new Dictionary<long?, string>();
+                Dictionary<long, CursoEmecIes> EmecIes = ListaEmecIES.ToDictionary(x => x.CodCursoEmec);
 
-                cursoCenso.ForEach( p =>
-                {
-                    if (!EmecIes.TryGetValue(p.CodEmec, out string cr)) 
-                    {
-                        if (p.CodIes != null)
-                        {
-                            EmecIes.Add(p.CodEmec, Convert.ToString(p.CodIes));
-                        }
+                // ListaEmecIES.ForEach( p =>
+                // {
+                //     if (!EmecIes.TryGetValue(p.CodCursoEmec, out string cr)) 
+                //     {
+                //         if (p.CodIes != null)
+                //         {
+                //             EmecIes.Add(p.CodCursoEmec, Convert.ToString(p.CodIes));
+                //         }
                             
-                    }
+                //     }
                      
-                });
+                // });
 
                 // Dicionario CursoEmec
                 Dictionary<long?, string> CursoEmec = new Dictionary<long?, string>();
@@ -311,7 +311,7 @@ namespace Censo.API.Controllers.Geral
                                     listaProfessor.Add( new ProfessorGeracao 
                                     { 
                                         cpfProfessor = p.cpfProfessor,
-                                        Codies = EmecIes[item.CodEmec],             
+                                        Codies = EmecIes[item.CodEmec].CodIes.ToString(),             
                                         CodEmec = item.CodEmec,    
                                         NomeCompleto =  prof.NomProfessor,
                                         Dtnascimento = prof.DtNascimentoProfessor.ToString(),
@@ -363,7 +363,7 @@ namespace Censo.API.Controllers.Geral
                                    ProfessorGeracao prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   // instanciei um classe professorgeracao
                                    prof.cpfProfessor = p.cpfProfessor;  // adicionei um cpf que nao existia dentro da classe
                                    IES ies = new IES();                 // instanciei uma IES dentro professorgeracao
-                                   ies.codies = EmecIes[item.CodEmec];  // adicinei uma IES nova
+                                   ies.codies = EmecIes[item.CodEmec].CodIes.ToString();  // adicinei uma IES nova
                                    //ies.Nomies = DicEmecIes[item.CodEmec].Nomies;
                                    ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
                                    CursoProf curso = new CursoProf();   // instanciei um novo curso
@@ -395,7 +395,7 @@ namespace Censo.API.Controllers.Geral
                                     else // else(2)
                                     {
                                         IES ies = new IES();
-                                        ies.codies = EmecIes[item.CodEmec];
+                                        ies.codies = EmecIes[item.CodEmec].CodIes.ToString();
                                         ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
                                         CursoProf curso = new CursoProf();
                                         curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; // procurei o curso
@@ -605,9 +605,12 @@ namespace Censo.API.Controllers.Geral
             } // termino try catch
             catch (System.Exception ex)
             {
-                
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
-            }        
+            }
+            finally{
+                   
+
+            }    
 
         }    // termino da requisicao
         
