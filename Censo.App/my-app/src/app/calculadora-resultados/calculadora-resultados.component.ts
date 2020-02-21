@@ -48,7 +48,7 @@ export class CalculadoraResultadosComponent implements OnInit {
 
   getCampus(codigo: string) {
     this.curso = this.listaCursos.filter(x => x.codCampus.toString() === codigo.toString());
-    // this.curso = this.listaCursos;
+    
   }
 
 
@@ -59,7 +59,7 @@ export class CalculadoraResultadosComponent implements OnInit {
         this.errodados = false;
         this.infoCurso = response;
         this.professores = this.infoCurso.cursoProfessor;
-        //console.log(response);
+       
       },
       error => {
         this.errodados = true;
@@ -156,7 +156,6 @@ export class CalculadoraResultadosComponent implements OnInit {
 
   resetar() {
 
-    //this.calcula = null;
     this.calcula.qtdDR = this.calculaOriginal.qtdDR;
     this.calcula.qtdDH = this.calculaOriginal.qtdDH;
     this.calcula.qtdMR = this.calculaOriginal.qtdMR;
@@ -167,8 +166,6 @@ export class CalculadoraResultadosComponent implements OnInit {
     this.calcula.nota_Doutor = this.calculaOriginal.nota_Doutor;
     this.calcula.nota_Mestre = this.calculaOriginal.nota_Mestre;
     this.calcula.nota_Regime = this.calculaOriginal.nota_Regime;
-
-    //console.log(this.calcula.nota_Doutor)
 
     this.calculaNotaContinua();
 

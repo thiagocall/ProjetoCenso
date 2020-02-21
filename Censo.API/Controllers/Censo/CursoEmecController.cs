@@ -490,6 +490,7 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        [AllowAnonymous]
         [HttpPost("ComparaResultado")]
         public async Task<IActionResult> getComparaResultado( string[] _listaResultado) {
 
@@ -499,7 +500,7 @@ namespace Censo.API.Controllers.Censo
                     var res = await this.ProducaoContext.TbResultado
                                         .Where(r => _listaResultado.Contains(r.Id.ToString()))
                                         .OrderByDescending(r => r.Id)
-                                        .Select(r => new {r.Id, r.Resumo})
+                                        .Select(r => new {r.Id, r.Resumo, r.indOficial})
                                         .ToArrayAsync();
 
                     return Ok(res) ;

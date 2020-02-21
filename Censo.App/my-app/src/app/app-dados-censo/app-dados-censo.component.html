@@ -63,47 +63,55 @@
                 <div class="row">
 
                     <div class="col-md-5">
-                        
+
                         <div class="container mt-4">
                             <h4>Método de previsão</h4>
                             <div class="custom-control custom-radio">
                                 <input type="radio" class="custom-control-input" id="customControlValidation2"
-                                    name="radio-stacked" value="-1"
-                                      [(ngModel)]="parametro.Metodo" checked="true">
+                                    name="radio-stacked" value="-1" [(ngModel)]="parametro.Metodo" checked="true">
                                 <label class="custom-control-label" for="customControlValidation2"
-                                    tooltip="Calcula nota com base em regressão linear" placement="right">Tendência</label>
+                                    tooltip="Calcula nota com base em regressão linear"
+                                    placement="right">Tendência</label>
                             </div>
                             <div class="custom-control custom-radio mb-3">
 
                                 <input type="radio" class="custom-control-input" id="customControlValidation3"
                                     name="radio-stacked" value="0" [(ngModel)]="parametro.Metodo">
                                 <label class="custom-control-label" for="customControlValidation3"
-                                    tooltip="Considera as condições do último ano para o ano atual" placement="right">Replica nota último
+                                    tooltip="Considera as condições do último ano para o ano atual"
+                                    placement="right">Replica nota último
                                     ano</label>
                             </div>
+
+                            <div class="form-group">
+                                <label for="textarea">Obrservação:</label>
+                                <textarea class="form-control" id="textarea" rows="3" [(ngModel)]="parametro.Observacao"></textarea>
+                            </div>
+
                         </div>
+
                     </div>
                     <div class="col-md-3">
-                        
 
-                            <div class="custom-control custom-switch mt-0">
-                                <input type="checkbox" class="custom-control-input" id="customSwitch1"
+
+                        <div class="custom-control custom-switch mt-0">
+                            <input type="checkbox" class="custom-control-input" id="customSwitch1"
                                 [(ngModel)]="parametro.otimiza20p">
-                                <label class="custom-control-label" for="customSwitch1">Otimizar Prof
-                                    20%</label>
-                                </div>
-                                
-                                <div id="limite" class="mt-2" *ngIf="parametro.otimiza20p">
-                                    <label for="RngLim20P">% Limite: {{parametro.Perclimite}}</label>
-                                    <input type="range" class="custom-range" id="RngLim20P" [(ngModel)]="parametro.Perclimite">
-                                </div>
-                                
-                                <div class="mt-2" *ngIf="parametro.otimiza20p">
-                                    <label for="RngUsoProf">Qtd Uso Prof 20%: {{parametro.usoProfessor}}</label>
-                                    <input type="range" class="custom-range" min="0" max="50" id="RngUsoProf"
-                                    [(ngModel)]="parametro.usoProfessor">
-                                </div>
-                        
+                            <label class="custom-control-label" for="customSwitch1">Otimizar Prof
+                                20%</label>
+                        </div>
+
+                        <div id="limite" class="mt-2" *ngIf="parametro.otimiza20p">
+                            <label for="RngLim20P">% Limite: {{parametro.Perclimite}}</label>
+                            <input type="range" class="custom-range" id="RngLim20P" [(ngModel)]="parametro.Perclimite">
+                        </div>
+
+                        <div class="mt-2" *ngIf="parametro.otimiza20p">
+                            <label for="RngUsoProf">Qtd Uso Prof 20%: {{parametro.usoProfessor}}</label>
+                            <input type="range" class="custom-range" min="0" max="50" id="RngUsoProf"
+                                [(ngModel)]="parametro.usoProfessor">
+                        </div>
+
                     </div>
                     <div class="col-md-1 m-0"></div>
                     <div class="col-md-3 mr-auto">
@@ -120,7 +128,7 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="col-md-1">
 
                     </div>
