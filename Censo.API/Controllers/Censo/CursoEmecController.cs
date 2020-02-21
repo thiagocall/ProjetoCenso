@@ -1008,7 +1008,8 @@ namespace Censo.API.Controllers.Censo
 
         #endregion
     [HttpPost("GetDadosCalculadora")]
-    public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) {
+    public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) 
+    {
     
 
         try
@@ -1043,30 +1044,15 @@ namespace Censo.API.Controllers.Censo
 
 
     }
-        
-
-    }
-
-        [AllowAnonymous]
-        [HttpGet("ObterResultados")]
-        public async Task<IActionResult> obterResultados()
-        {
-            var query = await this.ProducaoContext.TbResultado
-                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao, x.indOficial})
-                             .OrderByDescending(x => x.Id)
-                             .ToArrayAsync();
-    
-            return Ok(query);
-        }
-        
 
 
-    public class dados{
+    public class dados
+    {
     
         public int _idEmec { get; set; }
         public long _idResultado { get; set; }
 
-}
+    }
 
 
     public class ProfessorComparer : IEqualityComparer<ProfessorCursoEmec>
@@ -1112,6 +1098,6 @@ namespace Censo.API.Controllers.Censo
 
     }
 
-
+    }
 
 }
