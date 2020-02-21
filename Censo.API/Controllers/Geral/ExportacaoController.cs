@@ -378,17 +378,14 @@ namespace Censo.API.Controllers.Geral
                                 // Se não existe o professor , Criacao de um dicionario novo para incluir os professores
                                if (!DicProfessor2.ContainsKey(p.cpfProfessor.ToString()))   
                                 {
-                                   //ProfessorGeracao prof = new ProfessorGeracao();   // instanciei um classe professorgeracao
-                                   ProfessorGeracao prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   // instanciei um classe professorgeracao
-                                   prof.cpfProfessor = p.cpfProfessor;  // adicionei um cpf que nao existia dentro da classe
-                                   IES ies = new IES();                 // instanciei uma IES dentro professorgeracao
-                                   ies.codies = EmecIes[item.CodEmec].CodIes.ToString();  // adicinei uma IES nova
-                                   //ies.Nomies = DicEmecIes[item.CodEmec].Nomies;
-                                   ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
-                                   CursoProf curso = new CursoProf();   // instanciei um novo curso
-                                   curso.codcursoEmec = item.CodEmec;   // adicinei um codemec no curso
-                                   curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; // procurei o curso
-                                   ies.Cursos.Add(curso);               // adicionei o curso seguindo HIERARQUIA CURSO / IES / PROF - OBJETO
+                                   ProfessorGeracao prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   
+                                   prof.cpfProfessor = p.cpfProfessor;  
+                                   IES ies = new IES();                 
+                                   ies.codies = EmecIes[item.CodEmec].CodIes.ToString();  
+                                   CursoProf curso = new CursoProf();   
+                                   curso.codcursoEmec = item.CodEmec;   
+                                   curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; 
+                                   ies.Cursos.Add(curso);               
                                    prof.Listaies.Add(ies);              
                                    DicProfessor2.Add(prof.cpfProfessor.ToString(), prof);  
                                 }
@@ -408,8 +405,7 @@ namespace Censo.API.Controllers.Geral
                                         }
                                         ies.Cursos.Add(curso);
                                     }
-                                    else // else(2)
-                                    {
+                                    else                                     {
                                         IES ies = new IES();
                                         ies.codies = EmecIes[item.CodEmec].CodIes.ToString();
                                         ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
@@ -439,9 +435,9 @@ namespace Censo.API.Controllers.Geral
                 var listaprofselecionado = listaProfessor;
 
                 ProfessorEscrita profesc;
-                // teceiro foreach
+                
                 foreach (var pro in DicProfessor2.Values)
-                {  // inicio foreach
+                {  
                         profesc = new ProfessorEscrita();                        
  
                         /* if (pro.Listaies.Count() == 0)
@@ -458,7 +454,7 @@ namespace Censo.API.Controllers.Geral
                             {
                                 profesc.NomIes = Carregaies;
                             }
-                            //profesc.NomIes =  ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies.ToString()).Nom_Ies;
+                            
                             profesc.NomeCompleto = pro.NomeCompleto;
                             profesc.cpfProfessor = pro.cpfProfessor;
                             profesc.NomeCompleto = pro.NomeCompleto;
