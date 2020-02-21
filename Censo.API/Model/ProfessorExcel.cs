@@ -10,14 +10,13 @@ namespace Censo.API.Model
         public long CodEmec { get; set; }
         public string Regime { get; set; }
         public string NomeCurso { get; set; }
-        public string codSexo { get; set; }
-        public string Nomraca { get; set; }
-        public string NomMae { get; set; }
-        public string NacioProfessor  { get; set; }
-     
-        public string Pais { get; set; }
-        public string UF { get; set; }
-        public string Municipio { get; set; }
+        //public string codSexo { get; set; }
+        //public string Nomraca { get; set; }
+        //public string NomMae { get; set; }
+        //public string NacioProfessor  { get; set; }
+        //public string Pais { get; set; }
+        //public string UF { get; set; }
+        //public string Municipio { get; set; }
         public double Nota_Doutor { get; set; }
         public double Nota_Mestre { get; set; }
         public double Nota_Regime { get; set; }

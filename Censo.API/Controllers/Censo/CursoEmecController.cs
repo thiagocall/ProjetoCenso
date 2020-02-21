@@ -26,7 +26,6 @@ namespace Censo.API.Controllers.Censo
     public class CursoEmecController : ControllerBase
     {
         public IConfiguration Configuration { get; }
-        // public ProfessorCursoEmecContext Context { get; }
         public ProfessorIESContext ProfContext { get; }
         public CensoContext Context {get; }
 
@@ -41,7 +40,6 @@ namespace Censo.API.Controllers.Censo
         public ParametrosCenso Formulario { get; set; }
 
 
-        // public CursoCensoContext CursoCensoContext { get; set; }
 
         public CursoEmecController(CensoContext _context, ProfessorIESContext _profcontext, IConfiguration _configuration, IOtimizacao _otm, CursoEnquadramentoContext _cursoEnquadContext, TempProducaoContext _producaoContext)
         {
@@ -62,9 +60,6 @@ namespace Censo.API.Controllers.Censo
         {
             var query = await Context.ProfessorCursoEmec.ToListAsync();
 
-            
-
-            // var cod = prof.CodCurso;
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
             var ListaCursoArea = await this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
@@ -77,7 +72,7 @@ namespace Censo.API.Controllers.Censo
 
             return Ok(results);
 
-            //var results = GeraPrevisao(id);
+            
         }
 
 
@@ -202,7 +197,7 @@ namespace Censo.API.Controllers.Censo
             var item = this.ProducaoContext.TbResultado.Find(id);
             var item2 = this.ProducaoContext.TbResultadoAtual.Find(id);
             this.ProducaoContext.RemoveRange(item, item2); 
-            await this.ProducaoContext.SaveChangesAsync(); //comitar a alteração do dado
+            await this.ProducaoContext.SaveChangesAsync(); 
             return Ok();
         }
 
@@ -251,11 +246,11 @@ namespace Censo.API.Controllers.Censo
             double perc_D = qtdD / qtdProf;
             double perc_M = qtdM / qtdProf;
             double perc_R = qtdR / qtdProf;
-            ////e.CodCampus, e.CodCurso, e.NumHabilitacao
+        
 
             if (emec != null)
             {
-                // percent.Add(perc_D);
+                
                 var area1 = emec.CodArea;
                 //##### Previsão Doutor
 
@@ -290,7 +285,7 @@ namespace Censo.API.Controllers.Censo
                 // Tratando dados para Excel
 
                 var parametros =  new List<ParametrosCenso>();
-                //var resultados = new List<Resultado>();
+               
 
                 var ListaCurso = await this.Context.CursoCenso.ToListAsync();
 
@@ -310,10 +305,8 @@ namespace Censo.API.Controllers.Censo
                         
                         CursoEmec.Add(p.CodEmec, p.NomCursoCenso);
                     }
-                    
-                     
+                      
                 });
-
 
                 List<ProfessorExcel> listaProfessor = new List<ProfessorExcel>();
 
@@ -372,10 +365,7 @@ namespace Censo.API.Controllers.Censo
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
-            
-            // ProfessorCursoComparer pcc = new ProfessorCursoComparer();
-
-            // HashSet<CursoProfessor> hsCursoProfessor = new HashSet<CursoProfessor>(pcc);
+        
 
 
             var query = _profs;
@@ -500,6 +490,7 @@ namespace Censo.API.Controllers.Censo
 
         }
 
+        [AllowAnonymous]
         [HttpPost("ComparaResultado")]
         public async Task<IActionResult> getComparaResultado( string[] _listaResultado) {
 
@@ -509,7 +500,7 @@ namespace Censo.API.Controllers.Censo
                     var res = await this.ProducaoContext.TbResultado
                                         .Where(r => _listaResultado.Contains(r.Id.ToString()))
                                         .OrderByDescending(r => r.Id)
-                                        .Select(r => new {r.Id, r.Resumo})
+                                        .Select(r => new {r.Id, r.Resumo, r.indOficial})
                                         .ToArrayAsync();
 
                     return Ok(res) ;
@@ -521,8 +512,6 @@ namespace Censo.API.Controllers.Censo
             }
 
         }
-
-
 
         //################## Previsão ################################
 
@@ -553,48 +542,19 @@ namespace Censo.API.Controllers.Censo
                     prev[1] = MontaPrevisao(anoAtual, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList(),metodo);
                     break;
 
-                /*/ case "I":
-                 prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_Infra).ToList());
-                 //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
-                 break;
-                 case "O":
-                 prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_OP).ToList());
-                 //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
-                 break;
-                 case "C":
-                 prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_CE).ToList());
-                 //prev[1] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Max_Regime).ToList());
-                 break;
-                 case "A":
-                 prev[0] = MontaPrevisao(2019, _query.Select(c => (double?)c.Ano).ToList(), _query.Select(c => c.Avg_AF).ToList());
-                 //prev[1] = MontaPrevisao(2019, query.Select(c => (double?)c.Ano).ToList(), query.Select(c => c.Max_Regime).ToList());
-                 break;
-                 */
+           
                 default:
                     break;
             }
 
-            //var t = MontaPrevisao(2019, query.Select(c => c.Ano).ToList(), query.Select(c => c.Max_Mestre).ToList());
+           
             return prev;
 
         }
 
         private double? MontaPrevisao(long? alvo, List<double?> x, List<double?> y, int ind_metodo = -1)
         {
-            //########## ind_metodo ###########
-            // -1 Regressão linear
-            // 0 igual ao último ano
-            // ################################
-            
-            // ############
-            //x = ano
-            //y = percentual daquele ano
-            //#############
-
-            // calcula a regressão linear pelo ano atual
-            //a = avg(y) - (b * avg(x))
-            //b = sum((x - avg(x))* (y - avg(y))) / sum((x - avg(y)^2))
-            //alvo = a + b * x
+           
 
         double? res = 0;
 
@@ -632,8 +592,6 @@ namespace Censo.API.Controllers.Censo
 
             res = (a + b * alvo);
 
-            //res = (res > 1) ? 1 : res;
-            //res = (res < 0) ? 0 : res;
 
             return res;
 
@@ -653,18 +611,10 @@ namespace Censo.API.Controllers.Censo
         }
 
 
-            // res = y.Where(v => v != null).Max();
-            // return res;
-
         }
 
         private Dictionary<long?, PrevisaoSKU> GeraListaPrevisaoSKU()
         {
-
-            // if (ListaPrevisaoSKU != null)
-            // {
-            //     return;
-            // }
 
             List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
@@ -729,7 +679,6 @@ namespace Censo.API.Controllers.Censo
 
             var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
 
-            //List<CursoPrevisao> listaPrev = PrevisaoEmec.getPrevisao(this.Configuration);
 
             List<CursoProfessor> cursoProfessor;
 
@@ -755,7 +704,7 @@ namespace Censo.API.Controllers.Censo
                 double perc_D = qtdD / qtdProf;
                 double perc_M = qtdM / qtdProf;
                 double perc_R = qtdR / qtdProf;
-                ////e.CodCampus, e.CodCurso, e.NumHabilitacao
+               
                 var ii = cctx.FirstOrDefault(x => x.CodEmec == item.CodEmec);
 
                 if (ii != null)
@@ -764,9 +713,6 @@ namespace Censo.API.Controllers.Censo
                     var area = ii.CodArea;
                     //##### Previsão Doutor
 
-                    //double?[] prev = new double?[2];
-
-                    //var query2 = listaPrev.Where(x => x.CodArea == area).OrderBy(x => x.Ano).ToList();
 
                     if (ListaPrevisaoSKU.ContainsKey(area))
                     {
@@ -817,7 +763,7 @@ namespace Censo.API.Controllers.Censo
                                                .Where(p => p.Titulacao == "DOUTOR").Count(),
                                 cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).CodArea,
                                 cctx.FirstOrDefault(c => c.CodEmec == x.CodEmec).NomCursoCenso,
-                                    // Professores = x.Professores,
+                                    
                                 })
                                     .ToList();
 
@@ -890,16 +836,6 @@ namespace Censo.API.Controllers.Censo
 
             var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
 
-                // int QtdCursos = 0;
-                // int Nota1a2 = 0;
-                // int Nota3 = 0;
-                // int Nota4a5 = 0;
-                // int qtdD_1a2 = 0;
-                // int qtdD_3a5 = 0;
-                // int qtdM_1a2 = 0;
-                // int qtdM_3a5 = 0;
-                // int qtdR_1a2 = 0;
-                // int qtdR_3a5 = 0;
 
             try
             {
@@ -908,9 +844,9 @@ namespace Censo.API.Controllers.Censo
                 var query20p = await this.Context.ProfessorCursoEmec20p.ToListAsync();
                 var ListaCursoArea = await this.CursoEnquadramentoContext.CursoEnquadramento.ToListAsync();
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
-                // Task.WaitAll(query, ListaCursoArea, ListaCursoArea);
+               
                 var Cursoprofessor = MontaCursoProfessor(query, ListaCursoArea);
-                // var Cursoprofessor20p = MontaCursoProfessor(await query20p, await ListaCursoArea);;
+               
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
@@ -946,9 +882,6 @@ namespace Censo.API.Controllers.Censo
 
                 var ResumoresultadoAtual = Otm.MontaResultadoFinal(ResultadoAtual);
 
-                // string formJson;
-                // string resumoJson;
-                // string professorJson;
 
                  sw.Stop();
 
@@ -1025,7 +958,7 @@ namespace Censo.API.Controllers.Censo
                  objRes.Parametro = formJson.Result;
                  objRes.Resumo = resumoJson.Result;
                  objRes.Professores = professorJson.Result;
-                 objRes.TempoExecucao = DateTime.Now.ToString("HH:mm:ss");//sw.Elapsed.Duration().ToString("hh:mm:ss"); // sw.Elapsed.Hours.ToString() + ":" + Math.Floor(sw.Elapsed.TotalMinutes) .ToString() + ":" + sw.Elapsed.Seconds.ToString();
+                 objRes.TempoExecucao = DateTime.Now.ToString("HH:mm:ss");
 
                  objResAtual.Resultado = jsonAt.Result;
                  objResAtual.Parametro = formJsonAt.Result;
@@ -1047,11 +980,7 @@ namespace Censo.API.Controllers.Censo
             }
 
         }
-        // PUT api/values/5
-        // [HttpPut("{id}")]
-        // public void Put(int id, [FromBody] string value)
-        // {
-        // }
+   
 
 
         #endregion
@@ -1061,8 +990,8 @@ namespace Censo.API.Controllers.Censo
 
         try
         {
-            var Strprof = ProducaoContext.TbResultado.Find(_dados._idResultado).Professores;
-            var professores = JsonConvert.DeserializeObject<IEnumerable<CursoProfessor>>(Strprof).ToList();
+            var Strprof = await ProducaoContext.TbResultado.FindAsync(_dados._idResultado);
+            var professores = JsonConvert.DeserializeObject<IEnumerable<CursoProfessor>>(Strprof.Professores).ToList();
             var dados = professores.Find(x => x.CodEmec == _dados._idEmec);
             var area = professores.Find(x => x.CodEmec == _dados._idEmec).CodArea;
             var QtdDR = dados.Professores.Where(x => x.Titulacao == "DOUTOR" && (x.Regime == "TEMPO INTEGRAL" || x.Regime == "TEMPO PARCIAL")).Count();
