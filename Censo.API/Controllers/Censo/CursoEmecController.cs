@@ -360,7 +360,7 @@ namespace Censo.API.Controllers.Censo
         // ################# Monta Cursos dos Professores ######################
 
 
-        public List<CursoProfessor> git pullMontaCursoProfessor([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
+        public List<CursoProfessor> MontaCursoProfessor([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
