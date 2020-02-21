@@ -153,9 +153,8 @@ namespace Censo.API.Controllers.Censo
                     }
                     else
                     { 
-
-                        var nameNovo = new SqlParameter( "@num_ordem", (long)obj.id);
                         var commandNovo = "UPDATE TbResultado set ind_oficial = 0 where num_ordem = @num_ordem";
+                        var nameNovo = new SqlParameter( "@num_ordem", (long)obj.id);
                         this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo, nameNovo);
                         
                     }
@@ -981,7 +980,35 @@ namespace Censo.API.Controllers.Censo
 
         }
    
+        [AllowAnonymous]
+        [HttpPost("Observacao")]
+        public ActionResult Observacao([FromBody] dynamic obj)
+        {
+            try 
+            {
+                    if (obj.valor == true)
+                    {
+                        var commandNovo = "UPDATE TbResultado set Observacao = @obs where num_ordem = @num_ordem";
+                        var nameAntigo = new SqlParameter( "@num_ordem", (long)obj.Observacao);
+                        this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo);
+                    }
+                    else
+                    { 
+                        var nameNovo = new SqlParameter( "@num_ordem", (long)obj.id);
+                        var commandNovo = "UPDATE TbResultado set Observacao = NULL where num_ordem = @num_ordem";
+                        this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo, nameNovo);
+                    }
 
+                     return Ok();
+                    
+
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + ex.Message);
+            }
+
+        }
 
         #endregion
     [HttpPost("GetDadosCalculadora")]
@@ -1023,6 +1050,20 @@ namespace Censo.API.Controllers.Censo
         
 
     }
+
+        [AllowAnonymous]
+        [HttpGet("ObterResultados")]
+        public async Task<IActionResult> obterResultados()
+        {
+            var query = await this.ProducaoContext.TbResultado
+                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao, x.indOficial})
+                             .OrderByDescending(x => x.Id)
+                             .ToArrayAsync();
+    
+            return Ok(query);
+        }
+        
+
 
     public class dados{
     
