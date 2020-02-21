@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { OtimizacaoService } from 'src/app/_services/otimizacao.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -14,6 +14,7 @@ export class AppCompararComponent implements OnInit {
   comparar: any;
   resultados: any;
   resultadosJson: any;
+  indOficial: any;
 
   ngOnInit() {
     this.route.queryParams
@@ -24,11 +25,12 @@ export class AppCompararComponent implements OnInit {
 
 
   Comparar() {
-    console.log(this.comparar);
+    //console.log(this.comparar);
     this.OtimizacaoService.getComparaResultado(this.comparar)
       .subscribe(
         response => {
           this.resultados = response;
+          this.indOficial = this.resultados.indOficial;
         },
         error => {
 

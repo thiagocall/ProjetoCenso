@@ -65,7 +65,6 @@ class Parametro {
     this.usoProfessorGeral = 15;
     this.PercReduProf = 20;
     this.Metodo = -1;
-    this.Observacao = 'Sem Observação';
 
   }
 
@@ -85,5 +84,7 @@ class Parametro {
   PercReduProf: number;
   Metodo: number;
   Observacao: string;
+
+
 
 }

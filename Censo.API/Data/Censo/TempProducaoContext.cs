@@ -54,6 +54,9 @@ namespace Censo.API.Model.Censo
 
                 entity.Property(e => e.indOficial)
                     .HasColumnName("ind_oficial");
+
+                entity.Property(e => e.Observacao)
+                    .HasColumnName("Obs");
             });
 
             modelBuilder.Entity<TbResultadoAtual>(entity =>

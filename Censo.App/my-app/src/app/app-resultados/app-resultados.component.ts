@@ -20,6 +20,7 @@ export class AppResultadosComponent implements OnInit {
   resultadoOtimizado: any; //resultado da tabela TbResultado
   isCollapsed = true;
   dados: number;
+  observacao: any;
 
   constructor(private modalService: BsModalService, 
     private OtimizacaoService: OtimizacaoService, 
@@ -49,7 +50,7 @@ export class AppResultadosComponent implements OnInit {
       response => {
         this.resultadoOtimizado = response;
         this.dados = this.resultadoOtimizado.length;
-        //console.log(this.resultadoOtimizado.length);
+        this.observacao = this.resultadoOtimizado.observacao;
         var a: any = this.resultadoOtimizado;
 
         //console.log(typeof a[0].id);
