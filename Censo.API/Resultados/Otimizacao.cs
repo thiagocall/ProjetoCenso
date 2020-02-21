@@ -157,7 +157,7 @@ namespace Censo.API.Resultados
 
                          foreach(var item in _listaProfessor)
                         {
-                                // var nota = 
+                                 
                                 item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe, "N") &&
                                                                 (CalculaNota(item, _dicPrevisao, pe.Regime, pe.Titulacao) ?? 0) < 1.945
                                              ));
@@ -174,7 +174,7 @@ namespace Censo.API.Resultados
         public List<Resultado> CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor, List<string> _listaEnade =  null) 
             {
 
-                // ind_enade == "S" >> Monta os resultados só para os cursos incluídos no ENADE
+                
 
                 var ListaPrevisaoSKU = _listaPrevisaoSKU;
 
@@ -194,7 +194,7 @@ namespace Censo.API.Resultados
                     double perc_D = qtdD / qtdProf;
                     double perc_M = qtdM / qtdProf;
                     double perc_R = qtdR / qtdProf;
-                    ////e.CodCampus, e.CodCurso, e.NumHabilitacao
+                   
 
                     if(0 == 0)
                     {
@@ -229,7 +229,7 @@ namespace Censo.API.Resultados
                 
                 }
 
-                    //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
+                    
                     var result = _listaCursoProfessor
                                 .Select( x => new Resultado {
                                             CodEmec = x.CodEmec, 
@@ -246,7 +246,7 @@ namespace Censo.API.Resultados
 
                                                     indEnade = (_listaEnade != null) ? _listaEnade.Contains(x.CodEmec.ToString()) ? "S" : "N" : "N"
                                             
-                                            // Professores = x.Professores,
+                                            
                                             })
                                         .ToList();
 

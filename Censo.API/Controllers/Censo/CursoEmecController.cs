@@ -671,7 +671,6 @@ namespace Censo.API.Controllers.Censo
         {
 
 
-            
         try {
 
             var query = _query;
@@ -743,8 +742,6 @@ namespace Censo.API.Controllers.Censo
                 }
 
             }
-
-            //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
             
             
             var result = cursoProfessor
@@ -834,8 +831,7 @@ namespace Censo.API.Controllers.Censo
             });
 
             var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
-
-
+            
             try
             {
 
