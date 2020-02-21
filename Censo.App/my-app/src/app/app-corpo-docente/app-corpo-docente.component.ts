@@ -49,7 +49,6 @@ export class AppCorpoDocenteComponent implements OnInit {
 
   getCampus(codigo: string) {
     this.curso = this.listaCursos.filter(x => x.codCampus.toString() === codigo.toString());
-    // this.curso = this.listaCursos;
   }
 
   getInfoCurso(codigo: any) {
@@ -71,7 +70,6 @@ export class AppCorpoDocenteComponent implements OnInit {
         this.qtdD = this.infoCurso.qtdD;
         this.qtdR = this.infoCurso.qtdR;
         this.notaFaixa = this.faixa();
-        //console.log(response);
       },
       error => {
         this.errodados = true;

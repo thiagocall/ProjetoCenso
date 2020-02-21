@@ -51,7 +51,6 @@ export class ExpProfessorAddComponent implements OnInit {
     this.regulatorio.PesquisaProfessores().subscribe( // chamando meu servico
       response => {
         this.resultado = response;
-        //console.log(this.resultado);
       },
       error => {
       });
@@ -81,7 +80,6 @@ export class ExpProfessorAddComponent implements OnInit {
   /*remover professores na tabela */
   removerProfessor(professor: any) {
     this.listaProfessorAdicionado.splice(this.listaProfessorAdicionado.indexOf(professor), 1);
-    //console.log(this.listaProfessorAdicionado);
   }
 
 
@@ -98,13 +96,13 @@ export class ExpProfessorAddComponent implements OnInit {
       response => { //post response ok ou error
        // console.log(this.listaProfessorAdicionado)
         this.toast.warning('Não foi possível salvar ou o professor já foi adicionado!', null, {
-          timeOut: 1000
+          timeOut: 1000,
         });
       },
       error => {
         console.log(this.listaProfessorAdicionado)
         this.toast.success('Professor Adicionado com Sucesso!', null, {
-          timeOut: 1000
+          timeOut: 1000,
         });
       })
   }     

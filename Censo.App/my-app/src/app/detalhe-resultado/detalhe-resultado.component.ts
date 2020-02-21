@@ -69,7 +69,7 @@ export class DetalheResultadoComponent implements OnInit {
       blob = new Blob([response], { type: 'application/octet-stream' });
       saveAs(blob, `ResultadoCenso_${this.id}.xlsx`);
     });
-    // window.open(window.URL.createObjectURL(thefile));
+    
   };
 
   
@@ -81,15 +81,14 @@ export class DetalheResultadoComponent implements OnInit {
 
         if (this.form.get('indOficial').value) {
           this.form.get('indOficial').patchValue(1);
-          // console.log(Object.assign({ "id": this.id }));
-
+          
         } else {
           this.form.get('indOficial').patchValue(0);
-          // console.log(Object.assign({ "id": this.id }));
+          
         }
 
         this.disableBotao = false
-        //console.log("isso foi enviado", this.form.value)
+       
 
       }, error => {
         console.log(error)

@@ -54,7 +54,6 @@ export class AppResultadosComponent implements OnInit {
 
         //console.log(typeof a[0].id);
        
-
       }, error => {
         console.log(error);
       });
@@ -98,7 +97,6 @@ export class AppResultadosComponent implements OnInit {
       response => {
         this.modalRef.hide();
         this.getResultado();
-        // console.log()
       },
       error => {
         console.log(error);

@@ -18,14 +18,14 @@ export class RegulatorioProfessorIesComponent implements OnInit {
   mostrarExcel = false;
 
   ngOnInit() {
-   this.getIes();
-    // this.buscaId(this.codIes);
+    this.getIes();
+    //this.buscaId(this.codIes);
   }
 
   getIes() {
     this.regulatorioService.getIes().subscribe(
       response => {
-    // ordenação com sort
+        // ordenação com sort
         this.resultado = response;
         this.ies = this.resultado.ies;
         this.ies.sort((a, b) => {
@@ -44,11 +44,10 @@ export class RegulatorioProfessorIesComponent implements OnInit {
       }
     );
 
+  }
 
-  } 
-
-   // codInstituicao
-   buscaId(codIes: string) {
+  // codInstituicao
+  buscaId(codIes: string) {
     if (codIes === '-1') {
       return null;
     }
@@ -57,10 +56,10 @@ export class RegulatorioProfessorIesComponent implements OnInit {
     //console.log(this.resultadoId); //dados professor e dados instituição
     this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
       response => {
-       // console.log(response);
+        // console.log(response);
         this.resultadoId = response;
         this.resultadoId.sort((a, b) => {
-          if(a.nomProfessor > b.nomProfessor) {
+          if (a.nomProfessor > b.nomProfessor) {
             return 1;
           }
           if (a.nomProfessor < b.nomProfessor) {

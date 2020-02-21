@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
 import { AppComponent } from '../app.component';
 
@@ -21,10 +21,11 @@ export class AppDadosCensoComponent implements OnInit {
 
   ngOnInit() {
     this.parametro = new Parametro();
+    console.log(this.parametro)
   }
 
   SalvaParametro() {
-    
+
   }
 
   Restaurar() {
@@ -35,8 +36,8 @@ export class AppDadosCensoComponent implements OnInit {
   Otimizar() {
     this.otmService.Otimizar(this.parametro).subscribe(
       response => {
-        // alert("Ok");
         this.app.ShowToast();
+        console.log(this.parametro)
       },
       error => {
         (error);
@@ -49,21 +50,22 @@ class Parametro {
 
   constructor() {
 
-        this.DTI = true;
-        this.DTP = true;
-        this.DH = true;
-        this.MTI = true;
-        this.MTP = true;
-        this.MH = true;
-        this.ETI = true;
-        this.ETP = true;
-        this.EH = false;
-        this.Perclimite = 15;
-        this.otimiza20p = true;
-        this.usoProfessor = 10;
-        this.usoProfessorGeral = 15;
-        this.PercReduProf = 20;
-        this.Metodo = -1;
+    this.DTI = true;
+    this.DTP = true;
+    this.DH = true;
+    this.MTI = true;
+    this.MTP = true;
+    this.MH = true;
+    this.ETI = true;
+    this.ETP = true;
+    this.EH = false;
+    this.Perclimite = 15;
+    this.otimiza20p = true;
+    this.usoProfessor = 10;
+    this.usoProfessorGeral = 15;
+    this.PercReduProf = 20;
+    this.Metodo = -1;
+    this.Observacao = 'Sem Observação';
 
   }
 
@@ -82,5 +84,6 @@ class Parametro {
   usoProfessorGeral: number;
   PercReduProf: number;
   Metodo: number;
+  Observacao: string;
 
 }

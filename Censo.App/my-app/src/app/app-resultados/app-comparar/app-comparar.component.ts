@@ -9,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class AppCompararComponent implements OnInit {
 
-  constructor(private OtimizacaoService: OtimizacaoService, private router: Router, private route: ActivatedRoute ) { }
+  constructor(private OtimizacaoService: OtimizacaoService, private router: Router, private route: ActivatedRoute) { }
 
   comparar: any;
   resultados: any;
@@ -29,7 +29,6 @@ export class AppCompararComponent implements OnInit {
       .subscribe(
         response => {
           this.resultados = response;
-          //console.log(this.resultados);
         },
         error => {
 
@@ -37,8 +36,8 @@ export class AppCompararComponent implements OnInit {
       );
   }
 
-  JSONParse_ (js: any) {
-     return JSON.parse(js);
+  JSONParse_(js: any) {
+    return JSON.parse(js);
   }
 
 }
