@@ -126,7 +126,7 @@ namespace Censo.API.Controllers.Censo
         public async Task<IActionResult> obterResultados()
         {
             var query = await this.ProducaoContext.TbResultado
-                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao, x.indOficial})
+                             .Select(x => new {x.Id, x.Resumo, x.TempoExecucao, x.indOficial, x.Observacao})
                              .OrderByDescending(x => x.Id)
                              .ToArrayAsync();
     
@@ -958,6 +958,7 @@ namespace Censo.API.Controllers.Censo
                  objRes.Resumo = resumoJson.Result;
                  objRes.Professores = professorJson.Result;
                  objRes.TempoExecucao = DateTime.Now.ToString("HH:mm:ss");
+                 objRes.Observacao = _formulario.Observacao;
 
                  objResAtual.Resultado = jsonAt.Result;
                  objResAtual.Parametro = formJsonAt.Result;
@@ -980,42 +981,11 @@ namespace Censo.API.Controllers.Censo
 
         }
    
-        [AllowAnonymous]
-        [HttpPost("Observacao")]
-        public ActionResult Observacao([FromBody] dynamic obj)
-        {
-            try 
-            {
-                    if (obj.valor == true)
-                    {
-                        var commandNovo = "UPDATE TbResultado set Observacao = @obs where num_ordem = @num_ordem";
-                        var nameAntigo = new SqlParameter( "@num_ordem", (long)obj.Observacao);
-                        this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo);
-                    }
-                    else
-                    { 
-                        var nameNovo = new SqlParameter( "@num_ordem", (long)obj.id);
-                        var commandNovo = "UPDATE TbResultado set Observacao = NULL where num_ordem = @num_ordem";
-                        this.ProducaoContext.Database.ExecuteSqlCommand(commandNovo, nameNovo);
-                    }
-
-                     return Ok();
-                    
-
-            }
-            catch (Exception ex) 
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + ex.Message);
-            }
-
-        }
-
         #endregion
     [HttpPost("GetDadosCalculadora")]
     public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) 
     {
-    
-
+   
         try
         {
             var Strprof = await ProducaoContext.TbResultado.FindAsync(_dados._idResultado);
