@@ -207,7 +207,7 @@ namespace Censo.API.Controllers
 
         }
 
-
+        // Professor - Exportar
          [HttpGet("ProfessorCenso/Excel")]
         public async Task<IActionResult> ProfessorCensoDownload()
         {
@@ -364,7 +364,7 @@ namespace Censo.API.Controllers
 
         }
 
-        // nova pesquisa detalhe professor
+        //  /* Consulta - Professores */
         [AllowAnonymous]
         [HttpGet("BuscaDetalhe/{id}")]
         public async Task<IActionResult> BuscaDetalhe(string id)
@@ -538,7 +538,7 @@ namespace Censo.API.Controllers
         }
         /* termino busca-varias-matriculas */
 
-        /* inicio MQD */
+        /* inicio MQD - REGULATORIO - GERA TERMO TI/TP*/
         [AllowAnonymous]
         [HttpGet("PesquisaCPFDOCENTE")]
         public async Task<IActionResult> PesquisaProfessor()

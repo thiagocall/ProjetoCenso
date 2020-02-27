@@ -131,9 +131,8 @@ namespace Censo.API.Controllers.Geral
 
         // fim
         }
-
+        // /* GERAR EXPORTAÇÃO CENSO */
         [AllowAnonymous]
-
         [HttpPost("DevolveProf")]
         public ActionResult putDevolveProf(List<ProfessorAdicionado> ListaProfessorDevolve) 
         {
@@ -214,7 +213,7 @@ namespace Censo.API.Controllers.Geral
 
         }
 
-        // INICIO 
+        // /* GERAR EXPORTAÇÃO CENSO */
        [AllowAnonymous]
         [HttpGet("Geracao/Excel")]
         public async Task<IActionResult> Geracao()

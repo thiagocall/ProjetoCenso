@@ -27,6 +27,7 @@ buscarProfessores(campo: string) {
   return this.http.get(this.baseUrl + 'Professor/Busca/' + campo, {headers: tokenHeader});
 }
 
+/* Consulta - Professores */
 professorConsultaDetalhe(campo: string) {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'v1/Professor/BuscaDetalhe/' + campo, {headers: tokenHeader});
@@ -42,7 +43,7 @@ getInfoCurso(codigo: string) {
   return this.http.get(this.baseUrl + 'v1/censo/cursoEmec/obterInfoCurso/' + codigo, {headers: tokenHeader});
 }
 
-/*EXCEL */
+/*EXCEL - PROFESSOR - EXPORTAR */
 getProfessorExcel() {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'v1/Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
@@ -54,7 +55,7 @@ const tokenHeader = this.getToken();
   return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosCalculadora', dados, {headers: tokenHeader});
 }
 
-/*MQD*/
+/*MQD - REGULATORIO - GERA TERMO TI/TP*/
 pesquisaDocente() {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'Professor/PesquisaCPFDOCENTE/', {headers: tokenHeader});
