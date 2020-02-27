@@ -29,7 +29,7 @@ buscarProfessores(campo: string) {
 
 professorConsultaDetalhe(campo: string) {
   const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'Professor/BuscaDetalhe/' + campo, {headers: tokenHeader});
+  return this.http.get(this.baseUrl + 'v1/Professor/BuscaDetalhe/' + campo, {headers: tokenHeader});
 } 
 
 getDados() {
@@ -45,7 +45,7 @@ getInfoCurso(codigo: string) {
 /*EXCEL */
 getProfessorExcel() {
   const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
+  return this.http.get(this.baseUrl + 'v1/Professor/ProfessorCenso/Excel/', {responseType: 'blob', headers: tokenHeader});
 }
 
 /*CENSO - RESULTADOS  */
