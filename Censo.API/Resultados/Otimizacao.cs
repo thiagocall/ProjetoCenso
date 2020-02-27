@@ -86,18 +86,6 @@ namespace Censo.API.Resultados
                 }
 
 
-                        // ##################### Black List ############################### //
-
-                        // ProfessorBlaklist
-
-                        foreach(var item in _listaProfessor)
-                        {
-                            
-                                item.Professores.RemoveAll(pe =>  (RemoveProfessorBlackList(pe, this.Configuration, item.CodEmec) 
-                                             ));
-                            
-                         };
-
 
                     // ############## Alavanca Curso não Enade ############
                     // ####################################################
@@ -153,16 +141,37 @@ namespace Censo.API.Resultados
                                 };
 
 
+                        
+
+
                         // ######################## Limpeza força bruta ######################## //
 
                          foreach(var item in _listaProfessor)
                         {
-                                // var nota = 
+                                 
                                 item.Professores.RemoveAll(pe =>  (RemoveProfessor(_listaProfessor, item, _dicPrevisao, pe, "N") &&
                                                                 (CalculaNota(item, _dicPrevisao, pe.Regime, pe.Titulacao) ?? 0) < 1.945
                                              ));
                             
                          };
+
+
+
+
+                         // ##################### Black List ############################### //
+
+                        // ProfessorBlaklist
+
+                        foreach(var item in _listaProfessor)
+                        {
+                            
+                                item.Professores.RemoveAll(pe => 
+                                                    (RemoveProfessorBlackList(_listaProfessor, item, _dicPrevisao, pe) 
+                                             ));
+                            
+                         };
+
+
                          
 
                         var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
@@ -174,7 +183,7 @@ namespace Censo.API.Resultados
         public List<Resultado> CalculaNotaCursos( Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, List<CursoProfessor> _listaCursoProfessor, List<string> _listaEnade =  null) 
             {
 
-                // ind_enade == "S" >> Monta os resultados só para os cursos incluídos no ENADE
+                
 
                 var ListaPrevisaoSKU = _listaPrevisaoSKU;
 
@@ -194,7 +203,7 @@ namespace Censo.API.Resultados
                     double perc_D = qtdD / qtdProf;
                     double perc_M = qtdM / qtdProf;
                     double perc_R = qtdR / qtdProf;
-                    ////e.CodCampus, e.CodCurso, e.NumHabilitacao
+                   
 
                     if(0 == 0)
                     {
@@ -229,7 +238,7 @@ namespace Censo.API.Resultados
                 
                 }
 
-                    //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
+                    
                     var result = _listaCursoProfessor
                                 .Select( x => new Resultado {
                                             CodEmec = x.CodEmec, 
@@ -246,7 +255,7 @@ namespace Censo.API.Resultados
 
                                                     indEnade = (_listaEnade != null) ? _listaEnade.Contains(x.CodEmec.ToString()) ? "S" : "N" : "N"
                                             
-                                            // Professores = x.Professores,
+                                            
                                             })
                                         .ToList();
 
@@ -486,7 +495,6 @@ namespace Censo.API.Resultados
 
         }
 
-
         public bool RemoveProfessorExcluido(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof)
         {
 
@@ -513,22 +521,36 @@ namespace Censo.API.Resultados
         }
 
 
-        public bool RemoveProfessorBlackList(ProfessorEmec _prof, IConfiguration _Iconfiguration, long _codEmec)
+        public bool RemoveProfessorBlackList(List<CursoProfessor> _ListaCursoProfessor, CursoProfessor _cursoProfessor, Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU, ProfessorEmec _prof)
         {
             
-                var dic = ProfessorBlaklist.GetBlackList(_Iconfiguration);
+                var dic = ProfessorBlaklist.GetBlackList(this.Configuration);
 
                 if (dic.ContainsKey(_prof.cpfProfessor.ToString()))
                 {
-                    if (dic[_prof.cpfProfessor.ToString()].ListaCodEmec.Contains(_codEmec))
+                    if (dic[_prof.cpfProfessor.ToString()].ListaCodEmec.Contains(_cursoProfessor.CodEmec))
                     {
-                        return true;
+                        var qtdCursos = _ListaCursoProfessor.Where(
+                                            x => x.Professores.Where(
+                                                        c => c.cpfProfessor == _prof.cpfProfessor).Count() > 0).Count();
+
+                        var notaAnt = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao);
+
+                        var notaNova = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao, -1);
+
+                        var qtdProf =  _cursoProfessor.Professores.Count();
+
+                        if (notaNova > notaAnt )
+                        {
+                            return true;
+                        }
+
                     }
                 }
 
                 return false;
 
-        }
+        }    
 
 
        public bool AddProfessor(List<CursoProfessor> _ListaCursoProfessor,

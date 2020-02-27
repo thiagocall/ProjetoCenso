@@ -193,10 +193,25 @@ namespace Censo.API.Controllers.Censo
         // DELETE api/values/5
         public async Task<IActionResult> Delete(long id)
         {
-            var item = this.ProducaoContext.TbResultado.Find(id);
-            var item2 = this.ProducaoContext.TbResultadoAtual.Find(id);
-            this.ProducaoContext.RemoveRange(item, item2); 
-            await this.ProducaoContext.SaveChangesAsync(); 
+            // var item = this.ProducaoContext.TbResultado.Find(id);
+            // var item2 = this.ProducaoContext.TbResultadoAtual.Find(id);
+            // this.ProducaoContext.RemoveRange(item, item2); 
+            // await this.ProducaoContext.SaveChangesAsync();
+
+
+            var paramId = new SqlParameter( "@num_ordem", (long)id);
+            
+            Task task1 = Task.Run(
+                () => {
+                var deletar = "DELETE FROM TbResultado WHERE num_ordem = @num_ordem";
+                this.ProducaoContext.Database.ExecuteSqlCommand(deletar, paramId);
+                var deletarAtual = "DELETE FROM TbResultado_Atual WHERE num_ordem = @num_ordem";
+                this.ProducaoContext.Database.ExecuteSqlCommand(deletarAtual, paramId);
+                }
+            );
+
+            Task.WaitAll(task1);
+
             return Ok();
         }
 
@@ -671,7 +686,6 @@ namespace Censo.API.Controllers.Censo
         {
 
 
-            
         try {
 
             var query = _query;
@@ -743,8 +757,6 @@ namespace Censo.API.Controllers.Censo
                 }
 
             }
-
-            //var result = cursoProfessor.Select(x => x.Nota_Mestre).ToList();
             
             
             var result = cursoProfessor
@@ -834,8 +846,7 @@ namespace Censo.API.Controllers.Censo
             });
 
             var ResId = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
-
-
+            
             try
             {
 

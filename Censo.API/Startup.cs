@@ -111,6 +111,7 @@ namespace Censo.API
          
 
             services.AddScoped<IOtimizacao, Otimizacao>();
+            
             services.AddCors();
 
         }
