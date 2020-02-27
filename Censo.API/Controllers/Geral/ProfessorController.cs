@@ -457,8 +457,9 @@ namespace Censo.API.Controllers
                       
         }
 
+        
         /* inicio busca-varias-matriculas */
-
+        /*
         [AllowAnonymous]
         [HttpGet("Buscavariasmatriculas/{id}")]
         public async Task<IActionResult> Buscavariasmatriculas(string id)
@@ -536,7 +537,10 @@ namespace Censo.API.Controllers
                 // Termino da pesquisa detalhe professor
                       
         }
+        */
         /* termino busca-varias-matriculas */
+
+        
 
         /* inicio MQD - REGULATORIO - GERA TERMO TI/TP*/
         [AllowAnonymous]
