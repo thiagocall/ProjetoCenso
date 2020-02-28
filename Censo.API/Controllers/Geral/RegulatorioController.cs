@@ -517,6 +517,7 @@ namespace Censo.API.Controllers
                                                       .Distinct().ToDictionary(x => x);
 
             //Trazendo o nome do campus
+            //var diccampus = CampusContext.TbSiaCampus.Find((decimal)id);
             var diccampus = CampusContext.TbSiaCampus.Find((decimal)id);
                                    
 

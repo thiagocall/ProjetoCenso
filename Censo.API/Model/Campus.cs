@@ -5,10 +5,9 @@ namespace Censo.API.Model
 {
     public partial class Campus
     {
-        public Decimal CodCampus { get; set; }
+        public decimal CodCampus { get; set; }
         public string NomCampus { get; set; }
         public string CodCampusSap { get; set; }
-        public decimal? CodMunicipio { get; set; }
         public string EndCampus { get; set; }
         public string TxtComplEndereco { get; set; }
         public string CepCampus { get; set; }

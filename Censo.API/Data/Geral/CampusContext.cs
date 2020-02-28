@@ -23,8 +23,8 @@ namespace Censo.API.Model
 
             modelBuilder.Entity<Campus>(entity =>
             {
-                entity.HasKey(e => e.CodCampus)
-                    .HasName("PK__TbSia_Ca__17B528E538487FB1");
+                entity.HasKey(e => e.CodCampus);
+                    
 
                 entity.ToTable("TbSia_Campus");
 
@@ -32,8 +32,7 @@ namespace Censo.API.Model
                     .HasName("Campus_IDX1");
 
                 entity.Property(e => e.CodCampus)
-                    .HasColumnName("COD_CAMPUS")
-                    .HasColumnType("decimal(4, 0)");
+                    .HasColumnName("COD_CAMPUS");
 
                 entity.Property(e => e.CepCampus)
                     .HasColumnName("CEP_CAMPUS")
@@ -43,9 +42,6 @@ namespace Censo.API.Model
                     .HasColumnName("COD_CAMPUS_SAP")
                     .HasMaxLength(255);
 
-                entity.Property(e => e.CodMunicipio)
-                    .HasColumnName("COD_MUNICIPIO")
-                    .HasColumnType("decimal(6, 0)");
 
                 entity.Property(e => e.EndCampus)
                     .HasColumnName("END_CAMPUS")
