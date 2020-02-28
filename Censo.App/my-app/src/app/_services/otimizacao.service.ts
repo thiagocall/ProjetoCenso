@@ -28,7 +28,7 @@ export class OtimizacaoService {
   }
 
   excluirResultadosOtimizados(idResultado: number) {
-    console.log('idResultado');
+    //console.log('idResultado');
     const tokenHeader = this.getToken();
     return this.http.delete(this.baseURL + idResultado, { headers: tokenHeader });
   }

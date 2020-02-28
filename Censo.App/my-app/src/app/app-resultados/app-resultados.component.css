@@ -32,18 +32,17 @@ td {
      text-align: center; 
 }
 
-thead {
-   /*  text-align: center; */
 
-}
+/*thead {
+   /*  text-align: center; 
+} */
 
 .btn-warning :hover {
     background-color: white !important;
 }
 
+
 /*card dentro da tabela*/
-
-
 
 p {
     font-size: 14px;

@@ -993,6 +993,7 @@ namespace Censo.API.Controllers.Censo
         }
    
         #endregion
+    // Censo - Resultados - Calculadora
     [HttpPost("GetDadosCalculadora")]
     public async Task<IActionResult> GetDadosCalculadora([FromBody] dados _dados) 
     {

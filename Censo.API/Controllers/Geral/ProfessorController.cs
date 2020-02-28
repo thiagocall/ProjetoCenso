@@ -207,7 +207,7 @@ namespace Censo.API.Controllers
 
         }
 
-
+        // Professor - Exportar
          [HttpGet("ProfessorCenso/Excel")]
         public async Task<IActionResult> ProfessorCensoDownload()
         {
@@ -290,6 +290,7 @@ namespace Censo.API.Controllers
                  Task task1 = Task.Factory.StartNew (
                     () => 
                     {
+                        // erro
                       dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
                     }
                     );
@@ -364,7 +365,7 @@ namespace Censo.API.Controllers
 
         }
 
-        // nova pesquisa detalhe professor
+        //  /* Consulta - Professores */
         [AllowAnonymous]
         [HttpGet("BuscaDetalhe/{id}")]
         public async Task<IActionResult> BuscaDetalhe(string id)
@@ -457,8 +458,9 @@ namespace Censo.API.Controllers
                       
         }
 
+        
         /* inicio busca-varias-matriculas */
-
+        /*
         [AllowAnonymous]
         [HttpGet("Buscavariasmatriculas/{id}")]
         public async Task<IActionResult> Buscavariasmatriculas(string id)
@@ -536,9 +538,12 @@ namespace Censo.API.Controllers
                 // Termino da pesquisa detalhe professor
                       
         }
+        */
         /* termino busca-varias-matriculas */
 
-        /* inicio MQD */
+        
+
+        /* inicio MQD - REGULATORIO - GERA TERMO TI/TP*/
         [AllowAnonymous]
         [HttpGet("PesquisaCPFDOCENTE")]
         public async Task<IActionResult> PesquisaProfessor()
@@ -599,11 +604,12 @@ namespace Censo.API.Controllers
 
             Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             
-
+                 // erro 100
                  Task task1 = Task.Factory.StartNew (
                     () => 
                     {
-                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                      //dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
                     }
                     );
 

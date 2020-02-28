@@ -43,10 +43,6 @@ namespace Censo.API.Model.dados
                     .HasColumnName("COD_CAMPUS_SAP")
                     .HasMaxLength(255);
 
-                entity.Property(e => e.CodMunicipio)
-                    .HasColumnName("COD_MUNICIPIO")
-                    .HasColumnType("decimal(6, 0)");
-
                 entity.Property(e => e.EndCampus)
                     .HasColumnName("END_CAMPUS")
                     .HasMaxLength(255);

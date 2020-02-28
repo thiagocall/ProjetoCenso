@@ -29,7 +29,7 @@ buscarProfessores(campo: string) {
 
 professorConsultaDetalhe(campo: string) {
   const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'Professor/BuscaDetalhe/' + campo, {headers: tokenHeader});
+  return this.http.get(this.baseUrl + 'api/Professor/BuscaDetalhe/' + campo, {headers: tokenHeader});
 } 
 
 getDados() {
