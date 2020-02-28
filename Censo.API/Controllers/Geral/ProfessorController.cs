@@ -290,6 +290,7 @@ namespace Censo.API.Controllers
                  Task task1 = Task.Factory.StartNew (
                     () => 
                     {
+                        // erro
                       dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
                     }
                     );
@@ -603,11 +604,12 @@ namespace Censo.API.Controllers
 
             Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             
-
+                 // erro 100
                  Task task1 = Task.Factory.StartNew (
                     () => 
                     {
-                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                      //dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor);
                     }
                     );
 

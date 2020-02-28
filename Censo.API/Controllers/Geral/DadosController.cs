@@ -32,6 +32,7 @@ namespace Censo.API.Controllers.Geral
 
         }
 
+        // erro pode estar aqui
         [HttpGet]
         public async Task<IActionResult> getDados() {
 
