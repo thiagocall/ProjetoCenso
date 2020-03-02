@@ -20,7 +20,8 @@ using System.Globalization;
 namespace Censo.API.Controllers
 {
     [AllowAnonymous]
-    [Route ("api/[controller]")]
+    [Route ("api/v1/[controller]")]
+    //[Route ("api/[controller]")]
     [ApiController]
     public class ProfessorController: ControllerBase
     {
@@ -207,7 +208,8 @@ namespace Censo.API.Controllers
 
         }
 
-        // Professor - Exportar
+        // Professor - Exportar - ok
+        [AllowAnonymous]
          [HttpGet("ProfessorCenso/Excel")]
         public async Task<IActionResult> ProfessorCensoDownload()
         {
@@ -278,6 +280,7 @@ namespace Censo.API.Controllers
 
         }
 
+        [AllowAnonymous]
         [HttpGet("Busca/{campo}")]
         public async Task<IActionResult> BuscaProfessores(string campo)
         {
@@ -325,7 +328,7 @@ namespace Censo.API.Controllers
                       
         }
 
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
@@ -458,90 +461,6 @@ namespace Censo.API.Controllers
                       
         }
 
-        
-        /* inicio busca-varias-matriculas */
-        /*
-        [AllowAnonymous]
-        [HttpGet("Buscavariasmatriculas/{id}")]
-        public async Task<IActionResult> Buscavariasmatriculas(string id)
-        {
-            
-                try
-                {
-
-                     var diccampus = this.CampusContext.TbSiaCampus.ToDictionary(x => x.CodCampus);
-                     var dic = this.censocontext.ProfessorCursoCenso
-                                                        .Where(x => x.CpfProfessor.ToString() == id )
-                                                        .ToList();
-                      var dic1 = this.censocontext.CursoCenso.Select(x => 
-                                            new CursoDetalhe {CodCurso = x.CodCurso,
-                                                             NomCurso = x.NomCursoCenso,
-                                                             CodCampus = x.CodCampus })
-                                        .ToList();
-
-                      var dicCurso = dic1.Distinct<CursoDetalhe>(new CursoComparer()).ToDictionary(x => x.CodCampus.ToString() + "_" + x.CodCurso.ToString());
-
-                      //  defuinindo a LISTA de matricula
-                      List<ProfessorMatricula> matricula;
-                      var mat =  MatriculaContext.ProfessorMatricula.ToListAsync();
-                      matricula = await mat;
-                      //var mat = this.MatriculaContext.ProfessorMatricula.ToDictionary(x => x.cpfProfessor.ToString());
-
-                      // pegar os contextos
-                      var professor = Professores.getProfessores(context).Where(x => x.CpfProfessor == id).First();
-                      var regime = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-                      ProfessorDetalhe professordetalhe = new ProfessorDetalhe();
-
-                        //cpf/nomeprofessor//titulacao//regime
-                        professordetalhe.CpfProfessor = professor.CpfProfessor.ToString();
-                        professordetalhe.NomProfessor = professor.NomProfessor;
-                        professordetalhe.titulacao = professor.Titulacao;
-                        professordetalhe.regime = regime[professordetalhe.CpfProfessor.ToString()].Regime;
-                        
-                        // RECEBENDO O CODIGO DA REGIAO E O NOME
-                        professordetalhe.Regioes = matricula.Where(x => x.cpfProfessor.ToString() == id)
-                                                                        .Select(x => x.nomeRegiao)
-                                                                        .Distinct()
-                                                                        .ToList();
-                                                
-                        //professordetalhe.CargaTotal = double.Parse(regime[professordetalhe.CpfProfessor.ToString()].CargaTotal).ToString();
-                        professordetalhe.CargaTotal = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].CargaTotal == null) ? 0.0 : regime[professordetalhe.CpfProfessor.ToString()].CargaTotal) ,2);
-                        professordetalhe.QtdHorasDs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasDs) ,2);
-                        professordetalhe.QtdHorasFs = (double)Math.Round((decimal)((regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs == null) ? 0.00 : regime[professordetalhe.CpfProfessor.ToString()].QtdHorasFs) ,2);
-
-                        foreach (var item in dic)
-                        {
-
-                           //if (listaprofessordetalhe.Find(x => x.CpfProfessor == item.CpfProfessor.ToString()) == null)
-                           if (dic.Count > 0)
-                           {
-                                                                                
-                                professordetalhe.Cursos.Add( new Curso{codcurso = item.CodCurso, 
-                                                                        nomcampus = diccampus.TryGetValue(item.CodCampus, out var camp) ? camp.NomCampus : "NÃO ENCONTRADO",
-                                                                        nomcurso = dicCurso.TryGetValue(item.CodCampus.ToString() + "_" + item.CodCurso.ToString(), out var curso) ? curso.NomCurso : "NÃO ENCONTRADO"
-                                                                        });
-                                
-                               
-                           }     
-                          
-
-                        }
-
-                        //return Ok(results2);
-                        return Ok(professordetalhe);
-                    
-                }
-                catch (System.Exception ex)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
-                }
-                // Termino da pesquisa detalhe professor
-                      
-        }
-        */
-        /* termino busca-varias-matriculas */
-
-        
 
         /* inicio MQD - REGULATORIO - GERA TERMO TI/TP*/
         [AllowAnonymous]

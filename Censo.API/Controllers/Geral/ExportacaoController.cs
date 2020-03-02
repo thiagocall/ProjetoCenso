@@ -149,8 +149,6 @@ namespace Censo.API.Controllers.Geral
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
             }
 
-            
-
         }
 
         [AllowAnonymous]
@@ -251,19 +249,6 @@ namespace Censo.API.Controllers.Geral
                 var cursoCenso = ListaCurso;
 
                 Dictionary<long, CursoEmecIes> EmecIes = ListaEmecIES.ToDictionary(x => x.CodCursoEmec);
-
-                // ListaEmecIES.ForEach( p =>
-                // {
-                //     if (!EmecIes.TryGetValue(p.CodCursoEmec, out string cr)) 
-                //     {
-                //         if (p.CodIes != null)
-                //         {
-                //             EmecIes.Add(p.CodCursoEmec, Convert.ToString(p.CodIes));
-                //         }
-                            
-                //     }
-                     
-                // });
 
                 // Dicionario CursoEmec
                 Dictionary<long?, string> CursoEmec = new Dictionary<long?, string>();
@@ -610,7 +595,6 @@ namespace Censo.API.Controllers.Geral
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
             }
             finally{
-                   
 
             }    
 
