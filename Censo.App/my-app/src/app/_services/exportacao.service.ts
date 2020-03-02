@@ -23,13 +23,15 @@ export class ExportacaoService {
   /* ADICIONAR PROFESSOR */
   exportacaoProfessor(professores: any) {
     const tokenHeader = this.getToken();
-    return this.http.post(this.baseUrl + 'Exportacao/DevolveProf', professores, { headers: tokenHeader });
+    return this.http.post(this.baseUrl + 'v1/Exportacao/DevolveProf', professores, { headers: tokenHeader }); /*v1*/
   }
 
   /* GERAR EXPORTAÇÃO CENSO */
   getExportarCensoExcel() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'Exportacao/Geracao/Excel', { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/Exportacao/Geracao/Excel', { responseType: 'blob', headers: tokenHeader }); /*v1*/
   }
 
 }
+
+
