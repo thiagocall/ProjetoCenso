@@ -52,15 +52,11 @@ export class AppResultadosComponent implements OnInit {
         this.dados = this.resultadoOtimizado.length;
         this.observacao = this.resultadoOtimizado.observacao;
         var a: any = this.resultadoOtimizado;
-
         //console.log(typeof a[0].id);
-       
       }, error => {
         console.log(error);
       });
   }
-
-
 
 
   //formatar data dia/mes/ano
@@ -86,7 +82,7 @@ export class AppResultadosComponent implements OnInit {
     //fecha o modal
     this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
     this.idSelecionado = idResultado;
-    console.log(this.confirma);
+   // console.log(this.confirma);
   }
 
 

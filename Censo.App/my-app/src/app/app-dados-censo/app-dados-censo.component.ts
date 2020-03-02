@@ -21,7 +21,7 @@ export class AppDadosCensoComponent implements OnInit {
 
   ngOnInit() {
     this.parametro = new Parametro();
-    console.log(this.parametro)
+    //console.log(this.parametro)
   }
 
   SalvaParametro() {
@@ -37,7 +37,7 @@ export class AppDadosCensoComponent implements OnInit {
     this.otmService.Otimizar(this.parametro).subscribe(
       response => {
         this.app.ShowToast();
-        console.log(this.parametro)
+        //console.log(this.parametro)
       },
       error => {
         (error);

@@ -12,9 +12,7 @@ export class AppCensoComponent implements OnInit {
 
 
   AcessaCorpoDocente() {
-
     this.router.navigate(['/CorpoDocente']);
-
   }
 
 

@@ -134,7 +134,7 @@ export class RegulatorioGapCargaHorariaComponent implements OnInit {
 
   /* selecao input */
   selecaoPadrao(value: string, professor: any): boolean {
-     console.log(value);
+     //console.log(value);
      let indicacao = (professor.regime == "TEMPO INTEGRAL") ? "TEMPO INTEGRAL" : 
      (professor.regime == "TEMPO PARCIAL") ? "TEMPO INTEGRAL" : "TEMPO PARCIAL";
 
