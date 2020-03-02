@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Censo.API.Controllers
 {
     [AllowAnonymous]
-    [Route ("api/[controller]")]
+    [Route ("api/v1/[controller]")]
     [ApiController]
     public class ProfessorIESController: ControllerBase
     {
