@@ -303,10 +303,12 @@ namespace Censo.API.Controllers.Geral
                                     var prof =  dicProfessor[p.cpfProfessor.ToString()];
                                     int teste;
                                     //if (listaProfessor.Count == 10019)
+                                    /*
                                     if (p.cpfProfessor == 83958622887)
                                     {
                                         teste = listaProfessor.Count;
                                     }
+                                    */
 
                                     listaProfessor.Add( new ProfessorGeracao 
                                     { 
@@ -360,8 +362,8 @@ namespace Censo.API.Controllers.Geral
                                 if (p.cpfProfessor.ToString() == "83958622887")
                                 {
                                     varcpf2 = p.cpfProfessor;
-                                } */
-
+                                } 
+                                */
                                 // Se não existe o professor , Criacao de um dicionario novo para incluir os professores
                                if (!DicProfessor2.ContainsKey(p.cpfProfessor.ToString()))   
                                 {
@@ -437,10 +439,12 @@ namespace Censo.API.Controllers.Geral
                             var IesEmec = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies);
                             profesc.Codies = IesEmec.Cod_Ies_Emec.ToString();
                             string Carregaies = (IesEmec.Nom_Ies) ?? "SEM IES";
+                            /*
                             if (pro.cpfProfessor == 83958622887)
                             {
                                 pro.cpfProfessor = pro.cpfProfessor;
                             }
+                            */
                             if (Carregaies != null)
                             {
                                 profesc.NomIes = Carregaies;

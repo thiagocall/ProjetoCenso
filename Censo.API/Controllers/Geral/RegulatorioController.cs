@@ -24,7 +24,8 @@ using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Censo.API.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class RegulatorioController : ControllerBase
     {
@@ -94,6 +95,7 @@ namespace Censo.API.Controllers
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
         // AJUSTE PARA CIRACAO DE DOWNLOAD EXCEL PASSANDO O ID - THIAGO CALDAS
         
+
         [HttpGet("BuscaIesID/Excel/{id}")]
         public async Task<IActionResult> BuscaIesDownload(long id)
         {
@@ -157,7 +159,7 @@ namespace Censo.API.Controllers
      
         // EXPORTACAO CORPO DOCENTE EM PLANILHA EXCEL
         // AJUSTE PARA CRIAÇÃO DE DOWNLOAD EXCEL POR IES PASSANDO ID THIAGO CALDAS
-        
+
         [HttpGet("BuscaIes/Excel")]
         public async Task<IActionResult> IesDownload()
         {
@@ -212,7 +214,7 @@ namespace Censo.API.Controllers
         }
                 
         // INICIO PROFESSOR IES
-       
+       [AllowAnonymous]
        [HttpGet("BuscaIes/{id}")]
         public async Task<IActionResult> BuscaIes(long? id)
         {
@@ -290,7 +292,7 @@ namespace Censo.API.Controllers
         }
 
         //Exporta em Excel
-
+        [AllowAnonymous]
         [HttpGet("Emec/Excel/{id}")]
         public async Task<IActionResult> ProfessorCursoExcel(long? id)
         {
@@ -351,6 +353,7 @@ namespace Censo.API.Controllers
 
         //// regulatorio/Emec/ExcelCampus/
 
+        [AllowAnonymous]
          [HttpGet("Emec/ExcelCampus/{id}")]
         public async Task<IActionResult> ProfessorCursoExcelCampus(long? id)
         {
@@ -440,7 +443,7 @@ namespace Censo.API.Controllers
 
        
         /* fora de sede pelo cod_campus */
-        
+        [AllowAnonymous]
         [HttpGet("foradesede/{id}")]
         public ActionResult foradesede(long id)
         //public async Task<IActionResult> Get(long? id)
@@ -477,7 +480,7 @@ namespace Censo.API.Controllers
         }
 
         /* Traz todos os campi fora de sede */
-        
+
         [HttpGet("BuscaCampus")]
 
         public ActionResult<List<CampusContext>> BuscaCampus()
@@ -508,6 +511,7 @@ namespace Censo.API.Controllers
             return Ok(results);
         }
         /* fim */
+
 
         public dynamic getforadesede(long id) 
         {
@@ -541,7 +545,7 @@ namespace Censo.API.Controllers
                  return professores;
         }
 
-        [AllowAnonymous]
+
         [HttpPost("CalculaGapProf")]
         public async Task<IActionResult> getCalculaGapProf(ProfessorGap[] ListaProfessorGap) 
         {
