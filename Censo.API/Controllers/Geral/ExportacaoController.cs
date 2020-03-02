@@ -302,7 +302,8 @@ namespace Censo.API.Controllers.Geral
                                 {
                                     var prof =  dicProfessor[p.cpfProfessor.ToString()];
                                     int teste;
-                                    if (listaProfessor.Count == 10019)
+                                    //if (listaProfessor.Count == 10019)
+                                    if (p.cpfProfessor == 83958622887)
                                     {
                                         teste = listaProfessor.Count;
                                     }
@@ -323,9 +324,11 @@ namespace Censo.API.Controllers.Geral
                                         Municipio = prof.MunicipioNascimento,
                                         Escolaridade = prof.Escolaridade,
                                         DocentecomDeficiencia = prof.DocenteDeficiencia,
+                                        
                                         def1 = prof.Def1,
                                         def2 = prof.Def2,
                                         def3 = prof.Def3,
+                                        
                                         Situacaodocente = prof.DocenteDeficiencia,
                                         Perfil = prof.Perfil,
                                         Regime = p.Regime,
@@ -354,7 +357,7 @@ namespace Censo.API.Controllers.Geral
                                     varcpf2 = p.cpfProfessor;
                                 }
                                 /*
-                                if (p.cpfProfessor.ToString() == "5809478409")
+                                if (p.cpfProfessor.ToString() == "83958622887")
                                 {
                                     varcpf2 = p.cpfProfessor;
                                 } */
@@ -434,6 +437,10 @@ namespace Censo.API.Controllers.Geral
                             var IesEmec = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies);
                             profesc.Codies = IesEmec.Cod_Ies_Emec.ToString();
                             string Carregaies = (IesEmec.Nom_Ies) ?? "SEM IES";
+                            if (pro.cpfProfessor == 83958622887)
+                            {
+                                pro.cpfProfessor = pro.cpfProfessor;
+                            }
                             if (Carregaies != null)
                             {
                                 profesc.NomIes = Carregaies;
@@ -456,7 +463,8 @@ namespace Censo.API.Controllers.Geral
                             profesc.Def1 = pro.def1;
                             profesc.Def2 = pro.def2;
                             profesc.Def3 = pro.def3;
-                            profesc.Situacaodocente = (pro.Situacaodocente == "NÃO" ? "Esteve em Exercicio" : pro.Situacaodocente);
+                            //profesc.Situacaodocente = (pro.Situacaodocente == "SIM" ? "Esteve em Exercicio" : pro.Situacaodocente);
+                            profesc.Situacaodocente = "Esteve em Exercício";
                             profesc.Perfil = pro.Perfil;
                             profesc.Regime = pro.Regime;
                             profesc.DocenteSubstituto = pro.DocenteSubstituto;
