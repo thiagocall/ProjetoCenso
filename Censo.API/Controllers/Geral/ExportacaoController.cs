@@ -27,7 +27,7 @@ using at = Censo.API.Atividade;
 namespace Censo.API.Controllers.Geral
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ExportacaoController : ControllerBase
     {
@@ -60,7 +60,7 @@ namespace Censo.API.Controllers.Geral
             this.Configuration = _configuration;
         }
         
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -652,3 +652,4 @@ namespace Censo.API.Controllers.Geral
         // TERMINO
     }
 }
+
