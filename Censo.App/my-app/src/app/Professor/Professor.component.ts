@@ -194,6 +194,10 @@ export class ProfessorComponent implements OnInit {
     //console.log(this.dadosGrafico)
 
   }
+
+  onSelect(obj: any) {
+  }
+
 }
 
 class SingleData {  //criei uma classe 
