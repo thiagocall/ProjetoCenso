@@ -27,7 +27,7 @@ using at = Censo.API.Atividade;
 namespace Censo.API.Controllers.Geral
 {
     [AllowAnonymous]
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class ExportacaoController : ControllerBase
     {
@@ -60,7 +60,7 @@ namespace Censo.API.Controllers.Geral
             this.Configuration = _configuration;
         }
         
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -148,8 +148,6 @@ namespace Censo.API.Controllers.Geral
                 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro no processamento." + e.Message);
             }
-
-            
 
         }
 
@@ -252,19 +250,6 @@ namespace Censo.API.Controllers.Geral
 
                 Dictionary<long, CursoEmecIes> EmecIes = ListaEmecIES.ToDictionary(x => x.CodCursoEmec);
 
-                // ListaEmecIES.ForEach( p =>
-                // {
-                //     if (!EmecIes.TryGetValue(p.CodCursoEmec, out string cr)) 
-                //     {
-                //         if (p.CodIes != null)
-                //         {
-                //             EmecIes.Add(p.CodCursoEmec, Convert.ToString(p.CodIes));
-                //         }
-                            
-                //     }
-                     
-                // });
-
                 // Dicionario CursoEmec
                 Dictionary<long?, string> CursoEmec = new Dictionary<long?, string>();
 
@@ -317,10 +302,13 @@ namespace Censo.API.Controllers.Geral
                                 {
                                     var prof =  dicProfessor[p.cpfProfessor.ToString()];
                                     int teste;
-                                    if (listaProfessor.Count == 10019)
+                                    //if (listaProfessor.Count == 10019)
+                                    /*
+                                    if (p.cpfProfessor == 83958622887)
                                     {
                                         teste = listaProfessor.Count;
                                     }
+                                    */
 
                                     listaProfessor.Add( new ProfessorGeracao 
                                     { 
@@ -338,9 +326,11 @@ namespace Censo.API.Controllers.Geral
                                         Municipio = prof.MunicipioNascimento,
                                         Escolaridade = prof.Escolaridade,
                                         DocentecomDeficiencia = prof.DocenteDeficiencia,
+                                        
                                         def1 = prof.Def1,
                                         def2 = prof.Def2,
                                         def3 = prof.Def3,
+                                        
                                         Situacaodocente = prof.DocenteDeficiencia,
                                         Perfil = prof.Perfil,
                                         Regime = p.Regime,
@@ -369,11 +359,11 @@ namespace Censo.API.Controllers.Geral
                                     varcpf2 = p.cpfProfessor;
                                 }
                                 /*
-                                if (p.cpfProfessor.ToString() == "5809478409")
+                                if (p.cpfProfessor.ToString() == "83958622887")
                                 {
                                     varcpf2 = p.cpfProfessor;
-                                } */
-
+                                } 
+                                */
                                 // Se não existe o professor , Criacao de um dicionario novo para incluir os professores
                                if (!DicProfessor2.ContainsKey(p.cpfProfessor.ToString()))   
                                 {
@@ -449,6 +439,12 @@ namespace Censo.API.Controllers.Geral
                             var IesEmec = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies);
                             profesc.Codies = IesEmec.Cod_Ies_Emec.ToString();
                             string Carregaies = (IesEmec.Nom_Ies) ?? "SEM IES";
+                            /*
+                            if (pro.cpfProfessor == 83958622887)
+                            {
+                                pro.cpfProfessor = pro.cpfProfessor;
+                            }
+                            */
                             if (Carregaies != null)
                             {
                                 profesc.NomIes = Carregaies;
@@ -471,7 +467,8 @@ namespace Censo.API.Controllers.Geral
                             profesc.Def1 = pro.def1;
                             profesc.Def2 = pro.def2;
                             profesc.Def3 = pro.def3;
-                            profesc.Situacaodocente = (pro.Situacaodocente == "NÃO" ? "Esteve em Exercicio" : pro.Situacaodocente);
+                            //profesc.Situacaodocente = (pro.Situacaodocente == "SIM" ? "Esteve em Exercicio" : pro.Situacaodocente);
+                            profesc.Situacaodocente = "Esteve em Exercício";
                             profesc.Perfil = pro.Perfil;
                             profesc.Regime = pro.Regime;
                             profesc.DocenteSubstituto = pro.DocenteSubstituto;
@@ -610,7 +607,6 @@ namespace Censo.API.Controllers.Geral
                  return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
             }
             finally{
-                   
 
             }    
 
@@ -656,3 +652,4 @@ namespace Censo.API.Controllers.Geral
         // TERMINO
     }
 }
+

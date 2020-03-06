@@ -21,19 +21,20 @@ export class RegulatorioService {
 
   getRegulatorioCorpoDocenteExcel() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/BuscaIes/excel', { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/BuscaIes/excel', { responseType: 'blob', headers: tokenHeader }); /*v1*/
   }
 
   // REGULATÓRIO PROFESSOR IES
 
   getRegulatorioProfessorIesExcel(_ies: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/buscaiesID/excel/' + _ies, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/buscaiesID/excel/' + _ies, { responseType: 'blob', headers: tokenHeader });
   }
 
+  
   getRegulatorioBuscaIes(codigo: string) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/buscaies/' + codigo, { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/buscaies/' + codigo, { headers: tokenHeader }); /*v1*/
   }
 
   getIes() {
@@ -45,17 +46,17 @@ export class RegulatorioService {
 
   getRegulatorioProfessorCurso(codigo: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/Emec/' + codigo, { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/Emec/' + codigo, { headers: tokenHeader }); /*v1*/
   }
 
   getRegulatorioProfessorCursoExcel(codigo: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/Emec/Excel/' + codigo, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/Emec/Excel/' + codigo, { responseType: 'blob', headers: tokenHeader }); /*v1*/
   }
 
   getRegulatorioProfessorCampusExcel(codigo: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/Emec/ExcelCampus/' + codigo, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/Emec/ExcelCampus/' + codigo, { responseType: 'blob', headers: tokenHeader }); /*v1*/
   }
 
   getCampus() {
@@ -67,32 +68,33 @@ export class RegulatorioService {
 
   getRegulatorioProfessorForaSedeExcel(_campus: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/foradesede/excel/' + _campus, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/foradesede/excel/' + _campus, { responseType: 'blob', headers: tokenHeader }); /*v1*/
   }
 
 
   getResultadoProfessorForaSede(codigo: string) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/foradesede/' + codigo, { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/foradesede/' + codigo, { headers: tokenHeader }); /*v1*/
   }
 
   getCampusForaSede() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/Buscacampus', { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/Buscacampus', { headers: tokenHeader }); /*v1*/
   }
 
   // REGULATÓRIO GAP CARGA HORÁRIA
 
   PesquisaProfessores() {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'regulatorio/BuscaProfessor', { headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/BuscaProfessor', { headers: tokenHeader }); /*v1*/
   }
 
   /*post */
   postCalculaGapProf(professores: any[]) {
     const tokenHeader = this.getToken();
-    return this.http.post(this.baseUrl + 'regulatorio/CalculaGapProf', professores, { headers: tokenHeader });
+    return this.http.post(this.baseUrl + 'v1/regulatorio/CalculaGapProf', professores, { headers: tokenHeader }); /*v1*/
   }
 
 
 }
+
