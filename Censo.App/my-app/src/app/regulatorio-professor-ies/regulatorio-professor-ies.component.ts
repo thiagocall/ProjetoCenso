@@ -27,6 +27,7 @@ export class RegulatorioProfessorIesComponent implements OnInit {
       response => {
         // ordenação com sort
         this.resultado = response;
+        //console.log(this.resultado)
         this.ies = this.resultado.ies;
         this.ies.sort((a, b) => {
           if (a.nomIes > b.nomIes) {

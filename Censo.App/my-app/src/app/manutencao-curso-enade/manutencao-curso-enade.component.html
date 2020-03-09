@@ -1,24 +1,23 @@
 <div class="container">
   <form class="p-5">
-  
-    <div class="form-group col-md-2 p-0">
-      <label for="exampleFormControlSelect1">Selecione o Ciclo</label>
-      <select class="form-control" id="exampleFormControlSelect1">
-        <option selected>Ciclo</option>
-        <option>Ano I</option>
-        <option>Ano II</option>
-        <option>Ano III</option>
-      </select>
-    </div>
-    
+
+     
+    <select #_idCiclo class="form-control" id="id" (change)="filtrarCiclo(_idCiclo.value)">
+      <option value="-1" disabled>-- Selecione um Ciclo --</option>
+      <option *ngFor="let item of todosCiclos" value="{{item.idCiclo}}">{{item.descricaoCiclo}}</option>
+    </select>
+
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Descrição</label>
-      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3">
+ {{cicloFiltrado?.descArea}}
+      </textarea>
     </div>
-    
+
+   
+
     <button class="btn btn-primary btn-sm">Salvar</button>
   </form>
-
 
 
 </div>

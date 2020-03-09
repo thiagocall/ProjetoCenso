@@ -25,4 +25,17 @@ getDados() {
   return this.http.get(this.baseUrl + 'v1/dados/' ,{headers: tokenHeader});
 }
 
+/* ObterCiclos  (TODOS - ANO I, ANO II, ANO III) */
+obterCiclos(id: number) {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/ObterCiclos', {headers: tokenHeader});
+}
+
+/*?*/
+obterCiclosId(id: number) {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/obterCicloporid/' + id ,{headers: tokenHeader});
+} 
+
+
 }
