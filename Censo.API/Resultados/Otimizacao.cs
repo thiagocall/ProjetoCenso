@@ -61,27 +61,35 @@ namespace Censo.API.Resultados
                     foreach (var prof in curso.Professores)
                     {
                         // Professor novo na lista
-                        if (this.ListaprofessorCurso.Where(x => x.cpfProfessor == prof.cpfProfessor.ToString()).Count() == 0)
-                        {
+                        int qtdProfessor = this.ListaprofessorCurso.Where(x => x.cpfProfessor == prof.cpfProfessor.ToString()).Count();
+                        
+                      
+                            
 
-                            professorCurso = new ProfessorCurso();
-                            professorCurso.cpfProfessor = prof.cpfProfessor.ToString();
-                            professorCurso.strCursos.Add(curso.CodEmec.ToString());
+                                if ( qtdProfessor == 0)
+                                {
 
-                            ListaprofessorCurso.Add(professorCurso);
-                            professorCurso = null;
+                                    professorCurso = new ProfessorCurso();
+                                    professorCurso.cpfProfessor = prof.cpfProfessor.ToString();
+                                    professorCurso.strCursos.Add(curso.CodEmec.ToString());
 
-                        }
+                                    ListaprofessorCurso.Add(professorCurso);
+                                    professorCurso = null;
 
-                        //  Adicionando curso ao professor
-                        else {
+                                }
 
-                            professorCurso = ListaprofessorCurso.FirstOrDefault(x => x.cpfProfessor == prof.cpfProfessor.ToString());
-                            if (!professorCurso.strCursos.Contains(curso.CodEmec.ToString()))
-                            {
-                                professorCurso.strCursos.Add(curso.CodEmec.ToString());
-                            }       
-                        }
+                                //  Adicionando curso ao professor
+                                else {
+
+                                    professorCurso = ListaprofessorCurso.FirstOrDefault(x => x.cpfProfessor == prof.cpfProfessor.ToString());
+                                    if (!professorCurso.strCursos.Contains(curso.CodEmec.ToString())
+                                            && professorCurso.strCursos.Count() < _parametros.usoProfessorGeral) // Limitador de quantidade de cursos pelo formulário
+                                    {
+                                        professorCurso.strCursos.Add(curso.CodEmec.ToString());
+                                    }       
+                                }
+
+                        
                     }
                 }
 
@@ -154,8 +162,6 @@ namespace Censo.API.Resultados
                                              ));
                             
                          };
-
-
 
 
                          // ##################### Black List ############################### //
@@ -568,7 +574,7 @@ namespace Censo.API.Resultados
 
             var notaNova = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao, 1);
 
-            var qtdProf =  _cursoProfessor.Professores.Count();
+            // var qtdProf =  _cursoProfessor.Professores.Count();
 
             if (notaNova >= notaAnt)
             {
@@ -629,7 +635,8 @@ namespace Censo.API.Resultados
 
                                     if (curso.Professores.Where(x => x.cpfProfessor == emec.CpfProfessor).Count() < 1  &
                                         AddProfessor(_cursoProfessor, curso, _dicPrevisao, _prof)
-                                            & (listaUsoProfessor.TryGetValue(emec.CpfProfessor, out int dic) ? dic : 0) < _param.usoProfessor )
+                                            & (listaUsoProfessor.TryGetValue(emec.CpfProfessor, out int dic) ? dic : 0) < _param.usoProfessor 
+                                            & dic < _param.usoProfessorGeral)
                                     {
 
                                         curso.Professores.Add(_prof);

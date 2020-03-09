@@ -456,13 +456,25 @@ namespace Censo.API.Controllers.Geral
                             profesc.NomeCompleto = pro.NomeCompleto;
                             profesc.Dtnascimento = System.DateTime.Parse(pro.Dtnascimento).ToString("dd/MM/yyyy");
                             profesc.NomSexo = pro.NomSexo; 
-                            profesc.NomRaca = (pro.NomRaca == "Nao declarada" ? "Branca" : pro.NomRaca);
+                            profesc.NomRaca = pro.NomRaca;
                             profesc.NomMae = pro.NomMae;
                             profesc.NacioProfessor = pro.NacioProfessor;
                             profesc.Pais = pro.Pais;
                             profesc.UF = pro.UF;
                             profesc.Municipio = pro.Municipio;
                             profesc.Escolaridade = pro.Escolaridade;
+                            if (pro.Titulacao == "MESTRE")
+                            {
+                                pro.Titulacao = "MESTRADO";
+                            }
+                            else if (pro.Titulacao == "DOUTOR")
+                            {
+                                pro.Titulacao = "DOUTORADO";
+                            }
+                            else if (pro.Titulacao == "ESPECIALISTA")
+                            {
+                                pro.Titulacao = "ESPECIALIZAÇÃO";
+                            }
                             profesc.Posgraduacao = pro.Titulacao;
                             profesc.Docentecomdeficiencia = pro.DocentecomDeficiencia;
                             profesc.Def1 = pro.def1;

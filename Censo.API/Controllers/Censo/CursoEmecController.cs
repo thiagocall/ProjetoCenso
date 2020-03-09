@@ -609,16 +609,18 @@ namespace Censo.API.Controllers.Censo
 
             return res;
 
+        // ####### adiciona 10% do último ano no resultado da previsão para método de tendência
+        
         } else if(ind_metodo == 0)
         {
             
-            res = y.Where(v => v != null).Max();
+            res = y.Where(v => v != null).Max() * 1.10;
 
             return res;
 
         }else{
             
-            res = y.Where(v => v != null).Max();
+            res = y.Where(v => v != null).Max() * 1.10;
 
             return res;
 

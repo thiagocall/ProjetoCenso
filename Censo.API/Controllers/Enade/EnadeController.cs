@@ -30,11 +30,14 @@ namespace Censo.API.Controllers.Enade
             this.regContext = RegContext;
         }
 
-
         /*
-        //Get api/Professores
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        //Get api/Enade/Todosciclos
+        [AllowAnonymous]
+        [HttpGet("Todosciclos")]
+        public async Task<IActionResult> Todosciclos()
+        //Todosciclos(long _id)
+        
+        //public async Task<IActionResult> Get()
         {
             
 
@@ -66,8 +69,9 @@ namespace Censo.API.Controllers.Enade
             }
 
         }
-
         */
+
+        
 
         [AllowAnonymous]
         [HttpGet("ObterCicloporId/{_id}")]
@@ -78,24 +82,51 @@ namespace Censo.API.Controllers.Enade
             return Ok(resultado);
         }
 
+        
         [AllowAnonymous]
         [HttpGet("ObterCiclos")]
         public async Task<IActionResult> obterCiclos()
         {
             var query = await this.Econtext.Ciclo
-                             .Select(x => new {x.IdCiclo, x.DescricaoCiclo, x.DescArea})
-                             //.OrderByDescending(x => x.IdCiclo)
+                             .Select(x => new {x.IdCiclo,x.DescArea})
+                             .OrderByDescending(x => x.IdCiclo)
                              .OrderBy(x => x.IdCiclo)
                              .ToArrayAsync();
-    
+
             return Ok(query);
         }
-        
+
+        /*
+        [AllowAnonymous]
+        [HttpGet("DescricaoCiclos")]
+        public async Task<IActionResult> DescricaoCiclos()
+        {
+            var query = await this.Econtext.Ciclo
+                             .Select(x => new {x.IdCiclo,x.DescArea})
+                             //.OrderByDescending(x => x.IdCiclo)
+                             //.OrderBy(x => x.IdCiclo)
+                             .ToArrayAsync();
+    
+                        string juntaarea = "";
+                        //Int64 item = 1;
+                        foreach (long item in query)
+                        {
+                            if (query[item - 1].DescArea != null)
+                            {
+                                juntaarea = juntaarea + query[item - 1].DescArea;
+                            }
+
+                        }
+
+            return Ok(juntaarea);
+        }
+        */
+
         [AllowAnonymous]
         [HttpGet("ObterDescCiclo/{campo}")]
         public ActionResult ObterDescCiclo(string campo)
         {
-            // Analisar porque nao mostra o x.Descrocapgit add
+            // Analisar porque nao mostra o x.Descrocapgit
             var resultado = this.Econtext.Ciclo.Select(x => new {x.DescricaoCiclo}).FirstOrDefault(x => x.DescricaoCiclo == campo);
             
             return Ok(resultado);
