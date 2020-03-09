@@ -88,7 +88,7 @@ namespace Censo.API.Controllers.Enade
         public async Task<IActionResult> obterCiclos()
         {
             var query = await this.Econtext.Ciclo
-                             .Select(x => new {x.IdCiclo,x.DescArea})
+                             .Select(x => new {x.IdCiclo,x.DescArea, x.DescricaoCiclo})
                              .OrderByDescending(x => x.IdCiclo)
                              .OrderBy(x => x.IdCiclo)
                              .ToArrayAsync();
@@ -96,7 +96,7 @@ namespace Censo.API.Controllers.Enade
             return Ok(query);
         }
 
-        /*
+        // Não está sendo usado no Front-End
         [AllowAnonymous]
         [HttpGet("DescricaoCiclos")]
         public async Task<IActionResult> DescricaoCiclos()
@@ -109,18 +109,27 @@ namespace Censo.API.Controllers.Enade
     
                         string juntaarea = "";
                         //Int64 item = 1;
-                        foreach (long item in query)
+                        
+                        foreach (var item in query)
                         {
-                            if (query[item - 1].DescArea != null)
+                           
+                            if (item.DescArea != null)
                             {
-                                juntaarea = juntaarea + query[item - 1].DescArea;
+                                juntaarea = juntaarea + item.DescArea;
                             }
+                            
 
                         }
-
+                        
+                        /*
+                        for (int i = 0;i <3; i++)
+                            {
+                                juntaarea = juntaarea + query[i].DescArea;
+                            }
+                        */
             return Ok(juntaarea);
         }
-        */
+        
 
         [AllowAnonymous]
         [HttpGet("ObterDescCiclo/{campo}")]

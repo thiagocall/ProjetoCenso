@@ -319,6 +319,7 @@ namespace Censo.API.Controllers.Geral
                                         NomeCompleto =  prof.NomProfessor,
                                         Dtnascimento = prof.DtNascimentoProfessor.ToString(),
                                         NomSexo = prof.CodSexo,
+                                        
                                         NomRaca = prof.NomRaca,
                                         NomMae = prof.NomMae,
                                         NacioProfessor = prof.NacionalidadeProfessor,
@@ -456,6 +457,10 @@ namespace Censo.API.Controllers.Geral
                             profesc.NomeCompleto = pro.NomeCompleto;
                             profesc.Dtnascimento = System.DateTime.Parse(pro.Dtnascimento).ToString("dd/MM/yyyy");
                             profesc.NomSexo = pro.NomSexo; 
+                            if (pro.NomRaca == "Nao declarada")
+                                {
+                                    pro.NomRaca = "Não declarada";
+                                }                            
                             profesc.NomRaca = pro.NomRaca;
                             profesc.NomMae = pro.NomMae;
                             profesc.NacioProfessor = pro.NacioProfessor;
