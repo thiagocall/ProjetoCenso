@@ -95,7 +95,8 @@ namespace Censo.API.Controllers.Enade
         [HttpGet("ObterDescCiclo/{campo}")]
         public ActionResult ObterDescCiclo(string campo)
         {
-            var resultado = this.Econtext.Ciclo.Select(x => new {x.DescricaoCiclo}).FirstOrDefault(x => x.DescricaoArea == campo);
+            // Analisar porque nao mostra o x.Descrocapgit add
+            var resultado = this.Econtext.Ciclo.Select(x => new {x.DescricaoCiclo}).FirstOrDefault(x => x.DescricaoCiclo == campo);
             
             return Ok(resultado);
         }
