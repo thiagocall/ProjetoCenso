@@ -301,9 +301,10 @@ namespace Censo.API.Controllers.Geral
                                if (dicProfessor.ContainsKey(p.cpfProfessor.ToString()))
                                 {
                                     var prof =  dicProfessor[p.cpfProfessor.ToString()];
+                                    /*
                                     int teste;
                                     //if (listaProfessor.Count == 10019)
-                                    /*
+                                    
                                     if (p.cpfProfessor == 83958622887)
                                     {
                                         teste = listaProfessor.Count;
