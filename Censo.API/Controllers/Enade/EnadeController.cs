@@ -83,9 +83,9 @@ namespace Censo.API.Controllers.Enade
         public async Task<IActionResult> obterCiclos()
         {
             var query = await this.Econtext.Ciclo
-                             .Select(x => new {x.IdCiclo, x.DescricaoCiclo, x.DescArea})
+                             .Select(x => new {x.DescArea})
                              //.OrderByDescending(x => x.IdCiclo)
-                             .OrderBy(x => x.IdCiclo)
+                             //.OrderBy(x => x.IdCiclo)
                              .ToArrayAsync();
     
             return Ok(query);
@@ -95,7 +95,7 @@ namespace Censo.API.Controllers.Enade
         [HttpGet("ObterDescCiclo/{campo}")]
         public ActionResult ObterDescCiclo(string campo)
         {
-            // Analisar porque nao mostra o x.Descrocapgit add
+            // Analisar porque nao mostra o x.Descrocapgit
             var resultado = this.Econtext.Ciclo.Select(x => new {x.DescricaoCiclo}).FirstOrDefault(x => x.DescricaoCiclo == campo);
             
             return Ok(resultado);
