@@ -55,6 +55,9 @@ import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.
 import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/exp-professor-dadosSalvos.component';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { EnadeComponent } from './enade/enade.component';
+import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
+import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
 
 @NgModule({
    declarations: [
@@ -92,7 +95,10 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
       ExpProfessorCursoComponent,
       ExpProfessorTitulacaoComponent,
       ExpProfessorAddComponent,
-      ExpProfessorDadosSalvosComponent
+      ExpProfessorDadosSalvosComponent,
+      EnadeComponent,
+      CursoEnadeComponent,
+      ManutencaoCursoEnadeComponent
    ],
    imports: [
       BrowserModule,
@@ -111,7 +117,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
       BsDatepickerModule.forRoot(),
       NgxChartsModule
    ],
-   providers: [DatePipe],
+   providers: [
+      DatePipe
+   ],
    bootstrap: [
       AppComponent
    ]

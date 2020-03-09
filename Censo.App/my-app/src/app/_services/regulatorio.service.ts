@@ -28,7 +28,7 @@ export class RegulatorioService {
 
   getRegulatorioProfessorIesExcel(_ies: any) {
     const tokenHeader = this.getToken();
-    return this.http.get(this.baseUrl + 'v1/regulatorio/buscaiesID/excel/' + _ies, { responseType: 'blob', headers: tokenHeader });
+    return this.http.get(this.baseUrl + 'v1/regulatorio/buscaiesID/excel/' + _ies, { responseType: 'blob', headers: tokenHeader }); 
   }
 
   
@@ -63,7 +63,7 @@ export class RegulatorioService {
     const tokenHeader = this.getToken();
     return this.http.get(this.baseUrl + 'v1/dados/getCampus/', { headers: tokenHeader });
   }
-
+ 
   // REGULATÓRIO PROFESSOR FORA DE SEDE
 
   getRegulatorioProfessorForaSedeExcel(_campus: any) {

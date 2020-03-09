@@ -1,0 +1,114 @@
+<div class="container p-5">
+
+  <form>
+    <div class="form-row ">
+
+      <div class="form-group col-md-4">
+        <label for="campus">Selecione o Campus</label>
+       <!-- <select class="form-control ml-2" id="campus" [(ngModel)]="cod" (change)="getCampus(cod)">
+          <option value="-1" disabled>-- Selecione uma Instituição --</option>
+          <option *ngFor="let item of listaCampus" [value]="item.codCampus">
+              {{item.nomCampus + " - " + item.codCampus}}</option>
+      </select> -->
+      <select class="form-control ml-2">
+        <option>Selecione uma Instituição</option>
+      </select>
+      </div>
+      
+
+   
+
+      <i class="form-group col-md-2" style="margin-top: 30px;">
+        <button class="btn btn-sm btn-outline-primary p-2" (click)="buscaId(_codIes.value)">
+          Pesquisar </button>
+      </i>
+
+      <i class="form-group col-md-2" style="margin-top: 30px;">
+        <button class="btn btn-sm btn-outline-success p-2">
+          <i class="fas fa-cloud-upload-alt"></i> Upload </button>
+      </i>
+
+    </div>
+  </form>
+
+
+
+  <!-- campus teste -->
+
+
+  <div class="p-4"></div>
+  <h5 class="p-2"> Cursos do Campus Selecionado</h5>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Curso</th>
+        <th scope="col">Ciclo</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr>
+        <td>Curso A</td>
+        <td>Ciclo I</td>
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"
+          style="margin: 5px; padding: 3px;">Editar</button>
+      </tr>
+
+      <tr>
+        <td>Curso B</td>
+        <td>Ciclo II</td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>Curso C</td>
+        <td>Ciclo III</td>
+        <td></td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Trocar o Ciclo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Escolha um Ciclo:</label>
+            <select id="inputState" class="form-control">
+              <option selected>Selecione um Ciclo </option>
+              <option>Ciclo I</option>
+              <option>Ciclo II</option>
+              <option>Ciclo III</option>
+            </select>
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>

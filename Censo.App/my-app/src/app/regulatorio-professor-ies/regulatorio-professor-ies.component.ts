@@ -52,11 +52,11 @@ export class RegulatorioProfessorIesComponent implements OnInit {
       return null;
     }
     this.mostrarBusca = true;
-    this.resultadoId = [];
     //console.log(this.resultadoId); //dados professor e dados instituição
     this.regulatorioService.getRegulatorioBuscaIes(codIes).subscribe(
       response => {
         // console.log(response);
+        this.resultadoId = [];
         this.resultadoId = response;
         this.resultadoId.sort((a, b) => {
           if (a.nomProfessor > b.nomProfessor) {
@@ -93,9 +93,3 @@ export class RegulatorioProfessorIesComponent implements OnInit {
 
 }
 
-
-/*
-
-
-
-*/

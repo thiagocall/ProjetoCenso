@@ -39,7 +39,9 @@ import { ExpProfessorAddComponent } from './exp-professor-add/exp-professor-add.
 import { ExpProfessorCursoComponent } from './exp-professor-curso/exp-professor-curso.component';
 import { ExpProfessorTitulacaoComponent } from './exp-professor-titulacao/exp-professor-titulacao.component';
 import { ExpProfessorDadosSalvosComponent } from './exp-professor-dadosSalvos/exp-professor-dadosSalvos.component';
-
+import { EnadeComponent } from './enade/enade.component';
+import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
+import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
 
 
 
@@ -96,6 +98,11 @@ const routes: Routes = [
     {path: 'Exportacao/professores/professor-curso', component: ExpProfessorCursoComponent , canActivate: [AuthGuard]},
     {path: 'Exportacao/professores/professor-titulacao', component: ExpProfessorTitulacaoComponent , canActivate: [AuthGuard]},
 
+
+  /* ABA ENADE */
+  {path: 'Enade', component: EnadeComponent , canActivate: [AuthGuard]},
+  {path: 'CursoEnade', component: CursoEnadeComponent , canActivate: [AuthGuard]},
+  {path: 'ManutencaoCursoEnade', component: ManutencaoCursoEnadeComponent , canActivate: [AuthGuard]},
 
   /*INICIO*/
   {path: 'Inicio', component: AppHomeComponent , canActivate: [AuthGuard]},
