@@ -1,7 +1,7 @@
 <div class="container">
   <form class="p-5">
 
-     
+
     <select #_idCiclo class="form-control" id="id" (change)="filtrarCiclo(_idCiclo.value)">
       <option value="-1" disabled>-- Selecione um Ciclo --</option>
       <option *ngFor="let item of todosCiclos" value="{{item.idCiclo}}">{{item.descricaoCiclo}}</option>
@@ -14,7 +14,7 @@
       </textarea>
     </div>
 
-   
+
 
     <button class="btn btn-primary btn-sm">Salvar</button>
   </form>
@@ -24,31 +24,3 @@
 
 
 
-<!--
-
-  <form>
-    <div class="form-row p-5">
-
-      <div class="form-group col-md-3">
-        <select id="inputState" class="form-control">
-          <option selected>Ciclo</option>
-          <option>Ano I</option>
-          <option>Ano II</option>
-          <option>Ano III</option>
-        </select>
-      </div>
-
-      <div class="form-group col-md-2">
-        <select id="inputState" class="form-control">
-          <option selected>Ano/Ciclo </option>
-          <option>...</option>
-        </select>
-      </div>
-
-     
-
-    </div>
-
-  </form>
-  
--->
