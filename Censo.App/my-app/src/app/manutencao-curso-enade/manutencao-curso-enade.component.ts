@@ -43,20 +43,6 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
   }
 
  
-  /*?*/
- /* ciclosId() {
-    this.enadeService.obterCiclosId(this.id).subscribe(
-      response => {
-        this.cicloId = response;
-        this.idCiclo = this.cicloId.idCiclo;
-        console.log(this.cicloId)
-       
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  } */
 
 
 }

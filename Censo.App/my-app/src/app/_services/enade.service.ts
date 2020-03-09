@@ -31,11 +31,6 @@ obterCiclos(id: number) {
   return this.http.get(this.baseUrl + 'v1/Enade/ObterCiclos', {headers: tokenHeader});
 }
 
-/*?*/
-obterCiclosId(id: number) {
-  const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'v1/Enade/obterCicloporid/' + id ,{headers: tokenHeader});
-} 
 
 
 }
