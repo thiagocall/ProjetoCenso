@@ -1,0 +1,150 @@
+<div class="p-4 w-150 bd-highlight">
+
+  <div class=" fundo-tabela mt-4" style="min-height: 600px;">
+      <div class="ml-4 mt-4">
+          <h6>Ciclo</h6>
+      </div>
+
+
+      <select #_idCiclo class="form-control col-md-5" id="id" (change)="filtrarCiclo(_idCiclo.value)">
+        <option value="-1" disabled>-- Selecione um Ciclo --</option>
+        <option *ngFor="let item of todosCiclos" value="{{item.idCiclo}}">{{item.descricaoCiclo}}</option>
+      </select>
+
+      <!-- menu pesquisar
+      <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
+          <input (keyup)="filtrarItem($event.target.value)" type="text" class="form-control"
+              placeholder="Digite alguma coisa.." aria-label="Recipient's username" aria-describedby="basic-addon2">
+          <button [routerLink]="['/Regulatorio']" class="btn btn-outline-primary ml-3"> Voltar</button>
+      </div>
+       fim menu pesquisar -->
+
+
+      <div class="container mt-2 ml-3 mr-0">
+          <div class="row m-0 p-0">
+              <div class="col-md-7">
+                  <div class="p-4"></div>
+                  <!-- inicio tabela principal-->
+                  <table class="table table-hover titulo-tabela">
+                      <thead class="titulo">
+                          <tr>
+                              <th>Área</th>
+                              <th>Id Ciclo</th>
+                              <th>Descrição Ciclo</th>
+                              <th></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let item of dadosFiltrados">
+                              <td>{{item.descArea}}</td>
+                              <td>{{item.idCiclo}}</td>
+                              <td>{{item.descricaoCiclo}}</td>
+                              <td>
+                                  <div class="btn-group">
+                                      <button type="button" id="{{item.cpfProfessor}}"
+                                          class="btn btn-outline-primary btn-sm" tooltip="Adicionar"
+                                          (click)="addProfessor(item)">
+                                          <i id="i_{{item.cpfProfessor}}" class="fas fa-user-plus 2x"></i>
+                                      </button>
+                                  </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <!-- fim tabela principal-->
+              </div>
+
+              <!-- inicio card-->
+              <div class="col-md-5 pl-2 mr-0">
+
+                  <div style="width: 650px;">
+                      <div class="d-flex flex-row-reverse bd-highlight p-2">
+                          <div class="btn-group" role="group" aria-label="Basic example">
+                              <button class="btn btn-danger btn-sm mt-2" (click)="limparLista()"
+                                  tooltip="limpar tudo">Limpar</button>
+
+                              <button *ngIf="listaProfessorAdicionado?.length" type="button"
+                                  class="btn btn-primary btn-sm mt-2" (click)="salvarDadosprofessor()">Salvar
+                              </button>
+
+                              <!-- <button *ngIf="listaProfessorAdicionado?.length" type="button"
+                                  class="btn btn-outline-success btn-sm mt-2" [routerLink]="['/Exportacao/professores/add/exp-professor-dadosSalvos']" >Dados
+                                  Salvos</button> -->
+
+                          </div>
+                      </div>
+                  </div>
+
+
+                  <div class="card mb-5" style="width: 650px;">
+                      <div class="card-header ">
+                          <!-- inicio titulo-->
+                          <ul class="nav nav-pills card-header-pills d-flex justify-content-between">
+                              <li class="nav-item">
+                                  <a class="nav-link">Nome</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link">CPF</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" tooltip="Carga Horária Dentro de Sala">Titulação</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" tooltip="Carga Horária Fora de Sala">Regime</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link"></a>
+                              </li>
+                              <div class="row">
+                              </div>
+                          </ul>
+                          <!-- fim titulo-->
+                      </div>
+
+                      <!-- inicio tabela-->
+                      <table class="table" style="width: 650px;">
+                          <tbody>
+                              <tr *ngFor="let item of listaProfessorAdicionado; let i = index">
+                                  <td style="width: 140px;">{{item.nomProfessor}}</td>
+                                  <td style="width: 120px;">{{item.cpfProfessor}}</td>
+
+                                  <td class="form-group mt-2 md-4">
+                                      <select class="form-control" [(ngModel)]="item.titulacao">
+                                          <!--two-way data binding-->
+                                          <option disabled="true">Selecione</option>
+                                          <option value="MESTRE">Mestre</option>
+                                          <option value="ESPECIALISTA">Especialista</option>
+                                          <option value="DOUTOR">Doutor</option>
+                                      </select>
+                                  </td>
+
+                                  <td class="form-group mt-2 md-4">
+                                      <select class="form-control" [(ngModel)]="item.regime">
+                                          <!--two-way data binding-->
+                                          <option disabled="true">Selecione</option>
+                                          <option value="TEMPO INTEGRAL">Integral</option>
+                                          <option value="TEMPO PARCIAL">Parcial</option>
+                                          <option value="HORISTA">Horista</option>
+                                          <option value="CHZ/AFASTADO">Chz/Afastado</option>
+                                      </select>
+                                  </td>
+
+                                  <td><button class="btn btn-outline-danger btn-sm" (click)="removerProfessor(item)">
+                                          <i class="fas fa-trash-alt"></i></button></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <!-- fim tabela-->
+
+                      <!-- inicio espaço card-->
+                      <div class="card-body"></div>
+                      <!-- fim espaço card-->
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
+
+
+</div>

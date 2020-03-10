@@ -19,14 +19,13 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
 
   ngOnInit() {
     this.todosOsCiclos();
-    //this.ciclosId(); // teste
   }
 
   todosOsCiclos() {
-    this.enadeService.obterCiclos(this.id).subscribe(
+    this.enadeService.obterCiclos().subscribe(
       response => {
         this.todosCiclos = response;
-        //this.id = this.todosCiclos.idCiclo;
+        this.id = this.todosCiclos.idCiclo;
         //console.log(this.todosCiclos);
         //console.log(this.todosCiclos[2]);
       },

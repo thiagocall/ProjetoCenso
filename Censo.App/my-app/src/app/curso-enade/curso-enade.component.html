@@ -1,39 +1,32 @@
 <div class="container p-5">
-
   <form>
     <div class="form-row ">
-
+      <!-- select -->
       <div class="form-group col-md-4">
         <label for="campus">Selecione o Campus</label>
-       <!-- <select class="form-control ml-2" id="campus" [(ngModel)]="cod" (change)="getCampus(cod)">
+        <select #_codCampus class="form-control ml-2" id="campus" (change)="filtrarCursos(_codCampus.value)">
           <option value="-1" disabled>-- Selecione uma Instituição --</option>
           <option *ngFor="let item of listaCampus" [value]="item.codCampus">
-              {{item.nomCampus + " - " + item.codCampus}}</option>
-      </select> -->
-      <!-- aa-->
-      <select class="form-control ml-2">
-        <option>Selecione uma Instituição</option>
-      </select>
+            {{item?.nomCampus + " - " + item?.codCampus}}</option>
+        </select>
       </div>
-      
-      <i class="form-group col-md-2" style="margin-top: 30px;">
-        <button class="btn btn-sm btn-outline-primary p-2" (click)="buscaId(_codIes.value)">
-          Pesquisar </button>
-      </i>
-
+      <!-- select -->
+      <!-- upload 
       <i class="form-group col-md-2" style="margin-top: 30px;">
         <button class="btn btn-sm btn-outline-success p-2">
           <i class="fas fa-cloud-upload-alt"></i> Upload </button>
       </i>
-
+      upload -->
+      <div class="p-5"></div>
+      <!-- Manutenção -->
+      <i class="form-group col-md-2" style="margin-top: 30px;">
+        <button [routerLink]="['/ManutencaoCursoEnade']" class="btn btn-sm btn-outline-primary p-2">
+          Manutenção </button>
+      </i>
+      <!-- Manutenção -->
     </div>
   </form>
-
-
-
-  <!-- campus teste -->
-
-
+  <!-- tabela-->
   <div class="p-4"></div>
   <h5 class="p-2"> Cursos do Campus Selecionado</h5>
   <table class="table table-hover">
@@ -41,44 +34,30 @@
       <tr>
         <th scope="col">Curso</th>
         <th scope="col">Ciclo</th>
-        <th scope="col"></th>
+        <th scope="col">Área</th>
       </tr>
     </thead>
-
     <tbody>
-
-      <tr>
-        <td>Curso A</td>
-        <td>Ciclo I</td>
-        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#exampleModal"
-          style="margin: 5px; padding: 3px;">Editar</button>
+      <tr *ngFor="let item of cursoFiltrado | paginate: { itemsPerPage: 8, currentPage: p }">
+        <td>{{item?.nomCursoCenso}}</td>
+        <td>{{item?.codEmec}}</td>
+        <td>{{item?.codArea}}</td>
+       <!-- <td>{{item?.descricaoCiclo}}</td>
+        <td>{{item?.descArea}}</td> -->
       </tr>
-
-      <tr>
-        <td>Curso B</td>
-        <td>Ciclo II</td>
-        <td></td>
-      </tr>
-
-      <tr>
-        <td>Curso C</td>
-        <td>Ciclo III</td>
-        <td></td>
-      </tr>
-
     </tbody>
   </table>
+  <!-- tabela-->
+</div>
 
-
+<div class="container">
+  <pagination-controls *ngIf="cursoFiltrado" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
+  </pagination-controls>
 </div>
 
 
 
-
-
-
-
-
+<!-- modal 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -95,9 +74,9 @@
             <label for="recipient-name" class="col-form-label">Escolha um Ciclo:</label>
             <select id="inputState" class="form-control">
               <option selected>Selecione um Ciclo </option>
-              <option>Ciclo I</option>
-              <option>Ciclo II</option>
-              <option>Ciclo III</option>
+              <option value="ciclo1">Ciclo I</option>
+              <option value="ciclo2">Ciclo II</option>
+              <option value="ciclo3">Ciclo III</option>
             </select>
           </div>
 
@@ -110,3 +89,4 @@
     </div>
   </div>
 </div>
+modal -->

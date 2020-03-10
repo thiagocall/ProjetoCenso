@@ -58,6 +58,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { EnadeComponent } from './enade/enade.component';
 import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
 import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
+import { AreaEnadeComponent } from './area-enade/area-enade.component';
 
 @NgModule({
    declarations: [
@@ -98,7 +99,8 @@ import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutenc
       ExpProfessorDadosSalvosComponent,
       EnadeComponent,
       CursoEnadeComponent,
-      ManutencaoCursoEnadeComponent
+      ManutencaoCursoEnadeComponent,
+      AreaEnadeComponent
    ],
    imports: [
       BrowserModule,

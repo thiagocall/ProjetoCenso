@@ -15,21 +15,27 @@ getToken() {
   return tokenHeader;
 }
 
+/*SOMENTE OS CAMPUS
 campus() {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'v1/dados/getCampus/', { headers: tokenHeader });
-}
+} */
 
+
+/*CAMPUS E CURSO*/
 getDados() {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'v1/dados/' ,{headers: tokenHeader});
 }
 
 /* ObterCiclos  (TODOS - ANO I, ANO II, ANO III) */
-obterCiclos(id: number) {
+obterCiclos() {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'v1/Enade/ObterCiclos', {headers: tokenHeader});
 }
+
+
+
 
 
 
