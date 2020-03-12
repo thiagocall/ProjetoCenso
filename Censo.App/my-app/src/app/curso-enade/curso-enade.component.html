@@ -50,6 +50,17 @@
     </div>
 
 
+    <!--INICIO TESTE SELECT CAMPUS-->
+    <div class="form-group col-md-4">
+      <label for="campus">Selecione o Campus</label>
+      <select #_codCampus class="form-control ml-2" id="campus">
+        <option value="-1" disabled>-- Selecione uma Instituição --</option>
+        <option *ngFor="let item of campi" [value]="item.codCampus">
+          {{item?.nomCampus}}</option>
+      </select>
+    </div>
+    <!--FIM TESTE SELECT CAMPUS-->
+
 
   </form>
   <!-- tabela-->

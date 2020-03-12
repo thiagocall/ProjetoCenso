@@ -22,12 +22,33 @@ export class CursoEnadeComponent implements OnInit {
   cursoFiltrado: any;
 
   /*filtro input*/
-   dadosFiltrados: any[];
-   dadosFiltradosCursos: any[];
+  dadosFiltrados: any[];
+  dadosFiltradosCursos: any[];
 
+  /*select campus*/
+  resultadoCampus: any;
+  campi:any;
+  codCampus: any;
+  nomeCampus: any;
 
   ngOnInit() {
     this.campus();
+    this.selectCampus();
+  }
+
+  selectCampus() { /* select só com os campus */
+    this.enadeService.selectCampus().subscribe(
+      response => {
+        this.resultadoCampus = response;
+        this.campi = this.resultadoCampus.campi;
+        this.codCampus = this.resultadoCampus.codCampus;
+        this.nomeCampus = this.resultadoCampus.nomCampus;
+        console.log(this.resultadoCampus)
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 
@@ -54,21 +75,21 @@ export class CursoEnadeComponent implements OnInit {
 
   }
 
-    /* filtro input */
-    pesquisarCursos(value: any) {   //estou trazendo todos os cursos - tenho que trazer o campus selecionado//
-      if (value.length > 4) {
-        //this.listaCursos = this.resultado.cursos;
-        this.dadosFiltradosCursos = this.cursoFiltrado;
-        this.dadosFiltradosCursos = this.dadosFiltradosCursos.filter( x => 
-          x.nomCursoCenso.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 5 primeiros da lista;
-          console.log(this.dadosFiltradosCursos); // está trazendo direito do curso filtrado
-      }
-      else {
-        this.dadosFiltradosCursos = [];
-      }
+  /* filtro input */
+  pesquisarCursos(value: any) {   //estou trazendo todos os cursos - tenho que trazer o campus selecionado//
+    if (value.length > 4) {
+      //this.listaCursos = this.resultado.cursos;
+      this.dadosFiltradosCursos = this.cursoFiltrado;
+      this.dadosFiltradosCursos = this.dadosFiltradosCursos.filter(x =>
+        x.nomCursoCenso.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 5 primeiros da lista;
+      console.log(this.dadosFiltradosCursos); // está trazendo direito do curso filtrado
     }
+    else {
+      this.dadosFiltradosCursos = [];
+    }
+  }
 
-  
+
 
 
 

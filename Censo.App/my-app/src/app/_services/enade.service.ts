@@ -35,7 +35,10 @@ obterCiclos() {
 }
 
 
-
+selectCampus() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/TodosCampus', {headers: tokenHeader});
+}
 
 
 
