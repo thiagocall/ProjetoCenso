@@ -95,7 +95,7 @@ namespace Censo.API.Controllers.Enade
         public async Task<IActionResult> obterCiclos()
         {
             var query = await this.Econtext.Ciclo
-                             .Select(x => new {x.IdCiclo, x.DescArea, x.DescricaoCiclo})
+                             .Select(x => new {x.IdCiclo, x.DescArea, x.DescricaoCiclo, x.Obs, x.AnoAtual})
                              .OrderByDescending(x => x.IdCiclo)
                              .OrderBy(x => x.IdCiclo)
                              .ToArrayAsync();
@@ -158,7 +158,6 @@ namespace Censo.API.Controllers.Enade
             var resultado = this.Econtext.EmecCiclo.Select(x => new {x.IdCiclo, x.CodCursoEmec}).Select(x => x.IdCiclo != _id);
             //var resultadoAtual = this.ProducaoContext.TbResultadoAtual.Select(x => new {x.Id, x.Resumo}).FirstOrDefault(x => x.Id == _id);
 
-            //var resultadoCompleto = new {resultado, resultadoAtual};
             return Ok(resultado);
         }
 
@@ -225,7 +224,9 @@ namespace Censo.API.Controllers.Enade
         [HttpGet("TodosCampus")]
         public async Task<IActionResult> TodosCampus () {
 
-            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
+            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus})
+                                                    .OrderBy(x => x.nomCampus)
+                                                    .ToListAsync();
 
             var resultado = new {Campi = await campus};
 
@@ -240,9 +241,13 @@ namespace Censo.API.Controllers.Enade
 
             var curso = this.CensoContex.CursoCenso.ToListAsync();
             var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
-            //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(x=> );
+            var area = this.Econtext.EmecCiclo.ToListAsync();
+            //var escolhearea = this.Econtext.EmecCiclo.Where(c => campus.Id = area.cod_area_emec)
+            
+            //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(c => campus.Id.Contains((long)c.cod_area_emec)).ToList();
 
             var resultado = new {Cursos = await curso, Campi = await campus};
+            
 
             return Ok(resultado);
 

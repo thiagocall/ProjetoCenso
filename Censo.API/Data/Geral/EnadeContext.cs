@@ -41,7 +41,13 @@ namespace Censo.API.Model.dados
                     .HasColumnName("DESC_AREA");    
 
                 entity.Property(e => e.Obs)
-                    .HasColumnName("OBS");        
+                    .HasColumnName("OBS"); 
+
+                entity.Property(e => e.AnoAtual)
+                    .HasColumnName("ANO_ATUAL"); 
+                           
+                entity.Property(e => e.AnoAnterior)
+                    .HasColumnName("ANO_ANTERIOR"); 
 
             });
 
