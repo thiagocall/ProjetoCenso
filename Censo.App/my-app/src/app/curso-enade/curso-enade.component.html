@@ -27,21 +27,23 @@
     </div>
   </form>
   <!-- tabela-->
-  <div class="p-4"></div>
-  <h5 class="p-2"> Cursos do Campus Selecionado</h5>
+  <div class="p-2"></div>
+  <h5 class=""> Cursos do Campus Selecionado</h5>
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Curso</th>
-        <th scope="col">Ciclo</th>
         <th scope="col">Área</th>
+        <th scope="col">Ciclo</th>
+        <th scope="col">Ano</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of cursoFiltrado | paginate: { itemsPerPage: 8, currentPage: p }">
         <td>{{item?.nomCursoCenso}}</td>
-        <td>{{item?.codEmec}}</td>
         <td>{{item?.codArea}}</td>
+        <td>{{item?.codEmec}}</td>
+        <td>{{item?.codEmec}}</td>
        <!-- <td>{{item?.descricaoCiclo}}</td>
         <td>{{item?.descArea}}</td> -->
       </tr>
