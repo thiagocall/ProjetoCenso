@@ -47,13 +47,13 @@ namespace Censo.API.Model.dados
 
             modelBuilder.Entity<EmecCiclo>(entity =>
             {
-                entity.ToTable("Rel_Enade_Ciclo");
+                entity.ToTable("Rel_Emec_Ciclo");
                 
                entity.HasKey(e => e.CodCursoEmec)
-                     .HasName("PK_COD_CURSO_EMEC");
+                     .HasName("PK_COD_AREA_EMEC");
 
                 entity.Property(e => e.CodCursoEmec)
-                    .HasColumnName("COD_CURSO_EMEC");
+                    .HasColumnName("COD_AREA_EMEC");
 
                 entity.Property(e => e.IdCiclo)
                     .HasColumnName("ID_CICLO");

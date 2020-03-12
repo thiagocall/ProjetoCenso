@@ -12,7 +12,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Censo.API.Model.dados;
-
+using Censo.API.Data.Censo;
+using Censo.API.Model.Censo;
 
 namespace Censo.API.Controllers.Enade
 {
@@ -23,11 +24,17 @@ namespace Censo.API.Controllers.Enade
     {
 
         public EnadeContext Econtext;
-        public RegimeContext regContext;
-        public EnadeController(EnadeContext EContext, RegimeContext RegContext)
+        public CampusContext CampContext;
+        private CensoContext CensoContex { get; set; }
+        public dadosContext DadosContext { get; set; }
+
+        public EnadeController(EnadeContext EContext, CampusContext CampContext, CensoContext CContext, dadosContext DContext)
         {
             this.Econtext = EContext;
-            this.regContext = RegContext;
+            this.CampContext = CampContext;
+            this.CensoContex = CContext;
+            this.DadosContext = DContext;
+            
         }
 
         /*
@@ -88,7 +95,7 @@ namespace Censo.API.Controllers.Enade
         public async Task<IActionResult> obterCiclos()
         {
             var query = await this.Econtext.Ciclo
-                             .Select(x => new {x.IdCiclo,x.DescArea, x.DescricaoCiclo})
+                             .Select(x => new {x.IdCiclo, x.DescArea, x.DescricaoCiclo})
                              .OrderByDescending(x => x.IdCiclo)
                              .OrderBy(x => x.IdCiclo)
                              .ToArrayAsync();
@@ -109,24 +116,24 @@ namespace Censo.API.Controllers.Enade
     
                         string juntaarea = "";
                         //Int64 item = 1;
-                        
-                        foreach (var item in query)
-                        {
-                           
-                            if (item.DescArea != null)
-                            {
-                                juntaarea = juntaarea + item.DescArea;
-                            }
-                            
+            
+            foreach (var item in query)
+            {
+                
+                if (item.DescArea != null)
+                {
+                    juntaarea = juntaarea + item.DescArea;
+                }
+                
 
-                        }
-                        
-                        /*
-                        for (int i = 0;i <3; i++)
-                            {
-                                juntaarea = juntaarea + query[i].DescArea;
-                            }
-                        */
+            }
+            
+            /*
+            for (int i = 0;i <3; i++)
+                {
+                    juntaarea = juntaarea + query[i].DescArea;
+                }
+            */
             return Ok(juntaarea);
         }
         
@@ -137,59 +144,109 @@ namespace Censo.API.Controllers.Enade
         {
             // Analisar porque nao mostra o x.Descrocapgit
             var resultado = this.Econtext.Ciclo.Select(x => new {x.DescricaoCiclo}).FirstOrDefault(x => x.DescricaoCiclo == campo);
+            //var resultado = this.Econtext.Ciclo.Select(x => new {x.Obs, x.DescricaoCiclo}).FirstOrDefault(x => x.DescricaoCiclo == campo);
             
             return Ok(resultado);
         }
 
-        /*
+
         [AllowAnonymous]
-        [HttpGet("Busca/{campo}")]
-        public async Task<IActionResult> BuscaProfessores(string campo)
+        [HttpGet("ElegerAreasCiclos/{_id}")]
+        public ActionResult ElegerAreasCiclos(long _id)
         {
-                
-                Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
-            
-                try
-                {
+            //var resultado = this.EContext..Select(x => new {x.Id, x.Resumo, x.indOficial}).FirstOrDefault(x => x.Id == _id);
+            var resultado = this.Econtext.EmecCiclo.Select(x => new {x.IdCiclo, x.CodCursoEmec}).Select(x => x.IdCiclo != _id);
+            //var resultadoAtual = this.ProducaoContext.TbResultadoAtual.Select(x => new {x.Id, x.Resumo}).FirstOrDefault(x => x.Id == _id);
 
-                 Task task1 = Task.Factory.StartNew (
-                    () => 
-                    {
-                        // erro
-                      dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
-                    }
-                    );
-                
-                    Task.WaitAll(task1);
-                    var results =  await Professores.getProfessores(context).ToListAsync();
-
-                        foreach (var item in results)
-                        {
-                            if (dic.ContainsKey(item.CpfProfessor.ToString()))
-                            {
-                                item.regime = dic[item.CpfProfessor.ToString()].Regime;
-                            }
-
-                            else
-                            {
-                                item.regime = "CHZ/AFASTADO";
-                            }
-                        }
-
-                    var results2 = results.Where(x => x.NomProfessor.ToUpper().Contains(campo.ToUpper()) || x.CpfProfessor.ToString().Contains(campo))
-                                                .OrderBy(x => x.NomProfessor).ToList();
-
-                  return Ok(results2);
-                    
-                }
-                catch (System.Exception)
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
-                }
-            
-                      
+            //var resultadoCompleto = new {resultado, resultadoAtual};
+            return Ok(resultado);
         }
-        */
+
+        [AllowAnonymous]
+        [HttpGet("MostraAreas/{_id}")]
+        public async Task<IActionResult> MostraAreas(int _id)
+        {
+            var query = await this.Econtext.EmecCiclo.ToListAsync();
+            
+
+                var results = query.Select(x => new
+                                    {   
+                                        cod_area_emec = x.CodCursoEmec,
+                                        id_ciclo = x.IdCiclo
+                                        }).Where(c => c.id_ciclo != _id).ToList();
+
+
+            return Ok(results);
+        
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("BuscaAreasCiclos")]
+        public async Task<IActionResult> BuscaAreasCiclos() {
+
+            Task[] tasks = new Task[2];
+
+            Task<List<CursoCenso>> task1 = Task.Run(
+
+                () => {
+                        //cursoCenso = this.CensoContex.CursoCenso.ToList();
+                        return this.CensoContex.CursoCenso.Where(c => c.CodIes != null).ToList();     
+                    }
+            );
+
+            Task<List<CampusSia>> task2 = Task.Run(
+                () => {
+                     return this.DadosContext.CampusSia.ToList();
+                    }
+            );
+
+            tasks[0] = task1;
+            tasks[1] = task2;
+
+            await task1;
+            await task2;
+
+            // Pega o codigo do curso
+            var curso1 = task1.Result.Select(x => x.CodCampus).Distinct().ToList();
+
+            var campus = task2.Result.Where(c => curso1.Contains((long)c.CodCampus))
+                                     .OrderBy(x => x.NomCampus)
+                                     .ToList();
+             
+            var cursos = task1.Result.Where(x => x.CodIes != null).ToList();
+
+            return Ok(new {campus});
+
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet("TodosCampus")]
+        public async Task<IActionResult> TodosCampus () {
+
+            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
+
+            var resultado = new {Campi = await campus};
+
+            return Ok(resultado);
+
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("ObtemDadosEnade")]
+        public async Task<IActionResult> ObtemDadosEnade () {
+
+            var curso = this.CensoContex.CursoCenso.ToListAsync();
+            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
+            //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(x=> );
+
+            var resultado = new {Cursos = await curso, Campi = await campus};
+
+            return Ok(resultado);
+
+        }
 
 
     }

@@ -7,7 +7,7 @@
         <select #_codCampus class="form-control ml-2" id="campus">
           <option value="-1" disabled>-- Selecione uma Instituição --</option>
           <option *ngFor="let item of listaCampus" [value]="item.codCampus">
-            {{item?.nomCampus + " - " + item?.codCampus}}</option>
+            {{item?.nomCampus}}</option>
         </select>
       </div>
       <!-- select Campus-->
