@@ -240,7 +240,7 @@ namespace Censo.API.Controllers.Enade
 
             var curso = this.CensoContex.CursoCenso.ToListAsync();
             var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
-            var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec})
+            //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(x=> );
 
             var resultado = new {Cursos = await curso, Campi = await campus};
 
