@@ -27,13 +27,19 @@ export class CursoEnadeComponent implements OnInit {
 
   /*select campus*/
   resultadoCampus: any;
-  campi:any;
+  campi: any;
   codCampus: any;
   nomeCampus: any;
+  codigoCampus:any; /*teste*/
+
+  /*Tabela - resultadoCampusCurso*/
+  resultadoCursos:any;
+  cursos:any;
 
   ngOnInit() {
-    this.campus();
+    //this.campus();
     this.selectCampus();
+    this.resultadoCampusCurso();
   }
 
   selectCampus() { /* select só com os campus */
@@ -41,9 +47,7 @@ export class CursoEnadeComponent implements OnInit {
       response => {
         this.resultadoCampus = response;
         this.campi = this.resultadoCampus.campi;
-        this.codCampus = this.resultadoCampus.codCampus;
-        this.nomeCampus = this.resultadoCampus.nomCampus;
-        console.log(this.resultadoCampus)
+        this.codigoCampus = this.resultadoCampus.codCampus;
       },
       error => {
         console.log(error);
@@ -51,24 +55,24 @@ export class CursoEnadeComponent implements OnInit {
     );
   }
 
-
-  campus() {
-    this.enadeService.getDados().subscribe(
+  resultadoCampusCurso() { /*resultado tabela*/
+    this.enadeService.resultadoTabela().subscribe(
       response => {
-        this.resultado = response;
-        this.listaCampus = this.resultado.campus;
-        this.listaCursos = this.resultado.cursos;
-        //console.log(this.resultado)
+        this.resultadoCursos = response;
+        this.cursos = this.resultadoCursos.cursos;
+        this.codCampus = this.resultadoCursos.codCampus;
       },
       error => {
         console.log(error);
       }
     );
   }
+
 
   filtrarCursos(valor: any) {
-    this.cursoFiltrado = this.listaCursos.filter(c => c.codCampus == valor); // curso filtrado 
-    //console.log(this.cursoFiltrado);
+    this.cursoFiltrado = this.cursos.filter(c => c.codCampus == valor); 
+    //this.cursoFiltrado = this.listaCursos.filter(c => c.codCampus == valor); // curso filtrado 
+    console.log(this.cursoFiltrado);
   }
 
   pesquisarAno() {
@@ -76,9 +80,8 @@ export class CursoEnadeComponent implements OnInit {
   }
 
   /* filtro input */
-  pesquisarCursos(value: any) {   //estou trazendo todos os cursos - tenho que trazer o campus selecionado//
+  pesquisarCursos(value: any) {
     if (value.length > 4) {
-      //this.listaCursos = this.resultado.cursos;
       this.dadosFiltradosCursos = this.cursoFiltrado;
       this.dadosFiltradosCursos = this.dadosFiltradosCursos.filter(x =>
         x.nomCursoCenso.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 5 primeiros da lista;
@@ -90,7 +93,19 @@ export class CursoEnadeComponent implements OnInit {
   }
 
 
-
+ /*campus() {
+    this.enadeService.getDados().subscribe(
+      response => {
+        this.resultado = response;
+        this.listaCampus = this.resultado.campus;
+        this.listaCursos = this.resultado.cursos;
+        //console.log(this.resultado)
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  } */
 
 
 

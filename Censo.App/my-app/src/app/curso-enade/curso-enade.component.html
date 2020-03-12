@@ -6,13 +6,13 @@
         <label for="campus">Selecione o Campus</label>
         <select #_codCampus class="form-control ml-2" id="campus">
           <option value="-1" disabled>-- Selecione uma Instituição --</option>
-          <option *ngFor="let item of listaCampus" [value]="item.codCampus">
+          <option *ngFor="let item of campi" [value]="item.codCampus">
             {{item?.nomCampus}}</option>
         </select>
       </div>
       <!-- select Campus-->
 
-      <!-- select Ano
+      <!-- select Ano 
         <div class="form-group col-md-2">
           <label for="campus">Ano</label>
           <select #_codCampus class="form-control ml-2" id="campus">
@@ -21,7 +21,7 @@
               {{item?.codCampus}}</option>
           </select>
         </div>
-        select Ano-->
+       - select Ano-->
 
       <!-- Pesquisar -->
       <i class="form-group col-md-2" style="margin-top: 30px;">
@@ -39,30 +39,17 @@
       <!-- Manutenção -->
 
 
-
-      <!-- menu pesquisar 
+      <!-- menu pesquisar -->
       <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
         <input *ngIf="cursoFiltrado" (keyup)="pesquisarCursos($event.target.value)" type="text" class="form-control"
           placeholder="Digite o curso ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
       </div>
-     fim menu pesquisar -->
+    <!-- fim menu pesquisar -->
 
     </div>
-
-
-    <!--INICIO TESTE SELECT CAMPUS-->
-    <div class="form-group col-md-4">
-      <label for="campus">Selecione o Campus</label>
-      <select #_codCampus class="form-control ml-2" id="campus">
-        <option value="-1" disabled>-- Selecione uma Instituição --</option>
-        <option *ngFor="let item of campi" [value]="item.codCampus">
-          {{item?.nomCampus}}</option>
-      </select>
-    </div>
-    <!--FIM TESTE SELECT CAMPUS-->
-
 
   </form>
+
   <!-- tabela-->
   <div class="p-2"></div>
   <h5>Cursos</h5>
@@ -80,7 +67,7 @@
         <td>{{item?.nomCursoCenso}}</td>
         <td>{{item?.codArea}}</td>
         <td>{{item?.codEmec}}</td>
-        <td>{{item?.codEmec}}</td>
+        <td>{{item?.codIes}}</td>
       </tr>
     </tbody>
   </table>
