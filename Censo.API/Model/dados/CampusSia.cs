@@ -11,5 +11,7 @@ namespace Censo.API.Model.dados
         public string EndCampus { get; set; }
         public string TxtComplEndereco { get; set; }
         public string CepCampus { get; set; }
+        public string IndSituacao { get; set; }
+        
     }
 }

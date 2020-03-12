@@ -42,7 +42,6 @@ namespace Censo.API.Model
                     .HasColumnName("COD_CAMPUS_SAP")
                     .HasMaxLength(255);
 
-
                 entity.Property(e => e.EndCampus)
                     .HasColumnName("END_CAMPUS")
                     .HasMaxLength(255);
@@ -50,6 +49,9 @@ namespace Censo.API.Model
                 entity.Property(e => e.NomCampus)
                     .HasColumnName("NOM_CAMPUS")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.IndSituacao)
+                    .HasColumnName("IND_SITUACAO");
 
                 entity.Property(e => e.TxtComplEndereco)
                     .HasColumnName("TXT_COMPL_ENDERECO")

@@ -224,9 +224,17 @@ namespace Censo.API.Controllers.Enade
         [HttpGet("TodosCampus")]
         public async Task<IActionResult> TodosCampus () {
 
-            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus})
+            /*    
+            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus, indsituacao = x.IndSituacao})
                                                     .OrderBy(x => x.nomCampus)
                                                     .ToListAsync();
+                                                    
+            */
+
+            var campus = this.CampContext.TbSiaCampus.Where(x => x.IndSituacao == "A").Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus, indsituacao = x.IndSituacao})
+                                                    .OrderBy(x => x.nomCampus)
+                                                    .ToListAsync();
+
 
             var resultado = new {Campi = await campus};
 
