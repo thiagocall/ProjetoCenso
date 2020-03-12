@@ -213,14 +213,28 @@ namespace Censo.API.Controllers.Geral
 
         // /* GERAR EXPORTAÇÃO CENSO */
        [AllowAnonymous]
-        [HttpGet("Geracao/Excel")]
-        public async Task<IActionResult> Geracao()
+
+       //Geracao/Excel/0
+       //Geracao/Excel
+        [HttpGet("Geracao/Excel/{id=0}")]
+        public async Task<IActionResult> Geracao(long id)
         {  //inicio requisicao
 
              try
             {   // inicio try catch
-                var resultadoOTM = await this.ProducaoContext.TbResultado
+
+                TbResultado resultadoOTM;
+
+                if (id == 0)
+                {
+                resultadoOTM = await this.ProducaoContext.TbResultado
                         .FirstOrDefaultAsync(r => r.indOficial == 1);
+                    
+                }
+                else {
+                        resultadoOTM = await this.ProducaoContext.TbResultado
+                        .FirstOrDefaultAsync(r => r.Id == id);
+                }
                 
                 // Tratando dados para Excel
 
