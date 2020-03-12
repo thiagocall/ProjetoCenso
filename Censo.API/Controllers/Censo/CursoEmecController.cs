@@ -392,7 +392,7 @@ namespace Censo.API.Controllers.Censo
                 foreach (var res in query)
                 {
                     // Filtra parâmtetro indGraduacao
-                    if (!(res.Titulacao == null || res.Titulacao == "GRADUADO")) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
+                    if (!(res.Titulacao == null || res.Titulacao == "GRADUADO" || (res.Regime == String.Empty && res.Titulacao == "NÃO IDENTIFICADA"))) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
                     {
                         
 
