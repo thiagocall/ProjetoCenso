@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TemplateRef } from '@angular/core';
 import { OtimizacaoService } from '../_services/otimizacao.service';
+import { ExportacaoService } from '../_services/exportacao.service';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { collectExternalReferences } from '@angular/compiler';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -21,9 +22,12 @@ export class AppResultadosComponent implements OnInit {
   isCollapsed = true;
   dados: number;
   observacao: any;
+  mostrarSpinner = false;
 
   constructor(private modalService: BsModalService, 
-    private OtimizacaoService: OtimizacaoService, 
+    private OtimizacaoService: OtimizacaoService,
+    private exportacaoService: ExportacaoService,
+    private datePipe: DatePipe, 
     private router: Router) { }
 
   confirma: boolean;
@@ -60,7 +64,7 @@ export class AppResultadosComponent implements OnInit {
 
 
   //formatar data dia/mes/ano
-  getData(id: number) {
+  getDate(id: number) {
     var dia = (String(id)).substr(-8, 2)
     var mes = (String(id)).substr(4, 2)
     var ano = (String(id)).substr(0, 4)
@@ -118,5 +122,18 @@ export class AppResultadosComponent implements OnInit {
       saveAs(blob, `ResultadoCenso_${item}.xlsx`);
     }
     );
+  }
+
+
+  exportacaoCensoExcel(id: number) {
+     this.mostrarSpinner = true;
+    let blob;
+    const data = this.datePipe.transform(Date(), 'yyyy-MM-dd');
+    this.exportacaoService.getExportarCensoExcel(id).subscribe(
+      response => {
+         this.mostrarSpinner = false;
+        blob = new Blob([response], { type: 'application/octet-stream' });
+        saveAs(blob, `Arquivo_Censo_${id}_${data}.xlsx`);
+      });
   }
 }
