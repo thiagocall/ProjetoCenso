@@ -2,7 +2,8 @@ namespace Censo.API.Model.Censo
 {
     public class CursoEnquadramento
     {
-        public int codEmec { get; set; }
-        public int codArea { get; set; }
+        public int CodEmec { get; set; }
+        
+        public int CodArea { get; set; }
     }
 }

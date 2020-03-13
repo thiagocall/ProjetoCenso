@@ -23,17 +23,22 @@ namespace Censo.API.Controllers.Enade
     public class EnadeController: ControllerBase
     {
 
-        public EnadeContext Econtext;
-        public CampusContext CampContext;
+        public EnadeContext Econtext { get; set; }
+        public CampusContext CampContext { get; set; }
         private CensoContext CensoContex { get; set; }
         public dadosContext DadosContext { get; set; }
+        public CursoEnquadramentoContext CeContext { get;set;}
 
-        public EnadeController(EnadeContext EContext, CampusContext CampContext, CensoContext CContext, dadosContext DContext)
+
+        public EnadeController(EnadeContext EContext, CampusContext CampContext, 
+                                CensoContext CContext, dadosContext DContext,
+                                CursoEnquadramentoContext CursoEnqContext)
         {
             this.Econtext = EContext;
             this.CampContext = CampContext;
             this.CensoContex = CContext;
             this.DadosContext = DContext;
+            this.CeContext = CursoEnqContext;
             
         }
 
@@ -155,8 +160,7 @@ namespace Censo.API.Controllers.Enade
         public ActionResult ElegerAreasCiclos(long _id)
         {
             //var resultado = this.EContext..Select(x => new {x.Id, x.Resumo, x.indOficial}).FirstOrDefault(x => x.Id == _id);
-            var resultado = this.Econtext.EmecCiclo.Select(x => new {x.IdCiclo, x.CodCursoEmec}).Select(x => x.IdCiclo != _id);
-            //var resultadoAtual = this.ProducaoContext.TbResultadoAtual.Select(x => new {x.Id, x.Resumo}).FirstOrDefault(x => x.Id == _id);
+            var resultado = this.Econtext.EmecCiclo.Select(x => new {x.IdCiclo, x.CodAreaEmec}).Select(x => x.IdCiclo != _id);
 
             return Ok(resultado);
         }
@@ -170,7 +174,7 @@ namespace Censo.API.Controllers.Enade
 
                 var results = query.Select(x => new
                                     {   
-                                        cod_area_emec = x.CodCursoEmec,
+                                        cod_area_emec = x.CodAreaEmec,
                                         id_ciclo = x.IdCiclo
                                         }).Where(c => c.id_ciclo != _id).ToList();
 
@@ -224,17 +228,9 @@ namespace Censo.API.Controllers.Enade
         [HttpGet("TodosCampus")]
         public async Task<IActionResult> TodosCampus () {
 
-            /*    
-            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus, indsituacao = x.IndSituacao})
-                                                    .OrderBy(x => x.nomCampus)
-                                                    .ToListAsync();
-                                                    
-            */
-
             var campus = this.CampContext.TbSiaCampus.Where(x => x.IndSituacao == "A").Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus, indsituacao = x.IndSituacao})
                                                     .OrderBy(x => x.nomCampus)
                                                     .ToListAsync();
-
 
             var resultado = new {Campi = await campus};
 
@@ -242,24 +238,106 @@ namespace Censo.API.Controllers.Enade
 
         }
 
-
+        // Parametro codigo-curso
         [AllowAnonymous]
-        [HttpGet("ObtemDadosEnade")]
-        public async Task<IActionResult> ObtemDadosEnade () {
+        [HttpGet("ObtemDadosEnade/{_id}")]
+        //public async Task<IActionResult> ObtemDadosEnade (int _id) {
+        public ActionResult ObtemDadosEnade(long _id) 
+        {
+            try
+            {
 
-            var curso = this.CensoContex.CursoCenso.ToListAsync();
-            var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
-            var area = this.Econtext.EmecCiclo.ToListAsync();
-            //var escolhearea = this.Econtext.EmecCiclo.Where(c => campus.Id = area.cod_area_emec)
             
-            //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(c => campus.Id.Contains((long)c.cod_area_emec)).ToList();
-
-            var resultado = new {Cursos = await curso, Campi = await campus};
+            //var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
             
+            // Buscar os todos os cursos com o id fornecido
+            //var cursos = this.CensoContex.CursoCenso.Where(x => x.CodCampus == _id && x.CodIes != null).ToListAsync();
+            //var cursos = this.CensoContex.CursoCenso.Where(x => x.CodCampus == _id).ToListAsync();
 
-            return Ok(resultado);
+            var cursos = this.CensoContex.CursoCenso.Where(x => x.CodCampus == _id && x.CodIes != null).ToList();
+
+            // Lista com os resultados do enade
+            List<resultadoenade> Listaresultado = new List<resultadoenade>();
+
+            
+            //var novoDicEnq = new List<CursoEnquadramentoContext>();
+
+            //----- LEVANTAR OS CONTEXTOS
+
+            // dicionario com nome do curso
+            //Dictionary<long, string> DicNomecurso = new Dictionary<long, string>();
+            
+            // dic rel_enquadramento_emec    EMEC // AREA
+            Dictionary<int, CursoEnquadramento> DicEmecArea = new Dictionary<int, CursoEnquadramento>();
+            //Dictionary<long, int> DicEmecArea = new Dictionary<long, int>();
+            // cod-area -- cod-ciclo
+            DicEmecArea = this.CeContext.CursoEnquadramento.ToDictionary(x => x.CodEmec);
+
+            // dic descricao do enquadramento
+            //Dictionary<long, int> DicDescEnq = new Dictionary<long, int>();
+            // DicDescEnq = this.CursoEnquadramento.ToDictionary(x => x.codarea)
+
+            // cod_area_emec -- id_ciclo
+            Dictionary<long, EmecCiclo> DicEmecCiclo = new Dictionary<long, EmecCiclo>();
+            //DicEmecCiclo = this.CeContext.CursoEnquadramento.ToDictionary(x => x.CodEmec, x => x.CodArea);
+            DicEmecCiclo = this.Econtext.EmecCiclo.ToDictionary(x => x.CodAreaEmec);
+
+            // id_ciclo -- desc_ciclo -- desc_area -- obs -- ano_atual 
+            Dictionary<long, Ciclo> DicCiclo = new Dictionary<long, Ciclo>(); 
+            DicCiclo = this.Econtext.Ciclo.ToDictionary(x => x.IdCiclo); 
+
+            // DicEmecArea = await TDicEmecArea;
+
+            foreach (var item in cursos)
+            //foreach (var item in await cursos)
+                {
+                    var resultadoenade = new resultadoenade();
+                    resultadoenade.Nomecurso = item.NomCursoCenso;
+                    resultadoenade.Codarea = DicEmecArea[(int)(item.CodEmec ?? 0)].CodArea;
+                    resultadoenade.Idciclo = DicEmecCiclo[resultadoenade.Codarea].IdCiclo;
+                    //var indice = 1;
+                    if (resultadoenade.Idciclo != -1)
+                    {
+                        //resultadoenade.Ciclo = DicCiclo[resultadoenade.Idciclo];
+                        //resultadoenade.AnoAtual = resultadoenade.Ciclo.AnoAtual;
+                        resultadoenade.AnoAtual = DicCiclo[resultadoenade.Idciclo].AnoAtual;
+                    }
+                    else
+                    {
+                        //resultadoenade.Ciclo = "Não determinado";
+                        resultadoenade.AnoAtual = "99/99";
+                    }
+
+                    Listaresultado.Add(resultadoenade);
+                    
+                }
+             
+                //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(c => campus.Id.Contains((long)c.cod_area_emec)).ToList();
+
+
+                return Ok(Listaresultado);
 
         }
+               catch (System.Exception ex)
+            {
+                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
+            }
+            finally{
+            }
+        }
+            
+
+
+        public class resultadoenade 
+            { 
+                        
+                        public string Nomecurso { get; set; }
+                        public int Codarea { get; set; }    
+                        public long Idciclo { get; set; }
+                        public string AnoAtual { get; set; }
+                        //public Ciclo Ciclo { get; set; }
+            }
+
 
 
     }

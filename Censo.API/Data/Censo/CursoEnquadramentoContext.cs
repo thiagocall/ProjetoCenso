@@ -24,14 +24,15 @@ namespace Censo.API.Model
 
             modelBuilder.Entity<CursoEnquadramento>(entity =>
             {
-                entity.HasKey(e => e.codEmec);
-
+                entity.HasKey(e => e.CodEmec)
+                .HasName("PK_cod_emec");
+                                
                 entity.ToTable("Rel_Curso_Enquadramento_Emec");
 
-                entity.Property(e => e.codEmec)
+                entity.Property(e => e.CodEmec)
                 .HasColumnName("cod_emec");
 
-                entity.Property(e => e.codArea)
+                entity.Property(e => e.CodArea)
                 .HasColumnName("cod_area");
             });
         }

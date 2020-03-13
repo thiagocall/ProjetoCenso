@@ -1,4 +1,5 @@
 using System;
+using Censo.API.Model.Censo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -55,17 +56,31 @@ namespace Censo.API.Model.dados
             {
                 entity.ToTable("Rel_Emec_Ciclo");
                 
-               entity.HasKey(e => e.CodCursoEmec)
+               entity.HasKey(e => e.CodAreaEmec)
                      .HasName("PK_COD_AREA_EMEC");
 
-                entity.Property(e => e.CodCursoEmec)
+                entity.Property(e => e.CodAreaEmec)
                     .HasColumnName("COD_AREA_EMEC");
 
                 entity.Property(e => e.IdCiclo)
                     .HasColumnName("ID_CICLO");
 
             });
-      
+
+            /*
+            modelBuilder.Entity<CursoEnquadramento>(entity =>
+            {
+                entity.ToTable("Rel_Curso_Enquadramento_enec");
+                .HasName("PK_cod_emec");
+                
+                entity.Property(e => e.CodEmec)
+                    .HasColumnName("COD_EMEC");
+
+                entity.Property(e => e.CodArea)
+                    .HasColumnName("cod_area");
+               
+            });
+            */
 
 
         }

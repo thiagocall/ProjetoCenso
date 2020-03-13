@@ -384,7 +384,7 @@ namespace Censo.API.Controllers.Censo
 
             var query = _profs;
 
-            var CursoArea = _CursoArea.ToDictionary(x => x.codEmec);
+            var CursoArea = _CursoArea.ToDictionary(x => x.CodEmec);
 
             try
             {
@@ -400,7 +400,7 @@ namespace Censo.API.Controllers.Censo
                         {
                             CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
 
-                            prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].codArea : 9999;
+                            prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].CodArea : 9999;
 
                             if (prof.Professores.Where(x => x.cpfProfessor == res.CpfProfessor).Count() == 0)
                             {
@@ -419,7 +419,7 @@ namespace Censo.API.Controllers.Censo
                         else
                         {
                             CursoProfessor prof = new CursoProfessor();
-                            prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((res.CodEmec)))) ? CursoArea[(Int32)res.CodEmec].codArea : 9999;
+                            prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((res.CodEmec)))) ? CursoArea[(Int32)res.CodEmec].CodArea : 9999;
                             prof.CodEmec = res.CodEmec;
                             prof.Professores = new List<ProfessorEmec>();
                             ProfessorEmec pr = new ProfessorEmec
@@ -454,7 +454,7 @@ namespace Censo.API.Controllers.Censo
 
             var query = _profs;
 
-            var CursoArea = _CursoArea.ToDictionary(x => x.codEmec);
+            var CursoArea = _CursoArea.ToDictionary(x => x.CodEmec);
 
             foreach (var res in query)
             {
@@ -465,7 +465,7 @@ namespace Censo.API.Controllers.Censo
                     if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
                     {
                         CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
-                        prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].codArea : 9999;
+                        prof.CodArea = (CursoArea.ContainsKey(Convert.ToInt32((prof.CodEmec)))) ? CursoArea[(Int32)prof.CodEmec].CodEmec : 9999;
 
                         if (prof.Professores.Where(x => x.cpfProfessor == res.CpfProfessor).Count() == 0)
                         {
