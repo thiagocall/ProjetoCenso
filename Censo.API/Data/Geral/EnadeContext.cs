@@ -1,4 +1,5 @@
 using System;
+using Censo.API.Model.Censo;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -41,25 +42,45 @@ namespace Censo.API.Model.dados
                     .HasColumnName("DESC_AREA");    
 
                 entity.Property(e => e.Obs)
-                    .HasColumnName("OBS");        
+                    .HasColumnName("OBS"); 
+
+                entity.Property(e => e.AnoAtual)
+                    .HasColumnName("ANO_ATUAL"); 
+                           
+                entity.Property(e => e.AnoAnterior)
+                    .HasColumnName("ANO_ANTERIOR"); 
 
             });
 
             modelBuilder.Entity<EmecCiclo>(entity =>
             {
-                entity.ToTable("Rel_Enade_Ciclo");
+                entity.ToTable("Rel_Emec_Ciclo");
                 
-               entity.HasKey(e => e.CodCursoEmec)
-                     .HasName("PK_COD_CURSO_EMEC");
+               entity.HasKey(e => e.CodAreaEmec)
+                     .HasName("PK_COD_AREA_EMEC");
 
-                entity.Property(e => e.CodCursoEmec)
-                    .HasColumnName("COD_CURSO_EMEC");
+                entity.Property(e => e.CodAreaEmec)
+                    .HasColumnName("COD_AREA_EMEC");
 
                 entity.Property(e => e.IdCiclo)
                     .HasColumnName("ID_CICLO");
 
             });
-      
+
+            /*
+            modelBuilder.Entity<CursoEnquadramento>(entity =>
+            {
+                entity.ToTable("Rel_Curso_Enquadramento_enec");
+                .HasName("PK_cod_emec");
+                
+                entity.Property(e => e.CodEmec)
+                    .HasColumnName("COD_EMEC");
+
+                entity.Property(e => e.CodArea)
+                    .HasColumnName("cod_area");
+               
+            });
+            */
 
 
         }

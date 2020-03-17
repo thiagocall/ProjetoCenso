@@ -15,12 +15,6 @@ getToken() {
   return tokenHeader;
 }
 
-/*SOMENTE OS CAMPUS
-campus() {
-  const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'v1/dados/getCampus/', { headers: tokenHeader });
-} */
-
 
 /*CAMPUS E CURSO*/
 getDados() {
@@ -34,8 +28,17 @@ obterCiclos() {
   return this.http.get(this.baseUrl + 'v1/Enade/ObterCiclos', {headers: tokenHeader});
 }
 
+/* SOMENTE CAMPUS */
+selectCampus() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/TodosCampus', {headers: tokenHeader});
+}
 
-
+/*RESULTADO TABELA*/
+resultadoTabela() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/ObtemDadosEnade', {headers: tokenHeader});
+}
 
 
 

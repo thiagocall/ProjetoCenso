@@ -1,22 +1,35 @@
 <div class="container p-5">
   <form>
     <div class="form-row ">
-      <!-- select -->
+      <!-- select Campus-->
       <div class="form-group col-md-4">
         <label for="campus">Selecione o Campus</label>
-        <select #_codCampus class="form-control ml-2" id="campus" (change)="filtrarCursos(_codCampus.value)">
+        <select #_codCampus class="form-control ml-2" id="campus">
           <option value="-1" disabled>-- Selecione uma Instituição --</option>
-          <option *ngFor="let item of listaCampus" [value]="item.codCampus">
+          <option *ngFor="let item of campi" [value]="item.codCampus">
             {{item?.nomCampus}}</option>
         </select>
       </div>
-      <!-- select -->
-      <!-- upload 
+      <!-- select Campus-->
+
+      <!-- select Ano 
+        <div class="form-group col-md-2">
+          <label for="campus">Ano</label>
+          <select #_codCampus class="form-control ml-2" id="campus">
+            <option value="-1" disabled>Ano</option>
+            <option *ngFor="let item of listaCampus" [value]="item.codCampus">
+              {{item?.codCampus}}</option>
+          </select>
+        </div>
+       - select Ano-->
+
+      <!-- Pesquisar -->
       <i class="form-group col-md-2" style="margin-top: 30px;">
-        <button class="btn btn-sm btn-outline-success p-2">
-          <i class="fas fa-cloud-upload-alt"></i> Upload </button>
+        <button class="btn btn-sm btn-outline-primary p-2" (click)="filtrarCursos(_codCampus.value)">
+          Pesquisar </button>
       </i>
-      upload -->
+      <!-- Pesquisar -->
+
       <div class="p-5"></div>
       <!-- Manutenção -->
       <i class="form-group col-md-2" style="margin-top: 30px;">
@@ -24,11 +37,22 @@
           Manutenção </button>
       </i>
       <!-- Manutenção -->
+
+
+      <!-- menu pesquisar -->
+      <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
+        <input *ngIf="cursoFiltrado" (keyup)="pesquisarCursos($event.target.value)" type="text" class="form-control"
+          placeholder="Digite o curso ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+      </div>
+    <!-- fim menu pesquisar -->
+
     </div>
+
   </form>
+
   <!-- tabela-->
   <div class="p-2"></div>
-  <h5 class=""> Cursos do Campus Selecionado</h5>
+  <h5>Cursos</h5>
   <table class="table table-hover">
     <thead>
       <tr>
@@ -43,52 +67,15 @@
         <td>{{item?.nomCursoCenso}}</td>
         <td>{{item?.codArea}}</td>
         <td>{{item?.codEmec}}</td>
-        <td>{{item?.codEmec}}</td>
-       <!-- <td>{{item?.descricaoCiclo}}</td>
-        <td>{{item?.descArea}}</td> -->
+        <td>{{item?.codIes}}</td>
       </tr>
     </tbody>
   </table>
   <!-- tabela-->
-</div>
 
-<div class="container">
-  <pagination-controls *ngIf="cursoFiltrado" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
-  </pagination-controls>
-</div>
-
-
-
-<!-- modal 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Trocar o Ciclo</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Escolha um Ciclo:</label>
-            <select id="inputState" class="form-control">
-              <option selected>Selecione um Ciclo </option>
-              <option value="ciclo1">Ciclo I</option>
-              <option value="ciclo2">Ciclo II</option>
-              <option value="ciclo3">Ciclo III</option>
-            </select>
-          </div>
-
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-        <button type="button" class="btn btn-primary">Salvar</button>
-      </div>
-    </div>
+  <div class="container">
+    <pagination-controls *ngIf="cursoFiltrado" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
+    </pagination-controls>
   </div>
+
 </div>
-modal -->
