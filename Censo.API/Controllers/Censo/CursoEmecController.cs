@@ -392,11 +392,12 @@ namespace Censo.API.Controllers.Censo
                 foreach (var res in query)
                 {
                     // Filtra parâmtetro indGraduacao
-                    if (!(res.Titulacao == null || res.Titulacao == "GRADUADO" || (res.Regime == String.Empty && res.Titulacao == "NÃO IDENTIFICADA"))) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
+                    if (!(res.Titulacao == null || res.Titulacao == "GRADUADO" || (res.Regime == null && res.Titulacao == "NÃO IDENTIFICADA"))) //res.Titulacao != "GRADUADO" || ParametrosFiltro.indGraduado
                     {
                         
 
-                        if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0)
+                        if (cursoProfessor.Where(c => c.CodEmec == res.CodEmec).Count() > 0
+                    )
                         {
                             CursoProfessor prof = cursoProfessor.Find(x => x.CodEmec == res.CodEmec);
 
@@ -858,11 +859,10 @@ namespace Censo.API.Controllers.Censo
                 var ListaPrevisaoSKU = GeraListaPrevisaoSKU();
                
                 var Cursoprofessor = MontaCursoProfessor(query, ListaCursoArea);
-               
+
 
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
-
 
                 List<CursoProfessor> cursoProfessorAtual = new List<CursoProfessor>();
                 Cursoprofessor.ForEach( (item) => {
@@ -876,8 +876,6 @@ namespace Censo.API.Controllers.Censo
 
                 List<Resultado> ResultadoAtual = Otm.CalculaNotaCursos(ListaPrevisaoSKU, cursoProfessorAtual, CursoEnade);
 
-
-
                    // ######################## Alavanca 20% ######################## //
                 
                 if (_formulario.otimiza20p)
@@ -886,7 +884,7 @@ namespace Censo.API.Controllers.Censo
                 }
 
 
-                List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query, Cursoprofessor, ListaCursoArea, _formulario);
+                List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query,  Cursoprofessor, ListaCursoArea, _formulario);
                 
                 // ############## Monta resultados a partir do cenário otimizado ################# //
                

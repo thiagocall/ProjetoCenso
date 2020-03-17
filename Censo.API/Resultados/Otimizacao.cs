@@ -63,9 +63,7 @@ namespace Censo.API.Resultados
                         // Professor novo na lista
                         int qtdProfessor = this.ListaprofessorCurso.Where(x => x.cpfProfessor == prof.cpfProfessor.ToString()).Count();
                         
-                      
                             
-
                                 if ( qtdProfessor == 0)
                                 {
 
@@ -94,7 +92,6 @@ namespace Censo.API.Resultados
                 }
 
 
-
                     // ############## Alavanca Curso não Enade ############
                     // ####################################################
 
@@ -119,8 +116,6 @@ namespace Censo.API.Resultados
                                                     );
                                                     
                                 };
-
-
                     
 
                     // ######################## Alavanca Colaborador ######################## //
@@ -177,9 +172,6 @@ namespace Censo.API.Resultados
                             
                          };
 
-
-                         
-
                         var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
 
                         return final;
@@ -190,7 +182,6 @@ namespace Censo.API.Resultados
             {
 
                 
-
                 var ListaPrevisaoSKU = _listaPrevisaoSKU;
 
                 // ######## Calcula Nota Prévia dos Cursos ###########
@@ -614,9 +605,7 @@ namespace Censo.API.Resultados
                                             _cursoProfessor
                                             .Find(x => x.CodEmec == codEmec)
                                                 .Professores
-                                                .Where(x => x.cpfProfessor == emec.CpfProfessor).Count() :
-                                                0
-                                            ;
+                                                .Where(x => x.cpfProfessor == emec.CpfProfessor).Count() : 0;
                             
                             if (qtd < 1) {
                                 
