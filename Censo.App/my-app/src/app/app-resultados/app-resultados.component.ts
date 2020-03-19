@@ -133,7 +133,7 @@ export class AppResultadosComponent implements OnInit {
       response => {
          this.mostrarSpinner = false;
         blob = new Blob([response], { type: 'application/octet-stream' });
-        saveAs(blob, `Arquivo_Censo_${id}_${data}.xlsx`);
+        saveAs(blob, `Arquivo_Censo_${id}.xlsx`);
       });
   }
 }

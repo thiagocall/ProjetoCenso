@@ -160,15 +160,19 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="d-flex flex-row-reverse mt-3 mb-0"><button [disabled]=" mostrarSpinner"  
-                                class="btn btn-outline-primary btn-sm" (click)="exportacaoCensoExcel(item?.id)">
-                                <i *ngIf="mostrarSpinner" class="fas fa-file-excel  fas fa-spinner fa-pulse mostrarSpinner"></i>
-                                Exporta Censo
-                              </button>
-                              </div>
+                           
                             </div>
-                            
+                           
 
+                          </div>
+                          <div class="d-flex mt-2 mb-0 ml-0">
+                            <div class="mr-auto p-2">
+                              
+                            </div><button [disabled]=" mostrarSpinner"  
+                            class="btn btn-outline-primary btn-sm" (click)="exportacaoCensoExcel(item?.id)">
+                            <i *ngIf="mostrarSpinner" class="fas fa-file-excel  fas fa-spinner fa-pulse mostrarSpinner"></i>
+                            Exportar p/ Censo
+                          </button>
                           </div>
                         </div>
                       </table>

@@ -51,6 +51,10 @@ namespace Censo.API.Model.dados
                     .HasColumnName("NOM_CAMPUS")
                     .HasMaxLength(255);
 
+                entity.Property(e => e.IndSituacao)
+                    .HasColumnName("IND_SITUACAO")
+                    .HasMaxLength(255);
+
                 entity.Property(e => e.TxtComplEndereco)
                     .HasColumnName("TXT_COMPL_ENDERECO")
                     .HasMaxLength(255);
