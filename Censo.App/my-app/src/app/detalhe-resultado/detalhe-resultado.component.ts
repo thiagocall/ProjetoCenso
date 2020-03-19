@@ -96,7 +96,7 @@ export class DetalheResultadoComponent implements OnInit {
       }
     )
 
-    console.log(Object.assign({ "id": this.id, valor: value}));
+    //console.log(Object.assign({ "id": this.id, valor: value}));
   }
 
   

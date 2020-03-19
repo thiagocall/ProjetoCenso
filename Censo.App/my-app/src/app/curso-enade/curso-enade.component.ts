@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RegulatorioService } from '../_services/regulatorio.service';
-import { ProfessorService } from '../_services/professor.service';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { EnadeService } from '../_services/enade.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-curso-enade',
@@ -11,14 +10,33 @@ import { EnadeService } from '../_services/enade.service';
 
 export class CursoEnadeComponent implements OnInit {
 
-  constructor(private enadeService: EnadeService) { }
+  selectAno:string;
+  arraySlectedAno:string;
+  arrayCursoFiltrado:any;
 
-  /* campus */
+  constructor(private enadeService: EnadeService,
+    public formBuilder: FormBuilder) {
+
+    this.campusForm = this.formBuilder.group({
+      codCampus: ['', [Validators.required, Validators.maxLength(80)]],
+    });
+
+    this.anoForm = this.formBuilder.group({
+      anoCampus: ['', [Validators.required, Validators.maxLength(80)]],
+    });
+
+  }
+
+  public campusForm: FormGroup;
+  public anoForm: FormGroup;
+  anoCampus:any;
+
+  /*campus*/
   resultado: any;
   listaCampus: any;
   listaCursos: any;
 
-  /* filtrar cursos */
+  /*filtrar cursos*/
   cursoFiltrado: any;
 
   /*filtro input*/
@@ -30,36 +48,45 @@ export class CursoEnadeComponent implements OnInit {
   campi: any;
   codCampus: any;
   nomeCampus: any;
-  codigoCampus:any; /*teste*/
+  codigoCampus: any; /*teste*/
 
   /*Tabela - resultadoCampusCurso*/
-  resultadoCursos:any;
-  cursos:any;
+  resultadoCursos: any;
+  cursos: any;
+  value: any
+
+  salvarCursos:any
 
   ngOnInit() {
-    //this.campus();
     this.selectCampus();
-    this.resultadoCampusCurso();
   }
 
-  selectCampus() { /* select só com os campus */
-    this.enadeService.selectCampus().subscribe(
-      response => {
-        this.resultadoCampus = response;
-        this.campi = this.resultadoCampus.campi;
-        this.codigoCampus = this.resultadoCampus.codCampus;
-      },
-      error => {
-        console.log(error);
-      }
-    );
+
+  /*SELECT COM OS CAMPUS*/
+  selectCampus() {
+    if (this.campusForm.value != null || this.campusForm.value != undefined) {
+      console.log('CodCampus' + this.campusForm.value.codCampus)
+      this.enadeService.selectCampus().subscribe(
+        response => {
+          this.resultadoCampus = response;
+          this.campi = this.resultadoCampus.campi; //dentro de campi eu tenho codcampus e nomCampus
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    }
+
   }
 
-  resultadoCampusCurso() { /*resultado tabela*/
-    this.enadeService.resultadoTabela().subscribe(
+
+  /*RESULTADO DA TABELA */
+  resultadoCampusCurso(valor:any) {
+    
+    this.enadeService.resultadoTabela(valor).subscribe(
       response => {
         this.resultadoCursos = response;
-        this.cursos = this.resultadoCursos.cursos;
+        this.cursos = this.resultadoCursos;      
         this.codCampus = this.resultadoCursos.codCampus;
       },
       error => {
@@ -69,45 +96,40 @@ export class CursoEnadeComponent implements OnInit {
   }
 
 
-  filtrarCursos(valor: any) {
-    this.cursoFiltrado = this.cursos.filter(c => c.codCampus == valor); 
-    //this.cursoFiltrado = this.listaCursos.filter(c => c.codCampus == valor); // curso filtrado 
-    console.log(this.cursoFiltrado);
+  /*BOTÃO PESQUISAR*/
+  botaoPesquisar(valor: any) { 
+    if (valor != null || valor != undefined) {
+      this.resultadoCampusCurso(valor);
+    }
+    else {
+      console.log('valor botao pesquisar' + valor)
+    }
   }
 
-  pesquisarAno() {
 
+  filtroAno(ano:any) {
+    //console.log('ANO ' + JSON.stringify(ano))
+    this.arraySlectedAno = this.cursos.filter(x => // o filtro esta dentro de select ano
+      x.idciclo == ano);
+    //console.log('filterCURSOS ' + JSON.stringify(this.arraySlectedAno))
   }
 
   /* filtro input */
   pesquisarCursos(value: any) {
+   // console.log('CURSOS' +JSON.stringify(this.cursos))
+   console.log('SALVAR CURSOS ' + this.salvarCursos)
     if (value.length > 4) {
-      this.dadosFiltradosCursos = this.cursoFiltrado;
-      this.dadosFiltradosCursos = this.dadosFiltradosCursos.filter(x =>
-        x.nomCursoCenso.search(value.toLocaleUpperCase()) !== -1).slice(0, 5); // os 5 primeiros da lista;
-      console.log(this.dadosFiltradosCursos); // está trazendo direito do curso filtrado
+      this.arrayCursoFiltrado = this.cursos.filter(x => // o filtro esta dentro de select ano
+        x.nomecurso === value);
+        console.log('ARRAY SELECT' + this.arraySlectedAno);
+        //console.log('VALUE' + value);
+
     }
     else {
-      this.dadosFiltradosCursos = [];
+      //this.arrayCursoFiltrado = [];
+      console.log('ELSE' + this.arrayCursoFiltrado)
     }
-  }
-
-
- /*campus() {
-    this.enadeService.getDados().subscribe(
-      response => {
-        this.resultado = response;
-        this.listaCampus = this.resultado.campus;
-        this.listaCursos = this.resultado.cursos;
-        //console.log(this.resultado)
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  } */
-
-
+  }  
 
 
 

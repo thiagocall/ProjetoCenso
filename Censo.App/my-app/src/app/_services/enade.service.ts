@@ -34,11 +34,14 @@ selectCampus() {
   return this.http.get(this.baseUrl + 'v1/Enade/TodosCampus', {headers: tokenHeader});
 }
 
-/*RESULTADO TABELA*/
-resultadoTabela() {
+/*RESULTADO TABELA - TESTE*/
+resultadoTabela(codCampus:any) {
+ /* const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/ObtemDadosEnade'  , {headers: tokenHeader}); */
   const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'v1/Enade/ObtemDadosEnade', {headers: tokenHeader});
+  return this.http.get(this.baseUrl + 'v1/Enade/ObtemDadosEnade/' + codCampus , {headers: tokenHeader});
 }
+
 
 
 

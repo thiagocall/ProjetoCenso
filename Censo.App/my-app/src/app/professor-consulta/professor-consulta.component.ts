@@ -24,6 +24,7 @@ export class ProfessorConsultaComponent implements OnInit {
     this.professorService.buscarProfessores(this.campo).subscribe(
       response => {
         this.professores = response;
+        //console.log(this.professores)
       },
       error => {
         console.log(error);

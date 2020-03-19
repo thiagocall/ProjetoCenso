@@ -114,7 +114,7 @@ export class AppResultadosComponent implements OnInit {
 
   exportarResultadoExcel(item: any) {
     // const id = item.substr(2, item.length);
-    console.log(item);
+    //console.log(item);
     let thefile;
     let blob;
     this.OtimizacaoService.exportarResultadoExcel(item).subscribe(response => {

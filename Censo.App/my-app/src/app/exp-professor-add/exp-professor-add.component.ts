@@ -100,7 +100,7 @@ export class ExpProfessorAddComponent implements OnInit {
         });
       },
       error => {
-        console.log(this.listaProfessorAdicionado)
+       // console.log(this.listaProfessorAdicionado)
         this.toast.success('Professor Adicionado com Sucesso!', null, {
           timeOut: 1000,
         });

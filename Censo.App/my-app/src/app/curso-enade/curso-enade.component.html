@@ -1,53 +1,61 @@
 <div class="container p-5">
-  <form>
-    <div class="form-row ">
-      <!-- select Campus-->
-      <div class="form-group col-md-4">
-        <label for="campus">Selecione o Campus</label>
-        <select #_codCampus class="form-control ml-2" id="campus">
-          <option value="-1" disabled>-- Selecione uma Instituição --</option>
-          <option *ngFor="let item of campi" [value]="item.codCampus">
-            {{item?.nomCampus}}</option>
-        </select>
-      </div>
-      <!-- select Campus-->
 
-      <!-- select Ano 
-        <div class="form-group col-md-2">
-          <label for="campus">Ano</label>
-          <select #_codCampus class="form-control ml-2" id="campus">
-            <option value="-1" disabled>Ano</option>
-            <option *ngFor="let item of listaCampus" [value]="item.codCampus">
-              {{item?.codCampus}}</option>
-          </select>
-        </div>
-       - select Ano-->
-
+  <!-- select campus-->
+  <form [formGroup]="campusForm">
+    <label for="nomCampus">Selecione o Campus</label>
+    <div class="d-flex flex-row">
+      <select #codCampus formControlName="codCampus" class="form-control col-md-5">
+        <option *ngFor="let item of campi" [value]="item.codCampus">
+          {{item?.nomCampus + - + item?.codCampus}}</option>
+      </select>
       <!-- Pesquisar -->
-      <i class="form-group col-md-2" style="margin-top: 30px;">
-        <button class="btn btn-sm btn-outline-primary p-2" (click)="filtrarCursos(_codCampus.value)">
+      <i class="form-group col-md-2">
+        <button *ngIf="campusForm.controls.codCampus.valid" class="btn btn-outline-primary p-2"
+          (click)="botaoPesquisar(codCampus.value)">
           Pesquisar </button>
       </i>
       <!-- Pesquisar -->
-
-      <div class="p-5"></div>
       <!-- Manutenção -->
-      <i class="form-group col-md-2" style="margin-top: 30px;">
-        <button [routerLink]="['/ManutencaoCursoEnade']" class="btn btn-sm btn-outline-primary p-2">
+      <i class="form-group col-md-2" style="left: 300px;">
+        <button [routerLink]="['/ManutencaoCursoEnade']" class="btn  btn-outline-primary">
           Manutenção </button>
       </i>
       <!-- Manutenção -->
-
-
-      <!-- menu pesquisar -->
-      <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
-        <input *ngIf="cursoFiltrado" (keyup)="pesquisarCursos($event.target.value)" type="text" class="form-control"
-          placeholder="Digite o curso ..." aria-label="Recipient's username" aria-describedby="basic-addon2">
-      </div>
-    <!-- fim menu pesquisar -->
-
     </div>
+  </form>
+  <!-- fim select campus-->
 
+  <!-- select ano -->
+  <form [formGroup]="anoForm">
+    <div *ngIf="cursos?.length >=1">
+      <label>Selecione o Ano</label>
+      <div class=" form-row ">
+        <select #codigoCampus [(ngModel)]="selectAno" class="form-control col-md-2" formControlName="anoCampus"
+          (change)="filtroAno(selectAno)">
+          <option [value]="-1" disabled>Todos os Anos</option>
+          <option [value]="1">Ano 1 - 2022 </option>
+          <option [value]="2">Ano 2 - 2020</option>
+          <option [value]="3">Ano 3 - 2021</option>
+          <!-- vindo da api todos os ciclos de todos os cursos
+          <option *ngFor="let item of cursos" [value]="item.idciclo">
+            {{item?.idciclo + "-" + item?.anoAtual}}</option> -->
+        </select>
+      </div>
+    </div>
+  </form>
+  <!-- fim select ano -->
+
+
+  <form>
+    <div class="form-row ">
+      <!-- filtro menu pesquisar -->
+      <div class="input-group mb-0 col-md-6 tabela-centralizada mt-3">
+        <input *ngIf="cursos?.length >=1" (keyup)="pesquisarCursos($event.target.value)" type="text"
+          class="form-control" placeholder="Digite o curso ..." aria-label="Recipient's username"
+          aria-describedby="basic-addon2">
+      </div>
+      <!-- fim filtro menu pesquisar -->
+    </div>
   </form>
 
   <!-- tabela-->
@@ -62,19 +70,29 @@
         <th scope="col">Ano</th>
       </tr>
     </thead>
-    <tbody>
-      <tr *ngFor="let item of cursoFiltrado | paginate: { itemsPerPage: 8, currentPage: p }">
-        <td>{{item?.nomCursoCenso}}</td>
-        <td>{{item?.codArea}}</td>
-        <td>{{item?.codEmec}}</td>
-        <td>{{item?.codIes}}</td>
+    <!-- tabela do select campus trazendo todos os anos -->
+    <tbody *ngIf="cursos?.length >=1 && arraySlectedAno?.length <= 0">
+      <tr *ngFor="let item of cursos  | paginate: { itemsPerPage: 8, currentPage: p }">
+        <td>{{item?.nomecurso}}</td>
+        <td>{{item?.codarea}}</td>
+        <td>{{item?.idciclo}}</td>
+        <td>{{item?.anoAtual}}</td>
+      </tr>
+    </tbody>
+    <!-- tabela do select por ano / filtra por ano - ciclo-->
+    <tbody *ngIf="cursos?.length >=1 && arraySlectedAno?.length >=1">
+      <tr *ngFor="let item of arraySlectedAno  | paginate: { itemsPerPage: 8, currentPage: p }">
+        <td>{{item?.nomecurso}}</td>
+        <td>{{item?.codarea}}</td>
+        <td>{{item?.idciclo}}</td>
+        <td>{{item?.anoAtual}}</td>
       </tr>
     </tbody>
   </table>
   <!-- tabela-->
 
   <div class="container">
-    <pagination-controls *ngIf="cursoFiltrado" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
+    <pagination-controls *ngIf="cursos" previousLabel="Anterior" nextLabel="Próximo" (pageChange)="p = $event">
     </pagination-controls>
   </div>
 

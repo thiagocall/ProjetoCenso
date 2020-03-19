@@ -37,7 +37,7 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
       this.regulatorioService.getResultadoProfessorForaSede(codCampus).subscribe(
         response => {
           this.resultadoCodCampus = response;
-          console.log(response);
+          //console.log(response);
           this.resultadoCodCampus.sort((a, b) => {
             if (a.nomProfessor > b.nomProfessor) {
               return 1;
@@ -55,7 +55,7 @@ export class RegulatorioProfessorForaSedeComponent implements OnInit {
 
   exportarResultadoExcel(codcampus: any) {
     let blob;
-    console.log(codcampus)
+   // console.log(codcampus)
     this.regulatorioService.getRegulatorioProfessorForaSedeExcel(codcampus).subscribe(response => {
       blob = new Blob([response], { type: 'application/octet-stream' });
       saveAs(blob, `Professor_Fora_de_Sede_${codcampus}.xlsx`);
