@@ -251,7 +251,6 @@ namespace Censo.API.Controllers.Enade
             //var campus = this.CampContext.TbSiaCampus.Select(x => new {codCampus = (int)x.CodCampus, nomCampus = x.NomCampus}).ToListAsync();
             
             // Buscar os todos os cursos com o id fornecido
-            //var cursos = this.CensoContex.CursoCenso.Where(x => x.CodCampus == _id && x.CodIes != null).ToListAsync();
             //var cursos = this.CensoContex.CursoCenso.Where(x => x.CodCampus == _id).ToListAsync();
 
             var cursos = this.CensoContex.CursoCenso.Where(x => x.CodCampus == _id && x.CodIes != null).ToList();
@@ -272,7 +271,7 @@ namespace Censo.API.Controllers.Enade
             //Dictionary<long, int> DicEmecArea = new Dictionary<long, int>();
             // cod-area -- cod-ciclo
             DicEmecArea = this.CeContext.CursoEnquadramento.ToDictionary(x => x.CodEmec);
-
+                        
             // dic descricao do enquadramento
             //Dictionary<long, int> DicDescEnq = new Dictionary<long, int>();
             // DicDescEnq = this.CursoEnquadramento.ToDictionary(x => x.codarea)
@@ -326,6 +325,73 @@ namespace Censo.API.Controllers.Enade
             }
         }
             
+            
+        // INICIO
+
+        //[AllowAnonymous]
+        //[HttpGet("TodosCampus")]
+
+        [AllowAnonymous]
+        //[HttpGet("SelecionaCiclos/{_id}")]
+        [HttpGet("SelecionaCiclos")]
+        public ActionResult SelecionaCiclos() 
+        {
+            try
+            {
+            
+            // TODOS OS CICLOS E SUAS AREAS
+            //var descarea = this.Econtext.EmecCiclo.Where(x => x.IdCiclo == _id).OrderBy(x => x.IdCiclo).ToList();
+            var descarea = this.Econtext.EmecCiclo.Where(x => x.IdCiclo < 4).OrderBy(x => x.IdCiclo).ToList();
+            
+            Dictionary <long, EmecCiclo> areasciclos = new Dictionary<long, EmecCiclo>();
+            areasciclos = this.Econtext.EmecCiclo.ToDictionary(x => x.CodAreaEmec);
+
+            // ERRO AQUI
+            Dictionary<double, Enquadramento> descenquadra = new Dictionary<double, Enquadramento>();
+            descenquadra = this.Econtext.Enquadramento.ToDictionary(x => x.CodEnq);
+
+            // Lista com os resultados do enquadramento
+            List<resultadoenquadramento> Listaresultado = new List<resultadoenquadramento>();
+            
+
+            //----- LEVANTAR outros CONTEXTOS
+           
+ 
+            // id_ciclo -- desc_ciclo -- desc_area -- obs -- ano_atual 
+            Dictionary<long, Ciclo> DicCiclo = new Dictionary<long, Ciclo>(); 
+            DicCiclo = this.Econtext.Ciclo.ToDictionary(x => x.IdCiclo); 
+
+            // DicEmecArea = await TDicEmecArea;
+
+            foreach (var item in descarea)
+            //foreach (var item in await cursos)
+                {
+                    var resultadoenquadramento = new resultadoenquadramento();
+                    //resultadoenquadramento.Idciclo = item.IdCiclo;
+
+                    resultadoenquadramento.Idciclo = (item.IdCiclo != -1 ? item.IdCiclo : 99);
+                    resultadoenquadramento.Codareaemec = item.CodAreaEmec;
+                    resultadoenquadramento.descricaoarea = descenquadra[(int)item.CodAreaEmec].NomEnq;
+                    
+
+                    Listaresultado.Add(resultadoenquadramento);
+                    
+                }
+             
+                //var area = this.Econtext.EmecCiclo.Select(x => new {cod_area_emec = x.IdCiclo, id_ciclo = x.CodCursoEmec}).Where(c => campus.Id.Contains((long)c.cod_area_emec)).ToList();
+
+
+                return Ok(Listaresultado);
+
+        }
+               catch (System.Exception ex)
+            {
+                 return StatusCode(StatusCodes.Status500InternalServerError, "Erro na Consulta.");
+            }
+            finally{
+            }
+        }
+
 
 
         public class resultadoenade 
@@ -336,6 +402,15 @@ namespace Censo.API.Controllers.Enade
                         public long Idciclo { get; set; }
                         public string AnoAtual { get; set; }
                         //public Ciclo Ciclo { get; set; }
+            }
+
+        public class resultadoenquadramento 
+            { 
+                        public long Idciclo { get; set; }
+                        public long Codareaemec { get; set; }    
+                        public string descricaoarea { get; set; }
+                        
+
             }
 
 

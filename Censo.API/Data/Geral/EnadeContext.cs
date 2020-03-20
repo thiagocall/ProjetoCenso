@@ -18,7 +18,7 @@ namespace Censo.API.Model.dados
 
         public virtual DbSet<EmecCiclo> EmecCiclo { get; set; }
 
-        
+        public virtual DbSet<Enquadramento> Enquadramento { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,20 +67,20 @@ namespace Censo.API.Model.dados
 
             });
 
-            /*
-            modelBuilder.Entity<CursoEnquadramento>(entity =>
+           modelBuilder.Entity<Enquadramento>(entity =>
             {
-                entity.ToTable("Rel_Curso_Enquadramento_enec");
-                .HasName("PK_cod_emec");
+                entity.ToTable("Rel_Enquadramento_emec");
                 
-                entity.Property(e => e.CodEmec)
-                    .HasColumnName("COD_EMEC");
+                entity.HasKey(e => e.CodEnq)
+                     .HasName("PK_Rel_enquadramento_emec");
 
-                entity.Property(e => e.CodArea)
-                    .HasColumnName("cod_area");
+                entity.Property(e => e.CodEnq)
+                    .HasColumnName("COD_ENQUADRAMENTO");
+
+                entity.Property(e => e.NomEnq)
+                    .HasColumnName("NOM_ENQUADRAMENTO");
                
             });
-            */
 
 
         }
