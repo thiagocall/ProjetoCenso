@@ -292,7 +292,7 @@ namespace Censo.API.Controllers.Enade
                 {
                     var resultadoenade = new resultadoenade();
                     resultadoenade.Nomecurso = item.NomCursoCenso;
-                    resultadoenade.Codarea = DicEmecArea[(int)(item.CodEmec ?? 0)].CodArea;
+                    resultadoenade.Codarea = DicEmecArea.TryGetValue((int)(item.CodEmec ?? 0), out var ar) ? ar.CodArea: 9999;
                     resultadoenade.Idciclo = DicEmecCiclo[resultadoenade.Codarea].IdCiclo;
                     //var indice = 1;
                     if (resultadoenade.Idciclo != -1)
@@ -328,10 +328,7 @@ namespace Censo.API.Controllers.Enade
             
         // INICIO
 
-        //[AllowAnonymous]
-        //[HttpGet("TodosCampus")]
-
-        [AllowAnonymous]
+        // [AllowAnonymous]
         //[HttpGet("SelecionaCiclos/{_id}")]
         [HttpGet("SelecionaCiclos")]
         public ActionResult SelecionaCiclos() 
