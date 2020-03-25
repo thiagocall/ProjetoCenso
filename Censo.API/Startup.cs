@@ -92,7 +92,8 @@ namespace Censo.API
             services.AddDbContext<RegionalSiaContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ExportacaoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<EnadeContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<ProfessorAddContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+             
 
             
 

@@ -860,7 +860,6 @@ namespace Censo.API.Controllers.Censo
                
                 var Cursoprofessor = MontaCursoProfessor(query, ListaCursoArea);
 
-
                 // // Obtem lista dos professores escolhidos no filtro
                 var lista = _formulario.MontaLista();
 
@@ -882,7 +881,6 @@ namespace Censo.API.Controllers.Censo
                 {
                     Otm.AddProfessor20p(Cursoprofessor, query20p, ListaPrevisaoSKU, _formulario, CursoEnade);
                 }
-
 
                 List<Resultado> resultado = Otm.OtimizaCurso(ListaPrevisaoSKU, query,  Cursoprofessor, ListaCursoArea, _formulario);
                 
