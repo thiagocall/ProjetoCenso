@@ -16,6 +16,8 @@ using System.IO;
 using OfficeOpenXml;
 using Censo.API.CargaHoraria;
 using System.Globalization;
+using Censo.API.Services.Redis.Services;
+using ServiceStack.Redis;
 
 namespace Censo.API.Controllers
 {
@@ -35,9 +37,12 @@ namespace Censo.API.Controllers
 
         public ProfessorMatriculaContext MatriculaContext;
 
+        public RedisService RedisService { get; }
+
         public ProfessorController(ProfessorContext Context,RegimeContext RegContext, CensoContext  Censocontext, 
                                                 CampusContext campusContext,
-                                                ProfessorMatriculaContext _matContext)
+                                                ProfessorMatriculaContext _matContext,
+                                                RedisService _redisService)
         {
             this.context = Context;
             this.regContext = RegContext;
@@ -48,6 +53,7 @@ namespace Censo.API.Controllers
             this.regContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.censocontext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.MatriculaContext.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.RedisService = _redisService;
             
 
         }
@@ -63,7 +69,7 @@ namespace Censo.API.Controllers
                 return Ok(await getProfessores());
                     
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "Erro no Banco de Dados.");
                 }
@@ -333,10 +339,11 @@ namespace Censo.API.Controllers
         public async Task<IActionResult> Get(string id)
         {
             
-             try
-                {
+
                     var results =  await Professores.getProfessores(context).Where(x => x.CpfProfessor == id).ToListAsync();
                      var dic = regContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
+             try
+                {
 
                 await Task.Run (
                     () => 
@@ -520,6 +527,14 @@ namespace Censo.API.Controllers
         /* termino MQD */
 
         public async Task<dynamic> getProfessores() {
+
+
+            this.RedisService.Connect();
+            // RedisConfig.DefaultConnectTimeout = ;
+            Resumo resumo = this.RedisService.getProfessores();
+
+            if (resumo != null)
+                return resumo;
 
             Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();
             

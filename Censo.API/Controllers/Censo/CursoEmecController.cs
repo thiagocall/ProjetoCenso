@@ -18,6 +18,10 @@ using System.IO;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Authorization;
 using System.Data.SqlClient;
+using Censo.API.Services.Redis.Services;
+using ServiceStack.Redis;
+using ServiceStack.Redis.Generic;
+using st = ServiceStack;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -39,10 +43,21 @@ namespace Censo.API.Controllers.Censo
 
         public ParametrosCenso Formulario { get; set; }
 
+        // Teste Redis
+
+        public RedisService Redis { get; set; }
 
 
-        public CursoEmecController(CensoContext _context, ProfessorIESContext _profcontext, IConfiguration _configuration, IOtimizacao _otm, CursoEnquadramentoContext _cursoEnquadContext, TempProducaoContext _producaoContext)
+
+        public CursoEmecController( CensoContext _context,
+                                    ProfessorIESContext _profcontext,
+                                    IConfiguration _configuration,
+                                    IOtimizacao _otm, 
+                                    CursoEnquadramentoContext _cursoEnquadContext, 
+                                    TempProducaoContext _producaoContext,
+                                    RedisService _redisService)
         {
+            this.Redis = _redisService;
             this.Context = _context;
             this.ProfContext = _profcontext;
             this.Configuration = _configuration;
@@ -72,8 +87,43 @@ namespace Censo.API.Controllers.Censo
 
             return Ok(results);
 
-            
         }
+        
+        /// ############## Exemplo Implementação Redis ############### ///
+
+        // [AllowAnonymous]
+        // [HttpGet("setRedis")]
+        // public async Task<IActionResult> setRedis(){
+
+        //     Teste2 dado;
+
+        //     using(RedisClient redis = new RedisClient("10.200.0.9", 6379)) // var redis = this.Redis.GetRedisClient())
+        //             {
+                        
+                         
+        //                  IRedisTypedClient<Teste2> dads = redis.As<Teste2>() as IRedisTypedClient<Teste2>;
+        //                 Teste2 teste2 = new Teste2();
+
+        //                 teste2.codEmec = 1;
+        //                 teste2.Lista = new List<Teste>(){
+        //                     new Teste(){Nome = "Thiago", Idade = 35},
+        //                     new Teste(){Nome = "Lucas", Idade = 39}
+        //                 };
+
+        //                 // var dados = redis.GetTypedClient<Teste2>();
+
+        //                 st.ModelConfig<Teste2>.Id(x => x.codEmec);
+                        
+        //                 dads.Store(teste2);
+
+        //                 dado = (Teste2)dads.GetById(1);
+                        
+
+        //             }
+
+        //     return Ok(dado);
+
+        // }
 
 
         [HttpGet("GeraNota/{id}")]
@@ -1082,6 +1132,19 @@ namespace Censo.API.Controllers.Censo
 
     }
 
+    }
+
+
+    public class Teste
+    {
+        public string Nome { get; set; }
+        public int Idade { get; set; }
+    }
+
+      public class Teste2
+    {
+        public int codEmec { get; set; }
+        public List<Teste> Lista {get; set;}
     }
 
 }

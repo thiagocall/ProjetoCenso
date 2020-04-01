@@ -9,6 +9,7 @@ using Censo.API.Model;
 using Censo.API.Model.Censo;
 using Censo.API.Model.dados;
 using Censo.API.Resultados;
+using Censo.API.Services.Redis.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 //using Censo.API.ModelTeste;
@@ -39,7 +40,9 @@ namespace Censo.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            
 
+            services.AddTransient<RedisService>();
             services.AddDbContext<UserContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
 
@@ -93,9 +96,7 @@ namespace Censo.API
             services.AddDbContext<ExportacaoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<EnadeContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorAddContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-             
 
-            
 
 
 
@@ -120,7 +121,7 @@ namespace Censo.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RedisService redisService)
         {
             if (env.IsDevelopment())
             {
@@ -135,7 +136,11 @@ namespace Censo.API
             //app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            redisService.Connect();
+            redisService.upService();
             app.UseMvc();
         }
+
+
     }
 }
