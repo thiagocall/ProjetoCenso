@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Censo.API.Model.Censo
 {
@@ -10,7 +11,11 @@ namespace Censo.API.Model.Censo
         public string Ativo { get; set; }
         public string Pais { get; set; }
         public string UF { get; set; }
-        public string Municipio { get; set; }
+        public string Municipio {
+             get; set; }
+        
+        [NotMapped]
+        public string ind_remover { get; set; }
 
         public object Clone()
         {

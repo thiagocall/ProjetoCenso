@@ -177,6 +177,216 @@ namespace Censo.API.Resultados
                             
                          };
 
+                        // #####################   Alavancas  ########################## //
+                        // Remove professor Cenário 2 - Hoper
+
+                            HashSet<long> CursoExcluir =  new HashSet<long>()
+                                {
+                                  1113410
+                                , 91031
+                                , 104486
+                                , 1072300
+                                , 1113415
+                                , 104252
+                                , 67514
+                                , 112344
+                                , 1282858
+                                , 59828
+                                , 118882
+                                , 106826
+                                , 1103168
+                                , 109303
+                                , 109380
+                                , 98620
+                                , 53869
+                                , 50465
+                                , 101922
+                                , 74924
+                                , 84453
+                                , 108723
+                                , 1191343
+                                , 116510
+                                , 107658
+                                , 74920
+                                , 67938
+                                , 67936
+                                , 97217
+                                , 74922
+                                , 104276
+                                , 5000308
+                                , 118744
+                                , 104272
+                                , 117476
+                                , 46915
+                                , 1103541
+                                , 348488
+                                , 104250
+                                , 95194
+                                , 18212
+                                , 105868
+                                , 1103541
+                                , 46917
+                                , 5000235
+                                , 94243
+                                , 109284
+                                , 1162844
+                                , 1154813
+                                , 112538
+                                , 109678
+                                , 21254
+                                , 1386580
+                                , 1140089
+                                , 1184923
+                                , 1313260
+                                , 1140358
+                                , 1183749
+                                , 116508
+                                , 116510
+                                , 69169
+                                , 1204227
+                                , 37304
+                                , 1167314
+                                , 1260949
+                                , 1285408
+                                , 1166492
+                                , 1321586
+                                , 1185157
+                                , 1260719
+                                , 1162844
+                                , 1154813
+                                , 1189583
+                                , 1075756
+                                , 1204664
+                                , 1056450
+                                , 1314312
+                                , 1259920
+                                , 1260832
+                                , 1113422
+                                , 1072299
+                                , 73038
+                                , 4959
+                                , 119862
+                                , 42005
+                                , 1264888
+                                , 80564
+                                , 1175619
+                                , 1174541
+                                , 111202
+                                , 1109528
+                                , 1377613
+                                , 102406
+                                , 1125905
+                                , 102554
+                                , 1288733
+                                , 1203194
+                                , 1364164
+                                , 1364163
+                                , 1284647
+                                , 1188654
+                                , 1269897
+                                , 1187982
+                                , 1376344
+                                , 1259603
+                                , 1260330
+                                , 120437
+                                , 1313312
+                                , 117635
+                                , 1313311
+                                , 88448
+                                , 98327
+                                , 46839
+                                , 1161243
+                                , 1364425
+                                , 1127033
+                                , 1258644
+                                , 5001183
+                                , 113885
+                                , 114017
+                                , 55129
+                                , 102894
+                                , 82850
+                                , 102403
+                                , 82854
+                                , 74766
+                                , 150265
+                                , 1152476
+                                , 82830
+                                , 58882
+                                , 41987
+                                , 106031
+                                , 41980
+                                , 19317
+                                , 58435
+                                , 1044865
+                                , 1161032
+                                , 1161200
+                                , 119824
+                                , 102410
+                                , 102556
+                                , 49897
+                                , 102375
+                                , 111136
+                                , 111138
+                                , 49889
+                                , 4940
+                                , 82838
+                                , 111172
+                                , 55151
+                                , 1160822
+                                , 1140397
+                                , 90582
+                                , 21923
+                                , 55134
+                                , 73111
+                                , 111152
+                                , 111162
+                                , 119822
+                                , 1163580
+                                , 4966
+                                , 20909
+                                , 1258751
+                                , 1163342
+                                , 82844
+                                , 101602
+                                , 1165113
+                                , 1183836
+                                , 1321349
+                                , 1187876
+
+                            };
+
+                            foreach (var item in _listaProfessor)
+                            {
+
+                                if (CursoExcluir.Contains(item.CodEmec))
+                                {
+                                    int removido= 0;
+                                    double meta = Math.Floor(item.Professores.Count() * 0.3);
+                                    int qtdAnterior = item.Professores.Count();
+                                    
+                                    
+                                    // item.Professores.RemoveAll(pe => 
+                                    
+                                    //     RemoveProfessor30Perc(_listaProfessor, item, _dicPrevisao, pe, meta, qtdAnterior)     
+                                    //                 );
+
+
+                                     foreach (var pe in item.Professores)
+                                    {   
+                                           if (RemoveProfessor30Perc(_listaProfessor, item, _dicPrevisao, pe, meta, qtdAnterior) &&
+                                            meta > removido)
+                                           {
+                                               pe.ind_remover = "S";
+                                               removido++;
+                                           } 
+                                    }
+
+                                    item.Professores.RemoveAll(pe => pe.ind_remover == "S");
+
+                                }
+
+                            }
+
 
                             // ##################### Professor Adicionado ############################### //
 
@@ -223,12 +433,13 @@ namespace Censo.API.Resultados
                 foreach (var item in _listaCursoProfessor)
                 {   
                     double qtdProf = item.Professores
+                            .Where(x => x.ind_remover == null)
                             .Count();
-                    double qtdD = item.Professores.Where(x => x.Titulacao == "DOUTOR")
+                    double qtdD = item.Professores.Where(x => x.Titulacao == "DOUTOR" && x.ind_remover == null)
                             .Count();
-                    double qtdM = item.Professores.Where(x => x.Titulacao == "MESTRE" | x.Titulacao == "DOUTOR")
+                    double qtdM = item.Professores.Where(x => (x.Titulacao == "MESTRE" | x.Titulacao == "DOUTOR") && x.ind_remover == null)
                             .Count();
-                    double qtdR = item.Professores.Where(x => x.Regime == "TEMPO INTEGRAL" | x.Regime == "TEMPO PARCIAL")
+                    double qtdR = item.Professores.Where(x => (x.Regime == "TEMPO INTEGRAL" | x.Regime == "TEMPO PARCIAL")  && x.ind_remover == null)
                             .Count();
 
                     double perc_D = qtdD / qtdProf;
@@ -445,15 +656,16 @@ namespace Censo.API.Resultados
         {
             
                 double qtdProf = _cursoProfessor.Professores
+                        .Where(x => x.ind_remover == null)
                         .Count();
                 double qtdD = _cursoProfessor.Professores
-                        .Where(x => x.Titulacao == "DOUTOR")
+                        .Where(x => x.Titulacao == "DOUTOR" && x.ind_remover == null)
                         .Count();
                 double qtdM = _cursoProfessor.Professores
-                        .Where(x => x.Titulacao == "MESTRE" | x.Titulacao == "DOUTOR")
+                        .Where(x => (x.Titulacao == "MESTRE" | x.Titulacao == "DOUTOR" ) && x.ind_remover == null)
                         .Count();
                 double qtdR = _cursoProfessor.Professores
-                        .Where(x => x.Regime == "TEMPO INTEGRAL" | x.Regime == "TEMPO PARCIAL")
+                        .Where(x => (x.Regime == "TEMPO INTEGRAL" | x.Regime == "TEMPO PARCIAL") && x.ind_remover == null)
                         .Count();
                 
                 qtdProf = qtdProf + _indMovimento;
@@ -568,7 +780,38 @@ namespace Censo.API.Resultados
 
                 return false;
 
-        }    
+        } 
+
+              public bool RemoveProfessor30Perc(List<CursoProfessor> _ListaCursoProfessor,
+                                    CursoProfessor _cursoProfessor,
+                                    Dictionary<long?, PrevisaoSKU> _listaPrevisaoSKU,
+                                    ProfessorEmec _prof,
+                                    double _meta,
+                                    int _qtd_anterior)
+        {
+
+
+            var notaAnt = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao);
+
+            var notaNova = CalculaNota(_cursoProfessor, _listaPrevisaoSKU, _prof.Regime, _prof.Titulacao, -1);
+
+            var qtdProf =  _cursoProfessor.Professores.Count();
+
+            if (notaNova > notaAnt && (_meta > _qtd_anterior - qtdProf))
+            {
+                return true;
+            }
+
+            else
+            {
+                return false;
+            }
+
+        }   
+
+
+
+
 
 
        public bool AddProfessor(List<CursoProfessor> _ListaCursoProfessor,
