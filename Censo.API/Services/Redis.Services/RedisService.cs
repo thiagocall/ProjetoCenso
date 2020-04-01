@@ -69,7 +69,6 @@ public void upService () {
                 
                 
                 redis.FlushDb();
-
                 
                 IRedisTypedClient<Resumo> res = redis.As<Resumo>() as IRedisTypedClient<Resumo>;
                 var tsk1 = Task.Run( () => setProfessores());
@@ -77,7 +76,7 @@ public void upService () {
                 Task.WaitAll(tsk1);
 
                 var resumo = tsk1.Result;
-                res.Store(resumo);
+                res.Store(resumo, new TimeSpan(10,0,0,0));
                 res.Save();
 
             }
