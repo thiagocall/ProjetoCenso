@@ -390,7 +390,11 @@ namespace Censo.API.Resultados
 
                             // ##################### Professor Adicionado ############################### //
 
-                        ProfessorEmec professorEmec;
+
+                        try
+                        {
+
+                            ProfessorEmec professorEmec;
                         foreach(var item in ListaProfessorAdd)
                         {
 
@@ -398,20 +402,46 @@ namespace Censo.API.Resultados
 
                                 if (curso != null)
                                 {
-                                   var prof =  _ListaProfessorEmec.First(x => x.CpfProfessor == item.CpfProfessor);
-                                   professorEmec = new ProfessorEmec();
-                                   professorEmec.cpfProfessor = prof.CpfProfessor;
-                                   professorEmec.Regime = prof.Regime;
-                                   professorEmec.Titulacao = prof.Titulacao;
-                                   professorEmec.Ativo = prof.IndAtivo;
 
-                                   curso.Professores.Add(professorEmec);
-                                    
+                                    var prof =  _ListaProfessorEmec.Where(x => x.CpfProfessor == item.CpfProfessor);
+                                    if(prof.Count() != 0) {
+                                        
+                                        var profi = prof.First();
+                                        professorEmec = new ProfessorEmec();
+                                        professorEmec.cpfProfessor = profi.CpfProfessor;
+                                        professorEmec.Regime = profi.Regime;
+                                        professorEmec.Titulacao = profi.Titulacao;
+                                        professorEmec.Ativo = profi.IndAtivo;
+
+                                        curso.Professores.Add(professorEmec);
+                                    }
+
+                                    else {
+                                        // Criando professor que não está na curso professor
+                                        
+                                        professorEmec = new ProfessorEmec();
+                                        professorEmec.cpfProfessor = item.CpfProfessor;
+                                        professorEmec.Regime = "TEMPO INTEGRAL";
+                                        professorEmec.Titulacao = "DOUTOR";
+                                        professorEmec.Ativo = "SIM";
+                                        curso.Professores.Add(professorEmec);
+
+                                    } 
+
+                                    prof = null;                                   
                                 }
 
                             curso = null;
 
                          };
+                            
+                        }
+                        catch (System.Exception ex)
+                        {
+                            
+                            
+                        }
+                        
 
 
 

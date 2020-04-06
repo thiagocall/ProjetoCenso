@@ -6,15 +6,15 @@ import {environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
- //apiUrl: 'http://localhost:5000/api/'
- 
+ // apiUrl: 'http://localhost:5000/api/'
+
 export class ProfessorService {
 
 constructor(private http: HttpClient) { }
 
 baseUrl = environment.apiUrl;
 getToken() {
-  const tokenHeader = new HttpHeaders({'Authorization': `Bearer ${localStorage.getItem('token')}`});
+  const tokenHeader = new HttpHeaders({ Authorization: `Bearer ${localStorage.getItem('token')}`});
   return tokenHeader;
 }
 
@@ -31,11 +31,11 @@ buscarProfessores(campo: string) {
 professorConsultaDetalhe(campo: string) {
   const tokenHeader = this.getToken();
   return this.http.get(this.baseUrl + 'v1/Professor/BuscaDetalhe/' + campo, {headers: tokenHeader}); /*v1*/
-} 
+}
 
 getDados() {
   const tokenHeader = this.getToken();
-  return this.http.get(this.baseUrl + 'v1/dados/' ,{headers: tokenHeader});
+  return this.http.get(this.baseUrl + 'v1/dados/' , {headers: tokenHeader});
 }
 
 getInfoCurso(codigo: string) {
@@ -50,8 +50,8 @@ getProfessorExcel() {
 }
 
 /*CENSO - RESULTADOS  */
-postCalculadoraResultado(dados:any){
-const tokenHeader = this.getToken();
+postCalculadoraResultado(dados: any) {
+  const tokenHeader = this.getToken();
   return this.http.post(this.baseUrl + 'v1/censo/CursoEmec/GetDadosCalculadora', dados, {headers: tokenHeader});
 }
 
