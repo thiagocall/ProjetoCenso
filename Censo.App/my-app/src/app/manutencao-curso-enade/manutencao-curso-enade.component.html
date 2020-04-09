@@ -1,1 +1,60 @@
-<h6> Tela em construção ...</h6>
+<div class="">
+  <form class="p-5">
+    <select #_idCiclo class="form-control col-md-3" id="id" (change)="filtrarCiclo(_idCiclo.value)">
+      <option value="-1" disabled>-- Selecione um Ciclo --</option>
+      <option *ngFor="let item of todosCiclos" value="{{item.idCiclo}}">{{item.obs}}</option>
+    </select>
+
+    <div class="p-4"></div>
+
+    <form>
+      <label for="sel2" style="position: left;"><p><em>Mantenha pressionada a tecla <strong>Shift</strong> para selecionar mais de uma opção:</em></p></label>
+      <div class="form-row">
+
+        <!-- COMBO 1-->
+        <div class="col">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width: 300px; height: 300px;">
+           {{cicloFiltrado?.descArea}}
+          </textarea>
+        </div>
+
+
+        <!-- COMBO 2-->
+        <div class="col">
+         
+          <select multiple class="form-control" id="sel2" style="width: 300px; height: 300px;">
+            <option *ngFor="let palavra of cicloFiltradoSelecionado"
+            (click)="pegaPalavraOrigem(palavra,$event.target)" [value]="palavra?.codareaemec">{{palavra?.descricaoarea}}</option>
+          </select>
+
+        </div>
+
+        <div class="p-5">
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="transfereItens()" >Adicionar</button>
+
+          <div class="p-5"></div>
+
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="devolveItens()" >Remover</button>
+
+
+        </div>
+
+        <!-- COMBO 3-->
+        <div class="col">
+          <select multiple class="form-control" id="sel2" style="width: 300px; height: 300px;">
+            <option *ngFor="let palavra of palavrasDestino" (click)="pegaPalavraDestino(palavra,$event.target)" value="{{palavra}}">{{ palavra?.descricaoarea }}</option>
+          <!--  <option *ngFor="let palavra of palavrasDestino" value="{{palavra}}">{{ palavra?.descricaoarea }}</option> -->
+          </select>
+        </div>
+
+      </div>
+    </form>
+
+    <div class="d-flex flex-row-reverse p-5 ">
+      <button class="btn btn-primary btn-sm salvar()">Salvar</button>
+    </div>
+
+  </form>
+</div>
+
+
