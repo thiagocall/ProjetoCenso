@@ -10,9 +10,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class CursoEnadeComponent implements OnInit {
 
-  selectAno:string;
-  arraySlectedAno:string;
-  arrayCursoFiltrado:any;
+  selectAno: string;
+  arraySlectedAno: string;
+  arrayCursoFiltrado: any;
 
   constructor(private enadeService: EnadeService,
     public formBuilder: FormBuilder) {
@@ -29,7 +29,7 @@ export class CursoEnadeComponent implements OnInit {
 
   public campusForm: FormGroup;
   public anoForm: FormGroup;
-  anoCampus:any;
+  anoCampus: any;
 
   /*campus*/
   resultado: any;
@@ -55,17 +55,16 @@ export class CursoEnadeComponent implements OnInit {
   cursos: any;
   value: any
 
-  salvarCursos:any
+  salvarCursos: any
 
   ngOnInit() {
     this.selectCampus();
   }
 
 
-  /*SELECT COM OS CAMPUS*/
+  /*SELECT COM OS CAMPUS - selecione o campus*/
   selectCampus() {
     if (this.campusForm.value != null || this.campusForm.value != undefined) {
-      console.log('CodCampus' + this.campusForm.value.codCampus)
       this.enadeService.selectCampus().subscribe(
         response => {
           this.resultadoCampus = response;
@@ -80,13 +79,14 @@ export class CursoEnadeComponent implements OnInit {
   }
 
 
-  /*RESULTADO DA TABELA */
-  resultadoCampusCurso(valor:any) {
-    
+  /*RESULTADO DA TABELA -CURSOS */
+  resultadoCampusCurso(valor: any) {
+    this.arraySlectedAno = '';
+   // this.cursos = this.resultadoCursos; //testar
     this.enadeService.resultadoTabela(valor).subscribe(
       response => {
         this.resultadoCursos = response;
-        this.cursos = this.resultadoCursos;      
+        this.cursos = this.resultadoCursos;
         this.codCampus = this.resultadoCursos.codCampus;
       },
       error => {
@@ -97,7 +97,7 @@ export class CursoEnadeComponent implements OnInit {
 
 
   /*BOTÃO PESQUISAR*/
-  botaoPesquisar(valor: any) { 
+  botaoPesquisar(valor: any) {
     if (valor != null || valor != undefined) {
       this.resultadoCampusCurso(valor);
     }
@@ -106,30 +106,28 @@ export class CursoEnadeComponent implements OnInit {
     }
   }
 
-
-  filtroAno(ano:any) {
-    //console.log('ANO ' + JSON.stringify(ano))
-    this.arraySlectedAno = this.cursos.filter(x => // o filtro esta dentro de select ano
-      x.idciclo == ano);
-    //console.log('filterCURSOS ' + JSON.stringify(this.arraySlectedAno))
+  /* select ANO */
+  filtroAno(ano: any) {
+    if (ano == '0') {
+      this.arraySlectedAno = this.cursos;
+      //console.log(this.arraySlectedAno)
+    } else {
+      this.arraySlectedAno = this.cursos.filter(x => // o filtro esta dentro de select ano
+        x.idciclo == ano);
+    }
   }
 
-  /* filtro input */
-  pesquisarCursos(value: any) {
-   // console.log('CURSOS' +JSON.stringify(this.cursos))
-   console.log('SALVAR CURSOS ' + this.salvarCursos)
-    if (value.length > 4) {
-      this.arrayCursoFiltrado = this.cursos.filter(x => // o filtro esta dentro de select ano
-        x.nomecurso === value);
-        console.log('ARRAY SELECT' + this.arraySlectedAno);
-        //console.log('VALUE' + value);
-
-    }
-    else {
-      //this.arrayCursoFiltrado = [];
-      console.log('ELSE' + this.arrayCursoFiltrado)
-    }
-  }  
+  /* filtro do menu pesquisar input */
+  /* pesquisarCursos(value: any) {
+     //this.arrayCursoFiltrado = [];//apagar
+     if (value.length > 4) {
+       this.arrayCursoFiltrado = this.cursos.filter(x => // o filtro esta dentro de select ano
+         x.nomecurso === value);
+     }
+     else {
+       this.arrayCursoFiltrado = [];
+     }
+   } */
 
 
 

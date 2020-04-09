@@ -28,6 +28,13 @@ obterCiclos() {
   return this.http.get(this.baseUrl + 'v1/Enade/ObterCiclos', {headers: tokenHeader});
 }
 
+/* cicloSelecionado  (é o curso selecionado do obterCiclos) */
+cicloSelecionadodeObterCiclos() {
+  const tokenHeader = this.getToken();
+  return this.http.get(this.baseUrl + 'v1/Enade/SelecionaCiclos', {headers: tokenHeader});
+}
+
+
 /* SOMENTE CAMPUS */
 selectCampus() {
   const tokenHeader = this.getToken();
