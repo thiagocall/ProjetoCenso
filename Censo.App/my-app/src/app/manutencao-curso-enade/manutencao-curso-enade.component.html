@@ -8,37 +8,43 @@
     <div class="p-4"></div>
 
     <form>
+      <label for="sel2" style="position: left;"><p><em>Mantenha pressionada a tecla <strong>Shift</strong> para selecionar mais de uma opção:</em></p></label>
       <div class="form-row">
 
         <!-- COMBO 1-->
         <div class="col">
-          <label for="exampleFormControlTextarea1">Descrição:</label>
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width: 300px; height: 300px;">
            {{cicloFiltrado?.descArea}}
           </textarea>
         </div>
 
+
         <!-- COMBO 2-->
         <div class="col">
-          <label for="exampleFormControlTextarea1">Descrição:</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width: 300px; height: 300px;">
-           <!-- {{cicloFiltrado?.descArea}} -->
-          </textarea>
+         
+          <select multiple class="form-control" id="sel2" style="width: 300px; height: 300px;">
+            <option *ngFor="let palavra of cicloFiltradoSelecionado"
+            (click)="pegaPalavraOrigem(palavra,$event.target)" [value]="palavra?.codareaemec">{{palavra?.descricaoarea}}</option>
+          </select>
+
         </div>
 
-        <!-- Button -->
         <div class="p-5">
-          <button class="btn btn-primary btn-sm salvar()">Adicionar</button>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="transfereItens()" >Adicionar</button>
+
           <div class="p-5"></div>
-          <button class="btn btn-primary btn-sm salvar()">Remover</button>
+
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="devolveItens()" >Remover</button>
+
+
         </div>
 
         <!-- COMBO 3-->
         <div class="col">
-          <label for="exampleFormControlTextarea1">Descrição:</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width: 300px; height: 300px;">
-           <!-- {{cicloFiltrado?.descArea}} -->
-          </textarea>
+          <select multiple class="form-control" id="sel2" style="width: 300px; height: 300px;">
+            <option *ngFor="let palavra of palavrasDestino" (click)="pegaPalavraDestino(palavra,$event.target)" value="{{palavra}}">{{ palavra?.descricaoarea }}</option>
+          <!--  <option *ngFor="let palavra of palavrasDestino" value="{{palavra}}">{{ palavra?.descricaoarea }}</option> -->
+          </select>
         </div>
 
       </div>
@@ -50,3 +56,5 @@
 
   </form>
 </div>
+
+

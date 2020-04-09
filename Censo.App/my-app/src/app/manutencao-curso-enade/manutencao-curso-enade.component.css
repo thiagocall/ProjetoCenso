@@ -1,0 +1,21 @@
+p {
+    font-family: Lato;
+  }
+  
+  li{  
+    list-style: none;
+  }
+  
+  li:hover { background-color: aqua;}
+  
+  div { max-width: 100%;
+  height: 100%;
+  }
+  
+  select { width: 100%;
+          height:150px;
+  }
+  
+  .selected { 
+    background-color: aqua;
+  }
