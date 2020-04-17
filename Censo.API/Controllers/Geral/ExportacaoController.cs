@@ -366,24 +366,14 @@ namespace Censo.API.Controllers.Geral
                 // Segundo foreach
                 foreach (var item in professores)
                 {
-                    item.Professores.ForEach( (p) =>
+                    item.Professores.ForEach( p =>
                             {
-                                var varcpf = p.cpfProfessor;
-                                var varcpf2 = p.cpfProfessor;
-                                if (DicProfessor2.Count == 4700)
-                                {
-                                    varcpf2 = p.cpfProfessor;
-                                }
-                                /*
-                                if (p.cpfProfessor.ToString() == "83958622887")
-                                {
-                                    varcpf2 = p.cpfProfessor;
-                                } 
-                                */
+                                
+                                ProfessorGeracao prof;  
                                 // Se não existe o professor , Criacao de um dicionario novo para incluir os professores
                                if (!DicProfessor2.ContainsKey(p.cpfProfessor.ToString()))   
                                 {
-                                   ProfessorGeracao prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor);   
+                                   prof = listaProfessor.Find(x => x.cpfProfessor == p.cpfProfessor); 
                                    prof.cpfProfessor = p.cpfProfessor;  
                                    IES ies = new IES();                 
                                    ies.codies = EmecIes[item.CodEmec].CodIes.ToString();  
@@ -396,7 +386,7 @@ namespace Censo.API.Controllers.Geral
                                 }
                                else  // else(1) caso exista o professor
                                 {
-                                    var prof = DicProfessor2[p.cpfProfessor.ToString()];
+                                    prof = DicProfessor2[p.cpfProfessor.ToString()];
                                     if (!(prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec].CodIes.ToString()) == null))
                                     {
                                         IES ies = prof.Listaies.Find(x => x.codies == EmecIes[item.CodEmec].CodIes.ToString()); 
@@ -407,6 +397,7 @@ namespace Censo.API.Controllers.Geral
                                         else
                                         {
                                             curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso;
+                                            curso.codcursoEmec = item.CodEmec; 
                                         }
                                         ies.Cursos.Add(curso);
                                     }
@@ -415,14 +406,13 @@ namespace Censo.API.Controllers.Geral
                                         ies.codies = EmecIes[item.CodEmec].CodIes.ToString();
                                         ////ies.Nomies = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == ies.codies.ToString()).Nom_Ies;
                                         CursoProf curso = new CursoProf();
-                                        curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso; 
+                                        curso.nomcursoEmec = cursoCenso.Find(x => x.CodEmec == item.CodEmec).NomCursoCenso;
+                                        curso.codcursoEmec = item.CodEmec; 
                                         //if (cursoCenso.nomcursoEmec != null)
-                                        if (String.IsNullOrEmpty(curso.nomcursoEmec))
+                                        if (!String.IsNullOrEmpty(curso.nomcursoEmec))
                                         {
                                             ies.Cursos.Add(curso);
                                             prof.Listaies.Add(ies);
-                                            CursoProf cursoprof = new CursoProf();
-                                            cursoprof.nomcursoEmec = curso.nomcursoEmec;
                                         }
                                     }  
 
@@ -443,7 +433,6 @@ namespace Censo.API.Controllers.Geral
                 
                 foreach (var pro in DicProfessor2.Values)
                 {  
-                        profesc = new ProfessorEscrita();                        
  
                         /* if (pro.Listaies.Count() == 0)
                             {
@@ -451,8 +440,9 @@ namespace Censo.API.Controllers.Geral
                             } */
                         foreach (var Umaies in pro.Listaies )
                             {
+                            profesc = new ProfessorEscrita();                        
                             profesc.Codies = Umaies.codies;
-                            var IesEmec = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == profesc.Codies);
+                            var IesEmec = ListaIesSiaEmec.Find(x => x.Cod_Ies.ToString() == Umaies.codies);
                             profesc.Codies = IesEmec.Cod_Ies_Emec.ToString();
                             string Carregaies = (IesEmec.Nom_Ies) ?? "SEM IES";
                             /*
@@ -468,12 +458,14 @@ namespace Censo.API.Controllers.Geral
                             
                             profesc.NomeCompleto = pro.NomeCompleto;
                             profesc.cpfProfessor = pro.cpfProfessor;
+                            // profesc.cpfStamp = pro.cpfProfessor.ToString(@"000\.000\.000\-00");
                             profesc.NomeCompleto = pro.NomeCompleto;
                             profesc.Dtnascimento = System.DateTime.Parse(pro.Dtnascimento).ToString("dd/MM/yyyy");
                             profesc.NomSexo = pro.NomSexo; 
                             if (pro.NomRaca == "Nao declarada")
                                 {
-                                    pro.NomRaca = "Não declarada";
+                                    // Ajuste Censo 2019
+                                    pro.NomRaca = "Docente não quis declarar cor/raça";
                                 }                            
                             profesc.NomRaca = pro.NomRaca;
                             profesc.NomMae = pro.NomMae;
@@ -511,10 +503,29 @@ namespace Censo.API.Controllers.Geral
                             {
                                 var at = dicProfessorAtividade[profesc.cpfProfessor.ToString()];
 
-                                profesc.segundaatuacao = at.Atividades.ToArray().ElementAtOrDefault(1);
+                                if (Umaies.Cursos.Select(x => x.nomcursoEmec).ToList().Exists(x => x.Contains("EAD") || x.Contains("VIRTUAL")))
+                                {
+                                    profesc.segundaatuacao = "Curso de graduação a distância";    
+                                }
+                                else {
+                                    profesc.segundaatuacao =  at.Atividades.ToArray().ElementAtOrDefault(1);  
+
+                                }
+                                
                                 profesc.terceiraatuacao =  at.Atividades.ToArray().ElementAtOrDefault(2);
                                 profesc.quartaatuacao =  at.Atividades.ToArray().ElementAtOrDefault(3);
                             }
+                                else {
+                                    if (Umaies.Cursos.Select(x => x.nomcursoEmec).ToList().Exists(x => x.Contains("EAD") || x.Contains("VIRTUAL")))
+                                {
+                                    profesc.segundaatuacao = "Curso de graduação a distância";    
+                                }
+
+                                    
+                                }
+
+                                // Falta Incluir Pesquisa
+
                             
                             profesc.Cursos1 = String.Join(";", Umaies.Cursos.Select(x => x.codcursonomecurso).ToList());
                             //Ajustado Thiago //

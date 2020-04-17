@@ -338,7 +338,7 @@ namespace Censo.API.Controllers.Enade
             
             // TODOS OS CICLOS E SUAS AREAS
             //var descarea = this.Econtext.EmecCiclo.Where(x => x.IdCiclo == _id).OrderBy(x => x.IdCiclo).ToList();
-            var descarea = this.Econtext.EmecCiclo.Where(x => x.IdCiclo < 4).OrderBy(x => x.IdCiclo).ToList();
+            var descarea = this.Econtext.EmecCiclo.OrderBy(x => x.IdCiclo).ToList();
             
             Dictionary <long, EmecCiclo> areasciclos = new Dictionary<long, EmecCiclo>();
             areasciclos = this.Econtext.EmecCiclo.ToDictionary(x => x.CodAreaEmec);
@@ -407,7 +407,7 @@ namespace Censo.API.Controllers.Enade
                         public long Codareaemec { get; set; }    
                         public string descricaoarea { get; set; }
                         
-
+    
             }
 
 

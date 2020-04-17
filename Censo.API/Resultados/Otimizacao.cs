@@ -398,11 +398,20 @@ namespace Censo.API.Resultados
                         foreach(var item in ListaProfessorAdd)
                         {
 
-                            var curso = _listaProfessor.First(x => x.CodEmec == item.CodEmec);
+                                CursoProfessor curso; 
 
-                                if (curso != null)
+                                if (_listaProfessor.Where(x => x.CodEmec == item.CodEmec).Count() < 1 )
                                 {
+                                    CursoProfessor Cr = new CursoProfessor();
+                                    Cr.CodEmec = item.CodEmec;
+                                    Cr.CodArea = 9999;
+                                    curso = Cr;
+                                    curso.Professores = new List<ProfessorEmec>();
+                                    _listaProfessor.Add(curso);
 
+                                }
+
+                                    curso =  _listaProfessor.First(x => x.CodEmec == item.CodEmec);
                                     var prof =  _ListaProfessorEmec.Where(x => x.CpfProfessor == item.CpfProfessor);
                                     if(prof.Count() != 0) {
                                         
@@ -429,7 +438,6 @@ namespace Censo.API.Resultados
                                     } 
 
                                     prof = null;                                   
-                                }
 
                             curso = null;
 
@@ -438,7 +446,7 @@ namespace Censo.API.Resultados
                         }
                         catch (System.Exception ex)
                         {
-                            
+                                      
                             
                         }
                         
