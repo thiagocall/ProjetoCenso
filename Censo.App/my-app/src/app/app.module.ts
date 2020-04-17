@@ -59,6 +59,7 @@ import { EnadeComponent } from './enade/enade.component';
 import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
 import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
 import { AreaEnadeComponent } from './area-enade/area-enade.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
    declarations: [
@@ -100,7 +101,8 @@ import { AreaEnadeComponent } from './area-enade/area-enade.component';
       EnadeComponent,
       CursoEnadeComponent,
       ManutencaoCursoEnadeComponent,
-      AreaEnadeComponent
+      AreaEnadeComponent,
+      ErrorComponent
    ],
    imports: [
       BrowserModule,

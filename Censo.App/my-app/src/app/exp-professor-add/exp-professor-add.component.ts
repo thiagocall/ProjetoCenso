@@ -94,13 +94,13 @@ export class ExpProfessorAddComponent implements OnInit {
   salvarDadosprofessor() {
     this.exportacao.exportacaoProfessor(this.listaProfessorAdicionado).subscribe(
       response => { //post response ok ou error
-       // console.log(this.listaProfessorAdicionado)
+       //console.log(this.listaProfessorAdicionado)
         this.toast.warning('Não foi possível salvar ou o professor já foi adicionado!', null, {
           timeOut: 1000,
         });
       },
       error => {
-       // console.log(this.listaProfessorAdicionado)
+       //console.log(this.listaProfessorAdicionado)
         this.toast.success('Professor Adicionado com Sucesso!', null, {
           timeOut: 1000,
         });

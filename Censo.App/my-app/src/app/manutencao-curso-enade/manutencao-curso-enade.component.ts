@@ -21,7 +21,11 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
   idSelecionado: any;
   descricaoCiclo: any;
 
-  outros = 99;
+  noventaENove = 99;
+  um = 1;
+  dois = 2;
+  tres = 3;
+
   arrayCiclo: any;
 
 
@@ -59,7 +63,7 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
     this.enadeService.cicloSelecionadodeObterCiclos().subscribe(
       response => {
         this.ciclo = response;
-       // console.log(this.ciclo) //trago a api2
+        console.log(this.ciclo) //trago a api2
       },
       error => {
         console.log(error);
@@ -69,18 +73,30 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
 
 
   filtrarCiclo(id: number) {
-    this.cicloFiltrado = this.todosCiclos.filter(x => x.idCiclo == id)[0] // [0] para pegar o primeira posicao do array o filtre pega só um array por veze para acessar esse obj dentro do array
+    this.palavrasDestino = [];
+   this.cicloFiltrado = this.todosCiclos.filter(x => x.idCiclo == id)[0] // [0] para pegar o primeira posicao do array o filtre pega só um array por veze para acessar esse obj dentro do array
     // console.log(this.cicloFiltrado[0].descArea)
     this.cicloFiltradoSelecionado = this.ciclo.filter(x => x.idciclo == id);
-
-    if (id !== this.outros) {
-      this.arrayCiclo = this.ciclo.filter(x => x.idciclo == this.outros);
-      //console.log(this.cicloFiltradoSelecionado); //vem filtrado pelo id (SEM 99) Variavel que trás todos os cursos do ciclo do box 2
-    }
-    this.arrayCiclo.forEach(element => {
-      this.cicloFiltradoSelecionado.push(element); //COM 99
-     // console.log(this.cicloFiltradoSelecionado);
+    //console.log(this.cicloFiltradoSelecionado)
+    
+    this.ciclo.forEach(element => {
+      if (element.idciclo != id) {
+        this.palavrasDestino.push(element);
+        console.log('Array Aux' ,this.palavrasDestino)
+      }
     });
+
+    /* if (id !== this.noventaENove) {
+       this.arrayCiclo = this.ciclo.filter(x => x.idciclo == this.noventaENove);
+       //console.log(this.cicloFiltradoSelecionado); //vem filtrado pelo id (SEM 99) Variavel que trás todos os cursos do ciclo do box 2
+     }
+
+     this.arrayCiclo.forEach(element => {
+       this.cicloFiltradoSelecionado.push(element); //COM 99
+      // console.log(this.cicloFiltradoSelecionado);
+     });*/
+
+
   }
 
   /*TESTE*/
@@ -108,14 +124,14 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
 
 
   pegaPalavraOrigem(palavra, target) {
-    target.classList.toggle("selected");
-     if (this.arrayAuxiliarOrigem.includes(palavra)) {
-      let index = this.arrayAuxiliarOrigem.indexOf(palavra);
-      this.arrayAuxiliarOrigem.splice(index, 1);
+    target.classList.toggle("selected"); // se o alvo do clique tiver a classe selected, remove, do contrário, adiciona
+    if (this.arrayAuxiliarOrigem.includes(palavra)) { //se o arrayAuxiliarOrigem já contem o item
+      let index = this.arrayAuxiliarOrigem.indexOf(palavra); //Pego o indice desse item do array
+      this.arrayAuxiliarOrigem.splice(index, 1); //removo ele
       return;
     }
 
-    this.arrayAuxiliarOrigem.push(palavra);
+    this.arrayAuxiliarOrigem.push(palavra); // como eu botei o retorno no if, se não cair no if somente, vai ser executar aqui, adicionando o item
   }
 
   pegaPalavraDestino(palavra, target) {
@@ -130,9 +146,9 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
   }
 }
 
-  
 
- 
+
+
 
 
 

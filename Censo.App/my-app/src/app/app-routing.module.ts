@@ -43,6 +43,7 @@ import { EnadeComponent } from './enade/enade.component';
 import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
 import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
 import { AreaEnadeComponent } from './area-enade/area-enade.component';
+import { ErrorComponent } from './error/error.component';
 
 
 
@@ -62,6 +63,9 @@ const routes: Routes = [
   {path: 'TesteGrafico', component: TesteGraficoComponent  ,canActivate: [AuthGuard]},
   {path: 'TelaTeste', component: TesteTelaComponent  ,canActivate: [AuthGuard]},
   {path: 'MQD', component: QuadroDoceComponent  ,canActivate: [AuthGuard]},
+
+  /*ERROR*/
+  {path: 'Error', component: ErrorComponent  ,canActivate: [AuthGuard]},
 
 
   /* ABA CONSULTA*/

@@ -23,12 +23,15 @@ export class ProfessorComponent implements OnInit {
   doutor: any;
   dados: any;
   dadosGrafico: any[];
-  dadosGraficoBarra: any [];
+  dadosGraficoBarra: any[];
+
+  /*Grafico Regime*/
+  dadosGraficoRegime: any[];
 
   /** ----------GRAFICO-------------- */
   //multi: any[];
-  view: any[] = [960, 200];
-  view2: any[] = [400,400];
+  view: any[] = [500, 200];
+ // view2: any[] = [400, 400];
 
   // options
   showXAxis: boolean = true;
@@ -45,6 +48,9 @@ export class ProfessorComponent implements OnInit {
 
   colorScheme = {
     domain: ['#00BFFF', '#1E90FF', '#00BFFF', '#1E90FF']
+  };
+  colorSchemeRegime = {
+    domain: ['#FFA500', '#FFA500', '#FFA500', '#FFA500']
   };
 
   /** ----------GRAFICO-------------- */
@@ -112,8 +118,9 @@ export class ProfessorComponent implements OnInit {
         response => {
           this.professores = response;
           this.dados = response;
-         // console.log(this.dados);
-          this.getDadosGrafico();
+          // console.log(this.dados);
+          this.getDadosGrafico(); //metodo que chama o gráfico circulo
+          this.getDadosRegime();
         },
         error => {
           console.log(error);
@@ -158,24 +165,44 @@ export class ProfessorComponent implements OnInit {
     );
   }
 
-  
- 
+  getDadosRegime() {
+    var novaLista = new Set<SingleData>(); // criei um novo objeto em set chamando a classe que criei SingleData
+    var value: SingleData; // value que passo é o SingleData que criei
+
+    value = new SingleData()
+    value.name = "Qtd Integral" // setei o valor na "mão"
+    //value.value = (this.dados.qtdTempoIntegral / this.dados.qtdProfessores * 100); // chamo o value da api
+    value.value = this.dados.qtdTempoIntegral; // chamo o value da api
+    novaLista.add(value)
+
+    value = new SingleData() // novo objeto
+    value.name = "Qtd Parcial"
+    value.value = this.dados.qtdTempoParcial;
+    novaLista.add(value)
+
+    value = new SingleData() // novo objeto
+    value.name = "Qtd Horista"
+    value.value = this.dados.qtdHorista;
+    novaLista.add(value)
+
+    this.dadosGraficoRegime = [...novaLista] // covertei no array e atribui na variavel dadosGraficoRegime que criei
+    console.log(this.dadosGraficoRegime)
+  }
+
 
   getDadosGrafico(): any {
     var novaLista = new Set<SingleData>(); // criei um novo objeto em set chamando a classe que criei SingleData
     var value: SingleData; // value que passo é o SingleData que criei
 
-    value = new SingleData() // novo objeto
-
+    /*value = new SingleData() // novo objeto
     value.name = "Qtd Professores"
     value.value = this.dados.qtdProfessores;
-    novaLista.add(value)
+    novaLista.add(value) */
 
     value = new SingleData()
 
-
     value.name = "Qtd Doutor" // setei o valor na "mão"
-    value.value = this.dados.qtdDoutor; // chamo o value da api
+    value.value = this.dados.qtdDoutor; // chamo o value da api [dados vem do response]
     novaLista.add(value)
 
     value = new SingleData() // novo objeto
