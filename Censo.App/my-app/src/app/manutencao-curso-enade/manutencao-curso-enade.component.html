@@ -4,57 +4,42 @@
       <option value="-1" disabled>-- Selecione um Ciclo --</option>
       <option *ngFor="let item of todosCiclos" value="{{item.idCiclo}}">{{item.obs}}</option>
     </select>
-
-    <div class="p-4"></div>
-
+    <div class="p-2"></div>
     <form>
-      <!-- <label for="sel2" style="position: left;">
-        <p><em>Mantenha pressionada a tecla <strong>Shift</strong> para selecionar mais de uma opção:</em></p>
-      </label> -->
       <div class="form-row">
-
         <!-- COMBO 1-->
-        <div class="col">
+        <div class="col" style="padding: 20px;">
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="width: 300px; height: 300px;">
            {{cicloFiltrado?.descArea}}
           </textarea>
         </div>
-
-
         <!-- COMBO 2-->
         <div class="col">
-          ciclo selecionado aqui
+          <div class="d-flex justify-content-between">Ciclo: {{todosCiclos[_idCiclo.selectedIndex -1]?.obs}}</div>
           <select multiple class="form-control" id="sel2" style="width: 300px; height: 300px;">
             <option *ngFor="let palavra of cicloFiltradoSelecionado" (click)="pegaPalavraOrigem(palavra,$event.target)"
               [value]="palavra?.codareaemec">{{palavra?.descricaoarea}}</option>
           </select>
-
         </div>
-
         <div class="p-5">
           <button type="button" class="btn btn-outline-primary btn-sm" (click)="devolveItens()">
-            << Inserir</button>
-              <div class="p-5"></div>
-              <button type="button" class="btn btn-outline-primary btn-sm" (click)="transfereItens()">Remover
-                >></button>
+            <i class="fas fa-angle-double-left"></i> Inserir </button>
+          <div class="p-5"></div>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="transfereItens()">
+            <i class="fas fa-angle-double-right"></i> Remover </button>
         </div>
-
         <!-- COMBO 3-->
         <div class="col">
-          Todos os Ciclos
+          <div class="d-flex justify-content-between">Todos os Ciclos</div>
           <select multiple class="form-control" id="sel2" style="width: 300px; height: 300px;">
             <option *ngFor="let palavra of palavrasDestino" (click)="pegaPalavraDestino(palavra,$event.target)"
               value="{{palavra}}">{{ palavra?.descricaoarea }}</option>
-            <!--  <option *ngFor="let palavra of palavrasDestino" value="{{palavra}}">{{ palavra?.descricaoarea }}</option> -->
           </select>
         </div>
-
       </div>
     </form>
-
-    <div class="d-flex flex-row-reverse p-5 ">
+    <div class="" style="margin-left: 1168px;">
       <button class="btn btn-primary btn-sm salvar()">Salvar</button>
     </div>
-
   </form>
 </div>

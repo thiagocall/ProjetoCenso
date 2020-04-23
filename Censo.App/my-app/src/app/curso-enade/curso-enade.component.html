@@ -9,6 +9,12 @@
           {{item?.nomCampus + - + item?.codCampus}}</option>
       </select>
 
+      <!-- APAGAAAAAR-->
+      <div *ngIf="!resultadoCampus" class="container text-center mt-5">
+        <i class="fas fa-spinner fa-pulse fa-3x mt-5"></i>
+      </div>
+      <!-- APAGAAAAAR-->
+
       <!-- Pesquisar -->
       <i class="form-group col-md-2">
         <button *ngIf="campusForm.controls.codCampus.valid" class="btn btn-outline-primary p-2"

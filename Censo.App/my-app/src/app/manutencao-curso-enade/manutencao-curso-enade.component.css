@@ -6,7 +6,7 @@ p {
     list-style: none;
   }
   
-  li:hover { background-color: aqua;}
+  li:hover { background-color: #B0C4DE;}
   
   div { max-width: 100%;
   height: 100%;
@@ -17,5 +17,5 @@ p {
   }
   
   .selected { 
-    background-color: aqua;
+    background-color: #B0C4DE;
   }

@@ -63,7 +63,7 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
     this.enadeService.cicloSelecionadodeObterCiclos().subscribe(
       response => {
         this.ciclo = response;
-        console.log(this.ciclo) //trago a api2
+       // console.log(this.ciclo) //trago a api2
       },
       error => {
         console.log(error);
@@ -82,7 +82,7 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
     this.ciclo.forEach(element => {
       if (element.idciclo != id) {
         this.palavrasDestino.push(element);
-        console.log('Array Aux' ,this.palavrasDestino)
+        //console.log('Array Aux' ,this.palavrasDestino)
       }
     });
 
