@@ -1,0 +1,52 @@
+<div class="container mb-5 ml-2 mt-4">
+  <div class="mx-auto mt-5" style="width: 790px;">
+    <h2 class="font-weight-light" style="color:black;">
+      Produção De Questões BDQ 
+    </h2>
+  </div>
+</div>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 300px;">
+ 
+  <div class="carousel-inner">
+
+    <div class="carousel-item active">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Relatório de Questões RD</h5>
+              </div>
+              <div class="card-body">
+                <p class="icone">Exporta arquivo Relatório de Questões RD</p>
+                <button [disabled]=" mostrarSpinner" class="btn btn-sm btn-outline-success " (click)="exportacaoCensoExcela()">
+                  <i *ngIf="mostrarSpinner" class="fas fa-file-excel  fas fa-spinner fa-pulse mostrarSpinner"></i>
+                  Exportar</button>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Prod de Questões BDQ</h5>
+              </div>
+              <div class="card-body">
+                <p class="icone">Exporta arquivo Produção de Questões BDQ</p>
+                <button [disabled]=" mostrarSpinner" class="btn btn-sm btn-outline-success " (click)="exportacaoCensoExcela()">
+                  <i *ngIf="mostrarSpinner" class="fas fa-file-excel  fas fa-spinner fa-pulse mostrarSpinner"></i>
+                  Exportar</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

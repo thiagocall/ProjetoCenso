@@ -49,6 +49,10 @@ resultadoTabela(codCampus:any) {
   return this.http.get(this.baseUrl + 'v1/Enade/ObtemDadosEnade/' + codCampus , {headers: tokenHeader});
 }
 
+salvarIdCiclo(data:any){
+  const tokenHeader = this.getToken();
+  return this.http.post(this.baseUrl + 'v1/Enade/salvarIdCiclo/' , data , {headers: tokenHeader});
+}
 
 
 

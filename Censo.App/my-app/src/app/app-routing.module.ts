@@ -44,6 +44,11 @@ import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
 import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
 import { AreaEnadeComponent } from './area-enade/area-enade.component';
 import { ErrorComponent } from './error/error.component';
+import { RelatorioComponent } from './relatorio/relatorio.component';
+import { PerformanceAlunosComponent } from './performanceAlunos/performanceAlunos.component';
+import { ProducaoQuestoesComponent } from './producaoQuestoes/producaoQuestoes.component';
+import { DependenciaOnlineComponent } from './dependencia-online/dependencia-online.component';
+import { AvaliandoAprendizagemComponent } from './avaliando-aprendizagem/avaliando-aprendizagem.component';
 
 
 
@@ -109,6 +114,14 @@ const routes: Routes = [
   {path: 'CursoEnade', component: CursoEnadeComponent , canActivate: [AuthGuard]},
   {path: 'ManutencaoCursoEnade', component: ManutencaoCursoEnadeComponent , canActivate: [AuthGuard]},
   {path: 'AreaEnade', component: AreaEnadeComponent , canActivate: [AuthGuard]},
+
+  /* ABA REGULATORIO */
+  {path: 'Relatorio', component: RelatorioComponent , canActivate: [AuthGuard]},
+  {path: 'ProducaoQuestoes', component: ProducaoQuestoesComponent , canActivate: [AuthGuard]},
+  {path: 'PerformanceAlunos', component: PerformanceAlunosComponent , canActivate: [AuthGuard]},
+  {path: 'DependenciaOnline', component: DependenciaOnlineComponent , canActivate: [AuthGuard]},
+  {path: 'AvaliandoAprendizagem', component: AvaliandoAprendizagemComponent , canActivate: [AuthGuard]},
+
 
   /*INICIO*/
   {path: 'Inicio', component: AppHomeComponent , canActivate: [AuthGuard]},

@@ -60,6 +60,11 @@ import { CursoEnadeComponent } from './curso-enade/curso-enade.component';
 import { ManutencaoCursoEnadeComponent } from './manutencao-curso-enade/manutencao-curso-enade.component';
 import { AreaEnadeComponent } from './area-enade/area-enade.component';
 import { ErrorComponent } from './error/error.component';
+import { RelatorioComponent } from './relatorio/relatorio.component';
+import { PerformanceAlunosComponent } from './performanceAlunos/performanceAlunos.component';
+import { ProducaoQuestoesComponent } from './producaoQuestoes/producaoQuestoes.component';
+import { DependenciaOnlineComponent } from './dependencia-online/dependencia-online.component';
+import { AvaliandoAprendizagemComponent } from './avaliando-aprendizagem/avaliando-aprendizagem.component';
 
 @NgModule({
    declarations: [
@@ -102,7 +107,12 @@ import { ErrorComponent } from './error/error.component';
       CursoEnadeComponent,
       ManutencaoCursoEnadeComponent,
       AreaEnadeComponent,
-      ErrorComponent
+      ErrorComponent,
+      RelatorioComponent,
+      PerformanceAlunosComponent,
+      ProducaoQuestoesComponent,
+      DependenciaOnlineComponent,
+      AvaliandoAprendizagemComponent
    ],
    imports: [
       BrowserModule,

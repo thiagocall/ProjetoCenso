@@ -82,12 +82,25 @@ export class CursoEnadeComponent implements OnInit {
   /*RESULTADO DA TABELA -CURSOS */
   resultadoCampusCurso(valor: any) {
     this.arraySlectedAno = '';
-   // this.cursos = this.resultadoCursos; //testar
+    // this.cursos = this.resultadoCursos; //testar
     this.enadeService.resultadoTabela(valor).subscribe(
       response => {
         this.resultadoCursos = response;
         this.cursos = this.resultadoCursos;
         this.codCampus = this.resultadoCursos.codCampus;
+        /*ordem alfabetica cursos pesquisa tabela*/
+        let tempArray = this.cursos;
+        tempArray.sort((a, b) => {
+          if (a.nomecurso > b.nomecurso) {
+            return 1;
+          }
+          if (a.nomecurso < b.nomecurso) {
+            return -1;
+          }
+          return 0;
+        });
+        /*fim ordem alfabetica cursos pesquisa tabela*/
+
       },
       error => {
         console.log(error);
