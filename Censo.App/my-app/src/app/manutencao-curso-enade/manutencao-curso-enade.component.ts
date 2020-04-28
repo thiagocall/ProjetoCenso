@@ -176,10 +176,10 @@ export class ManutencaoCursoEnadeComponent implements OnInit {
       'id': this.saveIdCiclo,
       'ciclos':localCiclo
     }
-    console.log('save data ' ,data);
+    console.log('save data',data);
     this.enadeService.salvarIdCiclo(data).subscribe(
       response => {
-        console.log('salvar api' ,response);
+        console.log('salvar api',response);
       },
       error => {
         console.log(error);

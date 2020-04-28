@@ -65,6 +65,7 @@ import { PerformanceAlunosComponent } from './performanceAlunos/performanceAluno
 import { ProducaoQuestoesComponent } from './producaoQuestoes/producaoQuestoes.component';
 import { DependenciaOnlineComponent } from './dependencia-online/dependencia-online.component';
 import { AvaliandoAprendizagemComponent } from './avaliando-aprendizagem/avaliando-aprendizagem.component';
+import { ManutencaoCursoComponent } from './manutencao-curso/manutencao-curso.component';
 
 @NgModule({
    declarations: [
@@ -112,7 +113,8 @@ import { AvaliandoAprendizagemComponent } from './avaliando-aprendizagem/avalian
       PerformanceAlunosComponent,
       ProducaoQuestoesComponent,
       DependenciaOnlineComponent,
-      AvaliandoAprendizagemComponent
+      AvaliandoAprendizagemComponent,
+      ManutencaoCursoComponent
    ],
    imports: [
       BrowserModule,

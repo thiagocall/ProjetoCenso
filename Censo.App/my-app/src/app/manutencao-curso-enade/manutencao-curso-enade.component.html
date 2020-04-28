@@ -16,7 +16,7 @@
         </div>
         <!-- COMBO 2-->
         <div class="col">
-          <div class="d-flex justify-content-between">Ciclo: {{todosCiclos[_idCiclo.selectedIndex -1]?.obs}}</div>
+          <div class="d-flex justify-content-between">Ciclo: {{todosCiclos[_idCiclo?.selectedIndex -1]?.obs}}</div>
           <select multiple class="form-control" id="sel2" style="width: 400px; height: 300px;">
             <option *ngFor="let palavra of cicloFiltradoSelecionado" (click)="pegaPalavraOrigem(palavra,$event.target)"
               [value]="palavra?.codareaemec">{{palavra?.descricaoarea}}</option>
@@ -35,12 +35,15 @@
           <select multiple class="form-control" id="sel2" style="width: 400px; height: 300px;">
             <option *ngFor="let palavra of palavrasDestino" (click)="pegaPalavraDestino(palavra,$event.target)"
               value="{{palavra}}">{{ palavra?.descricaoarea }}</option>
-          </select>
+            </select>
+                <div class="p-3" style="margin-left: 321px;">
+                  <button class="btn btn-primary btn-sm" (click)="salvar()">Salvar</button>
+                </div> 
         </div>
       </div>
     </form>
-    <div class="" style="margin-left: 1250px;">
+   <!-- <div class="" style="margin-left: 1250px;">
       <button class="btn btn-primary btn-sm" (click)="salvar()">Salvar</button>
-    </div>
+    </div> -->
   </form>
 </div>

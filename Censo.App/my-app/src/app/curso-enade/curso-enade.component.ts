@@ -25,6 +25,7 @@ export class CursoEnadeComponent implements OnInit {
       anoCampus: ['', [Validators.required, Validators.maxLength(80)]],
     });
 
+
   }
 
   public campusForm: FormGroup;
@@ -61,7 +62,6 @@ export class CursoEnadeComponent implements OnInit {
     this.selectCampus();
   }
 
-
   /*SELECT COM OS CAMPUS - selecione o campus*/
   selectCampus() {
     if (this.campusForm.value != null || this.campusForm.value != undefined) {
@@ -75,13 +75,12 @@ export class CursoEnadeComponent implements OnInit {
         }
       );
     }
-
   }
-
 
   /*RESULTADO DA TABELA -CURSOS */
   resultadoCampusCurso(valor: any) {
     this.arraySlectedAno = '';
+    this.cursos = []; // aparecer todos os cursos depois que pesquisar 
     // this.cursos = this.resultadoCursos; //testar
     this.enadeService.resultadoTabela(valor).subscribe(
       response => {
@@ -89,9 +88,9 @@ export class CursoEnadeComponent implements OnInit {
         this.cursos = this.resultadoCursos;
         this.codCampus = this.resultadoCursos.codCampus;
         /*ordem alfabetica cursos pesquisa tabela*/
-        let tempArray = this.cursos;
+        let tempArray = this.cursos; // cursos é o que quero colocar em ordem alfabética
         tempArray.sort((a, b) => {
-          if (a.nomecurso > b.nomecurso) {
+          if (a.nomecurso > b.nomecurso) { //variavel que vem da api nomecurso
             return 1;
           }
           if (a.nomecurso < b.nomecurso) {
@@ -107,7 +106,6 @@ export class CursoEnadeComponent implements OnInit {
       }
     );
   }
-
 
   /*BOTÃO PESQUISAR*/
   botaoPesquisar(valor: any) {
@@ -141,7 +139,5 @@ export class CursoEnadeComponent implements OnInit {
        this.arrayCursoFiltrado = [];
      }
    } */
-
-
 
 }

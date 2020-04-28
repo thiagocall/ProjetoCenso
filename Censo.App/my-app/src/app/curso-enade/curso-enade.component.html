@@ -39,7 +39,7 @@
       <label>Selecione o Ano</label>
         <select #codigoCampus [(ngModel)]="selectAno" class="form-control col-md-2" formControlName="anoCampus"
           (change)="filtroAno(selectAno)">
-          <option selected [value]="0">Todos os Anos</option>
+          <option [selected]="true" [value]="0">Todos os Anos</option>
           <option [value]="1">Ano 1 - 2022 </option>
           <option [value]="2">Ano 2 - 2020</option>
           <option [value]="3">Ano 3 - 2021</option>
