@@ -24,18 +24,26 @@
             <a class="dropdown-item" [routerLink]="['/ProfessorConsulta']">Professores</a>
           </div>
         </li>
+        
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/Censo']" routerLinkActive="router-link-active" style="color: white">Censo
-            <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/Regulatorio']" routerLinkActive="router-link-active"
+          <a class="nav-link" [routerLink]="['/Regulatorio/Inicio']" routerLinkActive="router-link-active"
             style="color: white">Regulatório <span class="sr-only">(current)</span></a>
         </li>
 
-        <li class="nav-item">
+
+        <!-- <li class="nav-item">
           <a class="nav-link" [routerLink]="['/Exportacao']" routerLinkActive="router-link-active"
             style="color: white">Exportação <span class="sr-only">(current)</span></a>
+        </li> -->
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/Relatorio']" routerLinkActive="router-link-active"
+            style="color: white">Relatórios Ensino<span class="sr-only">(current)</span></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/Censo']" routerLinkActive="router-link-active" style="color: white">Censo Docente
+            <span class="sr-only">(current)</span></a>
         </li>
 
         <li class="nav-item">
@@ -44,8 +52,8 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/Relatorio']" routerLinkActive="router-link-active"
-            style="color: white">Relatório <span class="sr-only">(current)</span></a>
+          <a class="nav-link" [routerLink]="['/Admin']" routerLinkActive="router-link-active"
+            style="color: white">Usuários <span class="sr-only">(current)</span></a>
         </li>
 
       </ul>

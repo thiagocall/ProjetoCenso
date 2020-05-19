@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import decode from 'jwt-decode';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -23,11 +24,13 @@ export class AuthService {
       .post(`${this.baseURL}login`, model).pipe( //post em 'http://localhost:5000/api/v1/usuarios/'
         map((response: any) => {
           const user = response;
-          // console.log(user);
           if (user) {
             localStorage.setItem('token', user.token); //salvando o token dentro do localStorage
             this.decodedToken = this.jwtHelper.decodeToken(user.token); //decodificar o token 
             sessionStorage.setItem('username', this.decodedToken.unique_name);
+            const tokenpaload = decode(user.token);
+            // console.log(tokenpaload.Roles);
+            
           }
         })
       );

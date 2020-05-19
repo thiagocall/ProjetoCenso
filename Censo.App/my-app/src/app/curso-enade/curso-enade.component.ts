@@ -80,17 +80,17 @@ export class CursoEnadeComponent implements OnInit {
   /*RESULTADO DA TABELA -CURSOS */
   resultadoCampusCurso(valor: any) {
     this.arraySlectedAno = '';
-    this.cursos = []; // aparecer todos os cursos depois que pesquisar 
-    // this.cursos = this.resultadoCursos; //testar
+    this.cursos = [];
+
     this.enadeService.resultadoTabela(valor).subscribe(
       response => {
         this.resultadoCursos = response;
         this.cursos = this.resultadoCursos;
         this.codCampus = this.resultadoCursos.codCampus;
-        /*ordem alfabetica cursos pesquisa tabela*/
-        let tempArray = this.cursos; // cursos é o que quero colocar em ordem alfabética
+
+        const tempArray = this.cursos;
         tempArray.sort((a, b) => {
-          if (a.nomecurso > b.nomecurso) { //variavel que vem da api nomecurso
+          if (a.nomecurso > b.nomecurso) {
             return 1;
           }
           if (a.nomecurso < b.nomecurso) {

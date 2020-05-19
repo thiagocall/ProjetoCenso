@@ -1,0 +1,59 @@
+
+<div class="container">
+  <div class=" p-4">
+  </div>
+
+  <!-- titulo-->
+  <div class="row container">
+    <div class="form-group col-md-8">
+      <div class="input-group">
+        <h2 class="font-weight-light">Usuários</h2>
+      </div>
+    </div>
+    <!-- botao voltar-->
+    <div class="col-md-1 offset-2">
+      <button [routerLink]="['/Inicio']" class="btn btn-outline-primary"
+        style="padding-left: 20px;  padding-right: 20px;"> Voltar</button>
+    </div>
+  </div>
+
+  <table class="table" style="width: 70%;">
+    <thead>
+      <tr>
+        <th scope="col">Usuario</th>
+        <th scope="col"> Email</th>
+        <th scope="col">Role</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of usuarios">
+        <td>{{item.email}}</td>
+        <td>{{item.email}}</td>
+        <td>
+          {{item?.roles.join([' | '])}}
+          <!-- <select class="form-control">
+            <option *ngFor="let role of item?.roles">{{role}}</option>
+
+          </select> -->
+          </td>
+          <td><!-- Botão Visualizar-->
+              <div class="btn-group">
+                <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"
+                  tooltip="Add Role">
+                <i id="i_{{item.id}}" class="fas fa-plus"></i>
+                </button>
+                <!--Botão + -->
+                
+                <!--Botão excluir-->
+                <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Remover Usuário"
+                  (click)="excluir(item.id, template)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div></td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+</div>

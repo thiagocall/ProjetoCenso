@@ -48,7 +48,7 @@ export class CalculadoraResultadosComponent implements OnInit {
 
   getCampus(codigo: string) {
     this.curso = this.listaCursos.filter(x => x.codCampus.toString() === codigo.toString());
-    
+
   }
 
 
@@ -197,31 +197,27 @@ export class CalculadoraResultadosComponent implements OnInit {
 
   }
 
-  
+
   N_Escala (lim_min: number,  lim_max: number,  percent: number)
-        {
+  {
 
-            let n: number;
+    let n: number;
 
-                n = (percent - lim_min) / (lim_max - lim_min) * 5;
+    n = (percent - lim_min) / (lim_max - lim_min) * 5;
 
-                if (n < 0)
-                {
-                    return 0;
-                }
-                else if (n > 5)
-                {
-                    return 5;
-                }
+    if (n < 0) {
+      return 0;
 
-                else
-                {
-                    let n1 = (n == null) ? 0 : n;
-                    return  n1;
-                }
-           
-        }
-      
+    } else if (n > 5) {
+      return 5;
+
+    } else {
+      const n1 = (n == null) ? 0 : n;
+      return n1;
+    }
+
+  }
+
   MontaFaixa(nota: number) {
 
     switch (true) {

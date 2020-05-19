@@ -26,6 +26,8 @@
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
     "jw-angular-pagination": "^1.1.0",
+    "jwt-decode": "^2.2.0",
+    "jwthelper": "0.0.4",
     "ng2-charts": "^2.3.0",
     "ngx-bootstrap": "^5.3.2",
     "ngx-export-as": "^1.4.0",

@@ -118,11 +118,6 @@ public Resumo getProfessores() {
 }
 
 
-
-
-
-
-
 public async Task<Resumo> setProfessores() {
 
             Dictionary<string, ProfessorRegime> dic = new Dictionary<string, ProfessorRegime>();

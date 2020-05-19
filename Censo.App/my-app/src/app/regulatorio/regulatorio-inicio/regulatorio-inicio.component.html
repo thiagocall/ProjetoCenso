@@ -1,0 +1,123 @@
+<div class="container mb-5 ml-2 mt-4">
+  <div class="mx-auto mt-5" style="width: 790px;">
+    <h2 class="font-weight-light" style="color:black;">
+      Regulatório
+    </h2>
+  </div>
+</div>
+
+
+<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" style="height: 300px;">
+  <div class="ml-5">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    </ol>
+  </div>
+  <div class="carousel-inner">
+
+
+    <div class="carousel-item active">
+      <div class="container">
+        <div class="row">
+          
+          <!--card 1-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Corpo Docente</h5>
+              </div>
+              <div class="card-body">
+
+                <p class="icone">Relatório com informações rápidas sobre o corpo docente da Estácio</p>
+                <button class="btn btn-sm btn-outline-success" (click)="exportarResultadoExcel()">
+                  <i class="fas fa-file-excel"></i> Exportar</button>
+              </div>
+            </div>
+          </div>
+          <!--card 2-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/Regulatorio/ProfessorIes']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Professor IES</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-address-card fa-2x icon"></i>
+                <p>Informações do Professor por IES</p>
+                <br>
+              </div>
+            </div>
+          </div>
+          <!--card 3-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/RegulatorioProfessorCurso']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Professor Curso</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-id-card-alt fa-2x icon"></i>
+                <p>Informações do Professor por Curso</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="carousel-item">
+      <div class="container">
+        <div class="row">
+          <!--card 1-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/RegulatorioProfessorForaDeSede']">
+              <div id="cardhead" class="card-header ">
+                <h5 class="card-title">Professor Fora de Sede</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-chalkboard-teacher fa-2x icon"></i>
+                <p>Informações do Professor Fora de Sede</p>
+              </div>
+            </div>
+          </div>
+          <!--card 2-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/RegulatorioProfessorGapCargaHoraria']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Gap Carga Horária</h5>
+              </div>
+              <div class="card-body">
+                <i class="far fa-clipboard fa-2x icon"></i>
+                <p>Informações do GAP/Carga Horária</p>
+              </div>
+            </div>
+          </div>
+          <!--card 3-->
+          <div class="col-md-4">
+            <div class="card card-move" style="width: 18rem" [routerLink]="['/RegulatorioProfessorTermoTiTp']">
+              <div id="cardhead" class="card-header">
+                <h5 class="card-title">Gera Termo TI / TP</h5>
+              </div>
+              <div class="card-body">
+                <i class="fas fa-users  fa-2x icon"></i>
+                <p>Informações para geração de termos TI/TP</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>

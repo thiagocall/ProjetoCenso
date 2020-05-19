@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegulatorioService } from '../_services/regulatorio.service';
+import { RegulatorioService } from '../../_services/regulatorio.service';
 import { saveAs } from 'file-saver';
 
 @Component({

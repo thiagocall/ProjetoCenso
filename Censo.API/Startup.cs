@@ -65,7 +65,6 @@ namespace Censo.API
              builder.AddSignInManager<SignInManager<ApplicationUser>>();
 
 
-
             // COnfigurando o JWT
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
@@ -78,6 +77,24 @@ namespace Censo.API
                          ValidateAudience = false     
                     };
             });
+            // Adiciona politica para liberaçao dos usuários atr
+            services.AddAuthorization(options => {
+             options.AddPolicy("RequireMaster", policy => {
+                policy.RequireClaim("Roles","Master","User");
+               // policy.RequireClaim("Roles","User");
+             }
+
+                );
+            options.AddPolicy("RequireN0", policy =>
+                policy.RequireClaim("Roles","User")
+                );
+                  options.AddPolicy("RequireN1", policy =>
+                policy.RequireClaim("Roles","User")
+                );
+            }
+             
+                
+            );
 
 
             //Adiciona contexto do Censo para Controller
@@ -96,8 +113,6 @@ namespace Censo.API
             services.AddDbContext<ExportacaoContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<EnadeContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ProfessorAddContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-
 
 
             //Adicionando a autentiação as rotas
@@ -121,7 +136,7 @@ namespace Censo.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RedisService redisService)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, RedisService redisService, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -139,7 +154,25 @@ namespace Censo.API
             redisService.Connect();
             redisService.upService();
             app.UseMvc();
+
+        // CreateRoles(serviceProvider).Wait();
         }
+
+        //   private async Task CreateRoles(IServiceProvider serviceProvider)
+        // {
+        //    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        //     var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        //     string[] rolesNames = { "Adm", "Pro", "Reg", "CSC", "Master"};
+        //     IdentityResult result;
+        //     foreach(var namesRole in rolesNames)
+        //     {
+        //         var roleExist = await roleManager.RoleExistsAsync(namesRole);
+        //         if(!roleExist)
+        //         {
+        //             result = await roleManager.CreateAsync(new IdentityRole(namesRole));
+        //         }
+        //     }
+        // }
 
 
     }

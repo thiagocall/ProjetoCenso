@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { RegulatorioService } from '../_services/regulatorio.service';
+import { RegulatorioService } from '../../_services/regulatorio.service';
 import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'app-regulatorio',
-  templateUrl: './regulatorio.component.html',
-  styleUrls: ['./regulatorio.component.css']
+  selector: 'app-regulatorio-inicio',
+  templateUrl: './regulatorio-inicio.component.html',
+  styleUrls: ['./regulatorio-inicio.component.css']
 })
-
-export class RegulatorioComponent implements OnInit {
+export class RegulatorioInicioComponent implements OnInit {
 
   constructor(private regulatorioService: RegulatorioService) { }
 
@@ -21,7 +20,6 @@ export class RegulatorioComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
 }

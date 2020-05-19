@@ -223,18 +223,21 @@ namespace Censo.API.Controllers.Geral
              try
             {   // inicio try catch
 
-                TbResultado resultadoOTM;
+                TbResultadoAtual resultadoOTM;
 
-                if (id == 0)
-                {
-                resultadoOTM = await this.ProducaoContext.TbResultado
-                        .FirstOrDefaultAsync(r => r.indOficial == 1);
+                // if (id == 0)
+                // {
+                // resultadoOTM = await this.ProducaoContext.TbResultadoAtual
+                //         .FirstOrDefaultAsync(r => r.indOficial == 1);
                     
-                }
-                else {
-                        resultadoOTM = await this.ProducaoContext.TbResultado
+                // }
+                // else {
+                //         resultadoOTM = await this.ProducaoContext.TbResultadoAtual
+                //         .FirstOrDefaultAsync(r => r.Id == id);
+                // }
+
+                 resultadoOTM = await this.ProducaoContext.TbResultadoAtual
                         .FirstOrDefaultAsync(r => r.Id == id);
-                }
                 
                 // Tratando dados para Excel
 
@@ -256,6 +259,7 @@ namespace Censo.API.Controllers.Geral
                 resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
                 //var parametros =  new List<ParametrosCenso>();
                 parametros.Add(JsonConvert.DeserializeObject<ParametrosCenso>(resultadoOTM.Parametro));
+
                 var newprofes = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);
 
                 var professores = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);

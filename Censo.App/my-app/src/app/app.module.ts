@@ -14,8 +14,8 @@ import { DatePipe } from '@angular/common';
 
 /*teste*/
 import { TesteGraficoComponent } from './teste/teste-grafico/teste-grafico.component';
-import { TesteTelaComponent } from "./teste/teste-tela/teste-tela.component";
-/*fim teste */ 
+import { TesteTelaComponent } from './teste/teste-tela/teste-tela.component';
+/*fim teste */
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,10 +35,11 @@ import { UserComponent } from './user/user.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { RegulatorioComponent } from './regulatorio/regulatorio.component';
+import {RegulatorioInicioComponent} from './regulatorio/regulatorio-inicio/regulatorio-inicio.component';
 import { CorpoDocenteComponent } from './regulatorio-corpo-docente/corpo-docente.component';
 import { ProfessorConsultaDetalheComponent } from './professor-consulta-detalhe/professor-consulta-detalhe.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { RegulatorioProfessorIesComponent } from './regulatorio-professor-ies/regulatorio-professor-ies.component';
+import { RegulatorioProfessorIesComponent } from './regulatorio/regulatorio-professor-ies/regulatorio-professor-ies.component';
 import { RegulatorioProfessorCursoComponent } from './regulatorio-professor-curso/regulatorio-professor-curso.component';
 import { RegulatorioProfessorForaSedeComponent } from './regulatorio-professor-fora-sede/regulatorio-professor-fora-sede.component';
 import { RegulatorioGapCargaHorariaComponent } from './regulatorio-gap-carga-horaria/regulatorio-gap-carga-horaria.component';
@@ -66,6 +67,7 @@ import { ProducaoQuestoesComponent } from './producaoQuestoes/producaoQuestoes.c
 import { DependenciaOnlineComponent } from './dependencia-online/dependencia-online.component';
 import { AvaliandoAprendizagemComponent } from './avaliando-aprendizagem/avaliando-aprendizagem.component';
 import { ManutencaoCursoComponent } from './manutencao-curso/manutencao-curso.component';
+import { AdminUsuarioComponent } from './admin-usuario/admin-usuario.component';
 
 @NgModule({
    declarations: [
@@ -88,6 +90,7 @@ import { ManutencaoCursoComponent } from './manutencao-curso/manutencao-curso.co
       LoginComponent,
       RegistrationComponent,
       RegulatorioComponent,
+      RegulatorioInicioComponent,
       CorpoDocenteComponent,
       ProfessorConsultaDetalheComponent,
       RegulatorioProfessorIesComponent,
@@ -114,7 +117,8 @@ import { ManutencaoCursoComponent } from './manutencao-curso/manutencao-curso.co
       ProducaoQuestoesComponent,
       DependenciaOnlineComponent,
       AvaliandoAprendizagemComponent,
-      ManutencaoCursoComponent
+      ManutencaoCursoComponent,
+      AdminUsuarioComponent
    ],
    imports: [
       BrowserModule,
@@ -126,7 +130,10 @@ import { ManutencaoCursoComponent } from './manutencao-curso/manutencao-curso.co
       ModalModule.forRoot(),
       TooltipModule.forRoot(),
       BrowserAnimationsModule,
-      ToastrModule.forRoot(),
+      ToastrModule.forRoot({
+         preventDuplicates: true,
+         positionClass: 'toast-bottom-right'
+      }),
       AccordionModule.forRoot(),
       NgxPaginationModule,
       ExportAsModule,

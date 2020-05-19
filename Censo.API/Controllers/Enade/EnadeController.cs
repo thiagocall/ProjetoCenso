@@ -17,7 +17,7 @@ using Censo.API.Model.Censo;
 
 namespace Censo.API.Controllers.Enade
 {
-    [AllowAnonymous]
+    [Authorize(Roles="Master, User")]
     [Route ("api/v1/[controller]")]
     [ApiController]
     public class EnadeController: ControllerBase
@@ -85,7 +85,7 @@ namespace Censo.API.Controllers.Enade
 
         
 
-        [AllowAnonymous]
+        
         [HttpGet("ObterCicloporId/{_id}")]
         public ActionResult obterCicloporId(long _id)
         {
@@ -95,7 +95,7 @@ namespace Censo.API.Controllers.Enade
         }
 
         
-        [AllowAnonymous]
+        
         [HttpGet("ObterCiclos")]
         public async Task<IActionResult> obterCiclos()
         {
@@ -109,7 +109,7 @@ namespace Censo.API.Controllers.Enade
         }
 
         // Não está sendo usado no Front-End
-        [AllowAnonymous]
+      
         [HttpGet("DescricaoCiclos")]
         public async Task<IActionResult> DescricaoCiclos()
         {
@@ -143,7 +143,7 @@ namespace Censo.API.Controllers.Enade
         }
         
 
-        [AllowAnonymous]
+        
         [HttpGet("ObterDescCiclo/{campo}")]
         public ActionResult ObterDescCiclo(string campo)
         {
@@ -155,7 +155,7 @@ namespace Censo.API.Controllers.Enade
         }
 
 
-        [AllowAnonymous]
+        
         [HttpGet("ElegerAreasCiclos/{_id}")]
         public ActionResult ElegerAreasCiclos(long _id)
         {
@@ -165,7 +165,7 @@ namespace Censo.API.Controllers.Enade
             return Ok(resultado);
         }
 
-        [AllowAnonymous]
+        
         [HttpGet("MostraAreas/{_id}")]
         public async Task<IActionResult> MostraAreas(int _id)
         {
@@ -184,7 +184,7 @@ namespace Censo.API.Controllers.Enade
         }
 
 
-        [AllowAnonymous]
+       
         [HttpGet("BuscaAreasCiclos")]
         public async Task<IActionResult> BuscaAreasCiclos() {
 
@@ -224,7 +224,7 @@ namespace Censo.API.Controllers.Enade
 
         }
 
-        [AllowAnonymous]
+      
         [HttpGet("TodosCampus")]
         public async Task<IActionResult> TodosCampus () {
 
@@ -239,7 +239,7 @@ namespace Censo.API.Controllers.Enade
         }
 
         // Parametro codigo-curso
-        [AllowAnonymous]
+       
         [HttpGet("ObtemDadosEnade/{_id}")]
         //public async Task<IActionResult> ObtemDadosEnade (int _id) {
         public ActionResult ObtemDadosEnade(long _id) 

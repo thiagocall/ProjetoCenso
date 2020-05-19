@@ -54,9 +54,8 @@ export class LoginComponent implements OnInit {
           this.mostrarSpinner = false;
         }
       );
-    console.log(this.authService.decodedToken);
+    // console.log(this.authService.decodedToken);
   }
-
 
   validation() {
     this.registerForm = this.fb.group({
