@@ -94,7 +94,6 @@ const routes: Routes = [
     expectedRole: nivel0
   }},
 
-
   /* ABA CONSULTA*/
   {path: 'ProfessorConsulta', component: ProfessorConsultaComponent  , canActivate: [AuthGuard],
     data: {
@@ -104,7 +103,6 @@ const routes: Routes = [
     data: {
     expectedRole: nivel1
   }},
-
 
   /* ABA CENSO */
   {path: 'Censo', component: AppCensoComponent  , canActivate: [AuthGuard],

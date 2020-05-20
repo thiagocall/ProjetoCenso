@@ -9,6 +9,9 @@ export class ProducaoQuestoesComponent implements OnInit {
 
   constructor() { }
 
+  mostrarSpinner: any;
+  exportacaoCensoExcela() {}
+
   ngOnInit() {
   }
 

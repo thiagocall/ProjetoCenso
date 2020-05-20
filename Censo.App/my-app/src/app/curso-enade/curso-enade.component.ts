@@ -11,8 +11,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class CursoEnadeComponent implements OnInit {
 
   selectAno: string;
-  arraySlectedAno: string;
+  arraySlectedAno: string[];
   arrayCursoFiltrado: any;
+  p: any;
 
   constructor(private enadeService: EnadeService,
     public formBuilder: FormBuilder) {
@@ -79,7 +80,7 @@ export class CursoEnadeComponent implements OnInit {
 
   /*RESULTADO DA TABELA -CURSOS */
   resultadoCampusCurso(valor: any) {
-    this.arraySlectedAno = '';
+    this.arraySlectedAno = [];
     this.cursos = [];
 
     this.enadeService.resultadoTabela(valor).subscribe(

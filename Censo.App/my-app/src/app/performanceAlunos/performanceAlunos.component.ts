@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class PerformanceAlunosComponent implements OnInit {
 
   constructor() { }
+  mostrarSpinner: any;
+  exportacaoCensoExcela() {}
+  
 
   ngOnInit() {
   }

@@ -8,6 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class AreaEnadeComponent implements OnInit {
 
   constructor() { }
+  todosCiclos: any;
+  listaProfessorAdicionado: any;
+
+  filtrarCiclo(item: any) {}
+  dadosFiltrados() {}
+  addProfessor(professor: any) {}
+  limparLista() {}
+  salvarDadosprofessor() {}
+  removerProfessor(professor: any) {}
 
   ngOnInit() {
   }
