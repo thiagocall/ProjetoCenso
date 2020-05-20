@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/_services/auth.service';
+import { UsuarioService } from 'src/app/_services/usuarios.service';
 import { ToastrService } from 'ngx-toastr';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -11,9 +12,11 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class InicioComponent implements OnInit {
 
-  constructor(private authService: AuthService
-  , public router: Router
-  , private toastr: ToastrService) { }
+  constructor(
+                private authService: AuthService
+              , private usuarioService: UsuarioService
+              , public router: Router
+              , private toastr: ToastrService) { }
 
   professores = [];
   JwtHelper = new JwtHelperService();
@@ -22,7 +25,6 @@ export class InicioComponent implements OnInit {
 
     this.professores = ['Thiago Caldas', 'Marcus Sales', 'Cesar Augusto'];
   }
-  
   loggedIn() {
     return this.authService.loggedIn();
   }
@@ -41,6 +43,10 @@ export class InicioComponent implements OnInit {
     // return sessionStorage.getItem('username').split('.')[0];
     const token = this.JwtHelper.decodeToken(localStorage.getItem('token'));
     return token.unique_name.split('.')[0];
+  }
+
+  IsMaster(): boolean {
+    return this.usuarioService.IsMaster();
   }
 
 }

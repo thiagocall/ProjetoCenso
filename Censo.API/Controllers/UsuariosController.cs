@@ -41,6 +41,7 @@ namespace Censo.API.Controllers
          {
             return " << Controlador UsuariosController :: WebApiUsuarios >> ";
          }
+
         [AllowAnonymous]
         [HttpPost("Criar")]
         public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
@@ -95,40 +96,16 @@ namespace Censo.API.Controllers
         
         }
 
-        [Authorize(Policy=("RequireMaster"))]
-        [HttpGet("getUsuarios")]
-        public async Task<IActionResult> getUsuarios(){
-
-            var users = await _userManager.Users.ToListAsync();
-            List<UserInfo> usersInfo = new List<UserInfo>();
-            UserInfo userInfo;
-            var activeuser = User.Identity.Name;
-
-                foreach (var item in users)
-                {
-                    userInfo = new UserInfo(){
-                        Email = item.UserName,
-                        Roles = await _userManager.GetRolesAsync(item)
-                    };
-
-                    usersInfo.Add(userInfo);
-                };
-
-            return Ok(activeuser);
-        }
-
-
-        private async Task<UserToken> BuildToken(UserInfo userInfo, ApplicationUser _user)
-           
-        {
-            var user  =_user;
-            var claims = new  List<Claim>()
+          private async Task<UserToken> BuildToken(UserInfo userInfo, ApplicationUser _user) 
+          {
+            var user = _user;
+            var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-             var userRoles = await _userManager.GetRolesAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
             foreach (var userRole in userRoles)
             {
                 claims.Add(new Claim("Roles", userRole));
@@ -159,5 +136,75 @@ namespace Censo.API.Controllers
                 Expiration = expiration
             };
         }
+
+
+        [Authorize(Policy=("RequireMaster"))]
+        [HttpDelete("delUsuarios/{name}")]
+        public async Task<IActionResult> delUsuarios(string name) {
+            var user =await _userManager.FindByNameAsync(name);
+            var delUser = await _userManager.DeleteAsync(user);
+            if(delUser.Succeeded){
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+
+        [Authorize(Policy=("RequireMaster"))]
+        [HttpDelete("delRole/{_name}/{_role}")]
+        public async Task<IActionResult> delRole(string _name, string _role) {
+            var user =await _userManager.FindByNameAsync(_name);
+            var delRoler = await _userManager.RemoveFromRoleAsync(user, _role);
+            if(delRoler.Succeeded){
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+
+        [Authorize(Policy=("RequireMaster"))]
+        [HttpDelete("addRole/{_name}/{_role}")]
+        public async Task<IActionResult> AddRole(string _name, string _role) {
+            var user =await _userManager.FindByNameAsync(_name);
+            var addRoler = await _userManager.AddToRoleAsync(user, _role);
+            if(addRoler.Succeeded){
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+       
+
+       [Authorize(Policy=("RequireMaster"))]
+        [HttpGet("getUsuarios")]
+        public async Task<IActionResult> getUsuarios() {
+            var users = await _userManager.Users.ToListAsync();
+            List<UserInfo> usersInfo = new List<UserInfo>();
+            UserInfo userInfo;
+            var activeuser = User.Identity.Name;
+
+                foreach (var item in users)
+                {
+                    userInfo = new UserInfo(){
+                        Email = item.UserName,
+                        Roles = await _userManager.GetRolesAsync(item)
+                    };
+
+                    usersInfo.Add(userInfo);
+                }
+
+                var roles = _roleManager.Roles.ToList();
+
+                var result = new {usersInfo, roles};
+
+                return Ok(result);
+    }
+        
+
+
+
     }
 }

@@ -22,14 +22,14 @@
       <tr>
         <th scope="col">Usuario</th>
         <th scope="col"> Email</th>
-        <th scope="col">Role</th>
+        <th scope="col">Perfil</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of usuarios">
-        <td>{{item.email}}</td>
-        <td>{{item.email}}</td>
+        <td>{{item?.email}}</td>
+        <td>{{item?.email}}</td>
         <td>
           {{item?.roles.join([' | '])}}
           <!-- <select class="form-control">
@@ -39,15 +39,14 @@
           </td>
           <td><!-- Botão Visualizar-->
               <div class="btn-group">
-                <button [routerLink]="['/Resultados', item.id]" class="btn btn-outline-primary btn-sm"
-                  tooltip="Add Role">
-                <i id="i_{{item.id}}" class="fas fa-plus"></i>
+                <button  class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
+                  tooltip="Editar" (click)="selecionaUsuario(item?.email)">
+                  <i class="fas fa-pencil-alt"></i>
                 </button>
-                <!--Botão + -->
                 
                 <!--Botão excluir-->
-                <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Remover Usuário"
-                  (click)="excluir(item.id, template)">
+                <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Remover"
+                  (click)="remover(template, item?.email)">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </div></td>
@@ -57,3 +56,86 @@
   </table>
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Usuário: {{usuarioSelecionado?.email}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table" style="width: 70%;">
+          <thead>
+            <tr>
+              <th scope="col">Perfil</th>
+              <th scope="col"></th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let role of usuarioSelecionado?.roles">
+              <td>{{role}}</td>
+              <td>
+              <div class="btn-group">
+                <!--Botão excluir-->
+                <button type="button" class="btn btn-outline-danger btn-sm" tooltip="Remover"
+                  (click)="removerRole(usuarioSelecionado.email, role)" data-toggle="modal" data-target="#exampleModalCenter">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </td>
+              </tr>
+              <tr>
+                <td>
+                  <select class="form-control" #optrole>
+                    <option >Selecione o perfil</option>
+                    <option *ngFor="let item of roles" value="{{item.name}}">{{item.fullName}}</option>
+                  </select>
+                </td>
+                <td>
+                  <button  class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#exampleModalCenter"
+                  tooltip="Adicionar" (click)="addRole(usuarioSelecionado.email, optrole.value)">
+                  <i class="fas fa-plus"></i>
+                </button>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+ <!-- Modal Visualizar-->
+ <div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Modal</h4>
+        <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Visualizar-->
+
+<!-- Modal excluir-->
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Deseja excluir o usuário {{remUsuario}}?</p>
+    <button type="button" class="btn btn-danger m-2" (click)="removerUsuario()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="cancelar()">Não</button>
+  </div>
+</ng-template>
+<!-- Modal excluir-->

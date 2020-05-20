@@ -80,16 +80,21 @@ namespace Censo.API
             // Adiciona politica para liberaçao dos usuários atr
             services.AddAuthorization(options => {
              options.AddPolicy("RequireMaster", policy => {
-                policy.RequireClaim("Roles","Master","User");
+                policy.RequireClaim("Roles","Master");
                // policy.RequireClaim("Roles","User");
              }
-
                 );
             options.AddPolicy("RequireN0", policy =>
                 policy.RequireClaim("Roles","User")
                 );
                   options.AddPolicy("RequireN1", policy =>
-                policy.RequireClaim("Roles","User")
+                policy.RequireClaim("Roles","Master","Reg", "Adm", "CSC")
+                );
+                options.AddPolicy("RequireN2", policy =>
+                policy.RequireClaim("Roles","Master","Reg", "Adm")
+                );
+                options.AddPolicy("RequireN3", policy =>
+                policy.RequireClaim("Roles","Master", "Adm")
                 );
             }
              

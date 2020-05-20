@@ -147,7 +147,7 @@ const routes: Routes = [
     {path: 'ProfessorIes', component: RegulatorioProfessorIesComponent},
   ],
     data: {
-    expectedRole: nivel0
+    expectedRole: nivel2
   }},
   // {path: 'RegulatorioProfessorIes', component: RegulatorioProfessorIesComponent , canActivate: [AuthGuard],
   //   data: {
@@ -248,7 +248,7 @@ const routes: Routes = [
 
   {path: 'Admin', component: AdminUsuarioComponent, canActivate: [AuthGuard],
   data: {
-    expectedRole: nivel0
+    expectedRole: nivel4
   }
 },
 
@@ -256,7 +256,7 @@ const routes: Routes = [
   /*INICIO*/
   {path: 'Inicio', component: AppHomeComponent ,  canActivate: [AuthGuard],
     data: {
-    expectedRole: ['User']
+    expectedRole: nivel0
   }},
   {path: '', component: LoginComponent},
   {path: '**', component: PaginaNaoEncontradaComponent},
