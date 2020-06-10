@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
           timeOut: 2000,
           });
         return false; // this.router.navigate(['/Inicio']);
-    }
+        }
   }
 
 }

@@ -28,6 +28,7 @@ namespace Censo.API.Atividade
                         prof.CpfProfessor = reader["CPF_PROFESSOR"].ToString();
                         prof.Atividades.Add(reader["ATIVIDADE"].ToString());
                         DicProfessor.Add(prof.CpfProfessor, prof);
+                        // var prof2 = DicProfessor.TryGetValue("001", out var p) ? p : null;
                     }
                     else
                     {

@@ -12,7 +12,6 @@ using Censo.API.Resultados;
 using Censo.API.Services.Redis.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-//using Censo.API.ModelTeste;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -129,6 +128,7 @@ namespace Censo.API
                 options.Filters.Add(new AuthorizeFilter(policy));
                 
             })
+            
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .AddJsonOptions(opt => opt.SerializerSettings.ReferenceLoopHandling = 
                                 Newtonsoft.Json.ReferenceLoopHandling.Ignore); // evita a redundancia de referencia nos json
@@ -160,24 +160,8 @@ namespace Censo.API
             redisService.upService();
             app.UseMvc();
 
-        // CreateRoles(serviceProvider).Wait();
         }
 
-        //   private async Task CreateRoles(IServiceProvider serviceProvider)
-        // {
-        //    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        //     var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-        //     string[] rolesNames = { "Adm", "Pro", "Reg", "CSC", "Master"};
-        //     IdentityResult result;
-        //     foreach(var namesRole in rolesNames)
-        //     {
-        //         var roleExist = await roleManager.RoleExistsAsync(namesRole);
-        //         if(!roleExist)
-        //         {
-        //             result = await roleManager.CreateAsync(new IdentityRole(namesRole));
-        //         }
-        //     }
-        // }
 
 
     }
