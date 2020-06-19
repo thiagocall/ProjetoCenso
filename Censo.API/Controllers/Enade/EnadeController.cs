@@ -17,7 +17,7 @@ using Censo.API.Model.Censo;
 
 namespace Censo.API.Controllers.Enade
 {
-    [Authorize(Roles="Master, User")]
+   [Authorize(Policy=("RequireN3"))]
     [Route ("api/v1/[controller]")]
     [ApiController]
     public class EnadeController: ControllerBase

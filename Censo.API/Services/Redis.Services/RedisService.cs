@@ -67,17 +67,23 @@ public void upService () {
             using (var redis = this.GetRedisClient())
             {
                 
-                
-                redis.FlushDb();
+
                 
                 IRedisTypedClient<Resumo> res = redis.As<Resumo>() as IRedisTypedClient<Resumo>;
+                
+                if (res.GetById(2020) == null)
+                {
+
+                 redis.FlushDb();
                 var tsk1 = Task.Run( () => setProfessores());
 
                 Task.WaitAll(tsk1);
 
                 var resumo = tsk1.Result;
+
                 res.Store(resumo, new TimeSpan(10,0,0,0));
                 res.Save();
+                }
 
             }
 
@@ -103,7 +109,7 @@ public Resumo getProfessores() {
                     IRedisTypedClient<Resumo> res = redis.As<Resumo>();
                     // redis.Info
                     
-                    resumo = (Resumo)res.GetById(2019);
+                    resumo = (Resumo)res.GetById(2020);
                 } 
 
         return resumo;
@@ -161,7 +167,7 @@ public async Task<Resumo> setProfessores() {
                     var qtdHorista = results.Where(x => x.regime == "HORISTA" ).Count();
 
                     var res = new Resumo { 
-                                    Id = 2019,
+                                    Id = 2020,
                                     qtdDoutor = qtdDoutor, 
                                     qtdMestre = qtdMestre,
                                     qtdRegime = qtdRegime,
