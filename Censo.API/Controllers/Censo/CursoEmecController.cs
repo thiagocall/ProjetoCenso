@@ -345,6 +345,9 @@ namespace Censo.API.Controllers.Censo
             {
                 var resultadoOTM = await this.ProducaoContext.TbResultado
                         .FirstOrDefaultAsync(r => r.Id == id);
+
+                var resultadoOTMAnterior = await this.ProducaoContext.TbResultadoAtual
+                        .FirstOrDefaultAsync(r => r.Id == id);
                 
                 // Tratando dados para Excel
 
@@ -357,7 +360,11 @@ namespace Censo.API.Controllers.Censo
 
                 var resultados = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTM.Resultado);
 
+                var resultadosAnt = JsonConvert.DeserializeObject<List<Resultado>>(resultadoOTMAnterior.Resultado);
+
                 var professores = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTM.Professores);
+
+                var professoresAnterior = JsonConvert.DeserializeObject<List<CursoProfessor>>(resultadoOTMAnterior.Professores);
 
                 var cursoCenso = ListaCurso;
 
@@ -373,6 +380,7 @@ namespace Censo.API.Controllers.Censo
                 });
 
                 List<ProfessorExcel> listaProfessor = new List<ProfessorExcel>();
+                List<ProfessorExcel> listaProfessorAnt = new List<ProfessorExcel>();
 
                 foreach (var item in professores)
                 {
@@ -393,17 +401,41 @@ namespace Censo.API.Controllers.Censo
                             });
                 }
 
+                foreach (var item in professoresAnterior)
+                {
+                    item.Professores.ForEach( (p) =>
+                            {
+                               listaProfessorAnt.Add( new ProfessorExcel { 
+                                   
+                                   cpfProfessor = p.cpfProfessor,
+                                   Regime = p.Regime,
+                                   Titulacao = p.Titulacao,
+                                   NomeCurso = CursoEmec[item.CodEmec],
+                                   CodEmec = item.CodEmec,
+                                   Nota_Doutor = item.Nota_Doutor,
+                                   Nota_Mestre = item.Nota_Mestre,
+                                   Nota_Regime = item.Nota_Regime,
+
+                               })  ;
+                            });
+                }
+
                 //  Monta arquivo para Download em Excel
 
                 var stream = new MemoryStream();
 
                 using (var package = new ExcelPackage(stream)) {                
                     var shResumo = package.Workbook.Worksheets.Add("Resultado");
+                    var shResumoaAnt = package.Workbook.Worksheets.Add("ResultadoNaoOtimizado");
                     var shParam = package.Workbook.Worksheets.Add("Parametros");
                     var shProfessores = package.Workbook.Worksheets.Add("Professores");
+                    //var shProfessoresAnt = package.Workbook.Worksheets.Add("ProfessoresAnt");
                     shResumo.Cells.LoadFromCollection(resultados, true);
+                    shResumoaAnt.Cells.LoadFromCollection(resultadosAnt, true);
+                    
                     shParam.Cells.LoadFromCollection(parametros, true);
                     shProfessores.Cells.LoadFromCollection(listaProfessor, true);
+                    //shProfessoresAnt.Cells.LoadFromCollection(listaProfessorAnt, true);
                     package.Save();            
                 };  
 
@@ -665,13 +697,13 @@ namespace Censo.API.Controllers.Censo
         } else if(ind_metodo == 0)
         {
             
-            res = y.Where(v => v != null).Max() * 1.10;
+            res = y.Where(v => v != null).Last() * 1.10;
 
             return res;
 
         }else{
             
-            res = y.Where(v => v != null).Max() * 1.10;
+            res = y.Where(v => v != null).Last() * 1.10;
 
             return res;
 

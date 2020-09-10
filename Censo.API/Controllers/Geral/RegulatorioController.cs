@@ -120,6 +120,9 @@ namespace Censo.API.Controllers
                         {
                             item.regime = dic[item.CpfProfessor.ToString()].Regime;
                         }
+                else {
+                    item.regime = "CHZ/AFASTADO";
+                }
             }
 
             //  Monta arquivo para Download em Excel

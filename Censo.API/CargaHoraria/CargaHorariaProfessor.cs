@@ -21,7 +21,7 @@ namespace Censo.API.CargaHoraria
 
             //Dictionary<string, double> dicCargaDs = new Dictionary<string, double>();
 
-            string strConn = "Data Source=db-alteryx.database.windows.net;Database=db-alteryx;User Id=db-admin;Password=8v&Kmu8b;";
+            string strConn = "Data Source=db-alteryx.database.windows.net;Database=db-Censup;User Id=db-admin;Password=8v&Kmu8b;";
 
             using (SqlConnection conn = new SqlConnection(strConn))
             {
@@ -56,7 +56,7 @@ namespace Censo.API.CargaHoraria
                 return dicCargaFs;
             }
 
-            string strConn = "Data Source=db-alteryx.database.windows.net;Database=db-alteryx;User Id=db-admin;Password=8v&Kmu8b;";
+            string strConn = "Data Source=db-alteryx.database.windows.net;Database=db-Censup;User Id=db-admin;Password=8v&Kmu8b;";
 
             using (SqlConnection conn = new SqlConnection(strConn))
             {

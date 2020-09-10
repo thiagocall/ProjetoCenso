@@ -5,9 +5,9 @@
   </h1>
 
   <form class="form-signin" #loginForm="ngForm" (ngSubmit)="login()">
-    <img class="mb-4" src="" alt="" width="72" height="72">
+  
 
-    <div class="">
+    <div class="mt-3">
       <form [formGroup]="registerForm">
         <div class="form-group">
           <input class="form-control" type="text" formControlName="email" required [(ngModel)]="model.email" [ngClass]="{ 'is-invalid': 
