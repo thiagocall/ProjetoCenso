@@ -60,43 +60,7 @@ namespace Censo.API.Resultados
 
                 var ListaProfessorAdd = this.ProfessorAddContext.Professor.ToList();
 
-                // Monta Relação Professor Curso ####################
-
-                // foreach (var curso in _listaProfessor)
-                // { 
-                //     foreach (var prof in curso.Professores)
-                //     {
-                //         // Professor novo na lista
-                //         int qtdProfessor = this.ListaprofessorCurso.Where(x => x.cpfProfessor == prof.cpfProfessor.ToString()).Count();
-                        
-                            
-                //                 if ( qtdProfessor == 0)
-                //                 {
-
-                //                     professorCurso = new ProfessorCurso();
-                //                     professorCurso.cpfProfessor = prof.cpfProfessor.ToString();
-                //                     professorCurso.strCursos.Add(curso.CodEmec.ToString());
-
-                //                     ListaprofessorCurso.Add(professorCurso);
-                //                     professorCurso = null;
-
-                //                 }
-
-                //                 //  Adicionando curso ao professor
-                //                 else {
-
-                //                     professorCurso = ListaprofessorCurso.FirstOrDefault(x => x.cpfProfessor == prof.cpfProfessor.ToString());
-                //                     if (!professorCurso.strCursos.Contains(curso.CodEmec.ToString())
-                //                             && professorCurso.strCursos.Count() < _parametros.usoProfessorGeral) // Limitador de quantidade de cursos pelo formulário
-                //                     {
-                //                         professorCurso.strCursos.Add(curso.CodEmec.ToString());
-                //                     }       
-                //                 }
-
-                        
-                //     }
-                // }
-
+                
 
                     // ############## Alavanca Curso não Enade ############
                     // ####################################################
@@ -180,178 +144,11 @@ namespace Censo.API.Resultados
                         // #####################   Alavancas  ########################## //
                         // Remove professor Cenário 2 - Hoper
 
+                        /*
+
                             HashSet<long> CursoExcluir =  new HashSet<long>()
                                 {
-                                  1113410
-                                , 91031
-                                , 104486
-                                , 1072300
-                                , 1113415
-                                , 104252
-                                , 67514
-                                , 112344
-                                , 1282858
-                                , 59828
-                                , 118882
-                                , 106826
-                                , 1103168
-                                , 109303
-                                , 109380
-                                , 98620
-                                , 53869
-                                , 50465
-                                , 101922
-                                , 74924
-                                , 84453
-                                , 108723
-                                , 1191343
-                                , 116510
-                                , 107658
-                                , 74920
-                                , 67938
-                                , 67936
-                                , 97217
-                                , 74922
-                                , 104276
-                                , 5000308
-                                , 118744
-                                , 104272
-                                , 117476
-                                , 46915
-                                , 1103541
-                                , 348488
-                                , 104250
-                                , 95194
-                                , 18212
-                                , 105868
-                                , 1103541
-                                , 46917
-                                , 5000235
-                                , 94243
-                                , 109284
-                                , 1162844
-                                , 1154813
-                                , 112538
-                                , 109678
-                                , 21254
-                                , 1386580
-                                , 1140089
-                                , 1184923
-                                , 1313260
-                                , 1140358
-                                , 1183749
-                                , 116508
-                                , 116510
-                                , 69169
-                                , 1204227
-                                , 37304
-                                , 1167314
-                                , 1260949
-                                , 1285408
-                                , 1166492
-                                , 1321586
-                                , 1185157
-                                , 1260719
-                                , 1162844
-                                , 1154813
-                                , 1189583
-                                , 1075756
-                                , 1204664
-                                , 1056450
-                                , 1314312
-                                , 1259920
-                                , 1260832
-                                , 1113422
-                                , 1072299
-                                , 73038
-                                , 4959
-                                , 119862
-                                , 42005
-                                , 1264888
-                                , 80564
-                                , 1175619
-                                , 1174541
-                                , 111202
-                                , 1109528
-                                , 1377613
-                                , 102406
-                                , 1125905
-                                , 102554
-                                , 1288733
-                                , 1203194
-                                , 1364164
-                                , 1364163
-                                , 1284647
-                                , 1188654
-                                , 1269897
-                                , 1187982
-                                , 1376344
-                                , 1259603
-                                , 1260330
-                                , 120437
-                                , 1313312
-                                , 117635
-                                , 1313311
-                                , 88448
-                                , 98327
-                                , 46839
-                                , 1161243
-                                , 1364425
-                                , 1127033
-                                , 1258644
-                                , 5001183
-                                , 113885
-                                , 114017
-                                , 55129
-                                , 102894
-                                , 82850
-                                , 102403
-                                , 82854
-                                , 74766
-                                , 150265
-                                , 1152476
-                                , 82830
-                                , 58882
-                                , 41987
-                                , 106031
-                                , 41980
-                                , 19317
-                                , 58435
-                                , 1044865
-                                , 1161032
-                                , 1161200
-                                , 119824
-                                , 102410
-                                , 102556
-                                , 49897
-                                , 102375
-                                , 111136
-                                , 111138
-                                , 49889
-                                , 4940
-                                , 82838
-                                , 111172
-                                , 55151
-                                , 1160822
-                                , 1140397
-                                , 90582
-                                , 21923
-                                , 55134
-                                , 73111
-                                , 111152
-                                , 111162
-                                , 119822
-                                , 1163580
-                                , 4966
-                                , 20909
-                                , 1258751
-                                , 1163342
-                                , 82844
-                                , 101602
-                                , 1165113
-                                , 1183836
-                                , 1321349
-                                , 1187876
+                                 
 
                             };
 
@@ -386,6 +183,7 @@ namespace Censo.API.Resultados
                                 }
 
                             }
+                            */
 
 
                             // ##################### Professor Adicionado ############################### //
@@ -394,7 +192,7 @@ namespace Censo.API.Resultados
                         try
                         {
 
-                            ProfessorEmec professorEmec;
+                        ProfessorEmec professorEmec;
                         foreach(var item in ListaProfessorAdd)
                         {
 
@@ -450,8 +248,6 @@ namespace Censo.API.Resultados
                             
                         }
                         
-
-
 
 
                         var final = CalculaNotaCursos(_dicPrevisao, _listaProfessor, CursoSimEnade);
