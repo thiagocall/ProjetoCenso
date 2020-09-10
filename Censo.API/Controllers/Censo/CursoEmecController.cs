@@ -426,16 +426,16 @@ namespace Censo.API.Controllers.Censo
 
                 using (var package = new ExcelPackage(stream)) {                
                     var shResumo = package.Workbook.Worksheets.Add("Resultado");
-                    var shResumoaAnt = package.Workbook.Worksheets.Add("ResultadoAnt");
+                    var shResumoaAnt = package.Workbook.Worksheets.Add("ResultadoNaoOtimizado");
                     var shParam = package.Workbook.Worksheets.Add("Parametros");
                     var shProfessores = package.Workbook.Worksheets.Add("Professores");
-                    var shProfessoresAnt = package.Workbook.Worksheets.Add("ProfessoresAnt");
+                    //var shProfessoresAnt = package.Workbook.Worksheets.Add("ProfessoresAnt");
                     shResumo.Cells.LoadFromCollection(resultados, true);
                     shResumoaAnt.Cells.LoadFromCollection(resultadosAnt, true);
                     
                     shParam.Cells.LoadFromCollection(parametros, true);
                     shProfessores.Cells.LoadFromCollection(listaProfessor, true);
-                    shProfessoresAnt.Cells.LoadFromCollection(listaProfessorAnt, true);
+                    //shProfessoresAnt.Cells.LoadFromCollection(listaProfessorAnt, true);
                     package.Save();            
                 };  
 

@@ -132,14 +132,14 @@ namespace Censo.API.Resultados
 
                         // ProfessorBlaklist
 
-                        foreach(var item in _listaProfessor)
-                        {
+                        // foreach(var item in _listaProfessor)
+                        // {
                             
-                                item.Professores.RemoveAll(pe => 
-                                                    (RemoveProfessorBlackList(_listaProfessor, item, _dicPrevisao, pe) 
-                                             ));
+                        //         item.Professores.RemoveAll(pe => 
+                        //                             (RemoveProfessorBlackList(_listaProfessor, item, _dicPrevisao, pe) 
+                        //                      ));
                             
-                         };
+                        //  };
 
                         // #####################   Alavancas  ########################## //
                         // Remove professor Cenário 2 - Hoper
