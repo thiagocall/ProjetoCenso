@@ -37,14 +37,14 @@ namespace Censo.API.Controllers
         }
 
          [HttpGet]
-         public ActionResult<string> Get()
+         private ActionResult<string> Get()
          {
             return " << Controlador UsuariosController :: WebApiUsuarios >> ";
          }
 
         [AllowAnonymous]
         [HttpPost("Criar")]
-        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
+        internal async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfo model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);

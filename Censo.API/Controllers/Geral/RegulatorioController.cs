@@ -516,7 +516,7 @@ namespace Censo.API.Controllers
         /* fim */
 
 
-        public dynamic getforadesede(long id) 
+        private dynamic getforadesede(long id) 
         {
             var dicRegime = RegContext.ProfessorRegime.ToDictionary(x => x.CpfProfessor.ToString());
             var diccenso = CContext.ProfessorCursoEmec.Where(x =>x.CodCampus == id)
@@ -743,7 +743,7 @@ namespace Censo.API.Controllers
         /* busca todos os professores no detalhe */
         //[AllowAnonymous]
         //[HttpGet("MostraProfessor")]
-        public async Task<IEnumerable<dynamic>> BuscaDataAdmissao(List<string> _listaProf)
+        private async Task<IEnumerable<dynamic>> BuscaDataAdmissao(List<string> _listaProf)
         {
                 try
                 {
