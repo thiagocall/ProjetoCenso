@@ -18,6 +18,7 @@ namespace Censo.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)] // Remove Endpoints do Swagger
     public class UsuariosController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
