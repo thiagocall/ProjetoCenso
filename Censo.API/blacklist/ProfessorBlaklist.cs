@@ -46,9 +46,7 @@ namespace Censo.API.blacklist
 
         }
     }
-
-
-
+    
     public class ProfessorBlackList{
 
         public long CpfProfessor { get; set; }
