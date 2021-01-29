@@ -526,7 +526,7 @@ namespace Censo.API.Controllers
         /* termino da busca dos professores */
         /* termino MQD */
 
-        public async Task<dynamic> getProfessores() {
+        private async Task<dynamic> getProfessores() {
 
 
             this.RedisService.Connect();

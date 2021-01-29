@@ -25,11 +25,7 @@ namespace Censo.API.ADODB
             conn.Close();
 
         }
-
         
-
-
-
         
     }
 }

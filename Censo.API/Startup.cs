@@ -24,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace Censo.API
 {
@@ -44,6 +45,27 @@ namespace Censo.API
             services.AddTransient<RedisService>();
             services.AddDbContext<UserContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "APi Censo",
+                    Description = "Acesso aos Recursos da API Estratégia Acadêmica",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    // Contact = new OpenApiContact
+                    // {
+                    //     Name = "Shayne Boyer",
+                    //     Email = string.Empty,
+                    //     Url = new Uri("https://twitter.com/spboyer"),
+                    // },
+                    // License = new OpenApiLicense
+                    // {
+                    //     Name = "Use under LICX",
+                    //     Url = new Uri("https://example.com/license"),
+                    // }
+                });
+            });
 
 
             IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>(options => 
@@ -96,10 +118,8 @@ namespace Censo.API
                 policy.RequireClaim("Roles","Master", "Adm")
                 );
             }
-             
-                
+              
             );
-
 
             //Adiciona contexto do Censo para Controller
             services.AddDbContext<ProfessorContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -158,6 +178,19 @@ namespace Censo.API
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             redisService.Connect();
             redisService.upService();
+            app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Censo V1");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseMvc();
 
         }

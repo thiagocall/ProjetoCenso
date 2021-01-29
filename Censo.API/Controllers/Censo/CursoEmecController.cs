@@ -22,6 +22,7 @@ using Censo.API.Services.Redis.Services;
 using ServiceStack.Redis;
 using ServiceStack.Redis.Generic;
 using st = ServiceStack;
+using System.Reflection;
 
 namespace Censo.API.Controllers.Censo
 {
@@ -457,12 +458,11 @@ namespace Censo.API.Controllers.Censo
         // ################# Monta Cursos dos Professores ######################
 
 
-        public List<CursoProfessor> MontaCursoProfessor([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
+        private List<CursoProfessor> MontaCursoProfessor([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
         
-
 
             var query = _profs;
 
@@ -530,7 +530,7 @@ namespace Censo.API.Controllers.Censo
 
         }
 
-        public List<CursoProfessor> MontaCursoProfessor20P([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
+        private List<CursoProfessor> MontaCursoProfessor20P([FromQuery] List<ProfessorCursoEmec> _profs, List<CursoEnquadramento> _CursoArea)
         {
 
             List<CursoProfessor> cursoProfessor = new List<CursoProfessor>();
