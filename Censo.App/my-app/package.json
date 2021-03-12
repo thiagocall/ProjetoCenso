@@ -24,7 +24,7 @@
     "chart.js": "^2.9.3",
     "file-saver": "^2.0.2",
     "html2canvas": "^1.0.0-rc.5",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "jw-angular-pagination": "^1.1.0",
     "jwt-decode": "^2.2.0",
     "jwthelper": "0.0.4",
