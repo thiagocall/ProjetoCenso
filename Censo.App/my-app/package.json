@@ -21,7 +21,7 @@
     "@auth0/angular-jwt": "^3.0.1",
     "@swimlane/ngx-charts": "^12.1.0",
     "bootstrap": "^4.4.1",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "file-saver": "^2.0.2",
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
